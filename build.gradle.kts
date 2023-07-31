@@ -15,8 +15,18 @@ taboolib {
     install("module-metrics")
     install("platform-bukkit")
     install("expansion-command-helper")
+
     classifier = null
     version = "6.0.11-31"
+
+    description {
+        contributors {
+            name("CPJiNan")
+        }
+        dependencies {
+            name("PlaceholderAPI").optional(true)
+        }
+    }
 }
 
 repositories {

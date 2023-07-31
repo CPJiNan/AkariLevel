@@ -1,0 +1,38 @@
+level:
+  max-level: 5
+  0:
+    name: "§8Lv.§b0"
+    exp: 0
+    action:
+      - title "§e§lLevel UP!"
+      - subtitle "§8??? §7→ §8Lv.§b0" by 10 20 10
+  1:
+    name: "§8Lv.§b1"
+    exp: 100
+    action:
+      - title "§e§lLevel UP!"
+      - subtitle "§8Lv.§b0 §7→ §8Lv.§b1" by 10 20 10
+  2:
+    name: "§8Lv.§b2"
+    exp: 200
+    action:
+      - title "§e§lLevel UP!"
+      - subtitle "§8Lv.§b1 §7→ §8Lv.§b2" by 10 20 10
+  3:
+    name: "§8Lv.§b3"
+    exp: 300
+    action:
+      - title "§e§lLevel UP!"
+      - subtitle "§8Lv.§b2 §7→ §8Lv.§b3" by 10 20 10
+  4:
+    name: "§8Lv.§b4"
+    exp: 400
+    action:
+      - title "§e§lLevel UP!"
+      - subtitle "§8Lv.§b3 §7→ §8Lv.§b4" by 10 20 10
+  5:
+    name: "§8Lv.§b5"
+    exp: 500
+    action:
+      - title "§e§lLevel UP!"
+      - subtitle "§8Lv.§b4 §7→ §8Lv.§b5" by 10 20 10
