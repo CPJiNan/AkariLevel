@@ -117,4 +117,10 @@ object LevelAPI {
         return ConfigManager.player.getInt("$player.exp")
     }
 
+    // 初始化等级方法
+    fun initializePlayerLevel(player: String){
+        if(ConfigManager.player.getString("$player.level") == null ) setPlayerLevel(player, "0")
+        if(ConfigManager.player.getString("$player.exp") == null ) setPlayerExp(player, "0")
+    }
+
 }

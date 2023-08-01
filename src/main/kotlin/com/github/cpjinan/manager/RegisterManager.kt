@@ -50,22 +50,25 @@ object RegisterManager {
      * 输出插件更新提示方法
      */
     private fun registerUpdate() {
-        Thread{
-            val urlConnection = URL("https://cpjinan.github.io/Pages/PlayerLevel/version.html").openConnection() as HttpURLConnection
-            try {
-                val latestVersion = urlConnection.inputStream.bufferedReader().readText()
-                val version = BukkitPlugin.getInstance().description.version
-                if(ConfigManager.options.getBoolean("update") && latestVersion != version){
-                    info("发现了一个新的PlayerLevel版本！")
-                    info("最新版本: $latestVersion")
-                    info("当前版本: $version")
-                    info("请加QQ群704109949以获取插件最新版本...")
+        if(ConfigManager.options.getBoolean("update")) {
+            Thread {
+                val urlConnection =
+                    URL("https://cpjinan.github.io/Pages/PlayerLevel/version.html").openConnection() as HttpURLConnection
+                try {
+                    val latestVersion = urlConnection.inputStream.bufferedReader().readText()
+                    val version = BukkitPlugin.getInstance().description.version
+                    if (latestVersion != version) {
+                        info("发现了一个新的PlayerLevel版本！")
+                        info("最新版本: $latestVersion")
+                        info("当前版本: $version")
+                        info("请加QQ群704109949以获取插件最新版本...")
+                    }
+                } catch (_: java.net.ConnectException) {
+                } finally {
+                    urlConnection.disconnect()
                 }
-            } catch (_: java.net.ConnectException){
-            } finally {
-                urlConnection.disconnect()
-            }
-        }.start()
+            }.start()
+        }
     }
 
     private fun registerMythicMobs(){

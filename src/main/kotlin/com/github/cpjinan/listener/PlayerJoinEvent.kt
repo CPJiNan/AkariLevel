@@ -8,5 +8,6 @@ object PlayerJoinEvent {
     @SubscribeEvent
     fun onPlayerJoin(event: PlayerJoinEvent) {
         LevelAPI.refreshPlayerLevel(event.player)
+        LevelAPI.initializePlayerLevel(event.player.name)
     }
 }
