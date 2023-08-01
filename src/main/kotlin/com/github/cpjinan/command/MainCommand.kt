@@ -128,7 +128,7 @@ object MainCommand {
                     else sender.sendMessage(("&7软依赖 &7MythicMobs &7未找到！").colored())
                 }
             }
-        }
+        } else execute<ProxyCommandSender> { sender, _, _ -> sender.sendLang("debug-not-enabled") }
     }
 
     @CommandBody(

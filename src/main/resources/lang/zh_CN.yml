@@ -11,3 +11,5 @@ check-level: "&7玩家 &f{0} &7的等级为 &f{1} &7！"
 level-up-success: "&a升级成功！"
 level-up-fail: "&c升级所需经验不足！"
 max-level: "&c已达到最大等级！"
+
+debug-not-enabled: "&c调试模式已禁用！"
