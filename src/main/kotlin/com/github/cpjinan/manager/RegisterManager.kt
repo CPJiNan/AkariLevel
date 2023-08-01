@@ -1,5 +1,7 @@
 package com.github.cpjinan.manager
 
+import com.github.cpjinan.listener.MythicListener
+import org.bukkit.Bukkit
 import taboolib.common.io.newFile
 import taboolib.common.platform.Platform
 import taboolib.common.platform.function.getDataFolder
@@ -17,6 +19,7 @@ object RegisterManager {
     fun registerAll() {
         registerMetrics()
         registerUpdate()
+        registerMythicMobs()
         registerUrl()
     }
 
@@ -63,6 +66,12 @@ object RegisterManager {
                 urlConnection.disconnect()
             }
         }.start()
+    }
+
+    private fun registerMythicMobs(){
+        if (Bukkit.getPluginManager().isPluginEnabled("MythicMobs")) {
+            Bukkit.getPluginManager().getPlugin("PlayerLevel")?.let { Bukkit.getPluginManager().registerEvents(MythicListener, it) }
+        }
     }
 
 }

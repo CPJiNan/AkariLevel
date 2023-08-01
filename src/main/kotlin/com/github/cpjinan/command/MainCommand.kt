@@ -1,7 +1,7 @@
 package com.github.cpjinan.command
 
+import com.github.cpjinan.api.LevelAPI
 import com.github.cpjinan.manager.ConfigManager
-import com.github.cpjinan.manager.LevelManager
 import org.bukkit.Bukkit
 import taboolib.common.platform.ProxyCommandSender
 import taboolib.common.platform.command.*
@@ -28,11 +28,8 @@ object MainCommand {
             literal("add"){
                 dynamic("player"){ suggestPlayers() }.int("amount"){
                     execute<ProxyCommandSender> { sender: ProxyCommandSender, context: CommandContext<ProxyCommandSender>, _: String ->
-                        ConfigManager.player["${context["player"]}.exp"] = ConfigManager.player.getInt("${context["player"]}.exp") + context["amount"].toInt()
-                        ConfigManager.dataConfig.saveToFile()
-                        ConfigManager.dataConfig.reload()
+                        LevelAPI.addPlayerExp(context["player"],context["amount"])
                         sender.sendLang("add-exp",context["player"],context["amount"])
-                        LevelManager.refreshPlayerLevel(Bukkit.getPlayerExact(context["player"])!!)
                     }
                 }
             }
@@ -40,11 +37,8 @@ object MainCommand {
             literal("remove"){
                 dynamic("player"){ suggestPlayers() }.int("amount"){
                     execute<ProxyCommandSender> { sender: ProxyCommandSender, context: CommandContext<ProxyCommandSender>, _: String ->
-                        ConfigManager.player["${context["player"]}.exp"] = ConfigManager.player.getInt("${context["player"]}.exp") - context["amount"].toInt()
-                        ConfigManager.dataConfig.saveToFile()
-                        ConfigManager.dataConfig.reload()
+                        LevelAPI.removePlayerExp(context["player"],context["amount"])
                         sender.sendLang("remove-exp",context["player"],context["amount"])
-                        LevelManager.refreshPlayerLevel(Bukkit.getPlayerExact(context["player"])!!)
                     }
                 }
             }
@@ -52,11 +46,8 @@ object MainCommand {
             literal("set"){
                 dynamic("player"){ suggestPlayers() }.int("amount"){
                     execute<ProxyCommandSender> { sender: ProxyCommandSender, context: CommandContext<ProxyCommandSender>, _: String ->
-                        ConfigManager.player["${context["player"]}.exp"] = context["amount"]
-                        ConfigManager.dataConfig.saveToFile()
-                        ConfigManager.dataConfig.reload()
+                        LevelAPI.setPlayerExp(context["player"],context["amount"])
                         sender.sendLang("set-exp",context["player"],context["amount"])
-                        LevelManager.refreshPlayerLevel(Bukkit.getPlayerExact(context["player"])!!)
                     }
                 }
             }
@@ -65,7 +56,7 @@ object MainCommand {
                 dynamic("player"){
                     suggestPlayers()
                     execute<ProxyCommandSender> { sender: ProxyCommandSender, context: CommandContext<ProxyCommandSender>, _: String ->
-                        sender.sendLang("check-exp",context["player"], ConfigManager.player.getInt("${context["player"]}.exp"))
+                        sender.sendLang("check-exp", context["player"], LevelAPI.getPlayerExp(context["player"]))
                     }
                 }
             }
@@ -77,11 +68,8 @@ object MainCommand {
             literal("add"){
                 dynamic("player"){ suggestPlayers() }.int("amount"){
                     execute<ProxyCommandSender> { sender: ProxyCommandSender, context: CommandContext<ProxyCommandSender>, _: String ->
-                        ConfigManager.player["${context["player"]}.level"] = ConfigManager.player.getInt("${context["player"]}.level") + context["amount"].toInt()
-                        ConfigManager.dataConfig.saveToFile()
-                        ConfigManager.dataConfig.reload()
+                        LevelAPI.addPlayerLevel(context["player"],context["amount"])
                         sender.sendLang("add-level",context["player"],context["amount"])
-                        LevelManager.refreshPlayerLevel(Bukkit.getPlayerExact(context["player"])!!)
                     }
                 }
             }
@@ -89,11 +77,8 @@ object MainCommand {
             literal("remove"){
                 dynamic("player"){ suggestPlayers() }.int("amount"){
                     execute<ProxyCommandSender> { sender: ProxyCommandSender, context: CommandContext<ProxyCommandSender>, _: String ->
-                        ConfigManager.player["${context["player"]}.level"] = ConfigManager.player.getInt("${context["player"]}.level") - context["amount"].toInt()
-                        ConfigManager.dataConfig.saveToFile()
-                        ConfigManager.dataConfig.reload()
+                        LevelAPI.removePlayerLevel(context["player"],context["amount"])
                         sender.sendLang("remove-level",context["player"],context["amount"])
-                        LevelManager.refreshPlayerLevel(Bukkit.getPlayerExact(context["player"])!!)
                     }
                 }
             }
@@ -101,12 +86,8 @@ object MainCommand {
             literal("set"){
                 dynamic("player"){ suggestPlayers() }.int("amount"){
                     execute<ProxyCommandSender> { sender: ProxyCommandSender, context: CommandContext<ProxyCommandSender>, _: String ->
-                        ConfigManager.player["${context["player"]}.level"] = context["amount"]
-                        ConfigManager.dataConfig.saveToFile()
-                        ConfigManager.dataConfig.reload()
+                        LevelAPI.setPlayerLevel(context["player"],context["amount"])
                         sender.sendLang("set-level",context["player"],context["amount"])
-                        LevelManager.refreshPlayerLevel(Bukkit.getPlayerExact(context["player"])!!)
-                        LevelManager.runLevelAction(Bukkit.getPlayerExact(context["player"])!!)
                     }
                 }
             }
@@ -115,7 +96,7 @@ object MainCommand {
                 dynamic("player"){
                     suggestPlayers()
                     execute<ProxyCommandSender> { sender: ProxyCommandSender, context: CommandContext<ProxyCommandSender>, _: String ->
-                        sender.sendLang("check-level",context["player"], ConfigManager.player.getInt("${context["player"]}.level"))
+                        sender.sendLang("check-level", context["player"], LevelAPI.getPlayerLevel(context["player"]))
                     }
                 }
             }
@@ -124,28 +105,13 @@ object MainCommand {
     }
 
     @CommandBody(
-        permission = "playerlevel.levelup",
+        permission = "playerlevel.default",
         permissionDefault = PermissionDefault.TRUE
     )
     val levelup = subCommand {
         createHelper()
         execute<ProxyCommandSender> { sender: ProxyCommandSender, _: CommandContext<ProxyCommandSender>, _: String ->
-            val level: Int = ConfigManager.player.getInt("${sender.name}.level")
-            if( level < (ConfigManager.level.getString("max-level")!!.toInt()) ){
-                val exp: Int = ConfigManager.player.getInt("${sender.name}.exp")
-                val expToLevel: Int = ConfigManager.level.getString("${level + 1}.exp")?.toInt() ?: 0
-
-                if (exp >= expToLevel){
-                    ConfigManager.player["${sender.name}.exp"] = exp - expToLevel
-                    ConfigManager.player["${sender.name}.level"] = ConfigManager.player.getInt("${sender.name}.level") + 1
-                    LevelManager.refreshPlayerLevel(Bukkit.getPlayerExact(sender.name)!!)
-                    LevelManager.runLevelAction(Bukkit.getPlayerExact(sender.name)!!)
-                    sender.sendLang("level-up-success")
-                }
-                else sender.sendLang("level-up-fail")
-            } else {
-                sender.sendLang("max-level")
-            }
+        LevelAPI.playerLevelUP(sender.name)
         }
     }
 
