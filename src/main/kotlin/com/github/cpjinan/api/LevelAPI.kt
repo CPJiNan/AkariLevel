@@ -76,10 +76,8 @@ object LevelAPI {
             val expToLevel: Int = ConfigManager.level.getString("${level + 1}.exp")?.toInt() ?: 0
 
             if (exp >= expToLevel){
-                ConfigManager.player["$player.exp"] = exp - expToLevel
-                ConfigManager.player["$player.level"] = ConfigManager.player.getInt("$player.level") + 1
-                refreshPlayerLevel(Bukkit.getPlayerExact(player)!!)
-                runLevelAction(Bukkit.getPlayerExact(player)!!)
+                removePlayerExp(player,expToLevel.toString())
+                addPlayerLevel(player,1.toString())
                 Bukkit.getPlayerExact(player)!!.sendLang("level-up-success")
             }
             else Bukkit.getPlayerExact(player)!!.sendLang("level-up-fail")
