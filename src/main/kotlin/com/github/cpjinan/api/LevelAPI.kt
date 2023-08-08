@@ -52,8 +52,10 @@ object LevelAPI {
 
             player.level = level
 
-            if (exp >= expToLevel) player.exp = 1.toFloat()
-            else player.exp = (exp.toFloat() / expToLevel.toFloat())
+            if (exp >= expToLevel){
+                if(ConfigManager.options.getBoolean("auto-level-up")) playerLevelUP(player.name)
+                player.exp = 1.toFloat()
+            } else player.exp = (exp.toFloat() / expToLevel.toFloat())
         } else {
             player.level = ConfigManager.level.getString("max-level")!!.toInt()
             player.exp = 1.toFloat()

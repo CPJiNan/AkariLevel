@@ -26,3 +26,5 @@ options:
       user: root
       password: 123456
       database: PlayerLevel
+  # 玩家经验达标后自动升级
+  auto-level-up: true
