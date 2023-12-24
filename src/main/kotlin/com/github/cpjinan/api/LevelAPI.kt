@@ -1,6 +1,7 @@
 package com.github.cpjinan.api
 
 import com.github.cpjinan.manager.ConfigManager
+import com.github.cpjinan.manager.RegisterManager
 import org.bukkit.entity.Player
 import taboolib.common.platform.function.adaptPlayer
 import taboolib.module.kether.KetherShell
@@ -9,22 +10,26 @@ import taboolib.platform.util.sendLang
 
 object LevelAPI {
   // region basic function
-  private fun getLevel(player: Player): Int = ConfigManager.player.getInt("${player.name}.level", 0)
+  private fun getLevel(player: Player): Int = RegisterManager.getDatabase().getPlayerByName(player.name).level
 
   private fun setLevel(player: Player, level: Int) {
-    ConfigManager.player["${player.name}.level"] = level
+    val db = RegisterManager.getDatabase()
+    val data = db.getPlayerByName(player.name)
+    data.level = level
+    db.updatePlayer(player.name, data)
     KetherShell.eval(
       ConfigManager.getLevelChangeAction(level),
       ScriptOptions.builder().namespace(emptyList()).sender(sender = adaptPlayer(player)).build()
     )
-    ConfigManager.dataConfig.saveToFile()
   }
 
-  private fun getExp(player: Player): Int = ConfigManager.player.getInt("${player.name}.exp", 0)
+  private fun getExp(player: Player): Int = RegisterManager.getDatabase().getPlayerByName(player.name).exp
 
-  private fun setExp(player: Player, level: Int) {
-    ConfigManager.player["${player.name}.exp"] = level
-    ConfigManager.dataConfig.saveToFile()
+  private fun setExp(player: Player, exp: Int) {
+    val db = RegisterManager.getDatabase()
+    val data = db.getPlayerByName(player.name)
+    data.exp = exp
+    db.updatePlayer(player.name, data)
   }
 
   private fun doLevelUp(player: Player, fromTickLvl: Boolean = false) {

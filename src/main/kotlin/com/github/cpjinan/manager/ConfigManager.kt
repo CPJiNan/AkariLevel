@@ -8,7 +8,6 @@ import taboolib.module.configuration.Configuration
 object ConfigManager {
   private const val configFile = "config.yml"
   private const val levelFile = "level.yml"
-  private const val dataFile = "database.yml"
 
   @Config(configFile, autoReload = true)
   lateinit var config: Configuration
@@ -21,12 +20,6 @@ object ConfigManager {
 
   @ConfigNode("level", levelFile)
   private lateinit var level: ConfigurationSection
-
-  @Config(dataFile, autoReload = true)
-  lateinit var dataConfig: Configuration
-
-  @ConfigNode("player", dataFile)
-  lateinit var player: ConfigurationSection
 
   fun getMaxLevel() = level.getInt("max-level")
 
