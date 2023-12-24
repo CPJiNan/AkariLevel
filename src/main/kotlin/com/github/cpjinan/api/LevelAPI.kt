@@ -6,7 +6,6 @@ import org.bukkit.entity.Player
 import taboolib.common.platform.function.adaptPlayer
 import taboolib.module.kether.KetherShell
 import taboolib.module.kether.ScriptOptions
-import taboolib.module.lang.sendLang
 import taboolib.platform.util.sendLang
 
 object LevelAPI {
@@ -89,10 +88,9 @@ object LevelAPI {
     }
 
     // 增加经验方法
-    fun addPlayerExp(player: String, amount: String){
-        ConfigManager.player["$player.exp"] = ConfigManager.player.getInt("$player.exp") + amount.toInt()
+    fun addPlayerExp(player: String, amount: Int){
+        ConfigManager.player["$player.exp"] = ConfigManager.player.getInt("$player.exp") + amount
         ConfigManager.dataConfig.saveToFile()
-        ConfigManager.dataConfig.reload()
         refreshPlayerLevel(Bukkit.getPlayerExact(player)!!)
     }
 

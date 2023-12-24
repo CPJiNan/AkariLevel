@@ -1,7 +1,12 @@
 package com.github.cpjinan.listener
 
-import com.github.cpjinan.util.MythicExpDrop
+import com.github.cpjinan.api.LevelAPI
+import io.lumine.xikage.mythicmobs.adapters.AbstractItemStack
 import io.lumine.xikage.mythicmobs.api.bukkit.events.MythicDropLoadEvent
+import io.lumine.xikage.mythicmobs.drops.Drop
+import io.lumine.xikage.mythicmobs.drops.DropMetadata
+import io.lumine.xikage.mythicmobs.drops.IItemDrop
+import io.lumine.xikage.mythicmobs.io.MythicLineConfig
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 
@@ -11,5 +16,13 @@ object MythicListener : Listener {
         if (event.dropName.equals("PlayerExp", ignoreCase = true)) {
             event.register(MythicExpDrop(event.container.configLine, event.config))
         }
+    }
+}
+
+class MythicExpDrop(line: String, config: MythicLineConfig) : Drop(line, config), IItemDrop {
+    override fun getDrop(meta: DropMetadata): AbstractItemStack? {
+        val amount = this.line.split(' ')[1].toInt()
+        LevelAPI.addPlayerExp(meta.trigger.asPlayer().name, amount)
+        return null
     }
 }

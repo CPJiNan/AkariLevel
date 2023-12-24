@@ -32,7 +32,7 @@ object MainCommand {
             literal("add"){
                 dynamic("player"){ suggestion<ProxyCommandSender> { _, _ -> Bukkit.getOnlinePlayers().map { it.name } } }.int("amount"){
                     execute<ProxyCommandSender> { sender: ProxyCommandSender, context: CommandContext<ProxyCommandSender>, _: String ->
-                        LevelAPI.addPlayerExp(context["player"],context["amount"])
+                        LevelAPI.addPlayerExp(context["player"],context["amount"].toInt())
                         sender.sendLang("add-exp",context["player"],context["amount"])
                     }
                 }
