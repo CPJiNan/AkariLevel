@@ -5,9 +5,8 @@ import org.bukkit.event.player.PlayerJoinEvent
 import taboolib.common.platform.event.SubscribeEvent
 
 object PlayerJoinEvent {
-    @SubscribeEvent
-    fun onPlayerJoin(event: PlayerJoinEvent) {
-        LevelAPI.refreshPlayerLevel(event.player)
-        LevelAPI.initializePlayerLevel(event.player.name)
-    }
+  @SubscribeEvent
+  fun onPlayerJoin(event: PlayerJoinEvent) {
+    LevelAPI.refreshPlayerLevel(event.player)
+  }
 }

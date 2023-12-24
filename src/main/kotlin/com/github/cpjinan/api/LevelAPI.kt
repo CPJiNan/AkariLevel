@@ -1,7 +1,6 @@
 package com.github.cpjinan.api
 
 import com.github.cpjinan.manager.ConfigManager
-import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import taboolib.common.platform.function.adaptPlayer
 import taboolib.module.kether.KetherShell
@@ -9,116 +8,131 @@ import taboolib.module.kether.ScriptOptions
 import taboolib.platform.util.sendLang
 
 object LevelAPI {
+  // region basic function
+  private fun getLevel(player: Player): Int = ConfigManager.player.getInt("${player.name}.level", 0)
 
-    // 增加等级方法
-    fun addPlayerLevel(player: String, amount: String){
-        ConfigManager.player["$player.level"] = ConfigManager.player.getInt("$player.level") + amount.toInt()
-        ConfigManager.dataConfig.saveToFile()
-        ConfigManager.dataConfig.reload()
-        refreshPlayerLevel(Bukkit.getPlayerExact(player)!!)
-        runLevelAction(Bukkit.getPlayerExact(player)!!)
-    }
+  private fun setLevel(player: Player, level: Int) {
+    ConfigManager.player["${player.name}.level"] = level
+    KetherShell.eval(
+      ConfigManager.getLevelChangeAction(level),
+      ScriptOptions.builder().namespace(emptyList()).sender(sender = adaptPlayer(player)).build()
+    )
+    ConfigManager.dataConfig.saveToFile()
+  }
 
-    // 移除等级方法
-    fun removePlayerLevel(player: String, amount: String){
-        ConfigManager.player["$player.level"] = ConfigManager.player.getInt("$player.level") - amount.toInt()
-        ConfigManager.dataConfig.saveToFile()
-        ConfigManager.dataConfig.reload()
-        refreshPlayerLevel(Bukkit.getPlayerExact(player)!!)
-        runLevelAction(Bukkit.getPlayerExact(player)!!)
-    }
+  private fun getExp(player: Player): Int = ConfigManager.player.getInt("${player.name}.exp", 0)
 
-    // 设置等级方法
-    fun setPlayerLevel(player: String, amount: String){
-        ConfigManager.player["$player.level"] = amount.toInt()
-        ConfigManager.dataConfig.saveToFile()
-        ConfigManager.dataConfig.reload()
-        refreshPlayerLevel(Bukkit.getPlayerExact(player)!!)
-        runLevelAction(Bukkit.getPlayerExact(player)!!)
-    }
+  private fun setExp(player: Player, level: Int) {
+    ConfigManager.player["${player.name}.exp"] = level
+    ConfigManager.dataConfig.saveToFile()
+  }
 
-    // 获取等级方法
-    fun getPlayerLevel(player: String):Int{
-        return ConfigManager.player.getInt("$player.level")
-    }
+  private fun doLevelUp(player: Player, fromTickLvl: Boolean = false) {
+    val curLvl = getLevel(player)
 
-    // 刷新玩家等级方法
-    fun refreshPlayerLevel(player: Player){
-        val level: Int = ConfigManager.player.getInt("${player.name}.level")
-        if( level < (ConfigManager.level.getString("max-level")!!.toInt()) ){
-            val exp: Int = ConfigManager.player.getInt("${player.name}.exp")
-            val expToLevel: Int = ConfigManager.level.getString("${level + 1}.exp")?.toInt() ?: 0
+    if (curLvl < ConfigManager.getMaxLevel()) {
+      val curExp = getExp(player)
+      val targetLvl = curLvl + 1
+      val reqExp = ConfigManager.getLevelExp(targetLvl)
+      if (curExp >= reqExp) {
+        setExp(player, curExp - reqExp)
+        setLevel(player, targetLvl)
+        player.sendLang("level-up-success")
 
-            player.level = level
-
-            if (exp >= expToLevel){
-                if(ConfigManager.options.getBoolean("auto-level-up")) playerLevelUP(player.name)
-                player.exp = 1.toFloat()
-            } else player.exp = (exp.toFloat() / expToLevel.toFloat())
-        } else {
-            player.level = ConfigManager.level.getString("max-level")!!.toInt()
-            player.exp = 1.toFloat()
+        if (!fromTickLvl) {
+          tickLevel(player)
         }
+      } else {
+        player.sendLang("level-up-fail")
+      }
+    } else {
+      player.sendLang("max-level")
     }
+  }
 
-    // 执行等级动作方法
-    fun runLevelAction(player: Player){
-        KetherShell.eval(
-            ConfigManager.level.getStringList("${ConfigManager.player.getInt("${player.name}.level")}.action"),
-            ScriptOptions.builder().namespace(emptyList()).sender(sender = adaptPlayer(player)).build()
-        )
-    }
+  private fun tickLevel(player: Player) {
+    var isLevelUp: Boolean
+    do {
+      isLevelUp = false
 
-    // 玩家升级方法
-    fun playerLevelUP(player: String){
-        val level: Int = ConfigManager.player.getInt("$player.level")
-        if( level < (ConfigManager.level.getString("max-level")!!.toInt()) ){
-            val exp: Int = ConfigManager.player.getInt("$player.exp")
-            val expToLevel: Int = ConfigManager.level.getString("${level + 1}.exp")?.toInt() ?: 0
+      val curLvl = getLevel(player)
+      val maxLevel = ConfigManager.getMaxLevel()
+      if (curLvl < maxLevel) {
+        val curExp = getExp(player)
+        val reqExp = ConfigManager.getLevelExp(curLvl + 1)
 
-            if (exp >= expToLevel){
-                removePlayerExp(player,expToLevel.toString())
-                addPlayerLevel(player,1.toString())
-                Bukkit.getPlayerExact(player)!!.sendLang("level-up-success")
-            }
-            else Bukkit.getPlayerExact(player)!!.sendLang("level-up-fail")
-        } else {
-            Bukkit.getPlayerExact(player)!!.sendLang("max-level")
+        if (curExp >= reqExp && ConfigManager.options.getBoolean("auto-level-up")) {
+          doLevelUp(player, fromTickLvl = true)
+          isLevelUp = true
         }
-    }
 
-    // 增加经验方法
-    fun addPlayerExp(player: String, amount: Int){
-        ConfigManager.player["$player.exp"] = ConfigManager.player.getInt("$player.exp") + amount
-        ConfigManager.dataConfig.saveToFile()
-        refreshPlayerLevel(Bukkit.getPlayerExact(player)!!)
-    }
+        player.level = curLvl
+        player.exp = (curExp.toFloat() / reqExp.toFloat()).coerceAtMost(1f)
+      } else {
+        player.level = maxLevel
+        player.exp = 1f
+      }
+    } while (isLevelUp)
+  }
+  // endregion
 
-    // 移除经验方法
-    fun removePlayerExp(player: String, amount: String){
-        ConfigManager.player["$player.exp"] = ConfigManager.player.getInt("$player.exp") - amount.toInt()
-        ConfigManager.dataConfig.saveToFile()
-        ConfigManager.dataConfig.reload()
-        refreshPlayerLevel(Bukkit.getPlayerExact(player)!!)
-    }
+  // region api
 
-    // 设置经验方法
-    fun setPlayerExp(player: String, amount: String){
-        ConfigManager.player["$player.exp"] = amount.toInt()
-        ConfigManager.dataConfig.saveToFile()
-        ConfigManager.dataConfig.reload()
-        refreshPlayerLevel(Bukkit.getPlayerExact(player)!!)
-    }
 
-    // 获取等级方法
-    fun getPlayerExp(player: String):Int{
-        return ConfigManager.player.getInt("$player.exp")
-    }
+  // 获取等级方法
+  fun getPlayerLevel(player: Player): Int {
+    return getLevel(player)
+  }
 
-    // 初始化等级方法
-    fun initializePlayerLevel(player: String){
-        if(ConfigManager.player.getString("$player.level") == null ) setPlayerLevel(player, "0")
-        if(ConfigManager.player.getString("$player.exp") == null ) setPlayerExp(player, "0")
-    }
+  // 设置等级方法
+  fun setPlayerLevel(player: Player, amount: Int) {
+    setLevel(player, amount)
+    tickLevel(player)
+  }
 
+  // 增加等级方法
+  fun addPlayerLevel(player: Player, amount: Int) {
+    setLevel(player, getLevel(player) + amount)
+    tickLevel(player)
+  }
+
+  // 移除等级方法
+  fun removePlayerLevel(player: Player, amount: Int) {
+    setLevel(player, (getLevel(player) - amount).coerceAtLeast(0))
+    tickLevel(player)
+  }
+
+  // 获取等级方法
+  fun getPlayerExp(player: Player): Int {
+    return getExp(player)
+  }
+
+  // 设置经验方法
+  fun setPlayerExp(player: Player, amount: Int) {
+    setExp(player, amount)
+    tickLevel(player)
+  }
+
+  // 增加经验方法
+  fun addPlayerExp(player: Player, amount: Int) {
+    setExp(player, getExp(player) + amount)
+    tickLevel(player)
+  }
+
+  // 移除经验方法
+  fun removePlayerExp(player: Player, amount: Int) {
+    setExp(player, (getExp(player) - amount).coerceAtLeast(0))
+    tickLevel(player)
+  }
+
+  // 刷新玩家等级方法
+  fun refreshPlayerLevel(player: Player) {
+    tickLevel(player)
+  }
+
+  // 玩家升级方法
+  fun playerLevelUP(player: Player) {
+    doLevelUp(player)
+  }
+  // endregion
 }
