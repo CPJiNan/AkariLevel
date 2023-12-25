@@ -90,8 +90,9 @@ object LevelAPI {
   }
 
   // 设置等级方法
-  fun setPlayerLevel(player: Player, amount: Int) {
+  fun setPlayerLevel(player: Player, amount: Int, expAmount: Int? = null) {
     setLevel(player, amount)
+    expAmount?.let { setExp(player, it) }
     tickLevel(player)
   }
 

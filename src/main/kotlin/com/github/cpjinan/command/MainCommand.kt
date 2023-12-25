@@ -12,14 +12,11 @@ import taboolib.module.chat.colored
 import taboolib.module.lang.sendLang
 
 @CommandHeader(
-  name = "PlayerLevel",
-  aliases = ["level", "exp"],
-  permissionDefault = PermissionDefault.TRUE
+  name = "PlayerLevel", aliases = ["level", "exp"], permissionDefault = PermissionDefault.TRUE
 )
 object MainCommand {
   @CommandBody(
-    permission = "playerlevel.admin",
-    permissionDefault = PermissionDefault.OP
+    permission = "playerlevel.admin", permissionDefault = PermissionDefault.OP
   )
   val main = mainCommand {
     createHelper()
@@ -58,9 +55,7 @@ object MainCommand {
       literal("check") {
         player("player").execute<ProxyCommandSender> { sender: ProxyCommandSender, context: CommandContext<ProxyCommandSender>, _: String ->
           sender.sendLang(
-            "check-exp",
-            "player",
-            LevelAPI.getPlayerExp(context.player("player").toBukkitPlayer())
+            "check-exp", "player", LevelAPI.getPlayerExp(context.player("player").toBukkitPlayer())
           )
         }
       }
@@ -88,9 +83,12 @@ object MainCommand {
       }
       // 设置等级
       literal("set") {
-        player("player").int("amount") {
+        player("player").int("amount").int("expAmount", optional = true) {
           execute<ProxyCommandSender> { sender: ProxyCommandSender, context: CommandContext<ProxyCommandSender>, _: String ->
-            LevelAPI.setPlayerLevel(context.player("player").toBukkitPlayer(), context["amount"].toInt())
+            val player = context.player("player").toBukkitPlayer()
+            val level = context["amount"].toInt()
+            val expAmount = context.getOrNull("expAmount")?.toInt()
+            LevelAPI.setPlayerLevel(player, level, expAmount)
             sender.sendLang("set-level", "player", context["amount"])
           }
         }
@@ -99,9 +97,7 @@ object MainCommand {
       literal("check") {
         player("player").execute<ProxyCommandSender> { sender: ProxyCommandSender, context: CommandContext<ProxyCommandSender>, _: String ->
           sender.sendLang(
-            "check-level",
-            "player",
-            LevelAPI.getPlayerLevel(context.player("player").toBukkitPlayer())
+            "check-level", "player", LevelAPI.getPlayerLevel(context.player("player").toBukkitPlayer())
           )
         }
       }
@@ -110,8 +106,7 @@ object MainCommand {
   }
 
   @CommandBody(
-    permission = "playerlevel.admin",
-    permissionDefault = PermissionDefault.OP
+    permission = "playerlevel.admin", permissionDefault = PermissionDefault.OP
   )
   val debug = subCommand {
     if (ConfigManager.options.getBoolean("debug")) {
@@ -133,8 +128,7 @@ object MainCommand {
   }
 
   @CommandBody(
-    permission = "playerlevel.default",
-    permissionDefault = PermissionDefault.TRUE
+    permission = "playerlevel.default", permissionDefault = PermissionDefault.TRUE
   )
   val levelUp = subCommand {
     createHelper()
