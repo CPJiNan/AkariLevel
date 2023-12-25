@@ -29,7 +29,7 @@ object MainCommand {
           execute<ProxyCommandSender> { sender: ProxyCommandSender, context: CommandContext<ProxyCommandSender>, _: String ->
 
             LevelAPI.addPlayerExp(context.player("player").toBukkitPlayer(), context["amount"].toInt())
-            sender.sendLang("add-exp", "player", context["amount"])
+            sender.sendLang("add-exp", context["player"], context["amount"])
           }
         }
       }
@@ -38,7 +38,7 @@ object MainCommand {
         player("player").int("amount") {
           execute<ProxyCommandSender> { sender: ProxyCommandSender, context: CommandContext<ProxyCommandSender>, _: String ->
             LevelAPI.removePlayerExp(context.player("player").toBukkitPlayer(), context["amount"].toInt())
-            sender.sendLang("remove-exp", "player", context["amount"])
+            sender.sendLang("remove-exp", context["player"], context["amount"])
           }
         }
       }
@@ -47,7 +47,7 @@ object MainCommand {
         player("player").int("amount") {
           execute<ProxyCommandSender> { sender: ProxyCommandSender, context: CommandContext<ProxyCommandSender>, _: String ->
             LevelAPI.setPlayerExp(context.player("player").toBukkitPlayer(), context["amount"].toInt())
-            sender.sendLang("set-exp", "player", context["amount"])
+            sender.sendLang("set-exp", context["player"], context["amount"])
           }
         }
       }
@@ -55,7 +55,7 @@ object MainCommand {
       literal("check") {
         player("player").execute<ProxyCommandSender> { sender: ProxyCommandSender, context: CommandContext<ProxyCommandSender>, _: String ->
           sender.sendLang(
-            "check-exp", "player", LevelAPI.getPlayerExp(context.player("player").toBukkitPlayer())
+            "check-exp", context["player"], LevelAPI.getPlayerExp(context.player("player").toBukkitPlayer())
           )
         }
       }
@@ -68,7 +68,7 @@ object MainCommand {
         player("player").int("amount") {
           execute<ProxyCommandSender> { sender: ProxyCommandSender, context: CommandContext<ProxyCommandSender>, _: String ->
             LevelAPI.addPlayerLevel(context.player("player").toBukkitPlayer(), context["amount"].toInt())
-            sender.sendLang("add-level", "player", context["amount"])
+            sender.sendLang("add-level", context["player"], context["amount"])
           }
         }
       }
@@ -77,7 +77,7 @@ object MainCommand {
         player("player").int("amount") {
           execute<ProxyCommandSender> { sender: ProxyCommandSender, context: CommandContext<ProxyCommandSender>, _: String ->
             LevelAPI.removePlayerLevel(context.player("player").toBukkitPlayer(), context["amount"].toInt())
-            sender.sendLang("remove-level", "player", context["amount"])
+            sender.sendLang("remove-level", context["player"], context["amount"])
           }
         }
       }
@@ -89,7 +89,7 @@ object MainCommand {
             val level = context["amount"].toInt()
             val expAmount = context.getOrNull("expAmount")?.toInt()
             LevelAPI.setPlayerLevel(player, level, expAmount)
-            sender.sendLang("set-level", "player", context["amount"])
+            sender.sendLang("set-level", context["player"], context["amount"])
           }
         }
       }
@@ -97,7 +97,7 @@ object MainCommand {
       literal("check") {
         player("player").execute<ProxyCommandSender> { sender: ProxyCommandSender, context: CommandContext<ProxyCommandSender>, _: String ->
           sender.sendLang(
-            "check-level", "player", LevelAPI.getPlayerLevel(context.player("player").toBukkitPlayer())
+            "check-level", context["player"], LevelAPI.getPlayerLevel(context.player("player").toBukkitPlayer())
           )
         }
       }
