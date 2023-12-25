@@ -1,6 +1,7 @@
 package com.github.cpjinan.manager
 
 import com.github.cpjinan.database.Database
+import com.github.cpjinan.database.DbCbor
 import com.github.cpjinan.database.DbJson
 import com.github.cpjinan.listener.MythicListener
 import org.bukkit.Bukkit
@@ -31,6 +32,10 @@ object RegisterManager {
     return when (dbType) {
       "JSON" -> {
         DbJson(dbUri ?: "database.json")
+      }
+
+      "CBOR" -> {
+        DbCbor(dbUri ?: "database.cbor")
       }
 
       else -> {
