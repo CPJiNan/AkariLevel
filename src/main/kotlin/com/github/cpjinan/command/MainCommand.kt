@@ -94,13 +94,12 @@ object MainCommand {
       }
       // 设置等级
       literal("set") {
-        player("player").int("amount").int("expAmount") {
+        player("player").int("amount") {
           execute<ProxyCommandSender> { sender: ProxyCommandSender, context: CommandContext<ProxyCommandSender>, _: String ->
             if(sender.isOp || sender.hasPermission("playerlevel.admin")) {
               val player = context.player("player").toBukkitPlayer()
               val level = context["amount"].toInt()
-              val expAmount = context.getOrNull("expAmount")?.toInt()
-              LevelAPI.setPlayerLevel(player, level, expAmount)
+              LevelAPI.setPlayerLevel(player, level)
               sender.sendLang("set-level", context["player"], context["amount"])
             } else sender.sendLang("no-permission")
           }
