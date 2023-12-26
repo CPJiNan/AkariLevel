@@ -27,9 +27,10 @@ object MainCommand {
       literal("add") {
         player("player").int("amount") {
           execute<ProxyCommandSender> { sender: ProxyCommandSender, context: CommandContext<ProxyCommandSender>, _: String ->
-
-            LevelAPI.addPlayerExp(context.player("player").toBukkitPlayer(), context["amount"].toInt())
-            sender.sendLang("add-exp", context["player"], context["amount"])
+            if(sender.isOp || sender.hasPermission("playerlevel.admin")) {
+              LevelAPI.addPlayerExp(context.player("player").toBukkitPlayer(), context["amount"].toInt())
+              sender.sendLang("add-exp", context["player"], context["amount"])
+            } else sender.sendLang("no-permission")
           }
         }
       }
@@ -37,8 +38,10 @@ object MainCommand {
       literal("remove") {
         player("player").int("amount") {
           execute<ProxyCommandSender> { sender: ProxyCommandSender, context: CommandContext<ProxyCommandSender>, _: String ->
-            LevelAPI.removePlayerExp(context.player("player").toBukkitPlayer(), context["amount"].toInt())
-            sender.sendLang("remove-exp", context["player"], context["amount"])
+            if(sender.isOp || sender.hasPermission("playerlevel.admin")) {
+              LevelAPI.removePlayerExp(context.player("player").toBukkitPlayer(), context["amount"].toInt())
+              sender.sendLang("remove-exp", context["player"], context["amount"])
+            } else sender.sendLang("no-permission")
           }
         }
       }
@@ -46,17 +49,21 @@ object MainCommand {
       literal("set") {
         player("player").int("amount") {
           execute<ProxyCommandSender> { sender: ProxyCommandSender, context: CommandContext<ProxyCommandSender>, _: String ->
-            LevelAPI.setPlayerExp(context.player("player").toBukkitPlayer(), context["amount"].toInt())
-            sender.sendLang("set-exp", context["player"], context["amount"])
+            if(sender.isOp || sender.hasPermission("playerlevel.admin")) {
+              LevelAPI.setPlayerExp(context.player("player").toBukkitPlayer(), context["amount"].toInt())
+              sender.sendLang("set-exp", context["player"], context["amount"])
+            } else sender.sendLang("no-permission")
           }
         }
       }
       // 查询经验
       literal("check") {
         player("player").execute<ProxyCommandSender> { sender: ProxyCommandSender, context: CommandContext<ProxyCommandSender>, _: String ->
-          sender.sendLang(
-            "check-exp", context["player"], LevelAPI.getPlayerExp(context.player("player").toBukkitPlayer())
-          )
+          if(sender.isOp || sender.hasPermission("playerlevel.admin")) {
+            sender.sendLang(
+              "check-exp", context["player"], LevelAPI.getPlayerExp(context.player("player").toBukkitPlayer())
+            )
+          } else sender.sendLang("no-permission")
         }
       }
     }
@@ -67,8 +74,10 @@ object MainCommand {
       literal("add") {
         player("player").int("amount") {
           execute<ProxyCommandSender> { sender: ProxyCommandSender, context: CommandContext<ProxyCommandSender>, _: String ->
-            LevelAPI.addPlayerLevel(context.player("player").toBukkitPlayer(), context["amount"].toInt())
-            sender.sendLang("add-level", context["player"], context["amount"])
+            if(sender.isOp || sender.hasPermission("playerlevel.admin")) {
+              LevelAPI.addPlayerLevel(context.player("player").toBukkitPlayer(), context["amount"].toInt())
+              sender.sendLang("add-level", context["player"], context["amount"])
+            } else sender.sendLang("no-permission")
           }
         }
       }
@@ -76,29 +85,35 @@ object MainCommand {
       literal("remove") {
         player("player").int("amount") {
           execute<ProxyCommandSender> { sender: ProxyCommandSender, context: CommandContext<ProxyCommandSender>, _: String ->
-            LevelAPI.removePlayerLevel(context.player("player").toBukkitPlayer(), context["amount"].toInt())
-            sender.sendLang("remove-level", context["player"], context["amount"])
+            if(sender.isOp || sender.hasPermission("playerlevel.admin")) {
+              LevelAPI.removePlayerLevel(context.player("player").toBukkitPlayer(), context["amount"].toInt())
+              sender.sendLang("remove-level", context["player"], context["amount"])
+            } else sender.sendLang("no-permission")
           }
         }
       }
       // 设置等级
       literal("set") {
-        player("player").int("amount").int("expAmount", optional = true) {
+        player("player").int("amount").int("expAmount") {
           execute<ProxyCommandSender> { sender: ProxyCommandSender, context: CommandContext<ProxyCommandSender>, _: String ->
-            val player = context.player("player").toBukkitPlayer()
-            val level = context["amount"].toInt()
-            val expAmount = context.getOrNull("expAmount")?.toInt()
-            LevelAPI.setPlayerLevel(player, level, expAmount)
-            sender.sendLang("set-level", context["player"], context["amount"])
+            if(sender.isOp || sender.hasPermission("playerlevel.admin")) {
+              val player = context.player("player").toBukkitPlayer()
+              val level = context["amount"].toInt()
+              val expAmount = context.getOrNull("expAmount")?.toInt()
+              LevelAPI.setPlayerLevel(player, level, expAmount)
+              sender.sendLang("set-level", context["player"], context["amount"])
+            } else sender.sendLang("no-permission")
           }
         }
       }
       // 查询等级
       literal("check") {
         player("player").execute<ProxyCommandSender> { sender: ProxyCommandSender, context: CommandContext<ProxyCommandSender>, _: String ->
-          sender.sendLang(
-            "check-level", context["player"], LevelAPI.getPlayerLevel(context.player("player").toBukkitPlayer())
-          )
+          if(sender.isOp || sender.hasPermission("playerlevel.admin")) {
+            sender.sendLang(
+              "check-level", context["player"], LevelAPI.getPlayerLevel(context.player("player").toBukkitPlayer())
+            )
+          } else sender.sendLang("no-permission")
         }
       }
     }
@@ -114,17 +129,23 @@ object MainCommand {
       // 依赖检查
       literal("dependencies") {
         execute<ProxyCommandSender> { sender, _, _ ->
-          if (Bukkit.getPluginManager()
-              .isPluginEnabled("PlaceholderAPI")
-          ) sender.sendMessage(("&7软依赖 &aPlaceholderAPI &7已找到！").colored())
-          else sender.sendMessage(("&7软依赖 &7PlaceholderAPI &7未找到！").colored())
-          if (Bukkit.getPluginManager()
-              .isPluginEnabled("MythicMobs")
-          ) sender.sendMessage(("&7软依赖 &aMythicMobs &7已找到！").colored())
-          else sender.sendMessage(("&7软依赖 &7MythicMobs &7未找到！").colored())
+          if(sender.isOp || sender.hasPermission("playerlevel.admin")) {
+            if (Bukkit.getPluginManager()
+                .isPluginEnabled("PlaceholderAPI")
+            ) sender.sendMessage(("&7软依赖 &aPlaceholderAPI &7已找到！").colored())
+            else sender.sendMessage(("&7软依赖 &7PlaceholderAPI &7未找到！").colored())
+            if (Bukkit.getPluginManager()
+                .isPluginEnabled("MythicMobs")
+            ) sender.sendMessage(("&7软依赖 &aMythicMobs &7已找到！").colored())
+            else sender.sendMessage(("&7软依赖 &7MythicMobs &7未找到！").colored())
+          } else sender.sendLang("no-permission")
         }
       }
-    } else execute<ProxyCommandSender> { sender, _, _ -> sender.sendLang("debug-not-enabled") }
+    } else execute<ProxyCommandSender> { sender, _, _ ->
+      if(sender.isOp || sender.hasPermission("playerlevel.admin")) {
+        sender.sendLang("debug-not-enabled")
+      } else sender.sendLang("no-permission")
+    }
   }
 
   @CommandBody(
