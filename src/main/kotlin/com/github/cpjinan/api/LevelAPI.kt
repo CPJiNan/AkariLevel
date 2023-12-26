@@ -76,6 +76,7 @@ object LevelAPI {
       } else {
         player.level = maxLevel
         player.exp = 1f
+        if(ConfigManager.options.getBoolean("exp-limit")) setExp(player, 0)
       }
     } while (isLevelUp)
   }

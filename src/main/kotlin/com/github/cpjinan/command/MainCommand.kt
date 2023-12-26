@@ -140,6 +140,22 @@ object MainCommand {
           } else sender.sendLang("no-permission")
         }
       }
+      // 数据修改
+      literal("data").literal("set") {
+        player("player").int("levelAmount").int("expAmount") {
+          execute<ProxyCommandSender> { sender: ProxyCommandSender, context: CommandContext<ProxyCommandSender>, _: String ->
+            if(sender.isOp || sender.hasPermission("playerlevel.admin")) {
+              val player = context.player("player").toBukkitPlayer()
+              val level = context["levelAmount"].toInt()
+              val exp = context["expAmount"].toInt()
+              LevelAPI.setPlayerLevel(player, level)
+              LevelAPI.setPlayerExp(player, exp)
+              sender.sendLang("set-level", context["player"], context["levelAmount"])
+              sender.sendLang("set-exp", context["player"], context["expAmount"])
+            } else sender.sendLang("no-permission")
+          }
+        }
+      }
     } else execute<ProxyCommandSender> { sender, _, _ ->
       if(sender.isOp || sender.hasPermission("playerlevel.admin")) {
         sender.sendLang("debug-not-enabled")

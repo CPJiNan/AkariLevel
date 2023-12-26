@@ -22,3 +22,5 @@ options:
     uri: database.json
   # 玩家经验达标后自动升级
   auto-level-up: true
+  # 玩家满级后不再获取经验
+  exp-limit: false
