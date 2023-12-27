@@ -1,6 +1,6 @@
-package com.github.cpjinan.manager
+package com.github.cpjinan.plugin.playerlevel.internal.manager
 
-import com.github.cpjinan.api.LevelAPI
+import com.github.cpjinan.plugin.playerlevel.internal.api.LevelAPI
 import org.bukkit.entity.Player
 import taboolib.platform.compat.PlaceholderExpansion
 

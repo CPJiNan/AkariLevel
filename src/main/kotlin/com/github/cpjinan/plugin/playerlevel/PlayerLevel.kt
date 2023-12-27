@@ -1,7 +1,7 @@
-package com.github.cpjinan
+package com.github.cpjinan.plugin.playerlevel
 
-import com.github.cpjinan.manager.DebugManager
-import com.github.cpjinan.manager.RegisterManager
+import com.github.cpjinan.plugin.playerlevel.internal.manager.DebugManager
+import com.github.cpjinan.plugin.playerlevel.internal.manager.RegisterManager
 import taboolib.common.platform.Plugin
 
 //@RuntimeDependencies(RuntimeDependency("!org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0"))

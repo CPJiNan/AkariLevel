@@ -1,15 +1,12 @@
-package com.github.cpjinan.database
+package com.github.cpjinan.plugin.playerlevel.internal.database
 
-import com.github.cpjinan.database.types.Player
-import kotlinx.serialization.ExperimentalSerializationApi
-import kotlinx.serialization.cbor.Cbor
-import kotlinx.serialization.decodeFromByteArray
-import kotlinx.serialization.encodeToByteArray
+import com.github.cpjinan.plugin.playerlevel.internal.database.types.Player
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 import org.bukkit.Bukkit
 import java.io.File
 
-@OptIn(ExperimentalSerializationApi::class)
-class DbCbor(filePath: String) : Database {
+class DbJson(filePath: String) : Database {
   private val file: File
   private val playerData: HashMap<String, Player>
 
@@ -17,9 +14,9 @@ class DbCbor(filePath: String) : Database {
     val parent = Bukkit.getPluginManager().getPlugin("PlayerLevel")?.dataFolder ?: File(".")
     file = File(parent, filePath)
     playerData = if (file.exists()) {
-      val content = file.readBytes()
-      if (content.isNotEmpty()) {
-        Cbor.decodeFromByteArray(content)
+      val content = file.readText(Charsets.UTF_8)
+      if (content.isNotBlank()) {
+        Json.decodeFromString(content)
       } else {
         hashMapOf()
       }
@@ -37,6 +34,6 @@ class DbCbor(filePath: String) : Database {
   override fun save() {
     if (!file.exists()) file.createNewFile()
 
-    file.writeBytes(Cbor.encodeToByteArray(playerData))
+    file.writeText(Json.encodeToString(playerData), Charsets.UTF_8)
   }
 }

@@ -1,9 +1,9 @@
-package com.github.cpjinan.manager
+package com.github.cpjinan.plugin.playerlevel.internal.manager
 
-import com.github.cpjinan.database.Database
-import com.github.cpjinan.database.DbCbor
-import com.github.cpjinan.database.DbJson
-import com.github.cpjinan.listener.MythicListener
+import com.github.cpjinan.plugin.playerlevel.internal.database.Database
+import com.github.cpjinan.plugin.playerlevel.internal.database.DbCbor
+import com.github.cpjinan.plugin.playerlevel.internal.database.DbJson
+import com.github.cpjinan.plugin.playerlevel.internal.listener.MythicListener
 import org.bukkit.Bukkit
 import taboolib.common.platform.Platform
 import taboolib.common.platform.function.info

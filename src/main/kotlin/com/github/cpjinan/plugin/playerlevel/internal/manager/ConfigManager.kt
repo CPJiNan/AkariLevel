@@ -1,4 +1,4 @@
-package com.github.cpjinan.manager
+package com.github.cpjinan.plugin.playerlevel.internal.manager
 
 import taboolib.library.configuration.ConfigurationSection
 import taboolib.module.configuration.Config

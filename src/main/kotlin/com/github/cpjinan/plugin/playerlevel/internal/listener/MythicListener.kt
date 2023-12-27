@@ -1,6 +1,6 @@
-package com.github.cpjinan.listener
+package com.github.cpjinan.plugin.playerlevel.internal.listener
 
-import com.github.cpjinan.api.LevelAPI
+import com.github.cpjinan.plugin.playerlevel.internal.api.LevelAPI
 import io.lumine.xikage.mythicmobs.adapters.AbstractItemStack
 import io.lumine.xikage.mythicmobs.api.bukkit.events.MythicDropLoadEvent
 import io.lumine.xikage.mythicmobs.drops.Drop

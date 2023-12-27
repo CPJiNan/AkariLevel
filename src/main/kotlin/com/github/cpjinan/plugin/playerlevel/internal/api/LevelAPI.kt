@@ -1,7 +1,7 @@
-package com.github.cpjinan.api
+package com.github.cpjinan.plugin.playerlevel.internal.api
 
-import com.github.cpjinan.manager.ConfigManager
-import com.github.cpjinan.manager.RegisterManager
+import com.github.cpjinan.plugin.playerlevel.internal.manager.ConfigManager
+import com.github.cpjinan.plugin.playerlevel.internal.manager.RegisterManager
 import org.bukkit.entity.Player
 import taboolib.common.platform.function.adaptPlayer
 import taboolib.module.kether.KetherShell

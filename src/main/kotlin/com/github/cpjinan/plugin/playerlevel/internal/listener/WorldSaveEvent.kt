@@ -1,6 +1,6 @@
-package com.github.cpjinan.listener
+package com.github.cpjinan.plugin.playerlevel.internal.listener
 
-import com.github.cpjinan.manager.RegisterManager
+import com.github.cpjinan.plugin.playerlevel.internal.manager.RegisterManager
 import taboolib.common.platform.event.SubscribeEvent
 
 object WorldSaveEvent {

@@ -1,6 +1,6 @@
-package com.github.cpjinan.listener
+package com.github.cpjinan.plugin.playerlevel.internal.listener
 
-import com.github.cpjinan.api.LevelAPI
+import com.github.cpjinan.plugin.playerlevel.internal.api.LevelAPI
 import org.bukkit.event.player.PlayerExpChangeEvent
 import taboolib.common.platform.event.SubscribeEvent
 

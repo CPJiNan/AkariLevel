@@ -1,4 +1,4 @@
-package com.github.cpjinan.database.types
+package com.github.cpjinan.plugin.playerlevel.internal.database.types
 
 import kotlinx.serialization.Serializable
 
