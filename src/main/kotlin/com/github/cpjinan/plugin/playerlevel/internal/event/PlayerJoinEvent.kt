@@ -1,4 +1,4 @@
-package com.github.cpjinan.plugin.playerlevel.internal.listener
+package com.github.cpjinan.plugin.playerlevel.internal.event
 
 import com.github.cpjinan.plugin.playerlevel.internal.api.LevelAPI
 import org.bukkit.event.player.PlayerJoinEvent

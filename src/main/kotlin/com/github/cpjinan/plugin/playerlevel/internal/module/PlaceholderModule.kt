@@ -1,10 +1,11 @@
-package com.github.cpjinan.plugin.playerlevel.internal.manager
+package com.github.cpjinan.plugin.playerlevel.internal.module
 
 import com.github.cpjinan.plugin.playerlevel.internal.api.LevelAPI
+import com.github.cpjinan.plugin.playerlevel.internal.manager.ConfigManager
 import org.bukkit.entity.Player
 import taboolib.platform.compat.PlaceholderExpansion
 
-object PlaceholderManager : PlaceholderExpansion {
+object PlaceholderModule : PlaceholderExpansion {
   override val identifier = "playerlevel"
   override fun onPlaceholderRequest(player: Player?, args: String): String {
     player?.let {

@@ -26,6 +26,9 @@ object RegisterManager {
     database = openDatabase()
   }
 
+  /**
+   * 数据存储注册方法
+   */
   private fun openDatabase(): Database {
     val dbType = ConfigManager.options.getString("database.type") ?: "JSON"
     val dbUri = ConfigManager.options.getString("database.uri")

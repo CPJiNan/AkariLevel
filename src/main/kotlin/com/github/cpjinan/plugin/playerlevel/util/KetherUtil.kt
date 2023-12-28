@@ -14,10 +14,10 @@ import java.util.concurrent.CompletableFuture
 
 object KetherUtil {
     fun String.toKetherScript(namespace: List<String> = emptyList()): Script {
-        return if (namespace.contains("lorecore")) {
+        return if (namespace.contains("playerlevel")) {
             this.parseKetherScript(namespace)
         } else {
-            this.parseKetherScript(namespace.plus("lorecore"))
+            this.parseKetherScript(namespace.plus("playerlevel"))
         }
     }
 
@@ -40,7 +40,7 @@ object KetherUtil {
     fun eval(
         script: String,
         sender: Any? = null,
-        namespace: List<String> = listOf("lorecore"),
+        namespace: List<String> = listOf("playerlevel"),
         args: Map<String, Any?>? = null,
         throws: Boolean = false
     ): CompletableFuture<Any?> {
