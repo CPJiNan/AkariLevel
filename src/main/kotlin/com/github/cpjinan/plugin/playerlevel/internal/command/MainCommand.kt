@@ -3,11 +3,13 @@ package com.github.cpjinan.plugin.playerlevel.internal.command
 import com.github.cpjinan.plugin.playerlevel.internal.command.subcommand.Debug
 import com.github.cpjinan.plugin.playerlevel.internal.command.subcommand.Exp
 import com.github.cpjinan.plugin.playerlevel.internal.command.subcommand.Level
-import com.github.cpjinan.plugin.playerlevel.internal.command.subcommand.LevelUp
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import taboolib.common.platform.ProxyPlayer
-import taboolib.common.platform.command.*
+import taboolib.common.platform.command.CommandBody
+import taboolib.common.platform.command.CommandHeader
+import taboolib.common.platform.command.PermissionDefault
+import taboolib.common.platform.command.mainCommand
 import taboolib.expansion.createHelper
 
 @CommandHeader(name = "PlayerLevel", aliases = ["plevel", "level", "exp"], permissionDefault = PermissionDefault.TRUE)
@@ -15,15 +17,15 @@ object MainCommand {
   @CommandBody
   val main = mainCommand { createHelper() }
 
-  @CommandBody(permission = "playerlevel.admin", permissionDefault = PermissionDefault.OP)
+  @CommandBody
   val level = Level.level
-  @CommandBody(permission = "playerlevel.admin", permissionDefault = PermissionDefault.OP)
+  @CommandBody
   val exp = Exp.exp
-  @CommandBody(permission = "playerlevel.admin", permissionDefault = PermissionDefault.OP)
+  @CommandBody
   val debug = Debug.debug
 
-  @CommandBody(permission = "playerlevel.default", permissionDefault = PermissionDefault.TRUE)
-  val levelUp = LevelUp.levelUp
+  @CommandBody
+  val levelUp = Level.levelUp
 }
 
 fun ProxyPlayer.toBukkitPlayer(): Player = Bukkit.getPlayer(this.uniqueId)!!

@@ -27,7 +27,7 @@ object Debug {
             // 依赖检查
             literal("checkDependencies") {
                 execute<ProxyCommandSender> { sender, _, _ ->
-                    if(sender.isOp || sender.hasPermission("playerlevel.admin")) {
+                    if(sender.isOp || sender.hasPermission("playerlevel.admin") || sender.hasPermission("playerlevel.debug") || sender.hasPermission("playerlevel.debug.checkdependencies")) {
                         if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) sender.sendMessage(("&7软依赖 &aPlaceholderAPI &7已找到！").colored())
                         else sender.sendMessage(("&7软依赖 &7PlaceholderAPI &7未找到！").colored())
                         if (Bukkit.getPluginManager().isPluginEnabled("MythicMobs")) sender.sendMessage(("&7软依赖 &aMythicMobs &7已找到！").colored())
@@ -39,7 +39,7 @@ object Debug {
             literal("data").literal("set") {
                 player("player").int("levelAmount").int("expAmount") {
                     execute<ProxyCommandSender> { sender: ProxyCommandSender, context: CommandContext<ProxyCommandSender>, _: String ->
-                        if(sender.isOp || sender.hasPermission("playerlevel.admin")) {
+                        if(sender.isOp || sender.hasPermission("playerlevel.admin") || sender.hasPermission("playerlevel.debug") || sender.hasPermission("playerlevel.debug.data")) {
                             val player = context.player("player").toBukkitPlayer()
                             val level = context["levelAmount"].toInt()
                             val exp = context["expAmount"].toInt()
@@ -56,7 +56,7 @@ object Debug {
                 literal("run") {
                     dynamic("action") {
                         execute<CommandSender> { sender, _, content ->
-                            if(sender.isOp || sender.hasPermission("playerlevel.admin")) {
+                            if(sender.isOp || sender.hasPermission("playerlevel.admin") || sender.hasPermission("playerlevel.debug") || sender.hasPermission("playerlevel.debug.kether")) {
                                 try {
                                     val script = if (content.startsWith("def")) {
                                         content
@@ -80,7 +80,7 @@ object Debug {
                 literal("eval") {
                     dynamic("action") {
                         execute<CommandSender> { sender, _, content ->
-                            if (sender.isOp || sender.hasPermission("playerlevel.admin")) {
+                            if (sender.isOp || sender.hasPermission("playerlevel.admin") || sender.hasPermission("playerlevel.debug") || sender.hasPermission("playerlevel.debug.kether")) {
                                 try {
                                     val script = if (content.startsWith("def")) {
                                         content
@@ -105,7 +105,7 @@ object Debug {
                 }
             }
         } else execute<ProxyCommandSender> { sender, _, _ ->
-            if(sender.isOp || sender.hasPermission("playerlevel.admin")) {
+            if(sender.isOp || sender.hasPermission("playerlevel.admin") || sender.hasPermission("playerlevel.debug")) {
                 sender.sendLang("debug-not-enabled")
             } else sender.sendLang("no-permission")
         }
