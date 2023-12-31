@@ -24,6 +24,7 @@ taboolib {
         contributors {
             name("CPJiNan")
             name("Golden_Water")
+            name("2000000")
         }
         dependencies {
             name("PlaceholderAPI").optional(true)
