@@ -17,7 +17,7 @@ options:
   debug: false
   # 数据存储相关
   database:
-    # 存储方式 (JSON, CBOR, SQL)
+    # 存储方式 (JSON, CBOR)
     type: JSON
     uri: database.json
   # 玩家经验达标后自动升级
