@@ -118,11 +118,15 @@ object LevelAPI {
                     isLevelUp = true
                 }
 
-                player.level = curLvl
-                player.exp = (curExp.toFloat() / reqExp.toFloat()).coerceAtMost(1f)
+                if (ConfigManager.options.getBoolean("exp-bar")) {
+                    player.level = curLvl
+                    player.exp = (curExp.toFloat() / reqExp.toFloat()).coerceAtMost(1f)
+                }
             } else {
-                player.level = maxLevel
-                player.exp = 1f
+                if (ConfigManager.options.getBoolean("exp-bar")) {
+                    player.level = maxLevel
+                    player.exp = 1f
+                }
                 if (ConfigManager.options.getBoolean("exp-limit")) setExp(player, 0)
             }
         } while (isLevelUp)
