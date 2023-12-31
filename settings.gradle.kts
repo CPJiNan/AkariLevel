@@ -1,1 +1,1 @@
-rootProject.name="PlayerLevel"
+rootProject.name = "PlayerLevel"

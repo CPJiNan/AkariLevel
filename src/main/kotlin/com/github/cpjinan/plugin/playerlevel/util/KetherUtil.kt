@@ -45,7 +45,7 @@ object KetherUtil {
         throws: Boolean = false
     ): CompletableFuture<Any?> {
         val func = {
-            KetherShell.eval(script, sender = sender?.let { adaptCommandSender(it) }, namespace = namespace, context= {
+            KetherShell.eval(script, sender = sender?.let { adaptCommandSender(it) }, namespace = namespace, context = {
                 args?.forEach { (k, v) -> set(k, v) }
             })
         }

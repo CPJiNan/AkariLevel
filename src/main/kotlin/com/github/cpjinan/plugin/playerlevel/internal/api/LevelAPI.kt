@@ -1,7 +1,12 @@
 package com.github.cpjinan.plugin.playerlevel.internal.api
 
+import com.github.cpjinan.plugin.playerlevel.internal.events.SyncLevelUpEvent
+import com.github.cpjinan.plugin.playerlevel.internal.events.SyncSetExpEvent
+import com.github.cpjinan.plugin.playerlevel.internal.events.SyncSetLevelEvent
+import com.github.cpjinan.plugin.playerlevel.internal.events.SyncTickLevelEvent
 import com.github.cpjinan.plugin.playerlevel.internal.manager.ConfigManager
 import com.github.cpjinan.plugin.playerlevel.internal.manager.RegisterManager
+import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import taboolib.common.platform.function.adaptPlayer
 import taboolib.module.kether.KetherShell
@@ -9,136 +14,178 @@ import taboolib.module.kether.ScriptOptions
 import taboolib.platform.util.sendLang
 
 object LevelAPI {
-  // region basic function
-  private fun getLevel(player: Player): Int = RegisterManager.getDatabase().getPlayerByName(player.name).level
+    // region basic function
+    private fun getLevel(player: Player): Int = RegisterManager.getDatabase().getPlayerByName(player.name).level
 
-  private fun setLevel(player: Player, level: Int) {
-    val db = RegisterManager.getDatabase()
-    val data = db.getPlayerByName(player.name)
-    data.level = level
-    db.updatePlayer(player.name, data)
-    KetherShell.eval(
-      ConfigManager.getLevelChangeAction(level),
-      ScriptOptions.builder().namespace(emptyList()).sender(sender = adaptPlayer(player)).build()
-    )
-  }
+    private fun setLevel(player: Player, level: Int) {
+        val syncSetLevelEvent = SyncSetLevelEvent(player, level)
 
-  private fun getExp(player: Player): Int = RegisterManager.getDatabase().getPlayerByName(player.name).exp
+        Bukkit.getPluginManager().callEvent(syncSetLevelEvent)
 
-  private fun setExp(player: Player, exp: Int) {
-    val db = RegisterManager.getDatabase()
-    val data = db.getPlayerByName(player.name)
-    data.exp = exp
-    db.updatePlayer(player.name, data)
-  }
-
-  private fun doLevelUp(player: Player, fromTickLvl: Boolean = false) {
-    val curLvl = getLevel(player)
-
-    if (curLvl < ConfigManager.getMaxLevel()) {
-      val curExp = getExp(player)
-      val targetLvl = curLvl + 1
-      val reqExp = ConfigManager.getLevelExp(targetLvl)
-      if (curExp >= reqExp) {
-        setExp(player, curExp - reqExp)
-        setLevel(player, targetLvl)
-        player.sendLang("level-up-success")
-
-        if (!fromTickLvl) {
-          tickLevel(player)
+        if (syncSetLevelEvent.isCancelled) {
+            return
         }
-      } else {
-        player.sendLang("level-up-fail")
-      }
-    } else {
-      player.sendLang("max-level")
+
+        val level = syncSetLevelEvent.level
+
+        val db = RegisterManager.getDatabase()
+        val data = db.getPlayerByName(player.name)
+        data.level = level
+        db.updatePlayer(player.name, data)
+        KetherShell.eval(
+            ConfigManager.getLevelChangeAction(level),
+            ScriptOptions.builder().namespace(emptyList()).sender(sender = adaptPlayer(player)).build()
+        )
     }
-  }
 
-  private fun tickLevel(player: Player) {
-    var isLevelUp: Boolean
-    do {
-      isLevelUp = false
+    private fun getExp(player: Player): Int = RegisterManager.getDatabase().getPlayerByName(player.name).exp
 
-      val curLvl = getLevel(player)
-      val maxLevel = ConfigManager.getMaxLevel()
-      if (curLvl < maxLevel) {
-        val curExp = getExp(player)
-        val reqExp = ConfigManager.getLevelExp(curLvl + 1)
+    private fun setExp(player: Player, exp: Int) {
+        val syncSetExpEvent = SyncSetExpEvent(player, exp)
 
-        if (curExp >= reqExp && ConfigManager.options.getBoolean("auto-level-up")) {
-          doLevelUp(player, fromTickLvl = true)
-          isLevelUp = true
+        Bukkit.getPluginManager().callEvent(syncSetExpEvent)
+
+        if (syncSetExpEvent.isCancelled) {
+            return
         }
 
-        player.level = curLvl
-        player.exp = (curExp.toFloat() / reqExp.toFloat()).coerceAtMost(1f)
-      } else {
-        player.level = maxLevel
-        player.exp = 1f
-        if(ConfigManager.options.getBoolean("exp-limit")) setExp(player, 0)
-      }
-    } while (isLevelUp)
-  }
-  // endregion
+        val exp = syncSetExpEvent.exp
 
-  // region api
+        val db = RegisterManager.getDatabase()
+        val data = db.getPlayerByName(player.name)
+        data.exp = exp
+        db.updatePlayer(player.name, data)
+    }
+
+    private fun doLevelUp(player: Player, fromTickLvl: Boolean = false) {
+        val curLvl = getLevel(player)
+
+        val syncLevelUpEvent = SyncLevelUpEvent(
+            player, fromTickLvl
+        )
+
+        Bukkit.getPluginManager().callEvent(syncLevelUpEvent)
+
+        if (syncLevelUpEvent.isCancelled) {
+            return
+        }
+
+        val fromTickLvl = syncLevelUpEvent.fromTickLvl
+
+        if (curLvl < ConfigManager.getMaxLevel()) {
+            val curExp = getExp(player)
+            val targetLvl = curLvl + 1
+            val reqExp = ConfigManager.getLevelExp(targetLvl)
+            if (curExp >= reqExp) {
+                setExp(player, curExp - reqExp)
+                setLevel(player, targetLvl)
+                player.sendLang("level-up-success")
+
+                if (!fromTickLvl) {
+                    tickLevel(player)
+                }
+            } else {
+                player.sendLang("level-up-fail")
+            }
+        } else {
+            player.sendLang("max-level")
+        }
+    }
+
+    private fun tickLevel(player: Player) {
+        val syncTickLevelEvent = SyncTickLevelEvent(
+            player
+        )
+
+        Bukkit.getPluginManager().callEvent(syncTickLevelEvent)
+
+        if (syncTickLevelEvent.isCancelled) {
+            return
+        }
+
+        var isLevelUp: Boolean
+        do {
+            isLevelUp = false
+
+            val curLvl = getLevel(player)
+            val maxLevel = ConfigManager.getMaxLevel()
+            if (curLvl < maxLevel) {
+                val curExp = getExp(player)
+                val reqExp = ConfigManager.getLevelExp(curLvl + 1)
+
+                if (curExp >= reqExp && ConfigManager.options.getBoolean("auto-level-up")) {
+                    doLevelUp(player, fromTickLvl = true)
+                    isLevelUp = true
+                }
+
+                player.level = curLvl
+                player.exp = (curExp.toFloat() / reqExp.toFloat()).coerceAtMost(1f)
+            } else {
+                player.level = maxLevel
+                player.exp = 1f
+                if (ConfigManager.options.getBoolean("exp-limit")) setExp(player, 0)
+            }
+        } while (isLevelUp)
+    }
+    // endregion
+
+    // region api
 
 
-  // 获取等级方法
-  fun getPlayerLevel(player: Player): Int {
-    return getLevel(player)
-  }
+    // 获取等级方法
+    fun getPlayerLevel(player: Player): Int {
+        return getLevel(player)
+    }
 
-  // 设置等级方法
-  fun setPlayerLevel(player: Player, amount: Int) {
-    setLevel(player, amount)
-    tickLevel(player)
-  }
+    // 设置等级方法
+    fun setPlayerLevel(player: Player, amount: Int) {
+        setLevel(player, amount)
+        tickLevel(player)
+    }
 
-  // 增加等级方法
-  fun addPlayerLevel(player: Player, amount: Int) {
-    setLevel(player, getLevel(player) + amount)
-    tickLevel(player)
-  }
+    // 增加等级方法
+    fun addPlayerLevel(player: Player, amount: Int) {
+        setLevel(player, getLevel(player) + amount)
+        tickLevel(player)
+    }
 
-  // 移除等级方法
-  fun removePlayerLevel(player: Player, amount: Int) {
-    setLevel(player, (getLevel(player) - amount).coerceAtLeast(0))
-    tickLevel(player)
-  }
+    // 移除等级方法
+    fun removePlayerLevel(player: Player, amount: Int) {
+        setLevel(player, (getLevel(player) - amount).coerceAtLeast(0))
+        tickLevel(player)
+    }
 
-  // 获取等级方法
-  fun getPlayerExp(player: Player): Int {
-    return getExp(player)
-  }
+    // 获取等级方法
+    fun getPlayerExp(player: Player): Int {
+        return getExp(player)
+    }
 
-  // 设置经验方法
-  fun setPlayerExp(player: Player, amount: Int) {
-    setExp(player, amount)
-    tickLevel(player)
-  }
+    // 设置经验方法
+    fun setPlayerExp(player: Player, amount: Int) {
+        setExp(player, amount)
+        tickLevel(player)
+    }
 
-  // 增加经验方法
-  fun addPlayerExp(player: Player, amount: Int) {
-    setExp(player, getExp(player) + amount)
-    tickLevel(player)
-  }
+    // 增加经验方法
+    fun addPlayerExp(player: Player, amount: Int) {
+        setExp(player, getExp(player) + amount)
+        tickLevel(player)
+    }
 
-  // 移除经验方法
-  fun removePlayerExp(player: Player, amount: Int) {
-    setExp(player, (getExp(player) - amount).coerceAtLeast(0))
-    tickLevel(player)
-  }
+    // 移除经验方法
+    fun removePlayerExp(player: Player, amount: Int) {
+        setExp(player, (getExp(player) - amount).coerceAtLeast(0))
+        tickLevel(player)
+    }
 
-  // 刷新玩家等级方法
-  fun refreshPlayerLevel(player: Player) {
-    tickLevel(player)
-  }
+    // 刷新玩家等级方法
+    fun refreshPlayerLevel(player: Player) {
+        tickLevel(player)
+    }
 
-  // 玩家升级方法
-  fun playerLevelUP(player: Player) {
-    doLevelUp(player)
-  }
-  // endregion
+    // 玩家升级方法
+    fun playerLevelUP(player: Player) {
+        doLevelUp(player)
+    }
+    // endregion
 }

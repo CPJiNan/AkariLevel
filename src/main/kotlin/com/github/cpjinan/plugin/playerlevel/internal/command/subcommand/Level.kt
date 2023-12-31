@@ -16,7 +16,10 @@ object Level {
         literal("add") {
             player("player").int("amount") {
                 execute<ProxyCommandSender> { sender: ProxyCommandSender, context: CommandContext<ProxyCommandSender>, _: String ->
-                    if(sender.isOp || sender.hasPermission("playerlevel.admin") || sender.hasPermission("playerlevel.level") || sender.hasPermission("playerlevel.level.add")) {
+                    if (sender.isOp || sender.hasPermission("playerlevel.admin") || sender.hasPermission("playerlevel.level") || sender.hasPermission(
+                            "playerlevel.level.add"
+                        )
+                    ) {
                         LevelAPI.addPlayerLevel(context.player("player").toBukkitPlayer(), context["amount"].toInt())
                         sender.sendLang("add-level", context["player"], context["amount"])
                     } else sender.sendLang("no-permission")
@@ -27,7 +30,10 @@ object Level {
         literal("remove") {
             player("player").int("amount") {
                 execute<ProxyCommandSender> { sender: ProxyCommandSender, context: CommandContext<ProxyCommandSender>, _: String ->
-                    if(sender.isOp || sender.hasPermission("playerlevel.admin") || sender.hasPermission("playerlevel.level" ) || sender.hasPermission("playerlevel.level.remove")) {
+                    if (sender.isOp || sender.hasPermission("playerlevel.admin") || sender.hasPermission("playerlevel.level") || sender.hasPermission(
+                            "playerlevel.level.remove"
+                        )
+                    ) {
                         LevelAPI.removePlayerLevel(context.player("player").toBukkitPlayer(), context["amount"].toInt())
                         sender.sendLang("remove-level", context["player"], context["amount"])
                     } else sender.sendLang("no-permission")
@@ -38,7 +44,10 @@ object Level {
         literal("set") {
             player("player").int("amount") {
                 execute<ProxyCommandSender> { sender: ProxyCommandSender, context: CommandContext<ProxyCommandSender>, _: String ->
-                    if(sender.isOp || sender.hasPermission("playerlevel.admin") || sender.hasPermission("playerlevel.level") || sender.hasPermission("playerlevel.level.set")) {
+                    if (sender.isOp || sender.hasPermission("playerlevel.admin") || sender.hasPermission("playerlevel.level") || sender.hasPermission(
+                            "playerlevel.level.set"
+                        )
+                    ) {
                         val player = context.player("player").toBukkitPlayer()
                         val level = context["amount"].toInt()
                         LevelAPI.setPlayerLevel(player, level)
@@ -50,9 +59,14 @@ object Level {
         // 查询等级
         literal("check") {
             player("player").execute<ProxyCommandSender> { sender: ProxyCommandSender, context: CommandContext<ProxyCommandSender>, _: String ->
-                if(sender.isOp || sender.hasPermission("playerlevel.admin") || sender.hasPermission("playerlevel.level") || sender.hasPermission("playerlevel.level.check")) {
+                if (sender.isOp || sender.hasPermission("playerlevel.admin") || sender.hasPermission("playerlevel.level") || sender.hasPermission(
+                        "playerlevel.level.check"
+                    )
+                ) {
                     sender.sendLang(
-                        "check-level", context["player"], LevelAPI.getPlayerLevel(context.player("player").toBukkitPlayer())
+                        "check-level",
+                        context["player"],
+                        LevelAPI.getPlayerLevel(context.player("player").toBukkitPlayer())
                     )
                 } else sender.sendLang("no-permission")
             }
@@ -61,7 +75,9 @@ object Level {
     val levelUp = subCommand {
         createHelper()
         execute<ProxyCommandSender> { sender: ProxyCommandSender, context: CommandContext<ProxyCommandSender>, _: String ->
-            if(sender.hasPermission("playerlevel.default") || sender.hasPermission("playerlevel.levelup")) LevelAPI.playerLevelUP(context.player().toBukkitPlayer())
+            if (sender.hasPermission("playerlevel.default") || sender.hasPermission("playerlevel.levelup")) LevelAPI.playerLevelUP(
+                context.player().toBukkitPlayer()
+            )
             else sender.sendLang("no-permission")
         }
     }

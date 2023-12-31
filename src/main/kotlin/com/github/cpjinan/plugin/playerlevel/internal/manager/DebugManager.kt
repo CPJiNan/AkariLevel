@@ -7,7 +7,7 @@ object DebugManager {
     /**
      * 输出调试信息方法
      */
-    fun debugPrint(message:String?) {
+    fun debugPrint(message: String?) {
         if (ConfigManager.options.getBoolean("debug")) info(message)
     }
 

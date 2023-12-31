@@ -10,13 +10,13 @@ object PlayerLevel : Plugin() {
 //    RuntimeEnv.ENV.loadDependency(PlayerLevel.javaClass, true)
 //  }
 
-  override fun onEnable() {
-    DebugManager.logoPrint()
-    RegisterManager.registerAll()
-  }
+    override fun onEnable() {
+        DebugManager.logoPrint()
+        RegisterManager.registerAll()
+    }
 
-  override fun onDisable() {
-    RegisterManager.getDatabase().save()
-  }
+    override fun onDisable() {
+        RegisterManager.getDatabase().save()
+    }
 }
 

@@ -14,18 +14,20 @@ import taboolib.expansion.createHelper
 
 @CommandHeader(name = "PlayerLevel", aliases = ["plevel", "level", "exp"], permissionDefault = PermissionDefault.TRUE)
 object MainCommand {
-  @CommandBody
-  val main = mainCommand { createHelper() }
+    @CommandBody
+    val main = mainCommand { createHelper() }
 
-  @CommandBody
-  val level = Level.level
-  @CommandBody
-  val exp = Exp.exp
-  @CommandBody
-  val debug = Debug.debug
+    @CommandBody
+    val level = Level.level
 
-  @CommandBody
-  val levelUp = Level.levelUp
+    @CommandBody
+    val exp = Exp.exp
+
+    @CommandBody
+    val debug = Debug.debug
+
+    @CommandBody
+    val levelUp = Level.levelUp
 }
 
 fun ProxyPlayer.toBukkitPlayer(): Player = Bukkit.getPlayer(this.uniqueId)!!

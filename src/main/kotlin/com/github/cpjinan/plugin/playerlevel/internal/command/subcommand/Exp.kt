@@ -15,7 +15,10 @@ object Exp {
         literal("add") {
             player("player").int("amount") {
                 execute<ProxyCommandSender> { sender: ProxyCommandSender, context: CommandContext<ProxyCommandSender>, _: String ->
-                    if(sender.isOp || sender.hasPermission("playerlevel.admin") || sender.hasPermission("playerlevel.exp") || sender.hasPermission("playerlevel.exp.add")) {
+                    if (sender.isOp || sender.hasPermission("playerlevel.admin") || sender.hasPermission("playerlevel.exp") || sender.hasPermission(
+                            "playerlevel.exp.add"
+                        )
+                    ) {
                         LevelAPI.addPlayerExp(context.player("player").toBukkitPlayer(), context["amount"].toInt())
                         sender.sendLang("add-exp", context["player"], context["amount"])
                     } else sender.sendLang("no-permission")
@@ -26,7 +29,10 @@ object Exp {
         literal("remove") {
             player("player").int("amount") {
                 execute<ProxyCommandSender> { sender: ProxyCommandSender, context: CommandContext<ProxyCommandSender>, _: String ->
-                    if(sender.isOp || sender.hasPermission("playerlevel.admin") || sender.hasPermission("playerlevel.exp") || sender.hasPermission("playerlevel.exp.remove")) {
+                    if (sender.isOp || sender.hasPermission("playerlevel.admin") || sender.hasPermission("playerlevel.exp") || sender.hasPermission(
+                            "playerlevel.exp.remove"
+                        )
+                    ) {
                         LevelAPI.removePlayerExp(context.player("player").toBukkitPlayer(), context["amount"].toInt())
                         sender.sendLang("remove-exp", context["player"], context["amount"])
                     } else sender.sendLang("no-permission")
@@ -37,7 +43,10 @@ object Exp {
         literal("set") {
             player("player").int("amount") {
                 execute<ProxyCommandSender> { sender: ProxyCommandSender, context: CommandContext<ProxyCommandSender>, _: String ->
-                    if(sender.isOp || sender.hasPermission("playerlevel.admin") || sender.hasPermission("playerlevel.exp") || sender.hasPermission("playerlevel.exp.set")) {
+                    if (sender.isOp || sender.hasPermission("playerlevel.admin") || sender.hasPermission("playerlevel.exp") || sender.hasPermission(
+                            "playerlevel.exp.set"
+                        )
+                    ) {
                         LevelAPI.setPlayerExp(context.player("player").toBukkitPlayer(), context["amount"].toInt())
                         sender.sendLang("set-exp", context["player"], context["amount"])
                     } else sender.sendLang("no-permission")
@@ -47,7 +56,10 @@ object Exp {
         // 查询经验
         literal("check") {
             player("player").execute<ProxyCommandSender> { sender: ProxyCommandSender, context: CommandContext<ProxyCommandSender>, _: String ->
-                if(sender.isOp || sender.hasPermission("playerlevel.admin") || sender.hasPermission("playerlevel.exp") || sender.hasPermission("playerlevel.exp.check")) {
+                if (sender.isOp || sender.hasPermission("playerlevel.admin") || sender.hasPermission("playerlevel.exp") || sender.hasPermission(
+                        "playerlevel.exp.check"
+                    )
+                ) {
                     sender.sendLang(
                         "check-exp", context["player"], LevelAPI.getPlayerExp(context.player("player").toBukkitPlayer())
                     )
