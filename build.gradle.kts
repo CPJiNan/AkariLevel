@@ -18,7 +18,7 @@ taboolib {
   install("expansion-command-helper")
 
   classifier = null
-  version = "6.0.11-31"
+  version = "6.0.12-56"
 
   description {
     contributors {
