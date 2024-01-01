@@ -25,4 +25,22 @@ object KetherModule {
         }
         return result
     }
+    fun String.evalKether(player: Player? = null): Any? {
+        var result : Any? = null
+        try {
+            val script = if (this.startsWith("def")) {
+                this
+            } else {
+                "def main = { $this }"
+            }
+            script.toKetherScript().runActions {
+                this.sender = player?.let { adaptCommandSender(it) }
+            }.thenAccept {
+                result = it
+            }
+        } catch (e: Exception) {
+            e.printKetherErrorMessage()
+        }
+        return result
+    }
 }

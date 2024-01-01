@@ -13,4 +13,5 @@ level-up-fail: "&c升级所需经验不足！"
 max-level: "&c已达到最大等级！"
 
 debug-not-enabled: "&c调试模式已禁用！"
+debug-template: "&a模板已应用！"
 no-permission: "&c无进行当前操作的权限！"

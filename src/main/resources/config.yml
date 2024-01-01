@@ -30,3 +30,5 @@ options:
   # 当该数值为0.0时, 原版经验不会转化为PlayerExp
   # 当该数值为2.0时, 每获得1点原版经验, PlayerExp将对应增加2点
   exp-conversion-rate: 0.0
+  # 特殊命令中空格的转义字符
+  space-replace: "#"

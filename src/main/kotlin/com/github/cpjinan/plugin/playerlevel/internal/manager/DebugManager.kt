@@ -25,4 +25,6 @@ object DebugManager {
         info("                |___/                                   ")
     }
 
+    fun String.replaceSpace() : String = this.replace(ConfigManager.options.getString("space-replace")!!," ")
+
 }

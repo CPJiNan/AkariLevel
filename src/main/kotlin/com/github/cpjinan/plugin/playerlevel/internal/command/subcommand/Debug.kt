@@ -3,20 +3,19 @@ package com.github.cpjinan.plugin.playerlevel.internal.command.subcommand
 import com.github.cpjinan.plugin.playerlevel.internal.api.LevelAPI
 import com.github.cpjinan.plugin.playerlevel.internal.command.toBukkitPlayer
 import com.github.cpjinan.plugin.playerlevel.internal.manager.ConfigManager
-import com.github.cpjinan.plugin.playerlevel.util.KetherUtil.runActions
-import com.github.cpjinan.plugin.playerlevel.util.KetherUtil.toKetherScript
+import com.github.cpjinan.plugin.playerlevel.internal.manager.DebugManager.replaceSpace
+import com.github.cpjinan.plugin.playerlevel.internal.module.KetherModule.evalKether
+import com.github.cpjinan.plugin.playerlevel.internal.module.KetherModule.runKether
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
-import org.bukkit.entity.Player
 import taboolib.common.platform.ProxyCommandSender
 import taboolib.common.platform.command.CommandContext
 import taboolib.common.platform.command.int
 import taboolib.common.platform.command.player
 import taboolib.common.platform.command.subCommand
-import taboolib.common.platform.function.adaptCommandSender
+import taboolib.common.util.replaceWithOrder
 import taboolib.expansion.createHelper
 import taboolib.module.chat.colored
-import taboolib.module.kether.printKetherErrorMessage
 import taboolib.module.lang.sendLang
 import taboolib.platform.util.sendLang
 
@@ -70,21 +69,7 @@ object Debug {
                                     "playerlevel.debug.kether"
                                 )
                             ) {
-                                try {
-                                    val script = if (content.startsWith("def")) {
-                                        content
-                                    } else {
-                                        "def main = { $content }"
-                                    }
-                                    script.toKetherScript().runActions {
-                                        this.sender = adaptCommandSender(sender)
-                                        if (sender is Player) {
-                                            set("player", sender)
-                                        }
-                                    }
-                                } catch (e: Exception) {
-                                    e.printKetherErrorMessage()
-                                }
+                                content.replaceSpace().colored().runKether(Bukkit.getPlayer(sender.name))
                             } else sender.sendLang("no-permission")
                         }
                     }
@@ -97,24 +82,53 @@ object Debug {
                                     "playerlevel.debug.kether"
                                 )
                             ) {
-                                try {
-                                    val script = if (content.startsWith("def")) {
-                                        content
-                                    } else {
-                                        "def main = { $content }"
-                                    }
-
-                                    script.toKetherScript().runActions {
-                                        this.sender = adaptCommandSender(sender)
-                                        if (sender is Player) {
-                                            set("player", sender)
-                                        }
-                                    }.thenAccept {
-                                        sender.sendMessage(" §3§l‹ ›§r §bResult: §f$it")
-                                    }
-                                } catch (e: Exception) {
-                                    e.printKetherErrorMessage()
+                                sender.sendMessage(" §3§l‹ ›§r §bResult: §f${content.replaceSpace().colored().evalKether(Bukkit.getPlayer(sender.name))}")
+                            } else sender.sendLang("no-permission")
+                        }
+                    }
+                }
+            }
+            // 模板相关
+            literal("template") {
+                // 等级模板
+                literal("levelConfig"){
+                    literal("addLevel").int("fromLvl").int("toLvl").dynamic("name").dynamic("expKether") {
+                        execute<CommandSender> { sender, context, _ ->
+                            if (sender.isOp || sender.hasPermission("playerlevel.admin") || sender.hasPermission("playerlevel.debug") || sender.hasPermission(
+                                    "playerlevel.debug.template"
+                                )
+                            ) {
+                                for (i in context["fromLvl"].toInt() until context["toLvl"].toInt() + 1){
+                                    // 等级名称替换
+                                    ConfigManager.level["${i}.name"] = context["name"].replaceSpace().replaceWithOrder(i).colored()
+                                    // 等级经验替换
+                                    ConfigManager.level["${i}.exp"] = context["expKether"].replaceSpace().replaceWithOrder(i).colored().evalKether(Bukkit.getPlayer(sender.name)).toString().toInt()
+                                    // 等级动作添加
+                                    ConfigManager.level["${i}.action"] = ConfigManager.level.getStringList("${i}.action")
                                 }
+                                // 等级配置保存
+                                ConfigManager.levelConfig.saveToFile(ConfigManager.levelConfig.file)
+                                ConfigManager.levelConfig.reload()
+                                sender.sendLang("debug-template")
+                            } else sender.sendLang("no-permission")
+                        }
+                    }
+                    literal("addAction").int("fromLvl").int("toLvl").dynamic("action") {
+                        execute<CommandSender> { sender, context, _ ->
+                            if (sender.isOp || sender.hasPermission("playerlevel.admin") || sender.hasPermission("playerlevel.debug") || sender.hasPermission(
+                                    "playerlevel.debug.template"
+                                )
+                            ) {
+                                for (i in context["fromLvl"].toInt() until context["toLvl"].toInt() + 1){
+                                    // 等级动作添加
+                                    val action = ConfigManager.level.getStringList("${i}.action").toMutableList()
+                                    action.add(context["action"].replaceSpace().replaceWithOrder(i).colored())
+                                    ConfigManager.level["${i}.action"] = action
+                                }
+                                // 等级配置保存
+                                ConfigManager.levelConfig.saveToFile(ConfigManager.levelConfig.file)
+                                ConfigManager.levelConfig.reload()
+                                sender.sendLang("debug-template")
                             } else sender.sendLang("no-permission")
                         }
                     }
