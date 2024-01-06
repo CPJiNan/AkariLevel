@@ -1,9 +1,9 @@
 package com.github.cpjinan.plugin.playerlevel.internal.api
 
-import com.github.cpjinan.plugin.playerlevel.internal.events.SyncLevelUpEvent
-import com.github.cpjinan.plugin.playerlevel.internal.events.SyncSetExpEvent
-import com.github.cpjinan.plugin.playerlevel.internal.events.SyncSetLevelEvent
-import com.github.cpjinan.plugin.playerlevel.internal.events.SyncTickLevelEvent
+import com.github.cpjinan.plugin.playerlevel.internal.events.level.SyncLevelUpEvent
+import com.github.cpjinan.plugin.playerlevel.internal.events.exp.SyncSetExpEvent
+import com.github.cpjinan.plugin.playerlevel.internal.events.level.SyncSetLevelEvent
+import com.github.cpjinan.plugin.playerlevel.internal.events.level.SyncTickLevelEvent
 import com.github.cpjinan.plugin.playerlevel.internal.manager.ConfigManager
 import com.github.cpjinan.plugin.playerlevel.internal.manager.RegisterManager
 import org.bukkit.Bukkit
@@ -25,15 +25,18 @@ object LevelAPI {
      * @param [player] 玩家
      * @return [Int]
      */
-    private fun getLevel(player: Player): Int = RegisterManager.getDatabase().getPlayerByName(player.name).level
+    private fun getLevel(player: Player): Int {
+        return RegisterManager.getDatabase().getPlayerByName(player.name).level
+    }
 
     /**
      * 设置等级
      * @param [player] 玩家
      * @param [level] 等级
+     * @param [source] 来源
      */
-    private fun setLevel(player: Player, level: Int) {
-        val syncSetLevelEvent = SyncSetLevelEvent(player, level)
+    private fun setLevel(player: Player, level: Int, source: String = "DEFAULT") {
+        val syncSetLevelEvent = SyncSetLevelEvent(player, level, source)
 
         Bukkit.getPluginManager().callEvent(syncSetLevelEvent)
 
@@ -64,9 +67,10 @@ object LevelAPI {
      * 设置经验
      * @param [player] 玩家
      * @param [exp] 经验
+     * @param [source] 来源
      */
-    private fun setExp(player: Player, exp: Int) {
-        val syncSetExpEvent = SyncSetExpEvent(player, exp)
+    private fun setExp(player: Player, exp: Int, source: String = "DEFAULT") {
+        val syncSetExpEvent = SyncSetExpEvent(player, exp, source)
 
         Bukkit.getPluginManager().callEvent(syncSetExpEvent)
 
@@ -85,13 +89,13 @@ object LevelAPI {
     /**
      * 花费经验值进行升级
      * @param [player] 玩家
-     * @param [fromTickLvl]
+     * @param [source] 来源
      */
-    private fun doLevelUp(player: Player, fromTickLvl: Boolean = false) {
+    private fun doLevelUp(player: Player, source: String = "DEFAULT") {
         val curLvl = getLevel(player)
 
         val syncLevelUpEvent = SyncLevelUpEvent(
-            player, fromTickLvl
+            player, source
         )
 
         Bukkit.getPluginManager().callEvent(syncLevelUpEvent)
@@ -100,7 +104,7 @@ object LevelAPI {
             return
         }
 
-        val fromTickLvl = syncLevelUpEvent.fromTickLvl
+        val source = syncLevelUpEvent.source
 
         if (curLvl < ConfigManager.getMaxLevel()) {
             val curExp = getExp(player)
@@ -111,7 +115,7 @@ object LevelAPI {
                 setLevel(player, targetLvl)
                 player.sendLang("level-up-success")
 
-                if (!fromTickLvl) {
+                if (source != "TICK_LEVEL") {
                     tickLevel(player)
                 }
             } else {
@@ -125,10 +129,11 @@ object LevelAPI {
     /**
      * 刷新等级
      * @param [player] 玩家
+     * @param [source] 来源
      */
-    private fun tickLevel(player: Player) {
+    private fun tickLevel(player: Player, source: String = "DEFAULT") {
         val syncTickLevelEvent = SyncTickLevelEvent(
-            player
+            player,source
         )
 
         Bukkit.getPluginManager().callEvent(syncTickLevelEvent)
@@ -148,7 +153,7 @@ object LevelAPI {
                 val reqExp = ConfigManager.getLevelExp(curLvl + 1)
 
                 if (curExp >= reqExp && ConfigManager.options.getBoolean("auto-level-up")) {
-                    doLevelUp(player, fromTickLvl = true)
+                    doLevelUp(player, source = "TICK_LEVEL")
                     isLevelUp = true
                 }
 
@@ -181,31 +186,34 @@ object LevelAPI {
     /**
      * 设置玩家等级
      * @param [player] 玩家
+     * @param [source] 来源
      * @param [amount]
      */
-    fun setPlayerLevel(player: Player, amount: Int) {
-        setLevel(player, amount)
-        tickLevel(player)
+    fun setPlayerLevel(player: Player, amount: Int, source: String = "DEFAULT") {
+        setLevel(player, amount, source)
+        tickLevel(player, source)
     }
 
     /**
      * 增加玩家等级
      * @param [player] 玩家
+     * @param [source] 来源
      * @param [amount]
      */
-    fun addPlayerLevel(player: Player, amount: Int) {
-        setLevel(player, getLevel(player) + amount)
-        tickLevel(player)
+    fun addPlayerLevel(player: Player, amount: Int, source: String = "DEFAULT") {
+        setLevel(player, getLevel(player) + amount, source)
+        tickLevel(player, source)
     }
 
     /**
      * 移除玩家等级
      * @param [player] 玩家
-     * @param [amount] 量
+     * @param [source] 来源
+     * @param [amount]
      */
-    fun removePlayerLevel(player: Player, amount: Int) {
-        setLevel(player, (getLevel(player) - amount).coerceAtLeast(0))
-        tickLevel(player)
+    fun removePlayerLevel(player: Player, amount: Int, source: String = "DEFAULT") {
+        setLevel(player, (getLevel(player) - amount).coerceAtLeast(0), source)
+        tickLevel(player, source)
     }
 
     /**
@@ -220,47 +228,52 @@ object LevelAPI {
     /**
      * 设置玩家经验
      * @param [player] 玩家
+     * @param [source] 来源
      * @param [amount]
      */
-    fun setPlayerExp(player: Player, amount: Int) {
-        setExp(player, amount)
-        tickLevel(player)
+    fun setPlayerExp(player: Player, amount: Int, source: String = "DEFAULT") {
+        setExp(player, amount, source)
+        tickLevel(player, source)
     }
 
     /**
      * 增加玩家经验
      * @param [player] 玩家
+     * @param [source] 来源
      * @param [amount]
      */
-    fun addPlayerExp(player: Player, amount: Int) {
-        setExp(player, getExp(player) + amount)
-        tickLevel(player)
+    fun addPlayerExp(player: Player, amount: Int, source: String = "DEFAULT") {
+        setExp(player, getExp(player) + amount, source)
+        tickLevel(player, source)
     }
 
     /**
      * 移除玩家经验
      * @param [player] 玩家
+     * @param [source] 来源
      * @param [amount]
      */
-    fun removePlayerExp(player: Player, amount: Int) {
-        setExp(player, (getExp(player) - amount).coerceAtLeast(0))
-        tickLevel(player)
+    fun removePlayerExp(player: Player, amount: Int, source: String = "DEFAULT") {
+        setExp(player, (getExp(player) - amount).coerceAtLeast(0), source)
+        tickLevel(player, source)
     }
 
     /**
      * 刷新玩家等级
      * @param [player] 玩家
+     * @param [source] 来源
      */
-    fun refreshPlayerLevel(player: Player) {
-        tickLevel(player)
+    fun refreshPlayerLevel(player: Player, source: String = "DEFAULT") {
+        tickLevel(player, source)
     }
 
     /**
      * 玩家升级方法
      * @param [player] 玩家
+     * @param [source] 来源
      */
-    fun playerLevelUP(player: Player) {
-        doLevelUp(player)
+    fun playerLevelUP(player: Player, source: String = "DEFAULT") {
+        doLevelUp(player, source)
     }
     // endregion
 }

@@ -23,7 +23,7 @@ object MythicListener : Listener {
 class MythicExpDrop(line: String, config: MythicLineConfig) : Drop(line, config), IItemDrop {
     override fun getDrop(meta: DropMetadata): AbstractItemStack? {
         val amount = this.line.split(' ')[1].toInt()
-        LevelAPI.addPlayerExp(Bukkit.getPlayer(meta.trigger.uniqueId)!!, amount)
+        LevelAPI.addPlayerExp(Bukkit.getPlayer(meta.trigger.uniqueId)!!, amount, "MYTHIC_LISTENER")
         return null
     }
 }

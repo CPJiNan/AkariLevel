@@ -6,7 +6,7 @@ import org.bukkit.event.HandlerList
 
 
 /**
- * 用于快速实现异步事件
+ * 用于快速实现同步事件
  *
  * @author 2000000
  * @since 2023/12/31

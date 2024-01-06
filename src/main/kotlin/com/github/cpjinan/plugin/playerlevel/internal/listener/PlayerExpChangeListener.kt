@@ -10,8 +10,8 @@ object PlayerExpChangeListener {
     @SubscribeEvent
     fun onPlayerExpChange(event: PlayerExpChangeEvent) {
         val exp: Double = event.amount * ConfigManager.options.getDouble("exp-conversion-rate")
-        LevelAPI.addPlayerExp(event.player, exp.roundToInt())
-        LevelAPI.refreshPlayerLevel(event.player)
+        LevelAPI.addPlayerExp(event.player, exp.roundToInt(), "PLAYER_EXP_CHANGE_LISTENER")
+        LevelAPI.refreshPlayerLevel(event.player, "PLAYER_EXP_CHANGE_LISTENER")
         event.amount = 0
     }
 

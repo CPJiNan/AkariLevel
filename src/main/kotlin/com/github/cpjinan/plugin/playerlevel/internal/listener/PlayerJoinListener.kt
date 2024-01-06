@@ -7,6 +7,6 @@ import taboolib.common.platform.event.SubscribeEvent
 object PlayerJoinListener {
     @SubscribeEvent
     fun onPlayerJoin(event: PlayerJoinEvent) {
-        LevelAPI.refreshPlayerLevel(event.player)
+        LevelAPI.refreshPlayerLevel(event.player, "PLAYER_JOIN_LISTENER")
     }
 }

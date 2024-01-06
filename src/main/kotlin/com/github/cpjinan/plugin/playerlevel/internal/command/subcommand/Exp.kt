@@ -24,7 +24,7 @@ object Exp {
                             "playerlevel.exp.add"
                         )
                     ) {
-                        LevelAPI.addPlayerExp(context.player("player").toBukkitPlayer(), context["amount"].toInt())
+                        LevelAPI.addPlayerExp(context.player("player").toBukkitPlayer(), context["amount"].toInt(), "EXP_COMMAND")
                         sender.sendLang("add-exp", context["player"], context["amount"])
                     } else sender.sendLang("no-permission")
                 }
@@ -38,7 +38,7 @@ object Exp {
                             "playerlevel.exp.remove"
                         )
                     ) {
-                        LevelAPI.removePlayerExp(context.player("player").toBukkitPlayer(), context["amount"].toInt())
+                        LevelAPI.removePlayerExp(context.player("player").toBukkitPlayer(), context["amount"].toInt(), "EXP_COMMAND")
                         sender.sendLang("remove-exp", context["player"], context["amount"])
                     } else sender.sendLang("no-permission")
                 }
@@ -52,7 +52,7 @@ object Exp {
                             "playerlevel.exp.set"
                         )
                     ) {
-                        LevelAPI.setPlayerExp(context.player("player").toBukkitPlayer(), context["amount"].toInt())
+                        LevelAPI.setPlayerExp(context.player("player").toBukkitPlayer(), context["amount"].toInt(), "EXP_COMMAND")
                         sender.sendLang("set-exp", context["player"], context["amount"])
                     } else sender.sendLang("no-permission")
                 }

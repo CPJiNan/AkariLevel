@@ -1,10 +1,10 @@
-package com.github.cpjinan.plugin.playerlevel.internal.events
+package com.github.cpjinan.plugin.playerlevel.internal.events.level
 
 import com.github.cpjinan.plugin.playerlevel.internal.abstracts.SyncEvent
 import org.bukkit.entity.Player
 
 
-class SyncLevelUpEvent(val player: Player, var fromTickLvl: Boolean) : SyncEvent() {
+class SyncSetLevelEvent(val player: Player, var level: Int, var source: String) : SyncEvent() {
     private var cancelled = false
     override fun isCancelled(): Boolean {
         return cancelled
