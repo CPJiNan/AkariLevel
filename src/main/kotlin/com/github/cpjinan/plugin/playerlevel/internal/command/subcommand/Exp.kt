@@ -9,6 +9,11 @@ import taboolib.common.platform.command.player
 import taboolib.common.platform.command.subCommand
 import taboolib.module.lang.sendLang
 
+/**
+ * 经验命令
+ * @author CPJiNan
+ * @date 2024/01/06
+ */
 object Exp {
     val exp = subCommand {
         // 添加经验

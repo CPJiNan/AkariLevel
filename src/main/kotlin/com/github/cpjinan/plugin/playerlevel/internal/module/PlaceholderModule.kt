@@ -5,6 +5,11 @@ import com.github.cpjinan.plugin.playerlevel.internal.manager.ConfigManager
 import org.bukkit.entity.Player
 import taboolib.platform.compat.PlaceholderExpansion
 
+/**
+ * PlaceholderAPI模块
+ * @author CPJiNan
+ * @date 2024/01/06
+ */
 object PlaceholderModule : PlaceholderExpansion {
     override val identifier = "playerlevel"
     override fun onPlaceholderRequest(player: Player?, args: String): String {

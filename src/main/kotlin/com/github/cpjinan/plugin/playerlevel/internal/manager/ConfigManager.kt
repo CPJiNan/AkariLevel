@@ -5,6 +5,11 @@ import taboolib.module.configuration.Config
 import taboolib.module.configuration.ConfigNode
 import taboolib.module.configuration.Configuration
 
+/**
+ * 配置管理器
+ * @author CPJiNan
+ * @date 2024/01/06
+ */
 object ConfigManager {
     @Config("config.yml", autoReload = true)
     lateinit var config: Configuration

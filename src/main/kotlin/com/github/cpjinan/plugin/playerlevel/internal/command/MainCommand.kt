@@ -12,6 +12,11 @@ import taboolib.common.platform.command.PermissionDefault
 import taboolib.common.platform.command.mainCommand
 import taboolib.expansion.createHelper
 
+/**
+ * 主命令
+ * @author CPJiNan
+ * @date 2024/01/06
+ */
 @CommandHeader(name = "PlayerLevel", aliases = ["plevel", "level", "exp"], permissionDefault = PermissionDefault.TRUE)
 object MainCommand {
     @CommandBody

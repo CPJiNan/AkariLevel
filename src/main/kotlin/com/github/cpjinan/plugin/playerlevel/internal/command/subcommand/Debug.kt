@@ -19,6 +19,11 @@ import taboolib.module.chat.colored
 import taboolib.module.lang.sendLang
 import taboolib.platform.util.sendLang
 
+/**
+ * 调试命令
+ * @author CPJiNan
+ * @date 2024/01/06
+ */
 object Debug {
     val debug = subCommand {
         if (ConfigManager.options.getBoolean("debug")) {

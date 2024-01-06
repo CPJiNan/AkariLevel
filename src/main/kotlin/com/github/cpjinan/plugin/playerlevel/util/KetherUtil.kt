@@ -13,6 +13,11 @@ import java.util.concurrent.CompletableFuture
  */
 
 object KetherUtil {
+    /**
+     * 到 kether 脚本
+     * @param [namespace] 命名空间
+     * @return [Script]
+     */
     fun String.toKetherScript(namespace: List<String> = emptyList()): Script {
         return if (namespace.contains("playerlevel")) {
             this.parseKetherScript(namespace)
@@ -22,8 +27,10 @@ object KetherUtil {
     }
 
     /**
-     * 运行脚本
-     * */
+     * 运行操作
+     * @param [func] 函数
+     * @return [CompletableFuture<Any?>]
+     */
     fun Script.runActions(func: ScriptContext.() -> Unit): CompletableFuture<Any?> {
         return try {
             ScriptContext.create(this).apply(func).runActions()
@@ -34,8 +41,14 @@ object KetherUtil {
     }
 
     /**
-     * 运行脚本
-     * */
+     * 运行并返回结果
+     * @param [script] 脚本
+     * @param [sender] 发送者
+     * @param [namespace] 命名空间
+     * @param [args] 参数
+     * @param [throws] 抛出
+     * @return [CompletableFuture<Any?>]
+     */
     @Deprecated("")
     fun eval(
         script: String,

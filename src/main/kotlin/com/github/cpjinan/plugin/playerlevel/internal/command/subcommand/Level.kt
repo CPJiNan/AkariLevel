@@ -10,6 +10,11 @@ import taboolib.common.platform.command.subCommand
 import taboolib.expansion.createHelper
 import taboolib.module.lang.sendLang
 
+/**
+ * 等级命令
+ * @author CPJiNan
+ * @date 2024/01/06
+ */
 object Level {
     val level = subCommand {
         // 添加等级

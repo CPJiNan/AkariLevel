@@ -13,10 +13,25 @@ import taboolib.module.kether.KetherShell
 import taboolib.module.kether.ScriptOptions
 import taboolib.platform.util.sendLang
 
+/**
+ * 等级应用程序接口
+ * @author CPJiNan
+ * @date 2024/01/06
+ */
 object LevelAPI {
     // region basic function
+    /**
+     * 获取等级
+     * @param [player] 玩家
+     * @return [Int]
+     */
     private fun getLevel(player: Player): Int = RegisterManager.getDatabase().getPlayerByName(player.name).level
 
+    /**
+     * 设置等级
+     * @param [player] 玩家
+     * @param [level] 等级
+     */
     private fun setLevel(player: Player, level: Int) {
         val syncSetLevelEvent = SyncSetLevelEvent(player, level)
 
@@ -38,8 +53,18 @@ object LevelAPI {
         )
     }
 
+    /**
+     * 获取经验
+     * @param [player] 玩家
+     * @return [Int]
+     */
     private fun getExp(player: Player): Int = RegisterManager.getDatabase().getPlayerByName(player.name).exp
 
+    /**
+     * 设置经验
+     * @param [player] 玩家
+     * @param [exp] 经验
+     */
     private fun setExp(player: Player, exp: Int) {
         val syncSetExpEvent = SyncSetExpEvent(player, exp)
 
@@ -57,6 +82,11 @@ object LevelAPI {
         db.updatePlayer(player.name, data)
     }
 
+    /**
+     * 花费经验值进行升级
+     * @param [player] 玩家
+     * @param [fromTickLvl]
+     */
     private fun doLevelUp(player: Player, fromTickLvl: Boolean = false) {
         val curLvl = getLevel(player)
 
@@ -92,6 +122,10 @@ object LevelAPI {
         }
     }
 
+    /**
+     * 刷新等级
+     * @param [player] 玩家
+     */
     private fun tickLevel(player: Player) {
         val syncTickLevelEvent = SyncTickLevelEvent(
             player
@@ -134,60 +168,97 @@ object LevelAPI {
     // endregion
 
     // region api
-
-
-    // 获取等级方法
+    /**
+     * 获取玩家等级
+     * @param [player] 玩家
+     * @return [Int]
+     */
     fun getPlayerLevel(player: Player): Int {
         return getLevel(player)
     }
 
-    // 设置等级方法
+
+    /**
+     * 设置玩家等级
+     * @param [player] 玩家
+     * @param [amount]
+     */
     fun setPlayerLevel(player: Player, amount: Int) {
         setLevel(player, amount)
         tickLevel(player)
     }
 
-    // 增加等级方法
+    /**
+     * 增加玩家等级
+     * @param [player] 玩家
+     * @param [amount]
+     */
     fun addPlayerLevel(player: Player, amount: Int) {
         setLevel(player, getLevel(player) + amount)
         tickLevel(player)
     }
 
-    // 移除等级方法
+    /**
+     * 移除玩家等级
+     * @param [player] 玩家
+     * @param [amount] 量
+     */
     fun removePlayerLevel(player: Player, amount: Int) {
         setLevel(player, (getLevel(player) - amount).coerceAtLeast(0))
         tickLevel(player)
     }
 
-    // 获取等级方法
+    /**
+     * 获取玩家经验
+     * @param [player] 玩家
+     * @return [Int]
+     */
     fun getPlayerExp(player: Player): Int {
         return getExp(player)
     }
 
-    // 设置经验方法
+    /**
+     * 设置玩家经验
+     * @param [player] 玩家
+     * @param [amount]
+     */
     fun setPlayerExp(player: Player, amount: Int) {
         setExp(player, amount)
         tickLevel(player)
     }
 
-    // 增加经验方法
+    /**
+     * 增加玩家经验
+     * @param [player] 玩家
+     * @param [amount]
+     */
     fun addPlayerExp(player: Player, amount: Int) {
         setExp(player, getExp(player) + amount)
         tickLevel(player)
     }
 
-    // 移除经验方法
+    /**
+     * 移除玩家经验
+     * @param [player] 玩家
+     * @param [amount]
+     */
     fun removePlayerExp(player: Player, amount: Int) {
         setExp(player, (getExp(player) - amount).coerceAtLeast(0))
         tickLevel(player)
     }
 
-    // 刷新玩家等级方法
+    /**
+     * 刷新玩家等级
+     * @param [player] 玩家
+     */
     fun refreshPlayerLevel(player: Player) {
         tickLevel(player)
     }
 
-    // 玩家升级方法
+    /**
+     * 玩家升级方法
+     * @param [player] 玩家
+     */
     fun playerLevelUP(player: Player) {
         doLevelUp(player)
     }

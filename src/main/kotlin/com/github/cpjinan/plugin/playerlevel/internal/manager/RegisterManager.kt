@@ -12,11 +12,16 @@ import taboolib.platform.BukkitPlugin
 import java.net.HttpURLConnection
 import java.net.URL
 
+/**
+ * 注册管理器
+ * @author CPJiNan
+ * @date 2024/01/06
+ */
 object RegisterManager {
     private var database: Database? = null
 
     /**
-     * 快捷注册方法
+     * 快捷注册
      */
     fun registerAll() {
         registerMetrics()
@@ -27,7 +32,8 @@ object RegisterManager {
     }
 
     /**
-     * 数据存储注册方法
+     * 数据存储注册
+     * @return [Database]
      */
     private fun openDatabase(): Database {
         val dbType = ConfigManager.options.getString("database.type") ?: "JSON"
@@ -48,7 +54,7 @@ object RegisterManager {
     }
 
     /**
-     * bStats统计注册方法
+     * bStats统计注册
      */
     private fun registerMetrics() {
         if (ConfigManager.options.getBoolean("metrics")) Metrics(
@@ -59,7 +65,7 @@ object RegisterManager {
     }
 
     /**
-     * 网页读取注册方法
+     * 网页读取注册
      */
     private fun registerUrl() {
         Thread {
@@ -76,7 +82,7 @@ object RegisterManager {
     }
 
     /**
-     * 输出插件更新提示方法
+     * 输出插件更新提示
      */
     private fun registerUpdate() {
         if (ConfigManager.options.getBoolean("update")) {
@@ -100,6 +106,9 @@ object RegisterManager {
         }
     }
 
+    /**
+     * Mythicmobs插件拓展注册
+     */
     private fun registerMythicMobs() {
         if (Bukkit.getPluginManager().isPluginEnabled("MythicMobs")) {
             Bukkit.getPluginManager().getPlugin("PlayerLevel")
@@ -107,6 +116,10 @@ object RegisterManager {
         }
     }
 
+    /**
+     * 获取数据库
+     * @return [Database]
+     */
     fun getDatabase(): Database = if (database != null) {
         database!!
     } else {
