@@ -25,7 +25,7 @@ object Level {
                             "playerlevel.level.add"
                         )
                     ) {
-                        LevelAPI.addPlayerLevel(context.player("player").toBukkitPlayer(), context["amount"].toInt(), "LEVEL_COMMAND")
+                        LevelAPI.addPlayerLevel(context.player("player").toBukkitPlayer(), context["amount"].toInt(), "LEVEL_ADD_COMMAND")
                         sender.sendLang("add-level", context["player"], context["amount"])
                     } else sender.sendLang("no-permission")
                 }
@@ -39,7 +39,7 @@ object Level {
                             "playerlevel.level.remove"
                         )
                     ) {
-                        LevelAPI.removePlayerLevel(context.player("player").toBukkitPlayer(), context["amount"].toInt(), "LEVEL_COMMAND")
+                        LevelAPI.removePlayerLevel(context.player("player").toBukkitPlayer(), context["amount"].toInt(), "LEVEL_REMOVE_COMMAND")
                         sender.sendLang("remove-level", context["player"], context["amount"])
                     } else sender.sendLang("no-permission")
                 }
@@ -55,7 +55,7 @@ object Level {
                     ) {
                         val player = context.player("player").toBukkitPlayer()
                         val level = context["amount"].toInt()
-                        LevelAPI.setPlayerLevel(player, level, "LEVEL_COMMAND")
+                        LevelAPI.setPlayerLevel(player, level, "LEVEL_SET_COMMAND")
                         sender.sendLang("set-level", context["player"], context["amount"])
                     } else sender.sendLang("no-permission")
                 }
@@ -81,7 +81,7 @@ object Level {
         createHelper()
         execute<ProxyCommandSender> { sender: ProxyCommandSender, context: CommandContext<ProxyCommandSender>, _: String ->
             if (sender.hasPermission("playerlevel.default") || sender.hasPermission("playerlevel.levelup")) LevelAPI.playerLevelUP(
-                context.player().toBukkitPlayer(), "LEVEL_COMMAND"
+                context.player().toBukkitPlayer(), "LEVEL_UP_COMMAND"
             )
             else sender.sendLang("no-permission")
         }
