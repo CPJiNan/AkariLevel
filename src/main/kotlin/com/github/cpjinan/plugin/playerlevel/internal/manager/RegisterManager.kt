@@ -3,7 +3,8 @@ package com.github.cpjinan.plugin.playerlevel.internal.manager
 import com.github.cpjinan.plugin.playerlevel.internal.database.Database
 import com.github.cpjinan.plugin.playerlevel.internal.database.DbCbor
 import com.github.cpjinan.plugin.playerlevel.internal.database.DbJson
-import com.github.cpjinan.plugin.playerlevel.internal.listener.MythicListener
+import com.github.cpjinan.plugin.playerlevel.internal.listener.Mythic4Listener
+import com.github.cpjinan.plugin.playerlevel.internal.listener.Mythic5Listener
 import org.bukkit.Bukkit
 import taboolib.common.platform.Platform
 import taboolib.common.platform.function.info
@@ -111,8 +112,10 @@ object RegisterManager {
      */
     private fun registerMythicMobs() {
         if (Bukkit.getPluginManager().isPluginEnabled("MythicMobs")) {
-            Bukkit.getPluginManager().getPlugin("PlayerLevel")
-                ?.let { Bukkit.getPluginManager().registerEvents(MythicListener, it) }
+            when(Bukkit.getPluginManager().getPlugin("MythicMobs")?.description?.version?.get(0)){
+                '4' -> Bukkit.getPluginManager().getPlugin("PlayerLevel")?.let { Bukkit.getPluginManager().registerEvents(Mythic4Listener, it) }
+                '5' -> Bukkit.getPluginManager().getPlugin("PlayerLevel")?.let { Bukkit.getPluginManager().registerEvents(Mythic5Listener, it) }
+            }
         }
     }
 
