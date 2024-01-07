@@ -44,7 +44,6 @@ dependencies {
     compileOnly(kotlin("stdlib"))
     taboo("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
     taboo("org.jetbrains.kotlinx:kotlinx-serialization-cbor:1.6.0")
-    taboo("org.projectlombok:lombok:1.18.30")
     compileOnly(fileTree("libs"))
 }
 

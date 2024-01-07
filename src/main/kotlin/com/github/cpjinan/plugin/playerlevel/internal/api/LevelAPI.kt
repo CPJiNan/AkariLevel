@@ -1,9 +1,9 @@
 package com.github.cpjinan.plugin.playerlevel.internal.api
 
-import com.github.cpjinan.plugin.playerlevel.internal.events.level.SyncLevelUpEvent
-import com.github.cpjinan.plugin.playerlevel.internal.events.exp.SyncSetExpEvent
-import com.github.cpjinan.plugin.playerlevel.internal.events.level.SyncSetLevelEvent
-import com.github.cpjinan.plugin.playerlevel.internal.events.level.SyncTickLevelEvent
+import com.github.cpjinan.plugin.playerlevel.internal.events.level.LevelUpEvent
+import com.github.cpjinan.plugin.playerlevel.internal.events.exp.SetExpEvent
+import com.github.cpjinan.plugin.playerlevel.internal.events.level.SetLevelEvent
+import com.github.cpjinan.plugin.playerlevel.internal.events.level.TickLevelEvent
 import com.github.cpjinan.plugin.playerlevel.internal.manager.ConfigManager
 import com.github.cpjinan.plugin.playerlevel.internal.manager.RegisterManager
 import org.bukkit.Bukkit
@@ -36,15 +36,11 @@ object LevelAPI {
      * @param [source] 来源
      */
     private fun setLevel(player: Player, level: Int, source: String = "DEFAULT") {
-        val syncSetLevelEvent = SyncSetLevelEvent(player, level, source)
-
-        Bukkit.getPluginManager().callEvent(syncSetLevelEvent)
-
-        if (syncSetLevelEvent.isCancelled) {
-            return
-        }
-
-        val level = syncSetLevelEvent.level
+        val setLevelEvent = SetLevelEvent(player, level, source)
+        setLevelEvent.call()
+        if (setLevelEvent.isCancelled) return
+        val level = setLevelEvent.level
+        val source = setLevelEvent.source
 
         val db = RegisterManager.getDatabase()
         val data = db.getPlayerByName(player.name)
@@ -70,15 +66,11 @@ object LevelAPI {
      * @param [source] 来源
      */
     private fun setExp(player: Player, exp: Int, source: String = "DEFAULT") {
-        val syncSetExpEvent = SyncSetExpEvent(player, exp, source)
-
-        Bukkit.getPluginManager().callEvent(syncSetExpEvent)
-
-        if (syncSetExpEvent.isCancelled) {
-            return
-        }
-
-        val exp = syncSetExpEvent.exp
+        val setExpEvent = SetExpEvent(player, exp, source)
+        setExpEvent.call()
+        if (setExpEvent.isCancelled) return
+        val exp = setExpEvent.exp
+        val source = setExpEvent.source
 
         val db = RegisterManager.getDatabase()
         val data = db.getPlayerByName(player.name)
@@ -94,17 +86,12 @@ object LevelAPI {
     private fun doLevelUp(player: Player, source: String = "DEFAULT") {
         val curLvl = getLevel(player)
 
-        val syncLevelUpEvent = SyncLevelUpEvent(
+        val levelUpEvent = LevelUpEvent(
             player, source
         )
-
-        Bukkit.getPluginManager().callEvent(syncLevelUpEvent)
-
-        if (syncLevelUpEvent.isCancelled) {
-            return
-        }
-
-        val source = syncLevelUpEvent.source
+        levelUpEvent.call()
+        if (levelUpEvent.isCancelled) return
+        val source = levelUpEvent.source
 
         if (curLvl < ConfigManager.getMaxLevel()) {
             val curExp = getExp(player)
@@ -132,15 +119,12 @@ object LevelAPI {
      * @param [source] 来源
      */
     private fun tickLevel(player: Player, source: String = "DEFAULT") {
-        val syncTickLevelEvent = SyncTickLevelEvent(
+        val tickLevelEvent = TickLevelEvent(
             player,source
         )
-
-        Bukkit.getPluginManager().callEvent(syncTickLevelEvent)
-
-        if (syncTickLevelEvent.isCancelled) {
-            return
-        }
+        tickLevelEvent.call()
+        if (tickLevelEvent.isCancelled) return
+        val source = tickLevelEvent.source
 
         var isLevelUp: Boolean
         do {
