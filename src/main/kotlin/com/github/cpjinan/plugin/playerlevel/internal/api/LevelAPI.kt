@@ -102,7 +102,7 @@ object LevelAPI {
                 setLevel(player, targetLvl)
                 player.sendLang("level-up-success")
 
-                if (source != "TICK_LEVEL") {
+                if (source != "API_TICK_LEVEL") {
                     tickLevel(player)
                 }
             } else {
@@ -137,7 +137,7 @@ object LevelAPI {
                 val reqExp = ConfigManager.getLevelExp(curLvl + 1)
 
                 if (curExp >= reqExp && ConfigManager.options.getBoolean("auto-level-up")) {
-                    doLevelUp(player, source = "TICK_LEVEL")
+                    doLevelUp(player, source = "API_TICK_LEVEL")
                     isLevelUp = true
                 }
 
