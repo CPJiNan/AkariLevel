@@ -87,7 +87,11 @@ object Debug {
                                     "playerlevel.debug.kether"
                                 )
                             ) {
-                                sender.sendMessage(" §3§l‹ ›§r §bResult: §f${content.replaceSpace().colored().evalKether(Bukkit.getPlayer(sender.name))}")
+                                sender.sendMessage(
+                                    " §3§l‹ ›§r §bResult: §f${
+                                        content.replaceSpace().colored().evalKether(Bukkit.getPlayer(sender.name))
+                                    }"
+                                )
                             } else sender.sendLang("no-permission")
                         }
                     }
@@ -96,20 +100,24 @@ object Debug {
             // 模板相关
             literal("template") {
                 // 等级模板
-                literal("levelConfig"){
+                literal("levelConfig") {
                     literal("addLevel").int("fromLvl").int("toLvl").dynamic("name").dynamic("expKether") {
                         execute<CommandSender> { sender, context, _ ->
                             if (sender.isOp || sender.hasPermission("playerlevel.admin") || sender.hasPermission("playerlevel.debug") || sender.hasPermission(
                                     "playerlevel.debug.template"
                                 )
                             ) {
-                                for (i in context["fromLvl"].toInt() until context["toLvl"].toInt() + 1){
+                                for (i in context["fromLvl"].toInt() until context["toLvl"].toInt() + 1) {
                                     // 等级名称替换
-                                    ConfigManager.level["${i}.name"] = context["name"].replaceSpace().replaceWithOrder(i).colored()
+                                    ConfigManager.level["${i}.name"] =
+                                        context["name"].replaceSpace().replaceWithOrder(i).colored()
                                     // 等级经验替换
-                                    ConfigManager.level["${i}.exp"] = context["expKether"].replaceSpace().replaceWithOrder(i).colored().evalKether(Bukkit.getPlayer(sender.name)).toString().toInt()
+                                    ConfigManager.level["${i}.exp"] =
+                                        context["expKether"].replaceSpace().replaceWithOrder(i).colored()
+                                            .evalKether(Bukkit.getPlayer(sender.name)).toString().toInt()
                                     // 等级动作添加
-                                    ConfigManager.level["${i}.action"] = ConfigManager.level.getStringList("${i}.action")
+                                    ConfigManager.level["${i}.action"] =
+                                        ConfigManager.level.getStringList("${i}.action")
                                 }
                                 // 等级配置保存
                                 ConfigManager.levelConfig.saveToFile(ConfigManager.levelConfig.file)
@@ -124,7 +132,7 @@ object Debug {
                                     "playerlevel.debug.template"
                                 )
                             ) {
-                                for (i in context["fromLvl"].toInt() until context["toLvl"].toInt() + 1){
+                                for (i in context["fromLvl"].toInt() until context["toLvl"].toInt() + 1) {
                                     // 等级动作添加
                                     val action = ConfigManager.level.getStringList("${i}.action").toMutableList()
                                     action.add(context["action"].replaceSpace().replaceWithOrder(i).colored())

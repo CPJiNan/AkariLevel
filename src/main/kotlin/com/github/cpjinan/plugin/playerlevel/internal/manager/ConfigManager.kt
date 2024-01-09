@@ -13,11 +13,13 @@ import taboolib.module.configuration.Configuration
 object ConfigManager {
     @Config("config.yml", autoReload = true)
     lateinit var config: Configuration
+
     @ConfigNode("options", "config.yml")
     lateinit var options: ConfigurationSection
 
     @Config("level.yml", autoReload = true)
     lateinit var levelConfig: Configuration
+
     @ConfigNode("level", "level.yml")
     lateinit var level: ConfigurationSection
 

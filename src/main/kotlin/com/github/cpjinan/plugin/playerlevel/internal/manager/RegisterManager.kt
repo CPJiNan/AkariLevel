@@ -112,9 +112,12 @@ object RegisterManager {
      */
     private fun registerMythicMobs() {
         if (Bukkit.getPluginManager().isPluginEnabled("MythicMobs")) {
-            when(Bukkit.getPluginManager().getPlugin("MythicMobs")?.description?.version?.get(0)){
-                '4' -> Bukkit.getPluginManager().getPlugin("PlayerLevel")?.let { Bukkit.getPluginManager().registerEvents(Mythic4Listener, it) }
-                '5' -> Bukkit.getPluginManager().getPlugin("PlayerLevel")?.let { Bukkit.getPluginManager().registerEvents(Mythic5Listener, it) }
+            when (Bukkit.getPluginManager().getPlugin("MythicMobs")?.description?.version?.get(0)) {
+                '4' -> Bukkit.getPluginManager().getPlugin("PlayerLevel")
+                    ?.let { Bukkit.getPluginManager().registerEvents(Mythic4Listener, it) }
+
+                '5' -> Bukkit.getPluginManager().getPlugin("PlayerLevel")
+                    ?.let { Bukkit.getPluginManager().registerEvents(Mythic5Listener, it) }
             }
         }
     }

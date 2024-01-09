@@ -35,6 +35,6 @@ object DebugManager {
      * 空格替换
      * @return [String]
      */
-    fun String.replaceSpace() : String = this.replace(ConfigManager.options.getString("space-replace")!!," ")
+    fun String.replaceSpace(): String = this.replace(ConfigManager.options.getString("space-replace")!!, " ")
 
 }

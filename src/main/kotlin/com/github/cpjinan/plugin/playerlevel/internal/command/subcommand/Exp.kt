@@ -24,7 +24,11 @@ object Exp {
                             "playerlevel.exp.add"
                         )
                     ) {
-                        LevelAPI.addPlayerExp(context.player("player").toBukkitPlayer(), context["amount"].toInt(), "EXP_ADD_COMMAND")
+                        LevelAPI.addPlayerExp(
+                            context.player("player").toBukkitPlayer(),
+                            context["amount"].toInt(),
+                            "EXP_ADD_COMMAND"
+                        )
                         sender.sendLang("add-exp", context["player"], context["amount"])
                     } else sender.sendLang("no-permission")
                 }
@@ -38,7 +42,11 @@ object Exp {
                             "playerlevel.exp.remove"
                         )
                     ) {
-                        LevelAPI.removePlayerExp(context.player("player").toBukkitPlayer(), context["amount"].toInt(), "EXP_REMOVE_COMMAND")
+                        LevelAPI.removePlayerExp(
+                            context.player("player").toBukkitPlayer(),
+                            context["amount"].toInt(),
+                            "EXP_REMOVE_COMMAND"
+                        )
                         sender.sendLang("remove-exp", context["player"], context["amount"])
                     } else sender.sendLang("no-permission")
                 }
@@ -52,7 +60,11 @@ object Exp {
                             "playerlevel.exp.set"
                         )
                     ) {
-                        LevelAPI.setPlayerExp(context.player("player").toBukkitPlayer(), context["amount"].toInt(), "EXP_SET_COMMAND")
+                        LevelAPI.setPlayerExp(
+                            context.player("player").toBukkitPlayer(),
+                            context["amount"].toInt(),
+                            "EXP_SET_COMMAND"
+                        )
                         sender.sendLang("set-exp", context["player"], context["amount"])
                     } else sender.sendLang("no-permission")
                 }

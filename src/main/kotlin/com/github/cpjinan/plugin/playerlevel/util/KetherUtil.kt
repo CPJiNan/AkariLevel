@@ -11,7 +11,6 @@ import java.util.concurrent.CompletableFuture
  * @author Lanscarlos
  * @since 2022-08-19 16:38
  */
-
 object KetherUtil {
     /**
      * 到 kether 脚本

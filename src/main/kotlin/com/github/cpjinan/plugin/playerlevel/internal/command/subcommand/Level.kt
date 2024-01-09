@@ -25,7 +25,11 @@ object Level {
                             "playerlevel.level.add"
                         )
                     ) {
-                        LevelAPI.addPlayerLevel(context.player("player").toBukkitPlayer(), context["amount"].toInt(), "LEVEL_ADD_COMMAND")
+                        LevelAPI.addPlayerLevel(
+                            context.player("player").toBukkitPlayer(),
+                            context["amount"].toInt(),
+                            "LEVEL_ADD_COMMAND"
+                        )
                         sender.sendLang("add-level", context["player"], context["amount"])
                     } else sender.sendLang("no-permission")
                 }
@@ -39,7 +43,11 @@ object Level {
                             "playerlevel.level.remove"
                         )
                     ) {
-                        LevelAPI.removePlayerLevel(context.player("player").toBukkitPlayer(), context["amount"].toInt(), "LEVEL_REMOVE_COMMAND")
+                        LevelAPI.removePlayerLevel(
+                            context.player("player").toBukkitPlayer(),
+                            context["amount"].toInt(),
+                            "LEVEL_REMOVE_COMMAND"
+                        )
                         sender.sendLang("remove-level", context["player"], context["amount"])
                     } else sender.sendLang("no-permission")
                 }

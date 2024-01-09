@@ -34,13 +34,14 @@ object KetherModule {
         }
         return result
     }
+
     /**
      * 运行Kether并返回结果
      * @param [player] 玩家
      * @return [Any?]
      */
     fun String.evalKether(player: Player? = null): Any? {
-        var result : Any? = null
+        var result: Any? = null
         try {
             val script = if (this.startsWith("def")) {
                 this
