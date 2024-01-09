@@ -1,12 +1,11 @@
 package com.github.cpjinan.plugin.playerlevel.internal.api
 
-import com.github.cpjinan.plugin.playerlevel.internal.events.level.LevelUpEvent
 import com.github.cpjinan.plugin.playerlevel.internal.events.exp.SetExpEvent
+import com.github.cpjinan.plugin.playerlevel.internal.events.level.LevelUpEvent
 import com.github.cpjinan.plugin.playerlevel.internal.events.level.SetLevelEvent
 import com.github.cpjinan.plugin.playerlevel.internal.events.level.TickLevelEvent
 import com.github.cpjinan.plugin.playerlevel.internal.manager.ConfigManager
 import com.github.cpjinan.plugin.playerlevel.internal.manager.RegisterManager
-import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import taboolib.common.platform.function.adaptPlayer
 import taboolib.module.kether.KetherShell
