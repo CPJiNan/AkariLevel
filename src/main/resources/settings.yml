@@ -1,0 +1,42 @@
+##################################
+#       AkariLevel  Config       #
+##################################
+
+###########
+# Options #
+###########
+
+# 全局设置
+Options:
+  # 配置文件版本
+  Config-Version: 1
+  # 检查版本更新
+  Check-Update: true
+  # 启用 bStats 统计
+  Send-Metrics: true
+  # 启用调试模式
+  Debug: false
+
+############
+# Database #
+############
+
+# 数据存储设置
+Database:
+  # 存储方式 (JSON, CBOR, SQL)
+  Method: JSON
+  JSON:
+    file: database.json
+  CBOR:
+    file: database.cbor
+  SQL:
+    host: localhost
+    port: 3306
+    user: root
+    password: password
+    database: minecraft
+    table: akarilevel
+
+###########
+#  Level  #
+###########

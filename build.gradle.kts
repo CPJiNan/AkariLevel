@@ -1,26 +1,26 @@
+import io.izzel.taboolib.gradle.BUKKIT_ALL
+import io.izzel.taboolib.gradle.DATABASE
+import io.izzel.taboolib.gradle.UI
+import io.izzel.taboolib.gradle.UNIVERSAL
+
 plugins {
     `java-library`
     `maven-publish`
-    id("io.izzel.taboolib") version "1.56"
+    id("io.izzel.taboolib") version "2.0.2"
     id("org.jetbrains.kotlin.jvm") version "1.9.22"
     id("org.jetbrains.kotlin.plugin.serialization") version "1.9.22"
+    id("org.jetbrains.dokka") version "1.9.10"
 }
 
 taboolib {
-    install("common")
-    install("common-5")
-    install("module-chat")
-    install("module-configuration")
-    install("module-database")
-    install("module-kether")
-    install("module-lang")
-    install("module-metrics")
-    install("platform-bukkit")
-    install("expansion-command-helper")
-
-    classifier = null
-    version = "6.0.12-61"
-
+    env {
+        install(
+            UNIVERSAL,
+            UI,
+            DATABASE,
+            BUKKIT_ALL
+        )
+    }
     description {
         contributors {
             name("CPJiNan")
@@ -28,14 +28,20 @@ taboolib {
             name("2000000")
         }
         dependencies {
+            name("AkariLib")
             name("PlaceholderAPI").optional(true)
             name("MythicMobs").optional(true)
+            name("AttributePlus").optional(true)
+            name("SX-Attribute").optional(true)
+            name("OriginAttribute").optional(true)
         }
     }
+    version { taboolib = "6.1.0" }
 }
 
 repositories {
     mavenCentral()
+    maven(url = "https://mvn.lumine.io/repository/maven-public/")
 }
 
 dependencies {
@@ -45,6 +51,8 @@ dependencies {
     compileOnly(kotlin("stdlib"))
     taboo("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
     taboo("org.jetbrains.kotlinx:kotlinx-serialization-cbor:1.6.0")
+    compileOnly("io.lumine.xikage:MythicMobs:4.11.0@jar")
+    compileOnly("io.lumine:Mythic-Dist:5.3.5@jar")
     compileOnly(fileTree("libs"))
 }
 
