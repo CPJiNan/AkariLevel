@@ -1,9 +1,12 @@
 package com.github.cpjinan.plugin.akarilevel.internal.manager
 
 import taboolib.common5.compileJS
+import taboolib.module.chat.colored
 
 object LevelManager {
-    fun getRequireExp(level: Int): Int {
+    fun getName(level: Int): String? = getLevelData(level)?.name?.replace("%level%", level.toString(), true)?.colored()
+
+    fun getExp(level: Int): Int {
         if (level >= ConfigManager.getMaxLevel()) return Int.MAX_VALUE
         return getLevelData(level)?.let { levelData ->
             levelData.exp
@@ -12,7 +15,11 @@ object LevelManager {
         } ?: Int.MAX_VALUE
     }
 
-    fun getLevelData(level: Int): LevelData? {
+    fun getCondition(level: Int): List<String>? = getLevelData(level)?.condition
+
+    fun getAction(level: Int): List<String>? = getLevelData(level)?.action
+
+    private fun getLevelData(level: Int): LevelData? {
         var levelData: LevelData? = null
         ConfigManager.getLevelData().forEach { (k, v) ->
             if (level >= k) levelData = v

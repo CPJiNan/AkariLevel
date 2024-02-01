@@ -37,12 +37,12 @@ object ConfigManager {
     fun getMaxLevel() = levelConfig.getInt("Max-Level")
     fun getLevelData(): TreeMap<Int, LevelData> {
         val map = TreeMap<Int, LevelData>()
-        levelConfig.getConfigurationSection("Settings")?.getKeys(true)?.reversed()?.forEach { key ->
+        levelConfig.getConfigurationSection("Settings")?.getKeys(false)?.forEach { key ->
             val level = key.toIntOrNull() ?: return@forEach
-            val name = levelConfig.getString("Settings.$key.Name") ?: return@forEach
-            val exp = levelConfig.getString("Settings.$key.Exp") ?: return@forEach
-            val condition = levelConfig.getStringList("Settings.$key.Condition")
-            val action = levelConfig.getStringList("Settings.$key.Action")
+            val name = levelConfig.getString("Settings.${key.toIntOrNull()}.Name") ?: return@forEach
+            val exp = levelConfig.getString("Settings.${key.toIntOrNull()}.Exp") ?: return@forEach
+            val condition = levelConfig.getStringList("Settings.${key.toIntOrNull()}.Condition")
+            val action = levelConfig.getStringList("Settings.${key.toIntOrNull()}.Action")
             map[level] = LevelData(name, exp, condition, action)
         }
         return map

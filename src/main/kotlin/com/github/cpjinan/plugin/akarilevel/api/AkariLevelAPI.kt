@@ -72,8 +72,8 @@ object AkariLevelAPI {
             val data = db.getPlayerByName(player.name)
             data.level = this.level
             db.updatePlayer(player.name, data)
-            ConfigManager.getLevelData()
-            LevelManager.getLevelData(this.level)?.action?.forEach { it.runKether() }
+            db.save()
+            LevelManager.getAction(this.level)?.forEach { it.runKether(player) }
         }
     }
 
@@ -83,6 +83,7 @@ object AkariLevelAPI {
             val data = db.getPlayerByName(player.name)
             data.exp = this.exp
             db.updatePlayer(player.name, data)
+            db.save()
         }
     }
 
@@ -92,9 +93,9 @@ object AkariLevelAPI {
             if (curLvl < ConfigManager.getMaxLevel()) {
                 val curExp = getExp(player)
                 val targetLvl = curLvl + 1
-                val reqExp = LevelManager.getRequireExp(targetLvl)
-                LevelManager.getLevelData(targetLvl)?.condition?.forEach {
-                    if (!it.evalKether().toString().toBoolean()) return
+                val reqExp = LevelManager.getExp(targetLvl)
+                LevelManager.getCondition(targetLvl)?.forEach {
+                    if (!it.evalKether(player).toString().toBoolean()) return
                 }
                 if (curExp >= reqExp) {
                     setExp(player, curExp - reqExp, "PLAYER_LEVELUP")
@@ -121,7 +122,7 @@ object AkariLevelAPI {
                 val maxLevel = ConfigManager.getMaxLevel()
                 if (curLvl < maxLevel) {
                     val curExp = getExp(player)
-                    val reqExp = LevelManager.getRequireExp(curLvl + 1)
+                    val reqExp = LevelManager.getExp(curLvl + 1)
 
                     if (curExp >= reqExp && ConfigManager.settings.getBoolean("Level.Auto-Levelup")) {
                         doLevelUp(player, source = "PLAYER_REFRESH_LEVEL")

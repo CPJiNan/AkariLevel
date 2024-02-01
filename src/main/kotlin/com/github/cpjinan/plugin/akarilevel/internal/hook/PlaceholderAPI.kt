@@ -21,13 +21,13 @@ object PlaceholderAPI : PlaceholderExpansion {
 
                     "exp" -> AkariLevelAPI.getPlayerExp(player)
 
-                    "levelname" -> LevelManager.getLevelData(curLvl)?.name
-                    "lastlevelname" -> LevelManager.getLevelData(prevLvl)?.name
-                    "nextlevelname" -> LevelManager.getLevelData(nextLvl)?.name
+                    "levelname" -> LevelManager.getName(curLvl)
+                    "lastlevelname" -> LevelManager.getName(prevLvl)
+                    "nextlevelname" -> LevelManager.getName(nextLvl)
 
-                    "levelexp" -> LevelManager.getLevelData(curLvl)?.exp
-                    "lastlevelexp" -> LevelManager.getLevelData(prevLvl)?.exp
-                    "nextlevelexp" -> LevelManager.getLevelData(nextLvl)?.exp
+                    "levelexp" -> LevelManager.getExp(curLvl)
+                    "lastlevelexp" -> LevelManager.getExp(prevLvl)
+                    "nextlevelexp" -> LevelManager.getExp(nextLvl)
                     else -> ""
                 }.toString()
             }
