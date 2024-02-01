@@ -1,5 +1,7 @@
 package com.github.cpjinan.plugin.akarilevel.utils
 
+import com.github.cpjinan.plugin.akarilevel.AkariLevel
+import com.github.cpjinan.plugin.akarilevel.utils.LoggerUtil.message
 import org.bukkit.plugin.Plugin
 import taboolib.module.chat.colored
 
@@ -9,6 +11,17 @@ import taboolib.module.chat.colored
  * @since 2024/01/15
  */
 object DebugUtil {
+    fun printLogo() {
+        message(
+            AkariLevel.instance,
+            "&b     _    _              _ _                   _  ".colored(),
+            "&b    / \\  | | ____ _ _ __(_) |    _____   _____| | ".colored(),
+            "&b   / _ \\ | |/ / _` | '__| | |   / _ \\ \\ / / _ \\ | ".colored(),
+            "&b  / ___ \\|   < (_| | |  | | |__|  __/\\ V /  __/ | ".colored(),
+            "&b /_/   \\_\\_|\\_\\__,_|_|  |_|_____\\___| \\_/ \\___|_| ".colored()
+        )
+    }
+
     /**
      * print debug args
      * @param [plugin] plugin instance

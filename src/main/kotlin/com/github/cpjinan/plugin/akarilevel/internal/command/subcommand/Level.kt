@@ -58,7 +58,7 @@ object Level {
     }
     val levelup = subCommand {
         createHelper()
-        execute<ProxyCommandSender> { sender: ProxyCommandSender, context: CommandContext<ProxyCommandSender>, _: String ->
+        execute<ProxyCommandSender> { _: ProxyCommandSender, context: CommandContext<ProxyCommandSender>, _: String ->
             AkariLevelAPI.playerLevelUP(context.player().toBukkitPlayer(), "COMMAND_LEVELUP")
         }
     }

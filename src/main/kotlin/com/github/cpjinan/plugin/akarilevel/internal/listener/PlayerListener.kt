@@ -15,6 +15,7 @@ object PlayerListener {
         AkariLevelAPI.refreshPlayerLevel(event.player, "VANILLA_EXP_CHANGE")
         event.amount = 0
     }
+
     @SubscribeEvent
     fun onPlayerJoin(event: PlayerJoinEvent) {
         AkariLevelAPI.refreshPlayerLevel(event.player, "LISTENER_PLAYER_JOIN")
