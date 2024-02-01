@@ -2,7 +2,7 @@ package com.github.cpjinan.plugin.akarilevel.api
 
 import com.github.cpjinan.plugin.akarilevel.api.event.exp.PlayerExpChangeEvent
 import com.github.cpjinan.plugin.akarilevel.api.event.level.PlayerLevelChangeEvent
-import com.github.cpjinan.plugin.akarilevel.api.event.level.PlayerLevelUpEvent
+import com.github.cpjinan.plugin.akarilevel.api.event.level.PlayerLevelupEvent
 import com.github.cpjinan.plugin.akarilevel.api.event.level.PlayerRefreshLevelEvent
 import com.github.cpjinan.plugin.akarilevel.internal.manager.ConfigManager
 import com.github.cpjinan.plugin.akarilevel.internal.manager.DatabaseManager
@@ -88,7 +88,7 @@ object AkariLevelAPI {
 
     private fun doLevelUp(player: Player, source: String) {
         val curLvl = getLevel(player)
-        callEvent(PlayerLevelUpEvent(player, source)) {
+        callEvent(PlayerLevelupEvent(player, source)) {
             if (curLvl < ConfigManager.getMaxLevel()) {
                 val curExp = getExp(player)
                 val targetLvl = curLvl + 1
@@ -97,14 +97,14 @@ object AkariLevelAPI {
                     if (!it.evalKether().toString().toBoolean()) return
                 }
                 if (curExp >= reqExp) {
-                    setExp(player, curExp - reqExp, "PLAYER_LEVEL_UP")
-                    setLevel(player, targetLvl, "PLAYER_LEVEL_UP")
-                    player.sendLang("Level-Up-Success")
+                    setExp(player, curExp - reqExp, "PLAYER_LEVELUP")
+                    setLevel(player, targetLvl, "PLAYER_LEVELUP")
+                    player.sendLang("Levelup-Success")
                     if (source != "PLAYER_REFRESH_LEVEL") {
-                        tickLevel(player, "PLAYER_LEVEL_UP")
+                        tickLevel(player, "PLAYER_LEVELUP")
                     }
                 } else {
-                    player.sendLang("Level-Up-Fail")
+                    player.sendLang("Levelup-Fail")
                 }
             } else {
                 player.sendLang("Max-Level")
@@ -123,7 +123,7 @@ object AkariLevelAPI {
                     val curExp = getExp(player)
                     val reqExp = LevelManager.getRequireExp(curLvl + 1)
 
-                    if (curExp >= reqExp && ConfigManager.settings.getBoolean("Level.Auto-Level-Up")) {
+                    if (curExp >= reqExp && ConfigManager.settings.getBoolean("Level.Auto-Levelup")) {
                         doLevelUp(player, source = "PLAYER_REFRESH_LEVEL")
                         isLevelUp = true
                     }

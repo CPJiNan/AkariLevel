@@ -44,7 +44,7 @@ Database:
 # 等级设置
 Level:
   # 满足要求自动升级
-  Auto-Level-Up: true
+  Auto-Levelup: true
   # 达到最大等级后不再获取经验
   Exp-Limit: true
   # 将原版经验条与 AkariLevel 同步
