@@ -11,7 +11,6 @@ import taboolib.platform.util.*
 object LoggerUtil {
     /**
      * send message
-     * @param [plugin] plugin instance
      * @param [message] message
      */
     fun message(vararg message: String) {
@@ -22,7 +21,6 @@ object LoggerUtil {
 
     /**
      * send info
-     * @param [plugin] plugin instance
      * @param [message] info
      */
     fun info(vararg message: String) {
@@ -33,7 +31,6 @@ object LoggerUtil {
 
     /**
      * send warn
-     * @param [plugin] plugin instance
      * @param [message] warn
      */
     fun warn(vararg message: String) {
@@ -44,7 +41,6 @@ object LoggerUtil {
 
     /**
      * send error
-     * @param [plugin] plugin instance
      * @param [message] error
      */
     fun error(vararg message: String) {
@@ -55,7 +51,6 @@ object LoggerUtil {
 
     /**
      * send info message
-     * @param [plugin] plugin instance
      * @param [message] info message
      */
     fun infoMessage(vararg message: String) {
@@ -66,7 +61,6 @@ object LoggerUtil {
 
     /**
      * send warn message
-     * @param [plugin] plugin instance
      * @param [message] warn message
      */
     fun warnMessage(vararg message: String) {
@@ -77,7 +71,6 @@ object LoggerUtil {
 
     /**
      * send error
-     * @param [plugin] plugin instance
      * @param [message] error message
      */
     fun errorMessage(vararg message: String) {

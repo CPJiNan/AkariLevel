@@ -65,7 +65,7 @@ object KetherUtil {
      * @param [namespace] namespace
      * @return [Script]
      */
-    fun String.toKetherScript(namespace: List<String> = emptyList()): Script {
+    fun String.toKetherScript(namespace: List<String> = listOf(BukkitPlugin.getInstance().name)): Script {
         return if (namespace.contains(BukkitPlugin.getInstance().name)) {
             this.parseKetherScript(namespace)
         } else {

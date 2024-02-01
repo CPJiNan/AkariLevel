@@ -22,7 +22,6 @@ object DebugUtil {
 
     /**
      * print debug args
-     * @param [plugin] plugin instance
      * @param [args] name and value of args
      */
     fun printArgs(vararg args: Pair<String, Any?>) {
@@ -43,7 +42,6 @@ object DebugUtil {
 
     /**
      * print debug info
-     * @param [plugin] plugin instance
      * @param [info] information
      */
     fun printInfo(vararg info: String) {

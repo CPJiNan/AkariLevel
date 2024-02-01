@@ -14,7 +14,6 @@ object MetricsUtil {
      * register bStats service
      * collect usage data for Bukkit plugin
      * @param [serviceId] service id
-     * @param [plugin] plugin instance
      */
     fun registerBukkitMetrics(serviceId: Int) {
         Metrics(
