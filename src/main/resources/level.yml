@@ -1,0 +1,23 @@
+# 服务器允许达到的最高等级
+Max-Level: 100
+Settings:
+  # 0 级等级设置
+  0:
+    Name: "§8Lv.§b0"
+    Exp: "0"
+    Condition: [ ]
+    Action: [ ]
+  # 1-100 级等级设置
+  100:
+    # 等级名称
+    # 其中 %level% 为对应等级变量
+    Name: "§8Lv.§b%level%"
+    # 升至该等级所需经验
+    Exp: "%level% * 5 + 100"
+    # 升至该等级所需条件 (StringList, Kether支持，需每行返回值为True)
+    Condition:
+      - "permission akarilevel.default"
+    # 升级后执行的动作 (StringList, Kether支持)
+    Action:
+      - title "§e§lLevel UP!"
+      - subtitle inline "{{ papi %playerlevel_lastlevelname% }} §7→ {{ papi %playerlevel_levelname% }}" by 10 20 10

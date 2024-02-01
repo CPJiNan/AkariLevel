@@ -1,7 +1,4 @@
-import io.izzel.taboolib.gradle.BUKKIT_ALL
-import io.izzel.taboolib.gradle.DATABASE
-import io.izzel.taboolib.gradle.UI
-import io.izzel.taboolib.gradle.UNIVERSAL
+import io.izzel.taboolib.gradle.*
 
 plugins {
     `java-library`
@@ -18,7 +15,8 @@ taboolib {
             UNIVERSAL,
             UI,
             DATABASE,
-            BUKKIT_ALL
+            BUKKIT_ALL,
+            EXPANSION_JAVASCRIPT
         )
     }
     description {
@@ -72,23 +70,23 @@ configure<JavaPluginConvention> {
     targetCompatibility = JavaVersion.VERSION_1_8
 }
 
-publishing {
-    repositories {
-        maven {
-            url = uri("https://repo.tabooproject.org/repository/releases")
-            credentials {
-                username = project.findProperty("taboolibUsername").toString()
-                password = project.findProperty("taboolibPassword").toString()
-            }
-            authentication {
-                create<BasicAuthentication>("basic")
-            }
-        }
-    }
-    publications {
-        create<MavenPublication>("library") {
-            from(components["java"])
-            groupId = project.group.toString()
-        }
-    }
-}
+//publishing {
+//    repositories {
+//        maven {
+//            url = uri("https://repo.tabooproject.org/repository/releases")
+//            credentials {
+//                username = project.findProperty("taboolibUsername").toString()
+//                password = project.findProperty("taboolibPassword").toString()
+//            }
+//            authentication {
+//                create<BasicAuthentication>("basic")
+//            }
+//        }
+//    }
+//    publications {
+//        create<MavenPublication>("library") {
+//            from(components["java"])
+//            groupId = project.group.toString()
+//        }
+//    }
+//}

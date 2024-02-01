@@ -1,6 +1,6 @@
 package com.github.cpjinan.plugin.akarilevel.internal.database
 
-import com.github.cpjinan.plugin.akarilevel.internal.database.types.Player
+import com.github.cpjinan.plugin.akarilevel.internal.database.type.PlayerData
 import com.github.cpjinan.plugin.akarilevel.internal.manager.ConfigManager
 import taboolib.module.database.ColumnOptionSQL
 import taboolib.module.database.ColumnTypeSQL
@@ -25,18 +25,18 @@ class DbSql : Database {
 
     private val dataSource = host.createDataSource()
 
-    override fun getPlayerByName(name: String): Player {
+    override fun getPlayerByName(name: String): PlayerData {
         return table.select(dataSource) {
             where { "player" eq name }
         }.firstOrNull {
-            Player(
+            PlayerData(
                 this.getInt("level"),
                 this.getInt("exp")
             )
-        } ?: Player()
+        } ?: PlayerData()
     }
 
-    override fun updatePlayer(name: String, value: Player) {
+    override fun updatePlayer(name: String, value: PlayerData) {
         if (!table.find(dataSource) { where { "player" eq name } }) {
             table.insert(
                 dataSource,

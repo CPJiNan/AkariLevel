@@ -1,6 +1,6 @@
 package com.github.cpjinan.plugin.akarilevel.internal.database
 
-import com.github.cpjinan.plugin.akarilevel.internal.database.types.Player
+import com.github.cpjinan.plugin.akarilevel.internal.database.type.PlayerData
 import com.github.cpjinan.plugin.akarilevel.internal.manager.ConfigManager
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
@@ -9,7 +9,7 @@ import java.io.File
 
 class DbJson() : Database {
     private val file: File
-    private val playerData: HashMap<String, Player>
+    private val playerData: HashMap<String, PlayerData>
 
     init {
         val parent = Bukkit.getPluginManager().getPlugin("AkariLevel")?.dataFolder ?: File(".")
@@ -26,9 +26,9 @@ class DbJson() : Database {
         }
     }
 
-    override fun getPlayerByName(name: String): Player = playerData[name] ?: Player()
+    override fun getPlayerByName(name: String): PlayerData = playerData[name] ?: PlayerData()
 
-    override fun updatePlayer(name: String, value: Player) {
+    override fun updatePlayer(name: String, value: PlayerData) {
         playerData[name] = value
     }
 

@@ -1,6 +1,6 @@
 package com.github.cpjinan.plugin.akarilevel.internal.database
 
-import com.github.cpjinan.plugin.akarilevel.internal.database.types.Player
+import com.github.cpjinan.plugin.akarilevel.internal.database.type.PlayerData
 import com.github.cpjinan.plugin.akarilevel.internal.manager.ConfigManager
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.cbor.Cbor
@@ -12,7 +12,7 @@ import java.io.File
 @OptIn(ExperimentalSerializationApi::class)
 class DbCbor() : Database {
     private val file: File
-    private val playerData: HashMap<String, Player>
+    private val playerData: HashMap<String, PlayerData>
 
     init {
         val parent = Bukkit.getPluginManager().getPlugin("AkariLevel")?.dataFolder ?: File(".")
@@ -29,9 +29,9 @@ class DbCbor() : Database {
         }
     }
 
-    override fun getPlayerByName(name: String): Player = playerData[name] ?: Player()
+    override fun getPlayerByName(name: String): PlayerData = playerData[name] ?: PlayerData()
 
-    override fun updatePlayer(name: String, value: Player) {
+    override fun updatePlayer(name: String, value: PlayerData) {
         playerData[name] = value
     }
 
