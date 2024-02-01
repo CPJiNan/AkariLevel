@@ -21,7 +21,7 @@ object UpdateManager {
                 URL("https://cpjinan.github.io/Pages/AkariLevel/notice.html").openConnection() as HttpURLConnection
             try {
                 val message = urlConnection.inputStream.bufferedReader().readText()
-                if (message.isNotBlank()) message(AkariLevel.instance, message.colored())
+                if (message.isNotBlank()) message(message.colored())
             } catch (_: java.net.ConnectException) {
             } finally {
                 urlConnection.disconnect()
@@ -39,7 +39,6 @@ object UpdateManager {
                     val currentVersion = BukkitPlugin.getInstance().description.version.toSemanticVersion()!!
                     if (latestVersion > currentVersion) {
                         message(
-                            AkariLevel.instance,
                             "&r===============[&e&lUpdate&r]==============".colored(),
                             "&r| &rPlugin &6AkariLevel &7=>".colored(),
                             "&r| &b◈ &r发现了一个新的插件版本！".colored(),
