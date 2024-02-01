@@ -9,7 +9,6 @@ import com.github.cpjinan.plugin.akarilevel.internal.manager.ConfigManager
 import com.github.cpjinan.plugin.akarilevel.internal.manager.DatabaseManager
 import com.github.cpjinan.plugin.akarilevel.internal.manager.LevelManager
 import com.github.cpjinan.plugin.akarilevel.utils.KetherUtil.evalKether
-import com.github.cpjinan.plugin.akarilevel.utils.KetherUtil.runKether
 import org.bukkit.entity.Player
 import taboolib.common.platform.function.adaptPlayer
 import taboolib.module.kether.KetherShell
@@ -79,7 +78,8 @@ object AkariLevelAPI {
             db.save()
             KetherShell.eval(
                 LevelManager.getAction(this.level)!!,
-                ScriptOptions.builder().namespace(listOf(AkariLevel.instance.name)).sender(sender = adaptPlayer(player)).build()
+                ScriptOptions.builder().namespace(listOf(AkariLevel.instance.name)).sender(sender = adaptPlayer(player))
+                    .build()
             )
         }
     }
