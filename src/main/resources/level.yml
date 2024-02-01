@@ -8,7 +8,7 @@ Settings:
     Condition: [ ]
     Action: [ ]
   # 1-100 级等级设置
-  100:
+  1:
     # 等级名称
     # 其中 %level% 为对应等级变量
     Name: "§8Lv.§b%level%"

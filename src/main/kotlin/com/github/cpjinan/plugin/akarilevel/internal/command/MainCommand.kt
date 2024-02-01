@@ -3,11 +3,10 @@ package com.github.cpjinan.plugin.akarilevel.internal.command
 import com.github.cpjinan.plugin.akarilevel.internal.command.subcommand.Exp
 import com.github.cpjinan.plugin.akarilevel.internal.command.subcommand.Level
 import com.github.cpjinan.plugin.akarilevel.internal.manager.ConfigManager
-import taboolib.common.platform.command.CommandBody
-import taboolib.common.platform.command.CommandHeader
-import taboolib.common.platform.command.mainCommand
-import taboolib.common.platform.command.subCommand
+import taboolib.common.platform.ProxyCommandSender
+import taboolib.common.platform.command.*
 import taboolib.expansion.createHelper
+import taboolib.module.lang.sendLang
 
 @CommandHeader(name = "AkariLevel", aliases = ["playerlevel"])
 object MainCommand {
@@ -28,8 +27,11 @@ object MainCommand {
 
     @CommandBody(permission = "akarilevel.admin")
     val reload = subCommand {
-        ConfigManager.settings.reload()
-        ConfigManager.levelConfig.reload()
+        execute { sender: ProxyCommandSender, _: CommandContext<ProxyCommandSender>, _: String ->
+            ConfigManager.settings.reload()
+            ConfigManager.levelConfig.reload()
+            sender.sendLang("Reload")
+        }
     }
 
 }

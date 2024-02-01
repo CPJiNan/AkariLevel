@@ -7,9 +7,11 @@ import com.github.cpjinan.plugin.akarilevel.api.event.level.PlayerRefreshLevelEv
 import com.github.cpjinan.plugin.akarilevel.internal.manager.ConfigManager
 import com.github.cpjinan.plugin.akarilevel.internal.manager.DatabaseManager
 import com.github.cpjinan.plugin.akarilevel.internal.manager.LevelManager
+import com.github.cpjinan.plugin.akarilevel.utils.DebugUtil
 import com.github.cpjinan.plugin.akarilevel.utils.KetherUtil.evalKether
 import com.github.cpjinan.plugin.akarilevel.utils.KetherUtil.runKether
 import org.bukkit.entity.Player
+import taboolib.platform.BukkitPlugin
 import taboolib.platform.type.BukkitProxyEvent
 import taboolib.platform.util.sendLang
 
