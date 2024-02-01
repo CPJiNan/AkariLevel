@@ -5,9 +5,8 @@ import com.github.cpjinan.plugin.akarilevel.internal.manager.ConfigManager
 import com.github.cpjinan.plugin.akarilevel.internal.manager.DatabaseManager
 import com.github.cpjinan.plugin.akarilevel.internal.manager.UpdateManager
 import com.github.cpjinan.plugin.akarilevel.utils.DebugUtil
-import taboolib.common.platform.Platform
+import com.github.cpjinan.plugin.akarilevel.utils.MetricsUtil
 import taboolib.common.platform.Plugin
-import taboolib.module.metrics.Metrics
 import taboolib.platform.BukkitPlugin
 
 object AkariLevel : Plugin() {
@@ -18,7 +17,7 @@ object AkariLevel : Plugin() {
         DebugUtil.printLogo()
         DatabaseManager.getDatabase().save()
         MythicMobs.registerMythicMobsListener()
-        if (ConfigManager.isEnabledSendMetrics()) Metrics(18992, instance.description.version, Platform.BUKKIT)
+        if (ConfigManager.isEnabledSendMetrics()) MetricsUtil.registerBukkitMetrics(18992)
         UpdateManager.checkUpdate()
     }
 

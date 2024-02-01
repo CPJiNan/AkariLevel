@@ -1,9 +1,8 @@
 package com.github.cpjinan.plugin.akarilevel.utils
 
-import com.github.cpjinan.plugin.akarilevel.AkariLevel
 import com.github.cpjinan.plugin.akarilevel.utils.LoggerUtil.message
-import org.bukkit.plugin.Plugin
 import taboolib.module.chat.colored
+import taboolib.platform.BukkitPlugin
 
 /**
  * debug util
@@ -13,7 +12,6 @@ import taboolib.module.chat.colored
 object DebugUtil {
     fun printLogo() {
         message(
-            AkariLevel.instance,
             "&b     _    _              _ _                   _  ".colored(),
             "&b    / \\  | | ____ _ _ __(_) |    _____   _____| | ".colored(),
             "&b   / _ \\ | |/ / _` | '__| | |   / _ \\ \\ / / _ \\ | ".colored(),
@@ -27,20 +25,17 @@ object DebugUtil {
      * @param [plugin] plugin instance
      * @param [args] name and value of args
      */
-    fun printArgs(plugin: Plugin, vararg args: Pair<String, Any?>) {
+    fun printArgs(vararg args: Pair<String, Any?>) {
         LoggerUtil.message(
-            plugin,
             "&r===============[&c&lDebug&r]==============".colored(),
-            "&r| &rPlugin &6${plugin.name} &7=>".colored(),
+            "&r| &rPlugin &6${BukkitPlugin.getInstance().name} &7=>".colored(),
         )
         for ((name, value) in args) {
             LoggerUtil.message(
-                plugin,
                 "&r| &b◈ &r$name &7= &r$value".colored(),
             )
         }
         LoggerUtil.message(
-            plugin,
             "&r| &a✓ &rPrint ${args.size} &rargs in total.".colored(),
             "&r===============[&c&lDebug&8]==============".colored()
         )
@@ -51,20 +46,17 @@ object DebugUtil {
      * @param [plugin] plugin instance
      * @param [info] information
      */
-    fun printInfo(plugin: Plugin, vararg info: String) {
+    fun printInfo(vararg info: String) {
         LoggerUtil.message(
-            plugin,
             "&r===============[&c&lDebug&r]==============".colored(),
-            "&r| &rPlugin &6${plugin.name} &7=>".colored(),
+            "&r| &rPlugin &6${BukkitPlugin.getInstance().name} &7=>".colored(),
         )
         for (i in info) {
             LoggerUtil.message(
-                plugin,
                 "&r| &b◈ &r$i".colored(),
             )
         }
         LoggerUtil.message(
-            plugin,
             "&r| &a✓ &rPrint ${info.size} &rlines of information in total.".colored(),
             "&r===============[&c&lDebug&8]==============".colored()
         )

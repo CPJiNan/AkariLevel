@@ -47,6 +47,18 @@ Database:
 #  Level  #
 ###########
 
+# Redis 设置
+Redis:
+  enable: false
+  host: localhost
+  port: 6379
+  user: ""
+  password: ""
+
+###########
+#  Level  #
+###########
+
 # 等级设置
 Level:
   # 满足要求自动升级

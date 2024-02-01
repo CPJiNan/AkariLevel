@@ -1,8 +1,8 @@
 package com.github.cpjinan.plugin.akarilevel.utils
 
-import org.bukkit.plugin.Plugin
 import taboolib.common.platform.Platform
 import taboolib.module.metrics.Metrics
+import taboolib.platform.BukkitPlugin
 
 /**
  * bStats util
@@ -16,10 +16,10 @@ object MetricsUtil {
      * @param [serviceId] service id
      * @param [plugin] plugin instance
      */
-    fun registerBukkitMetrics(serviceId: Int, plugin: Plugin) {
+    fun registerBukkitMetrics(serviceId: Int) {
         Metrics(
             serviceId,
-            plugin.description.version,
+            BukkitPlugin.getInstance().description.version,
             Platform.BUKKIT
         )
     }

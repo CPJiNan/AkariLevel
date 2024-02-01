@@ -17,6 +17,7 @@ taboolib {
             KETHER,
             METRICS,
             DATABASE,
+            EXPANSION_REDIS,
             EXPANSION_JAVASCRIPT,
             BUKKIT_ALL
         )

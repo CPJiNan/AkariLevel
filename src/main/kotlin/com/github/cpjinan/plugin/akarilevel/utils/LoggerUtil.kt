@@ -1,6 +1,6 @@
 package com.github.cpjinan.plugin.akarilevel.utils
 
-import org.bukkit.plugin.Plugin
+import taboolib.platform.BukkitPlugin
 import taboolib.platform.util.*
 
 /**
@@ -14,9 +14,9 @@ object LoggerUtil {
      * @param [plugin] plugin instance
      * @param [message] message
      */
-    fun message(plugin: Plugin, vararg message: String) {
+    fun message(vararg message: String) {
         for (i in message) {
-            plugin.server.consoleSender.sendMessage(i)
+            BukkitPlugin.getInstance().server.consoleSender.sendMessage(i)
         }
     }
 
@@ -25,9 +25,9 @@ object LoggerUtil {
      * @param [plugin] plugin instance
      * @param [message] info
      */
-    fun info(plugin: Plugin, vararg message: String) {
+    fun info(vararg message: String) {
         for (i in message) {
-            plugin.server.consoleSender.sendInfo(i)
+            BukkitPlugin.getInstance().server.consoleSender.sendInfo(i)
         }
     }
 
@@ -36,9 +36,9 @@ object LoggerUtil {
      * @param [plugin] plugin instance
      * @param [message] warn
      */
-    fun warn(plugin: Plugin, vararg message: String) {
+    fun warn(vararg message: String) {
         for (i in message) {
-            plugin.server.consoleSender.sendWarn(i)
+            BukkitPlugin.getInstance().server.consoleSender.sendWarn(i)
         }
     }
 
@@ -47,9 +47,9 @@ object LoggerUtil {
      * @param [plugin] plugin instance
      * @param [message] error
      */
-    fun error(plugin: Plugin, vararg message: String) {
+    fun error(vararg message: String) {
         for (i in message) {
-            plugin.server.consoleSender.sendError(i)
+            BukkitPlugin.getInstance().server.consoleSender.sendError(i)
         }
     }
 
@@ -58,9 +58,9 @@ object LoggerUtil {
      * @param [plugin] plugin instance
      * @param [message] info message
      */
-    fun infoMessage(plugin: Plugin, vararg message: String) {
+    fun infoMessage(vararg message: String) {
         for (i in message) {
-            plugin.server.consoleSender.sendInfoMessage(i)
+            BukkitPlugin.getInstance().server.consoleSender.sendInfoMessage(i)
         }
     }
 
@@ -69,9 +69,9 @@ object LoggerUtil {
      * @param [plugin] plugin instance
      * @param [message] warn message
      */
-    fun warnMessage(plugin: Plugin, vararg message: String) {
+    fun warnMessage(vararg message: String) {
         for (i in message) {
-            plugin.server.consoleSender.sendWarnMessage(i)
+            BukkitPlugin.getInstance().server.consoleSender.sendWarnMessage(i)
         }
     }
 
@@ -80,9 +80,9 @@ object LoggerUtil {
      * @param [plugin] plugin instance
      * @param [message] error message
      */
-    fun errorMessage(plugin: Plugin, vararg message: String) {
+    fun errorMessage(vararg message: String) {
         for (i in message) {
-            plugin.server.consoleSender.sendErrorMessage(i)
+            BukkitPlugin.getInstance().server.consoleSender.sendErrorMessage(i)
         }
     }
 }
