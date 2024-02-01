@@ -18,7 +18,7 @@ object UpdateManager {
     private fun getPluginNotice() {
         Thread {
             val urlConnection =
-                URL("https://cpjinan.github.io/Pages/PlayerLevel/notice.html").openConnection() as HttpURLConnection
+                URL("https://cpjinan.github.io/Pages/AkariLevel/notice.html").openConnection() as HttpURLConnection
             try {
                 val message = urlConnection.inputStream.bufferedReader().readText()
                 if (message.isNotBlank()) message(AkariLevel.instance, message.colored())
@@ -33,7 +33,7 @@ object UpdateManager {
         if (ConfigManager.isEnabledCheckUpdate()) {
             Thread {
                 val urlConnection =
-                    URL("https://cpjinan.github.io/Pages/PlayerLevel/version.html").openConnection() as HttpURLConnection
+                    URL("https://cpjinan.github.io/Pages/AkariLevel/version.html").openConnection() as HttpURLConnection
                 try {
                     val latestVersion = urlConnection.inputStream.bufferedReader().readText().toSemanticVersion()!!
                     val currentVersion = BukkitPlugin.getInstance().description.version.toSemanticVersion()!!
