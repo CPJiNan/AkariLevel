@@ -37,6 +37,9 @@ taboolib {
         }
     }
     version { taboolib = "6.1.0" }
+    relocate("kotlin", "com.github.cpjinan.plugin.akarilevel.library.kotlin")
+    relocate("kotlin1922", "com.github.cpjinan.plugin.akarilevel.library.kotlin1922")
+    relocate("kotlinx", "com.github.cpjinan.plugin.akarilevel.library.kotlinx")
 }
 
 repositories {
