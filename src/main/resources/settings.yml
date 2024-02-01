@@ -40,3 +40,48 @@ Database:
 ###########
 #  Level  #
 ###########
+
+# 等级设置
+Level:
+  # 满足要求自动升级
+  Auto-Level-Up: true
+  # 达到最大等级后不再获取经验
+  Exp-Limit: true
+  # 将原版经验条与 AkariLevel 同步
+  Vanilla-Exp-Bar: true
+  # 原版经验转换为 AkariExp 的倍率 (类型为Double)
+  # AkariExp 改变量 = 四舍五入至整数 ( 原版经验改变量 * Exp-Rate )
+  Vanilla-Exp-Rate: 0.0
+
+##########
+#  Hook  #
+##########
+
+# 挂钩设置
+Hook:
+  # MythicMobs 掉落拓展
+  MythicMobs:
+    # 是否启用
+    Enable: true
+    # 经验掉落名称
+    # 继承自 2.X 的掉落物名称 PlayerExp
+    # Drop-Name: "PlayerExp"
+    Drop-Name: "AkariExp"
+  # 属性插件经验加成拓展
+  # 继承自 2.X 附属 AttributeLevel
+  Attribute:
+    # 是否启用
+    Enable: true
+    # 属性插件 (AttributePlus, SX-Attribute)
+    Plugin: "AttributePlus"
+    # 属性名称
+    # 注意：SX-Attribute的属性名称是其英文名而非DiscernName (即默认应填写"ExpAddition"而非"经验增幅")
+    Name: "经验加成"
+    # 经验计算公式
+    # 预设:
+    # %exp% -> 获得的经验值数量
+    # %attribute% -> 额外加成经验数量
+    Formula: "%exp% * ( 1 + %attribute% / 100 )"
+    # 所监听的 PlayerExpChange 来源
+    Source:
+      - "MYTHICMOBS_EXP_DROP"

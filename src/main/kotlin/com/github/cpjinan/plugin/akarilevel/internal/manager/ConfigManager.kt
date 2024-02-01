@@ -20,6 +20,15 @@ object ConfigManager {
     fun getCborSection() = settings.getConfigurationSection("Database.CBOR")!!
     fun getSqlSection() = settings.getConfigurationSection("Database.SQL")!!
 
+    // Hook
+    fun isEnabledMythicMobs() = settings.getBoolean("Hook.MythicMobs.Enabled")
+    fun isEnabledAttribute() = settings.getBoolean("Hook.Attribute.Enabled")
+    fun getMythicMobsExpDropName() = settings.getString("Hook.MythicMobs.Drop-Name")!!
+    fun getAttributePlugin() = settings.getString("Hook.Attribute.Plugin")!!
+    fun getAttributeName() = settings.getString("Hook.Attribute.Name")!!
+    fun getAttributeFormula() = settings.getString("Hook.Attribute.Formula")!!
+    fun getAttributeSource() = settings.getStringList("Hook.Attribute.Source")
+
     @Config("level.yml", autoReload = false)
     lateinit var levelConfig: ConfigFile
 

@@ -8,4 +8,8 @@ Remove-Level: "&7已移除玩家 &f{0} {1} &7个等级！"
 Set-Level: "&7已设置玩家 &f{0} &7的等级为 &f{1} &7！"
 Check-Level: "&7玩家 &f{0} &7的等级为 &f{1} &7！"
 
+Level-Up-Success: "&a升级成功！"
+Level-Up-Fail: "&c未满足升级所需条件！"
+Max-Level: "&c已达到最大等级！"
+
 No-Permission: "&c无进行当前操作的权限！"

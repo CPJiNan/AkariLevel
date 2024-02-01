@@ -3,6 +3,7 @@ package com.github.cpjinan.plugin.akarilevel.utils
 import org.bukkit.entity.Player
 import taboolib.common.platform.function.adaptCommandSender
 import taboolib.module.kether.*
+import taboolib.platform.BukkitPlugin
 import java.util.concurrent.CompletableFuture
 
 /**
@@ -65,7 +66,11 @@ object KetherUtil {
      * @return [Script]
      */
     fun String.toKetherScript(namespace: List<String> = emptyList()): Script {
-        return this.parseKetherScript(namespace)
+        return if (namespace.contains(BukkitPlugin.getInstance().name)) {
+            this.parseKetherScript(namespace)
+        } else {
+            this.parseKetherScript(namespace.plus(BukkitPlugin.getInstance().name))
+        }
     }
 
     /**

@@ -2,15 +2,60 @@ package com.github.cpjinan.plugin.akarilevel.api
 
 import com.github.cpjinan.plugin.akarilevel.api.event.exp.PlayerExpChangeEvent
 import com.github.cpjinan.plugin.akarilevel.api.event.level.PlayerLevelChangeEvent
+import com.github.cpjinan.plugin.akarilevel.api.event.level.PlayerLevelUpEvent
+import com.github.cpjinan.plugin.akarilevel.api.event.level.PlayerRefreshLevelEvent
+import com.github.cpjinan.plugin.akarilevel.internal.manager.ConfigManager
 import com.github.cpjinan.plugin.akarilevel.internal.manager.DatabaseManager
+import com.github.cpjinan.plugin.akarilevel.internal.manager.LevelManager
+import com.github.cpjinan.plugin.akarilevel.utils.KetherUtil.evalKether
+import com.github.cpjinan.plugin.akarilevel.utils.KetherUtil.runKether
 import org.bukkit.entity.Player
 import taboolib.platform.type.BukkitProxyEvent
+import taboolib.platform.util.sendLang
 
 object AkariLevelAPI {
     // region function
     fun getPlayerLevel(player: Player): Int = getLevel(player)
 
     fun getPlayerExp(player: Player): Int = getExp(player)
+
+    fun setPlayerLevel(player: Player, amount: Int, source: String) {
+        setLevel(player, amount, source)
+        tickLevel(player, source)
+    }
+
+    fun addPlayerLevel(player: Player, amount: Int, source: String) {
+        setLevel(player, getLevel(player) + amount, source)
+        tickLevel(player, source)
+    }
+
+    fun removePlayerLevel(player: Player, amount: Int, source: String) {
+        setLevel(player, (getLevel(player) - amount).coerceAtLeast(0), source)
+        tickLevel(player, source)
+    }
+
+    fun setPlayerExp(player: Player, amount: Int, source: String) {
+        setExp(player, amount, source)
+        tickLevel(player, source)
+    }
+
+    fun addPlayerExp(player: Player, amount: Int, source: String) {
+        setExp(player, getExp(player) + amount, source)
+        tickLevel(player, source)
+    }
+
+    fun removePlayerExp(player: Player, amount: Int, source: String) {
+        setExp(player, (getExp(player) - amount).coerceAtLeast(0), source)
+        tickLevel(player, source)
+    }
+
+    fun refreshPlayerLevel(player: Player, source: String) {
+        tickLevel(player, source)
+    }
+
+    fun playerLevelUP(player: Player, source: String) {
+        doLevelUp(player, source)
+    }
 
     // region basic function
     private fun getLevel(player: Player): Int {
@@ -27,6 +72,8 @@ object AkariLevelAPI {
             val data = db.getPlayerByName(player.name)
             data.level = this.level
             db.updatePlayer(player.name, data)
+            ConfigManager.getLevelData()
+            LevelManager.getLevelData(this.level)?.action?.forEach { it.runKether() }
         }
     }
 
@@ -36,6 +83,63 @@ object AkariLevelAPI {
             val data = db.getPlayerByName(player.name)
             data.exp = this.exp
             db.updatePlayer(player.name, data)
+        }
+    }
+
+    private fun doLevelUp(player: Player, source: String) {
+        val curLvl = getLevel(player)
+        callEvent(PlayerLevelUpEvent(player, source)) {
+            if (curLvl < ConfigManager.getMaxLevel()) {
+                val curExp = getExp(player)
+                val targetLvl = curLvl + 1
+                val reqExp = LevelManager.getRequireExp(targetLvl)
+                LevelManager.getLevelData(targetLvl)?.condition?.forEach {
+                    if (!it.evalKether().toString().toBoolean()) return
+                }
+                if (curExp >= reqExp) {
+                    setExp(player, curExp - reqExp, "PLAYER_LEVEL_UP")
+                    setLevel(player, targetLvl, "PLAYER_LEVEL_UP")
+                    player.sendLang("Level-Up-Success")
+                    if (source != "PLAYER_REFRESH_LEVEL") {
+                        tickLevel(player, "PLAYER_LEVEL_UP")
+                    }
+                } else {
+                    player.sendLang("Level-Up-Fail")
+                }
+            } else {
+                player.sendLang("Max-Level")
+            }
+        }
+    }
+
+    private fun tickLevel(player: Player, source: String) {
+        callEvent(PlayerRefreshLevelEvent(player, source)) {
+            var isLevelUp: Boolean
+            do {
+                isLevelUp = false
+                val curLvl = getLevel(player)
+                val maxLevel = ConfigManager.getMaxLevel()
+                if (curLvl < maxLevel) {
+                    val curExp = getExp(player)
+                    val reqExp = LevelManager.getRequireExp(curLvl + 1)
+
+                    if (curExp >= reqExp && ConfigManager.settings.getBoolean("Level.Auto-Level-Up")) {
+                        doLevelUp(player, source = "PLAYER_REFRESH_LEVEL")
+                        isLevelUp = true
+                    }
+
+                    if (ConfigManager.settings.getBoolean("Level.Vanilla-Exp-Bar")) {
+                        player.level = curLvl
+                        player.exp = (curExp.toFloat() / reqExp.toFloat()).coerceAtMost(1f)
+                    }
+                } else {
+                    if (ConfigManager.settings.getBoolean("Level.Vanilla-Exp-Bar")) {
+                        player.level = maxLevel
+                        player.exp = 1f
+                    }
+                    if (ConfigManager.settings.getBoolean("Level.Exp-Limit")) setExp(player, 0, "PLAYER_REFRESH_LEVEL")
+                }
+            } while (isLevelUp)
         }
     }
 
