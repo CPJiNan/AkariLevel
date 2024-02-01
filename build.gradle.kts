@@ -14,9 +14,11 @@ taboolib {
         install(
             UNIVERSAL,
             UI,
+            KETHER,
+            METRICS,
             DATABASE,
-            BUKKIT_ALL,
-            EXPANSION_JAVASCRIPT
+            EXPANSION_JAVASCRIPT,
+            BUKKIT_ALL
         )
     }
     description {
@@ -24,9 +26,9 @@ taboolib {
             name("CPJiNan")
             name("Golden_Water")
             name("2000000")
+            name("Xiaokun")
         }
         dependencies {
-            name("AkariLib")
             name("PlaceholderAPI").optional(true)
             name("MythicMobs").optional(true)
             name("AttributePlus").optional(true)

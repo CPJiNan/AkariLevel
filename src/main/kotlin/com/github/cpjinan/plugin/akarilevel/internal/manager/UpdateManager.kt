@@ -1,8 +1,8 @@
 package com.github.cpjinan.plugin.akarilevel.internal.manager
 
 import com.github.cpjinan.plugin.akarilevel.AkariLevel
-import com.github.cpjinan.plugin.akarilib.utils.LoggerUtil.message
-import com.github.cpjinan.plugin.akarilib.utils.VersionUtil.toSemanticVersion
+import com.github.cpjinan.plugin.akarilevel.utils.LoggerUtil.message
+import com.github.cpjinan.plugin.akarilevel.utils.VersionUtil.toSemanticVersion
 import taboolib.module.chat.colored
 import taboolib.platform.BukkitPlugin
 import java.net.HttpURLConnection
