@@ -100,7 +100,7 @@ object KetherUtil {
     fun eval(
         script: String,
         sender: Any? = null,
-        namespace: List<String> = emptyList(),
+        namespace: List<String> = listOf(BukkitPlugin.getInstance().name),
         args: Map<String, Any?>? = null,
         throws: Boolean = false
     ): CompletableFuture<Any?> {
