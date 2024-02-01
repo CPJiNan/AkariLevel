@@ -7,6 +7,6 @@ import taboolib.common.platform.event.SubscribeEvent
 object AkariLevelListener {
     @SubscribeEvent
     fun onPlayerExpChange(event: PlayerExpChangeEvent) {
-        event.exp = Attribute().getAddition(event.player, event.exp, event.source)
+        event.exp = Attribute.getAddition(event.player, event.exp, event.source)
     }
 }

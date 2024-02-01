@@ -6,7 +6,7 @@ import org.bukkit.entity.Player
 import org.serverct.ersha.AttributePlus
 import taboolib.common5.compileJS
 
-class Attribute {
+object Attribute {
     fun getAddition(player: Player, exp: Int, source: String): Int {
         if (ConfigManager.isEnabledAttribute() && source in ConfigManager.getAttributeSource()) {
             var attributeValue: Number = 0
