@@ -1,5 +1,6 @@
 package com.github.cpjinan.plugin.akarilevel.api
 
+import com.github.cpjinan.plugin.akarilevel.AkariLevel
 import com.github.cpjinan.plugin.akarilevel.api.event.exp.PlayerExpChangeEvent
 import com.github.cpjinan.plugin.akarilevel.api.event.level.PlayerLevelChangeEvent
 import com.github.cpjinan.plugin.akarilevel.api.event.level.PlayerLevelupEvent
@@ -10,6 +11,9 @@ import com.github.cpjinan.plugin.akarilevel.internal.manager.LevelManager
 import com.github.cpjinan.plugin.akarilevel.utils.KetherUtil.evalKether
 import com.github.cpjinan.plugin.akarilevel.utils.KetherUtil.runKether
 import org.bukkit.entity.Player
+import taboolib.common.platform.function.adaptPlayer
+import taboolib.module.kether.KetherShell
+import taboolib.module.kether.ScriptOptions
 import taboolib.platform.type.BukkitProxyEvent
 import taboolib.platform.util.sendLang
 
@@ -73,7 +77,10 @@ object AkariLevelAPI {
             data.level = this.level
             db.updatePlayer(player.name, data)
             db.save()
-            LevelManager.getAction(this.level)?.forEach { it.runKether(player) }
+            KetherShell.eval(
+                LevelManager.getAction(this.level)!!,
+                ScriptOptions.builder().namespace(listOf(AkariLevel.instance.name)).sender(sender = adaptPlayer(player)).build()
+            )
         }
     }
 
