@@ -21,8 +21,8 @@ object ConfigManager {
     fun getSqlSection() = settings.getConfigurationSection("Database.SQL")!!
 
     // Hook
-    fun isEnabledMythicMobs() = settings.getBoolean("Hook.MythicMobs.Enabled")
-    fun isEnabledAttribute() = settings.getBoolean("Hook.Attribute.Enabled")
+    fun isEnabledMythicMobs() = settings.getBoolean("Hook.MythicMobs.Enable")
+    fun isEnabledAttribute() = settings.getBoolean("Hook.Attribute.Enable")
     fun getMythicMobsExpDropName() = settings.getString("Hook.MythicMobs.Drop-Name")!!
     fun getAttributePlugin() = settings.getString("Hook.Attribute.Plugin")!!
     fun getAttributeName() = settings.getString("Hook.Attribute.Name")!!
