@@ -85,3 +85,9 @@ Hook:
     # 所监听的 PlayerExpChange 来源
     Source:
       - "MYTHICMOBS_EXP_DROP"
+  # PlaceholderAPI 变量拓展
+  PlaceholderAPI:
+    # 变量前缀
+    # 继承自 2.X 的变量前缀 playerlevel
+    # Identifier: "playerlevel"
+    Identifier: "akarilevel"

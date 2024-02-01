@@ -28,6 +28,7 @@ object ConfigManager {
     fun getAttributeName() = settings.getString("Hook.Attribute.Name")!!
     fun getAttributeFormula() = settings.getString("Hook.Attribute.Formula")!!
     fun getAttributeSource() = settings.getStringList("Hook.Attribute.Source")
+    fun getPlaceholderIdentifier() = settings.getString("Hook.PlaceholderAPI.Identifier")!!
 
     @Config("level.yml", autoReload = false)
     lateinit var levelConfig: ConfigFile

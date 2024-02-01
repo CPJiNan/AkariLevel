@@ -14,10 +14,11 @@ Settings:
     Name: "§8Lv.§b%level%"
     # 升至该等级所需经验
     Exp: "%level% * 5 + 100"
-    # 升至该等级所需条件 (StringList, Kether支持，需每行返回值为True)
-    Condition:
-      - "permission akarilevel.default"
+    # 升至该等级所需条件 (StringList, Kether支持, 需每行返回值为true)
+    # Condition:
+    #   - "permission akarilevel.default"
+    Condition: [ ]
     # 升级后执行的动作 (StringList, Kether支持)
     Action:
       - title "§e§lLevel UP!"
-      - subtitle inline "{{ papi %playerlevel_lastlevelname% }} §7→ {{ papi %playerlevel_levelname% }}" by 10 20 10
+      - subtitle inline "{{ papi %akarilevel_lastlevelname% }} §7→ {{ papi %akarilevel_levelname% }}" by 10 20 10
