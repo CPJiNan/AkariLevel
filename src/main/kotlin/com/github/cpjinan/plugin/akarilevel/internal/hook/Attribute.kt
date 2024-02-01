@@ -10,7 +10,7 @@ object Attribute {
     fun getAddition(player: Player, exp: Int, source: String): Int {
         if (ConfigManager.isEnabledAttribute() && source in ConfigManager.getAttributeSource()) {
             var attributeValue: Number = 0
-            when (ConfigManager.getAttributeName()) {
+            when (ConfigManager.getAttributePlugin()) {
                 "AttributePlus" -> attributeValue =
                     AttributePlus.attributeManager.getAttributeData(player.uniqueId, player)
                         .getAttributeValue(ConfigManager.getAttributeName())[0]
