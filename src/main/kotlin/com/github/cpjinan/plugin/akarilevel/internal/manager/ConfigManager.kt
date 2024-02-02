@@ -20,6 +20,10 @@ object ConfigManager {
     fun getCborSection() = settings.getConfigurationSection("Database.CBOR")!!
     fun getSqlSection() = settings.getConfigurationSection("Database.SQL")!!
 
+    fun getRedisEnable() = settings.getBoolean("Database.REDIS.enable")
+
+    fun getRedisSection() = settings.getConfigurationSection("Database.REDIS")!!
+
     // Hook
     fun isEnabledMythicMobs() = settings.getBoolean("Hook.MythicMobs.Enable")
     fun isEnabledAttribute() = settings.getBoolean("Hook.Attribute.Enable")
@@ -29,6 +33,7 @@ object ConfigManager {
     fun getAttributeFormula() = settings.getString("Hook.Attribute.Formula")!!
     fun getAttributeSource() = settings.getStringList("Hook.Attribute.Source")
     fun getPlaceholderIdentifier() = settings.getString("Hook.PlaceholderAPI.Identifier")!!
+
 
     @Config("level.yml", autoReload = false)
     lateinit var levelConfig: ConfigFile
