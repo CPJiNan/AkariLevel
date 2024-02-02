@@ -1,9 +1,6 @@
 package com.github.cpjinan.plugin.akarilevel.internal.manager
 
-import com.github.cpjinan.plugin.akarilevel.internal.database.Database
-import com.github.cpjinan.plugin.akarilevel.internal.database.DbCbor
-import com.github.cpjinan.plugin.akarilevel.internal.database.DbJson
-import com.github.cpjinan.plugin.akarilevel.internal.database.DbSql
+import com.github.cpjinan.plugin.akarilevel.internal.database.*
 
 object DatabaseManager {
     private var database: Database? = null
@@ -34,5 +31,9 @@ object DatabaseManager {
     } else {
         database = openDatabase()
         database!!
+    }
+
+    fun getRedis():DbRedis{
+        return DbRedis()
     }
 }

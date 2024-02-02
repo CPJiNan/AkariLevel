@@ -23,5 +23,6 @@ object AkariLevel : Plugin() {
 
     override fun onDisable() {
         DatabaseManager.getDatabase().save()
+        DatabaseManager.getRedis().save()
     }
 }
