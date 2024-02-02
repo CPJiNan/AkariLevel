@@ -33,7 +33,7 @@ object DatabaseManager {
         database!!
     }
 
-    fun getRedis():DbRedis{
+    fun getRedis(): DbRedis {
         return DbRedis()
     }
 }

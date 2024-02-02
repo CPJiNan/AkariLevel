@@ -62,14 +62,14 @@ object AkariLevelAPI {
 
     // region basic function
     private fun getLevel(player: Player): Int {
-        if (ConfigManager.getRedisEnable()){
+        if (ConfigManager.getRedisEnable()) {
             return DatabaseManager.getRedis().getPlayerByName(player.name).level
         }
         return DatabaseManager.getDatabase().getPlayerByName(player.name).level
     }
 
     private fun getExp(player: Player): Int {
-        if (ConfigManager.getRedisEnable()){
+        if (ConfigManager.getRedisEnable()) {
             return DatabaseManager.getRedis().getPlayerByName(player.name).exp
         }
         return DatabaseManager.getDatabase().getPlayerByName(player.name).exp
@@ -77,19 +77,19 @@ object AkariLevelAPI {
 
     private fun setLevel(player: Player, level: Int, source: String) {
         callEvent(PlayerLevelChangeEvent(player, level, source)) {
-            when(ConfigManager.getRedisEnable()){
+            when (ConfigManager.getRedisEnable()) {
                 true -> {
                     val db = DatabaseManager.getRedis()
                     val data = db.getPlayerByName(player.name)
                     data.level = this.level
                     db.updatePlayer(player.name, data)
                 }
+
                 false -> {
                     val db = DatabaseManager.getDatabase()
                     val data = db.getPlayerByName(player.name)
                     data.level = this.level
                     db.updatePlayer(player.name, data)
-                    db.save()
                 }
             }
             KetherShell.eval(
@@ -102,19 +102,19 @@ object AkariLevelAPI {
 
     private fun setExp(player: Player, exp: Int, source: String) {
         callEvent(PlayerExpChangeEvent(player, exp, source)) {
-            when(ConfigManager.getRedisEnable()){
+            when (ConfigManager.getRedisEnable()) {
                 true -> {
                     val db = DatabaseManager.getRedis()
                     val data = db.getPlayerByName(player.name)
                     data.exp = this.exp
                     db.updatePlayer(player.name, data)
                 }
+
                 false -> {
                     val db = DatabaseManager.getDatabase()
                     val data = db.getPlayerByName(player.name)
                     data.exp = this.exp
                     db.updatePlayer(player.name, data)
-                    db.save()
                 }
             }
         }

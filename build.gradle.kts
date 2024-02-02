@@ -27,7 +27,8 @@ taboolib {
             name("CPJiNan")
             name("Golden_Water")
             name("2000000")
-            name("Xiaokun")
+            name("小坤")
+            name("Sting")
         }
         dependencies {
             name("PlaceholderAPI").optional(true)

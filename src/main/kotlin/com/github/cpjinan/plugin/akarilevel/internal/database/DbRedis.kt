@@ -9,7 +9,7 @@ import taboolib.expansion.AlkaidRedis
 import taboolib.expansion.SingleRedisConnection
 import taboolib.expansion.fromConfig
 
-class DbRedis:Database {
+class DbRedis : Database {
 
 
     private var redisConnector = AlkaidRedis.create().fromConfig(ConfigManager.getRedisSection())
