@@ -78,13 +78,13 @@ Hook:
   Attribute:
     # 是否启用
     Enable: false
-    # 属性插件 (AttributePlus, SX-Attribute)
+    # 属性插件 (AttributePlus, SX-Attribute, OriginAttribute)
     Plugin: "AttributePlus"
     # 属性名称
-    # 注意：SX-Attribute的属性名称是其英文名而非DiscernName (即默认应填写"ExpAddition"而非"经验增幅")
+    # SX-Attribute 的属性名称是其英文名而非 DiscernName (即默认应填写 "ExpAddition" 而非"经验增幅")
+    # OriginAttribute 默认读取ExpAddon为经验加成属性, 无需填写 Name 配置项
     Name: "经验加成"
-    # 经验计算公式
-    # 预设:
+    # 经验计算公式 (JavaScript支持)
     # %exp% -> 获得的经验值数量
     # %attribute% -> 额外加成经验数量
     Formula: "%exp% * ( 1 + %attribute% / 100 )"

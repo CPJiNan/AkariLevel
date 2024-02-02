@@ -1,5 +1,7 @@
 package com.github.cpjinan.plugin.akarilevel.internal.hook
 
+import ac.github.oa.api.OriginAttributeAPI
+import ac.github.oa.internal.core.attribute.impl.ExpAddon
 import com.github.cpjinan.plugin.akarilevel.internal.manager.ConfigManager
 import github.saukiya.sxattribute.SXAttribute
 import org.bukkit.entity.Player
@@ -17,6 +19,10 @@ object Attribute {
 
                 "SX-Attribute" -> attributeValue =
                     SXAttribute.getApi().getEntityData(player).getValues(ConfigManager.getAttributeName())[0]
+
+                "OriginAttribute" -> attributeValue =
+                    OriginAttributeAPI.getAttributeData(player).getData(ExpAddon().index, ExpAddon.DefaultImpl().index)
+                        .get(ExpAddon.DefaultImpl().index)
             }
             return ConfigManager.getAttributeFormula()
                 .replace("%exp%", exp.toString(), true)
