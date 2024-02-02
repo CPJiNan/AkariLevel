@@ -19,9 +19,7 @@ object ConfigManager {
     fun getJsonSection() = settings.getConfigurationSection("Database.JSON")!!
     fun getCborSection() = settings.getConfigurationSection("Database.CBOR")!!
     fun getSqlSection() = settings.getConfigurationSection("Database.SQL")!!
-
-    fun getRedisEnable() = settings.getBoolean("Database.REDIS.enable")
-
+    fun isEnabledRedis() = settings.getBoolean("Database.REDIS.enable")
     fun getRedisSection() = settings.getConfigurationSection("Database.REDIS")!!
 
     // Hook

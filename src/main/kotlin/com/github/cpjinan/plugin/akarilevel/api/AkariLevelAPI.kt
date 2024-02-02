@@ -62,14 +62,14 @@ object AkariLevelAPI {
 
     // region basic function
     private fun getLevel(player: Player): Int {
-        if (ConfigManager.getRedisEnable()) {
+        if (ConfigManager.isEnabledRedis()) {
             return DatabaseManager.getRedis().getPlayerByName(player.name).level
         }
         return DatabaseManager.getDatabase().getPlayerByName(player.name).level
     }
 
     private fun getExp(player: Player): Int {
-        if (ConfigManager.getRedisEnable()) {
+        if (ConfigManager.isEnabledRedis()) {
             return DatabaseManager.getRedis().getPlayerByName(player.name).exp
         }
         return DatabaseManager.getDatabase().getPlayerByName(player.name).exp
@@ -77,7 +77,7 @@ object AkariLevelAPI {
 
     private fun setLevel(player: Player, level: Int, source: String) {
         callEvent(PlayerLevelChangeEvent(player, level, source)) {
-            when (ConfigManager.getRedisEnable()) {
+            when (ConfigManager.isEnabledRedis()) {
                 true -> {
                     val db = DatabaseManager.getRedis()
                     val data = db.getPlayerByName(player.name)
@@ -102,7 +102,7 @@ object AkariLevelAPI {
 
     private fun setExp(player: Player, exp: Int, source: String) {
         callEvent(PlayerExpChangeEvent(player, exp, source)) {
-            when (ConfigManager.getRedisEnable()) {
+            when (ConfigManager.isEnabledRedis()) {
                 true -> {
                     val db = DatabaseManager.getRedis()
                     val data = db.getPlayerByName(player.name)
