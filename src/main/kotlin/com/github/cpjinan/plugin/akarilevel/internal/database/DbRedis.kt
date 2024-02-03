@@ -2,9 +2,9 @@ package com.github.cpjinan.plugin.akarilevel.internal.database
 
 import com.github.cpjinan.plugin.akarilevel.internal.database.type.PlayerData
 import com.github.cpjinan.plugin.akarilevel.internal.manager.ConfigManager
+import com.github.cpjinan.plugin.akarilevel.utils.LoggerUtil
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
-import taboolib.common.platform.function.console
 import taboolib.expansion.AlkaidRedis
 import taboolib.expansion.SingleRedisConnection
 import taboolib.expansion.fromConfig
@@ -18,7 +18,7 @@ class DbRedis : Database {
         return try {
             redisConnector.connect().connection()
         } catch (e: Exception) {
-            console().sendMessage("§c[AkariLevel] §4Redis connection failed, please check the configuration file.")
+            LoggerUtil.error("Redis connection failed, please check the configuration file.")
             return null
         }
     }
