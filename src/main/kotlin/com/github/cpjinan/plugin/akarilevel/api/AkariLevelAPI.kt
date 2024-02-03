@@ -8,6 +8,7 @@ import com.github.cpjinan.plugin.akarilevel.api.event.level.PlayerRefreshLevelEv
 import com.github.cpjinan.plugin.akarilevel.internal.manager.ConfigManager
 import com.github.cpjinan.plugin.akarilevel.internal.manager.DatabaseManager
 import com.github.cpjinan.plugin.akarilevel.internal.manager.LevelManager
+import com.github.cpjinan.plugin.akarilevel.utils.DebugUtil
 import com.github.cpjinan.plugin.akarilevel.utils.KetherUtil.evalKether
 import org.bukkit.entity.Player
 import taboolib.common.platform.function.adaptPlayer
@@ -81,6 +82,22 @@ object AkariLevelAPI {
                 ScriptOptions.builder().namespace(listOf(AkariLevel.instance.name)).sender(sender = adaptPlayer(player))
                     .build()
             )
+            DebugUtil.printArgs(
+                Pair("event", "PlayerLevelChangeEvent"),
+                Pair("event.player.name", player.name),
+                Pair(
+                    "event.player.data.level",
+                    data.level
+                ),
+                Pair(
+                    "event.level",
+                    this.level
+                ),
+                Pair(
+                    "event.source",
+                    this.source
+                )
+            )
         }
     }
 
@@ -91,6 +108,22 @@ object AkariLevelAPI {
             data.exp = this.exp
             db.updatePlayer(player.name, data)
             db.save()
+            DebugUtil.printArgs(
+                Pair("event", "PlayerExpChangeEvent"),
+                Pair("event.player.name", player.name),
+                Pair(
+                    "event.player.data.level",
+                    data.level
+                ),
+                Pair(
+                    "event.exp",
+                    this.exp
+                ),
+                Pair(
+                    "event.source",
+                    this.source
+                )
+            )
         }
     }
 
@@ -114,8 +147,44 @@ object AkariLevelAPI {
                 } else {
                     player.sendLang("Levelup-Fail")
                 }
+                DebugUtil.printArgs(
+                    Pair("event", "PlayerLevelupEvent"),
+                    Pair("event.player.name", player.name),
+                    Pair(
+                        "event.source",
+                        this.source
+                    ),
+                    Pair(
+                        "curLvl < ConfigManager.getMaxLevel()",
+                        curLvl < ConfigManager.getMaxLevel()
+                    ),
+                    Pair(
+                        "val.curExp",
+                        curExp
+                    ),
+                    Pair(
+                        "val.targetLvl",
+                        targetLvl
+                    ),
+                    Pair(
+                        "val.reqExp",
+                        reqExp
+                    )
+                )
             } else {
                 player.sendLang("Max-Level")
+                DebugUtil.printArgs(
+                    Pair("event", "PlayerLevelupEvent"),
+                    Pair("event.player.name", player.name),
+                    Pair(
+                        "event.source",
+                        this.source
+                    ),
+                    Pair(
+                        "curLvl < ConfigManager.getMaxLevel()",
+                        curLvl < ConfigManager.getMaxLevel()
+                    )
+                )
             }
         }
     }
@@ -140,6 +209,29 @@ object AkariLevelAPI {
                         player.level = curLvl
                         player.exp = (curExp.toFloat() / reqExp.toFloat()).coerceAtMost(1f)
                     }
+                    DebugUtil.printArgs(
+                        Pair("↑", "↑"),
+                        Pair(
+                            "val.curExp",
+                            curExp
+                        ),
+                        Pair(
+                            "val.reqExp",
+                            reqExp
+                        ),
+                        Pair(
+                            "curExp >= reqExp && ConfigManager.settings.getBoolean(\"Level.Auto-Levelup\")",
+                            curExp >= reqExp && ConfigManager.settings.getBoolean("Level.Auto-Levelup")
+                        ),
+                        Pair(
+                            "ConfigManager.settings.getBoolean(\"Level.Vanilla-Exp-Bar\")",
+                            ConfigManager.settings.getBoolean("Level.Vanilla-Exp-Bar")
+                        ),
+                        Pair(
+                            "(curExp.toFloat() / reqExp.toFloat()).coerceAtMost(1f)",
+                            (curExp.toFloat() / reqExp.toFloat()).coerceAtMost(1f)
+                        )
+                    )
                 } else {
                     if (ConfigManager.settings.getBoolean("Level.Vanilla-Exp-Bar")) {
                         player.level = maxLevel
@@ -147,6 +239,26 @@ object AkariLevelAPI {
                     }
                     if (ConfigManager.settings.getBoolean("Level.Exp-Limit")) setExp(player, 0, "PLAYER_REFRESH_LEVEL")
                 }
+                DebugUtil.printArgs(
+                    Pair("event", "PlayerRefreshLevelEvent"),
+                    Pair("event.player.name", player.name),
+                    Pair(
+                        "event.source",
+                        this.source
+                    ),
+                    Pair(
+                        "val.curLvl",
+                        curLvl
+                    ),
+                    Pair(
+                        "val.maxLevel",
+                        maxLevel
+                    ),
+                    Pair(
+                        "curLvl < maxLevel",
+                        curLvl < maxLevel
+                    )
+                )
             } while (isLevelUp)
         }
     }

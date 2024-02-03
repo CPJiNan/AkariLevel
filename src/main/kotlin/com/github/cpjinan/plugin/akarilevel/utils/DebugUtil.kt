@@ -1,5 +1,6 @@
 package com.github.cpjinan.plugin.akarilevel.utils
 
+import com.github.cpjinan.plugin.akarilevel.internal.manager.ConfigManager
 import com.github.cpjinan.plugin.akarilevel.utils.LoggerUtil.message
 import taboolib.module.chat.colored
 import taboolib.platform.BukkitPlugin
@@ -25,6 +26,7 @@ object DebugUtil {
      * @param [args] name and value of args
      */
     fun printArgs(vararg args: Pair<String, Any?>) {
+        if (!ConfigManager.isEnabledDebug()) return
         LoggerUtil.message(
             "&r===============[&c&lDebug&r]==============".colored(),
             "&r| &rPlugin &6${BukkitPlugin.getInstance().name} &7=>".colored(),
@@ -45,6 +47,7 @@ object DebugUtil {
      * @param [info] information
      */
     fun printInfo(vararg info: String) {
+        if (!ConfigManager.isEnabledDebug()) return
         LoggerUtil.message(
             "&r===============[&c&lDebug&r]==============".colored(),
             "&r| &rPlugin &6${BukkitPlugin.getInstance().name} &7=>".colored(),
