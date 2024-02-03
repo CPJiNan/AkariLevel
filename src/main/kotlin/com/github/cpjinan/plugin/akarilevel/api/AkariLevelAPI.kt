@@ -83,20 +83,11 @@ object AkariLevelAPI {
                     .build()
             )
             DebugUtil.printArgs(
-                Pair("event", "PlayerLevelChangeEvent"),
-                Pair("event.player.name", player.name),
-                Pair(
-                    "event.player.data.level",
-                    data.level
-                ),
-                Pair(
-                    "event.level",
-                    this.level
-                ),
-                Pair(
-                    "event.source",
-                    this.source
-                )
+                Pair("(BukkitProxyEvent) this", "PlayerLevelChangeEvent"),
+                Pair("(String) player.name", player.name),
+                Pair("(Int) data.level", data.level),
+                Pair("(Int) this.level", this.level),
+                Pair("(String) this.source", this.source)
             )
         }
     }
@@ -109,20 +100,11 @@ object AkariLevelAPI {
             db.updatePlayer(player.name, data)
             db.save()
             DebugUtil.printArgs(
-                Pair("event", "PlayerExpChangeEvent"),
-                Pair("event.player.name", player.name),
-                Pair(
-                    "event.player.data.level",
-                    data.level
-                ),
-                Pair(
-                    "event.exp",
-                    this.exp
-                ),
-                Pair(
-                    "event.source",
-                    this.source
-                )
+                Pair("(BukkitProxyEvent) this", "PlayerExpChangeEvent"),
+                Pair("(String) player.name", player.name),
+                Pair("(Int) data.exp", data.exp),
+                Pair("(Int) this.exp", this.exp),
+                Pair("(String) this.source", this.source)
             )
         }
     }
@@ -148,42 +130,21 @@ object AkariLevelAPI {
                     player.sendLang("Levelup-Fail")
                 }
                 DebugUtil.printArgs(
-                    Pair("event", "PlayerLevelupEvent"),
-                    Pair("event.player.name", player.name),
-                    Pair(
-                        "event.source",
-                        this.source
-                    ),
-                    Pair(
-                        "curLvl < ConfigManager.getMaxLevel()",
-                        curLvl < ConfigManager.getMaxLevel()
-                    ),
-                    Pair(
-                        "val.curExp",
-                        curExp
-                    ),
-                    Pair(
-                        "val.targetLvl",
-                        targetLvl
-                    ),
-                    Pair(
-                        "val.reqExp",
-                        reqExp
-                    )
+                    Pair("(BukkitProxyEvent) this", "PlayerLevelupEvent"),
+                    Pair("(String) player.name", player.name),
+                    Pair("(String) this.source", this.source),
+                    Pair("(Boolean) curLvl < ConfigManager.getMaxLevel()", curLvl < ConfigManager.getMaxLevel()),
+                    Pair("(Int) curExp", curExp),
+                    Pair("(Int) targetLvl", targetLvl),
+                    Pair("(Int) reqExp", reqExp)
                 )
             } else {
                 player.sendLang("Max-Level")
                 DebugUtil.printArgs(
-                    Pair("event", "PlayerLevelupEvent"),
-                    Pair("event.player.name", player.name),
-                    Pair(
-                        "event.source",
-                        this.source
-                    ),
-                    Pair(
-                        "curLvl < ConfigManager.getMaxLevel()",
-                        curLvl < ConfigManager.getMaxLevel()
-                    )
+                    Pair("(BukkitProxyEvent) this", "PlayerLevelupEvent"),
+                    Pair("(String) player.name", player.name),
+                    Pair("(String) this.source", this.source),
+                    Pair("(Boolean) curLvl < ConfigManager.getMaxLevel()", curLvl < ConfigManager.getMaxLevel())
                 )
             }
         }
@@ -210,25 +171,23 @@ object AkariLevelAPI {
                         player.exp = (curExp.toFloat() / reqExp.toFloat()).coerceAtMost(1f)
                     }
                     DebugUtil.printArgs(
-                        Pair("↑", "↑"),
+                        Pair("(BukkitProxyEvent) this", "PlayerRefreshLevelEvent"),
+                        Pair("(String) player.name", player.name),
+                        Pair("(String) this.source", this.source),
+                        Pair("(Int) curLvl", curLvl),
+                        Pair("(Int) maxLevel", maxLevel),
+                        Pair("(Int) curExp", curExp),
+                        Pair("(Int) reqExp", reqExp),
                         Pair(
-                            "val.curExp",
-                            curExp
-                        ),
-                        Pair(
-                            "val.reqExp",
-                            reqExp
-                        ),
-                        Pair(
-                            "curExp >= reqExp && ConfigManager.settings.getBoolean(\"Level.Auto-Levelup\")",
+                            "(Boolean) curExp >= reqExp && ConfigManager.settings.getBoolean(\"Level.Auto-Levelup\")",
                             curExp >= reqExp && ConfigManager.settings.getBoolean("Level.Auto-Levelup")
                         ),
                         Pair(
-                            "ConfigManager.settings.getBoolean(\"Level.Vanilla-Exp-Bar\")",
+                            "(Boolean) ConfigManager.settings.getBoolean(\"Level.Vanilla-Exp-Bar\")",
                             ConfigManager.settings.getBoolean("Level.Vanilla-Exp-Bar")
                         ),
                         Pair(
-                            "(curExp.toFloat() / reqExp.toFloat()).coerceAtMost(1f)",
+                            "(float) (curExp.toFloat() / reqExp.toFloat()).coerceAtMost(1f)",
                             (curExp.toFloat() / reqExp.toFloat()).coerceAtMost(1f)
                         )
                     )
@@ -239,26 +198,6 @@ object AkariLevelAPI {
                     }
                     if (ConfigManager.settings.getBoolean("Level.Exp-Limit")) setExp(player, 0, "PLAYER_REFRESH_LEVEL")
                 }
-                DebugUtil.printArgs(
-                    Pair("event", "PlayerRefreshLevelEvent"),
-                    Pair("event.player.name", player.name),
-                    Pair(
-                        "event.source",
-                        this.source
-                    ),
-                    Pair(
-                        "val.curLvl",
-                        curLvl
-                    ),
-                    Pair(
-                        "val.maxLevel",
-                        maxLevel
-                    ),
-                    Pair(
-                        "curLvl < maxLevel",
-                        curLvl < maxLevel
-                    )
-                )
             } while (isLevelUp)
         }
     }

@@ -38,7 +38,7 @@ object DebugUtil {
         }
         LoggerUtil.message(
             "&r| &a✓ &rPrint ${args.size} &rargs in total.".colored(),
-            "&r===============[&c&lDebug&8]==============".colored()
+            "&r===============[&c&lDebug&r]==============".colored()
         )
     }
 
@@ -59,7 +59,7 @@ object DebugUtil {
         }
         LoggerUtil.message(
             "&r| &a✓ &rPrint ${info.size} &rlines of information in total.".colored(),
-            "&r===============[&c&lDebug&8]==============".colored()
+            "&r===============[&c&lDebug&r]==============".colored()
         )
     }
 }
