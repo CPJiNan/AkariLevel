@@ -42,6 +42,7 @@ Database:
     password: password
     database: minecraft
     table: akarilevel
+  # 弃用内容
   REDIS:
     enable: false
     host: localhost

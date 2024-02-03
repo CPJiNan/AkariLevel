@@ -23,6 +23,5 @@ object AkariLevel : Plugin() {
 
     override fun onDisable() {
         DatabaseManager.getDatabase().save()
-        if (ConfigManager.isEnabledRedis()) DatabaseManager.getRedis().save()
     }
 }
