@@ -7,7 +7,7 @@ import kotlinx.serialization.json.Json
 import org.bukkit.Bukkit
 import java.io.File
 
-class DbJson() : Database {
+class DbJson : Database {
     private val file: File
     private val playerData: HashMap<String, PlayerData>
 

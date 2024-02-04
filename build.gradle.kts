@@ -27,7 +27,7 @@ taboolib {
             name("CPJiNan")
             name("Golden_Water")
             name("2000000")
-            name("小坤")
+            name("xiaochunkun")
             name("Sting")
         }
         dependencies {

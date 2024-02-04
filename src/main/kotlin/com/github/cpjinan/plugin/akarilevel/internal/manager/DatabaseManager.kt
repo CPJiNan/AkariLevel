@@ -33,7 +33,11 @@ object DatabaseManager {
         database!!
     }
 
-    fun getRedis(): DbRedis {
+    fun getRedis(): Database {
         return DbRedis()
+    }
+
+    fun getHashMap(): DbHashMap {
+        return DbHashMap
     }
 }

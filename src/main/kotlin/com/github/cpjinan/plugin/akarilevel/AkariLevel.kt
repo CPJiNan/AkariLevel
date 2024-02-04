@@ -15,13 +15,17 @@ object AkariLevel : Plugin() {
 
     override fun onEnable() {
         DebugUtil.printLogo()
-        DatabaseManager.getDatabase().save()
-        MythicMobs.registerMythicMobsListener()
         if (ConfigManager.isEnabledSendMetrics()) MetricsUtil.registerBukkitMetrics(18992)
         UpdateManager.checkUpdate()
+        MythicMobs.registerMythicMobsListener()
     }
 
     override fun onDisable() {
+        DatabaseManager.getHashMap().playerData.forEach { (name, _) ->
+            if (ConfigManager.isEnabledRedis()) DatabaseManager.getDatabase()
+                .updatePlayer(name, DatabaseManager.getRedis().getPlayerByName(name))
+        }
+        if (ConfigManager.isEnabledRedis()) DatabaseManager.getRedis().save()
         DatabaseManager.getDatabase().save()
     }
 }

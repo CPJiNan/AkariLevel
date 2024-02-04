@@ -27,16 +27,16 @@ object DebugUtil {
      */
     fun printArgs(vararg args: Pair<String, Any?>) {
         if (!ConfigManager.isEnabledDebug()) return
-        LoggerUtil.message(
+        message(
             "&r===============[&c&lDebug&r]==============".colored(),
             "&r| &rPlugin &6${BukkitPlugin.getInstance().name} &7=>".colored(),
         )
         for ((name, value) in args) {
-            LoggerUtil.message(
+            message(
                 "&r| &b◈ &r$name &7= &r$value".colored(),
             )
         }
-        LoggerUtil.message(
+        message(
             "&r| &a✓ &rPrint ${args.size} &rargs in total.".colored(),
             "&r===============[&c&lDebug&r]==============".colored()
         )
@@ -48,16 +48,16 @@ object DebugUtil {
      */
     fun printInfo(vararg info: String) {
         if (!ConfigManager.isEnabledDebug()) return
-        LoggerUtil.message(
+        message(
             "&r===============[&c&lDebug&r]==============".colored(),
             "&r| &rPlugin &6${BukkitPlugin.getInstance().name} &7=>".colored(),
         )
         for (i in info) {
-            LoggerUtil.message(
+            message(
                 "&r| &b◈ &r$i".colored(),
             )
         }
-        LoggerUtil.message(
+        message(
             "&r| &a✓ &rPrint ${info.size} &rlines of information in total.".colored(),
             "&r===============[&c&lDebug&r]==============".colored()
         )

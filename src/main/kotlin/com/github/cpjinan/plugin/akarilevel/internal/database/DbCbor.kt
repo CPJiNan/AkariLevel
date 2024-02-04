@@ -10,7 +10,7 @@ import org.bukkit.Bukkit
 import java.io.File
 
 @OptIn(ExperimentalSerializationApi::class)
-class DbCbor() : Database {
+class DbCbor : Database {
     private val file: File
     private val playerData: HashMap<String, PlayerData>
 
