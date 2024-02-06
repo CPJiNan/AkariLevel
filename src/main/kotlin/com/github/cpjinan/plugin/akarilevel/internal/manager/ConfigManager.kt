@@ -2,6 +2,7 @@ package com.github.cpjinan.plugin.akarilevel.internal.manager
 
 import taboolib.module.configuration.Config
 import taboolib.module.configuration.ConfigFile
+import taboolib.module.database.getHost
 import java.util.*
 
 object ConfigManager {
@@ -18,7 +19,8 @@ object ConfigManager {
     fun getMethod() = settings.getString("Database.Method")
     fun getJsonSection() = settings.getConfigurationSection("Database.JSON")!!
     fun getCborSection() = settings.getConfigurationSection("Database.CBOR")!!
-    fun getSqlSection() = settings.getConfigurationSection("Database.SQL")!!
+    fun getSqlHost() = settings.getHost("Database.SQL")
+    fun getSqlTable() = settings.getString("Database.SQL.table")!!
     fun isEnabledRedis() = settings.getBoolean("Database.REDIS.enable")
     fun getRedisSection() = settings.getConfigurationSection("Database.REDIS")!!
 

@@ -4,15 +4,16 @@ import com.github.cpjinan.plugin.akarilevel.internal.database.type.PlayerData
 import com.github.cpjinan.plugin.akarilevel.internal.manager.ConfigManager
 import taboolib.module.database.ColumnOptionSQL
 import taboolib.module.database.ColumnTypeSQL
-import taboolib.module.database.HostSQL
 import taboolib.module.database.Table
 
 class DbSql : Database {
-    private val host = HostSQL(ConfigManager.getSqlSection())
-    private val table = Table(ConfigManager.getSqlSection().getString("table")!!, host) {
+    private val host = ConfigManager.getSqlHost()
+    private val dataSource by lazy { host.createDataSource() }
+    private val table = Table(ConfigManager.getSqlTable(), host) {
+        add { id() }
         add("player") {
             type(ColumnTypeSQL.VARCHAR, 255) {
-                options(ColumnOptionSQL.PRIMARY_KEY)
+                options(ColumnOptionSQL.KEY)
             }
         }
         add("level") {
@@ -23,11 +24,44 @@ class DbSql : Database {
         }
     }
 
-    private val dataSource by lazy { host.createDataSource() }
+    init {
+        table.createTable(dataSource)
+    }
 
     override fun getPlayerByName(name: String): PlayerData {
+        return get(name)
+    }
+
+    override fun updatePlayer(name: String, value: PlayerData) {
+        set(name, value.level, value.exp)
+    }
+
+    override fun save() {}
+
+    private fun add(player: String, level: Int, exp: Int) {
+        table.insert(dataSource, "player", "level", "exp") {
+            value(player, level, exp)
+        }
+    }
+
+    private fun delete(player: String) {
+        table.delete(dataSource) {
+            where { "player" eq player }
+        }
+    }
+
+    fun set(player: String, level: Int, exp: Int) {
+        if (have(player)) table.update(dataSource) {
+            set("level", level)
+            set("exp", exp)
+            where("player" eq player)
+        } else add(player, level, exp)
+    }
+
+    fun get(player: String): PlayerData {
         return table.select(dataSource) {
-            where { "player" eq name }
+            where("player" eq player)
+            limit(1)
         }.firstOrNull {
             PlayerData(
                 this.getInt("level"),
@@ -36,31 +70,12 @@ class DbSql : Database {
         } ?: PlayerData()
     }
 
-    override fun updatePlayer(name: String, value: PlayerData) {
-        if (!table.find(dataSource) { where { "player" eq name } }) {
-            table.insert(
-                dataSource,
-                "player",
-                "level",
-                "exp"
-            ) {
-                value(name, 0, 0)
-            }
-        }
-        table.update(dataSource) {
-            where { "player" eq name }
-            set("level", value.level)
-            set("exp", value.exp)
-        }
-    }
-
-    override fun save() {}
-
-    init {
-        table.workspace(dataSource) { createTable(true) }.run()
-    }
-
-    companion object {
-        val INSTANCE = DbSql()
+    fun have(player: String): Boolean {
+        return table.select(dataSource) {
+            where("player" eq player)
+            limit(1)
+        }.firstOrNull {
+            true
+        } ?: false
     }
 }
