@@ -23,7 +23,7 @@ class DbSql : Database {
         }
     }
 
-    private val dataSource = host.createDataSource()
+    private val dataSource by lazy { host.createDataSource() }
 
     override fun getPlayerByName(name: String): PlayerData {
         return table.select(dataSource) {
