@@ -63,16 +63,16 @@ object AkariLevelAPI {
 
     // region basic function
     private fun getLevel(player: Player): Int {
-        return DatabaseManager.getHashMap().getPlayerByName(player.name).level
+        return DatabaseManager.getCache().getPlayerByName(player.name).level
     }
 
     private fun getExp(player: Player): Int {
-        return DatabaseManager.getHashMap().getPlayerByName(player.name).exp
+        return DatabaseManager.getCache().getPlayerByName(player.name).exp
     }
 
     private fun setLevel(player: Player, level: Int, source: String) {
         callEvent(PlayerLevelChangeEvent(player, level, source)) {
-            val db = DatabaseManager.getHashMap()
+            val db = DatabaseManager.getCache()
             val data = db.getPlayerByName(player.name)
             data.level = this.level
             db.updatePlayer(player.name, data)
@@ -93,7 +93,7 @@ object AkariLevelAPI {
 
     private fun setExp(player: Player, exp: Int, source: String) {
         callEvent(PlayerExpChangeEvent(player, exp, source)) {
-            val db = DatabaseManager.getHashMap()
+            val db = DatabaseManager.getCache()
             val data = db.getPlayerByName(player.name)
             data.exp = this.exp
             db.updatePlayer(player.name, data)

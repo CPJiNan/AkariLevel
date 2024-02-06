@@ -37,7 +37,7 @@ object DatabaseManager {
         return DbRedis()
     }
 
-    fun getHashMap(): DbHashMap {
-        return DbHashMap
+    fun getCache(): DbCache {
+        return DbCache
     }
 }

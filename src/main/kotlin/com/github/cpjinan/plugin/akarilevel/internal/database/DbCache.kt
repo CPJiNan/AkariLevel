@@ -2,7 +2,7 @@ package com.github.cpjinan.plugin.akarilevel.internal.database
 
 import com.github.cpjinan.plugin.akarilevel.internal.database.type.PlayerData
 
-object DbHashMap : Database {
+object DbCache : Database {
     val playerData: HashMap<String, PlayerData> = hashMapOf()
 
     override fun getPlayerByName(name: String): PlayerData = playerData[name] ?: PlayerData()

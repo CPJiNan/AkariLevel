@@ -62,7 +62,7 @@ Level:
   # 将原版经验条与 AkariLevel 同步
   Vanilla-Exp-Bar: true
   # 原版经验转换为 AkariExp 的倍率 (类型为Double)
-  # AkariExp 改变量 = 四舍五入至整数 ( 原版经验改变量 * Exp-Rate )
+  # AkariExp 改变量 = 四舍五入至整数 ( 原版经验改变量 * Vanilla-Exp-Rate )
   Vanilla-Exp-Rate: 0.0
 
 ##########

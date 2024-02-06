@@ -8,7 +8,7 @@ object WorldListener {
     @SubscribeEvent
     @Suppress("UNUSED_PARAMETER")
     fun onWorldSave(event: org.bukkit.event.world.WorldSaveEvent) {
-        DatabaseManager.getHashMap().playerData.forEach { (name, playerData) ->
+        DatabaseManager.getCache().playerData.forEach { (name, playerData) ->
             if (ConfigManager.isEnabledRedis()) DatabaseManager.getRedis().updatePlayer(name, playerData)
             DatabaseManager.getDatabase().updatePlayer(name, playerData)
         }
