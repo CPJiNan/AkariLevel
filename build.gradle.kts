@@ -1,27 +1,26 @@
-import io.izzel.taboolib.gradle.*
-
 plugins {
     `java-library`
     `maven-publish`
-    id("io.izzel.taboolib") version "2.0.2"
-    id("org.jetbrains.kotlin.jvm") version "1.9.22"
+    id("io.izzel.taboolib") version "1.56"
+    id("org.jetbrains.kotlin.jvm") version "1.5.10"
     id("org.jetbrains.kotlin.plugin.serialization") version "1.9.22"
-    id("org.jetbrains.dokka") version "1.9.10"
 }
 
 taboolib {
-    env {
-        install(
-            UNIVERSAL,
-            UI,
-            KETHER,
-            METRICS,
-            DATABASE,
-            EXPANSION_REDIS,
-            EXPANSION_JAVASCRIPT,
-            BUKKIT_ALL
-        )
-    }
+    install("common")
+    install("common-5")
+    install("module-chat")
+    install("module-configuration")
+    install("module-database")
+    install("module-kether")
+    install("module-lang")
+    install("module-metrics")
+    install("platform-bukkit")
+    install("expansion-command-helper")
+    install("expansion-javascript")
+    install("expansion-alkaid-redis")
+    classifier = null
+    version = "6.0.12-69"
     description {
         contributors {
             name("CPJiNan")
@@ -38,7 +37,6 @@ taboolib {
             name("OriginAttribute").optional(true)
         }
     }
-    version { taboolib = "6.1.0" }
     relocate("kotlinx.serialization", "kotlinx.serialization160")
 }
 
