@@ -1,5 +1,6 @@
 package com.github.cpjinan.plugin.akarilevel
 
+import com.github.cpjinan.plugin.akarilevel.internal.database.type.PlayerData
 import com.github.cpjinan.plugin.akarilevel.internal.hook.MythicMobs
 import com.github.cpjinan.plugin.akarilevel.internal.manager.ConfigManager
 import com.github.cpjinan.plugin.akarilevel.internal.manager.DatabaseManager
@@ -31,9 +32,11 @@ object AkariLevel : Plugin() {
     }
 
     override fun onDisable() {
-        DatabaseManager.getCache().playerData.forEach { (name, _) ->
-            if (ConfigManager.isEnabledRedis()) DatabaseManager.getDatabase()
-                .updatePlayer(name, DatabaseManager.getRedis().getPlayerByName(name))
+        DatabaseManager.getCache().playerData.forEach { (name, value) ->
+            if (ConfigManager.isEnabledRedis()) {
+                if (value != PlayerData()) DatabaseManager.getRedis().updatePlayer(name, value)
+                DatabaseManager.getDatabase().updatePlayer(name, DatabaseManager.getRedis().getPlayerByName(name))
+            } else if (value != PlayerData()) DatabaseManager.getDatabase().updatePlayer(name, value)
         }
         if (ConfigManager.isEnabledRedis()) DatabaseManager.getRedis().save()
         DatabaseManager.getDatabase().save()

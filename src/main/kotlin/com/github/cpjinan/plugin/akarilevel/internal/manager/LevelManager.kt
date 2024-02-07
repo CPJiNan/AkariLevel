@@ -7,7 +7,7 @@ object LevelManager {
     fun getName(level: Int): String? = getLevelData(level)?.name?.replace("%level%", level.toString(), true)?.colored()
 
     fun getExp(level: Int): Int {
-        if (level >= ConfigManager.getMaxLevel()) return Int.MAX_VALUE
+        if (level > ConfigManager.getMaxLevel()) return Int.MAX_VALUE
         return getLevelData(level)?.let { levelData ->
             levelData.exp
                 .replace("%level%", level.toString(), true)
