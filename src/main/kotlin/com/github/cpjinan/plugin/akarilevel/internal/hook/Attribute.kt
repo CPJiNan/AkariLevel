@@ -15,20 +15,18 @@ object Attribute {
     @SubscribeEvent
     fun onPlayerExpChange(event: PlayerExpChangeEvent) {
         var exp = event.exp
-        if (ConfigManager.isEnabledAttribute() && event.source in ConfigManager.getAttributeSource()) {
+        if (ConfigManager.isEnabledAttribute() && Bukkit.getServer().pluginManager.isPluginEnabled(ConfigManager.getAttributePlugin()) && event.source in ConfigManager.getAttributeSource()) {
             var attributeValue: Number = 0
-            when (ConfigManager.getAttributePlugin()) {
-                "AttributePlus" -> if (Bukkit.getServer().pluginManager.isPluginEnabled("AttributePlus")) attributeValue =
-                    AttributePlus.attributeManager.getAttributeData(event.player)
-                        .getAttributeValue(ConfigManager.getAttributeName())[0]
+            attributeValue = when (ConfigManager.getAttributePlugin()) {
+                "AttributePlus" -> AttributePlus.attributeManager.getAttributeData(event.player)
+                    .getAttributeValue(ConfigManager.getAttributeName())[0]
 
-                "SX-Attribute" -> if (Bukkit.getServer().pluginManager.isPluginEnabled("SX-Attribute")) attributeValue =
-                    SXAttribute.getApi().getEntityData(event.player).getValues(ConfigManager.getAttributeName())[0]
+                "SX-Attribute" -> SXAttribute.getApi().getEntityData(event.player)
+                    .getValues(ConfigManager.getAttributeName())[0]
 
-                "OriginAttribute" -> if (Bukkit.getServer().pluginManager.isPluginEnabled("OriginAttribute")) attributeValue =
-                    OriginAttributeAPI.getAttributeData(event.player)
-                        .getData(ExpAddon().index, ExpAddon.DefaultImpl().index)
-                        .get(ExpAddon.DefaultImpl().index)
+                "OriginAttribute" -> OriginAttributeAPI.getAttributeData(event.player)
+                    .getData(ExpAddon().index, ExpAddon.DefaultImpl().index)
+                    .get(ExpAddon.DefaultImpl().index)
 
                 else -> throw IllegalArgumentException("Unsupported attribute plugin ${ConfigManager.getAttributePlugin()}.")
             }
