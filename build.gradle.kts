@@ -22,13 +22,7 @@ taboolib {
         )
     }
     description {
-        contributors {
-            name("CPJiNan")
-            name("Golden_Water")
-            name("2000000")
-            name("xiaochunkun")
-            name("Sting")
-        }
+        contributors { name("CPJiNan") }
         dependencies {
             name("PlaceholderAPI").optional(true)
             name("MythicMobs").optional(true)
