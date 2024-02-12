@@ -96,7 +96,7 @@ Hook:
     Formula: "%exp% * ( 1 + %attribute% / 100 )"
     # 所监听的 PlayerExpChange 来源
     Source:
-      - "MYTHICMOBS_EXP_DROP"
+      - "MYTHICMOBS_DROP_EXP"
   # PlaceholderAPI 变量拓展
   PlaceholderAPI:
     # 变量前缀

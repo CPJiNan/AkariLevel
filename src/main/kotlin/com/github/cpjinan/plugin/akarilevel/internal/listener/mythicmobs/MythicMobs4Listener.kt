@@ -24,7 +24,7 @@ object MythicMobs4Listener : Listener {
 class MythicMobs4ExpDrop(line: String, config: MythicLineConfig) : Drop(line, config), IItemDrop {
     override fun getDrop(meta: DropMetadata): AbstractItemStack? {
         val amount = this.line.split(' ')[1].toInt()
-        AkariLevelAPI.addPlayerExp(Bukkit.getPlayer(meta.trigger.uniqueId)!!, amount, "MYTHICMOBS_EXP_DROP")
+        AkariLevelAPI.addPlayerExp(Bukkit.getPlayer(meta.trigger.uniqueId)!!, amount, "MYTHICMOBS_DROP_EXP")
         return null
     }
 }
