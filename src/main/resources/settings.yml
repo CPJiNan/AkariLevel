@@ -74,7 +74,7 @@ Hook:
   # MythicMobs 掉落拓展
   MythicMobs:
     # 是否启用
-    Enable: false
+    Enable: true
     # 经验掉落名称
     # 继承自 2.X 的掉落物名称 PlayerExp
     # Drop-Name: "PlayerExp"
@@ -83,7 +83,7 @@ Hook:
   # 继承自 2.X 附属 AttributeLevel
   Attribute:
     # 是否启用
-    Enable: false
+    Enable: true
     # 属性插件 (AttributePlus, SX-Attribute, OriginAttribute)
     Plugin: "AttributePlus"
     # 属性名称
