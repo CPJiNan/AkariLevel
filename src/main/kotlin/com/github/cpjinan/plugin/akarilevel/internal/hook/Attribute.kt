@@ -16,8 +16,7 @@ object Attribute {
     fun onPlayerExpChange(event: PlayerExpChangeEvent) {
         var exp = event.exp
         if (ConfigManager.isEnabledAttribute() && Bukkit.getServer().pluginManager.isPluginEnabled(ConfigManager.getAttributePlugin()) && event.source in ConfigManager.getAttributeSource()) {
-            var attributeValue: Number = 0
-            attributeValue = when (ConfigManager.getAttributePlugin()) {
+            val attributeValue: Number = when (ConfigManager.getAttributePlugin()) {
                 "AttributePlus" -> AttributePlus.attributeManager.getAttributeData(event.player)
                     .getAttributeValue(ConfigManager.getAttributeName())[0]
 
