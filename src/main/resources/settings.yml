@@ -97,6 +97,7 @@ Hook:
     # 所监听的 PlayerExpChange 来源
     Source:
       - "MYTHICMOBS_DROP_EXP"
+      - "VANILLA_EXP_CHANGE"
   # PlaceholderAPI 变量拓展
   PlaceholderAPI:
     # 变量前缀
