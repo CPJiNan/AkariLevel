@@ -165,7 +165,8 @@ object AkariLevelAPI {
                     }
                     if (ConfigManager.settings.getBoolean("Level.Vanilla-Exp-Bar")) {
                         player.level = curLvl
-                        player.exp = (curExp.toFloat() / reqExp.toFloat()).coerceAtMost(1f)
+                        if (reqExp != 0) player.exp = (curExp.toFloat() / reqExp.toFloat()).coerceAtMost(1F)
+                        else player.exp = 1F
                     }
                     DebugUtil.printArgs(
                         Pair("(BukkitProxyEvent) this", "PlayerRefreshLevelEvent"),
@@ -185,7 +186,8 @@ object AkariLevelAPI {
                         ),
                         Pair(
                             "(float) (curExp.toFloat() / reqExp.toFloat()).coerceAtMost(1f)",
-                            (curExp.toFloat() / reqExp.toFloat()).coerceAtMost(1f)
+                            if (reqExp != 0) (curExp.toFloat() / reqExp.toFloat()).coerceAtMost(1F)
+                            else 1F
                         )
                     )
                 } else {

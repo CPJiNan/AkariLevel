@@ -19,10 +19,19 @@ Settings:
     #    Action:
     #      - command inline "say 此消息由 {{sender}} 在等级变更至 {{ papi %akarilevel_levelname% }} 时以 OP 权限执行 /say 命令发出" as op
     Action: [ ]
-  # 1 级 - 100 级(满级) 等级设置
+  # 1 级 - 100 级(下一个关键等级之前的等级) 等级设置
   1:
     Name: "§8Lv.§b%level%"
     Exp: "%level% * 5 + 100"
+    Condition: [ ]
+    Action:
+      - title "§e§lLevel UP!"
+      - subtitle inline "{{ papi %akarilevel_lastlevelname% }} §7→ {{ papi %akarilevel_levelname% }}" by 10 20 10
+      - actionbar inline "§8[ §7{{ papi %akarilevel_exp% }} §8/ §7{{ papi %akarilevel_nextlevelexp% }} §8]"
+  # 50 级 - 100 级(满级) 等级设置
+  50:
+    Name: "§8Lv.§b%level%"
+    Exp: "%level% * 10 + 100"
     Condition: [ ]
     Action:
       - title "§e§lLevel UP!"
