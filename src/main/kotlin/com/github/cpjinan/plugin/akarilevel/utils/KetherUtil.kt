@@ -21,6 +21,14 @@ object KetherUtil {
         return eval(listOf(this), sender, namespace, args)
     }
 
+    fun List<String>.evalKether(
+        sender: Any,
+        namespace: List<String> = listOf(BukkitPlugin.getInstance().name),
+        args: Map<String, Any>? = null,
+    ): Any? {
+        return eval(this, sender, namespace, args)
+    }
+
     private fun eval(
         script: List<String>,
         sender: Any,
