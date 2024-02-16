@@ -9,7 +9,7 @@ import taboolib.platform.BukkitPlugin
 
 /**
  * kether util
- * @author Lanscarlos
+ * @author CPJiNan
  * @since 2022-08-19
  */
 object KetherUtil {
