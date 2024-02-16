@@ -10,7 +10,7 @@ import taboolib.platform.BukkitPlugin
 /**
  * kether util
  * @author CPJiNan
- * @since 2022-08-19
+ * @since 2024-02-16
  */
 object KetherUtil {
     fun String.evalKether(
