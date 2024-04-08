@@ -21,37 +21,11 @@ object PlayerListener {
 
     @SubscribeEvent
     fun onPlayerJoin(event: PlayerJoinEvent) {
-        val playerName = event.player.name
-        if (ConfigManager.isEnabledRedis()) {
-            when (DatabaseManager.getRedis().getPlayerByName(playerName)) {
-                PlayerData() -> {
-                    DatabaseManager.getRedis()
-                        .updatePlayer(playerName, DatabaseManager.getDatabase().getPlayerByName(playerName))
-                    DatabaseManager.getCache()
-                        .updatePlayer(playerName, DatabaseManager.getRedis().getPlayerByName(playerName))
-                }
-
-                else -> {
-                    DatabaseManager.getCache()
-                        .updatePlayer(playerName, DatabaseManager.getRedis().getPlayerByName(playerName))
-                }
-            }
-        } else DatabaseManager.getCache()
-            .updatePlayer(playerName, DatabaseManager.getDatabase().getPlayerByName(playerName))
         AkariLevelAPI.refreshPlayerLevel(event.player, "LISTENER_PLAYER_JOIN")
     }
 
     @SubscribeEvent
     fun onPlayerQuit(event: PlayerQuitEvent) {
-        val playerName = event.player.name
-        if (ConfigManager.isEnabledRedis()) {
-            DatabaseManager.getRedis()
-                .updatePlayer(playerName, DatabaseManager.getCache().getPlayerByName(playerName))
-            DatabaseManager.getCache().updatePlayer(playerName, PlayerData())
-        } else {
-            DatabaseManager.getDatabase()
-                .updatePlayer(playerName, DatabaseManager.getCache().getPlayerByName(playerName))
-            DatabaseManager.getCache().updatePlayer(playerName, PlayerData())
-        }
+        DatabaseManager.getDatabase().save()
     }
 }

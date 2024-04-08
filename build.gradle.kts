@@ -3,7 +3,7 @@ import io.izzel.taboolib.gradle.*
 plugins {
     `java-library`
     `maven-publish`
-    id("io.izzel.taboolib") version "2.0.2"
+    id("io.izzel.taboolib") version "2.0.11"
     id("org.jetbrains.kotlin.jvm") version "1.9.22"
     id("org.jetbrains.kotlin.plugin.serialization") version "1.9.22"
 }
@@ -16,7 +16,6 @@ taboolib {
             KETHER,
             METRICS,
             DATABASE,
-            EXPANSION_REDIS,
             EXPANSION_JAVASCRIPT,
             BUKKIT_ALL
         )
@@ -31,7 +30,7 @@ taboolib {
             name("OriginAttribute").optional(true)
         }
     }
-    version { taboolib = "6.1.0" }
+    version { taboolib = "6.1.1-beta17" }
     relocate("kotlinx.serialization", "kotlinx.serialization160")
 }
 

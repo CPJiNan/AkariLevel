@@ -33,11 +33,4 @@ object DatabaseManager {
         database!!
     }
 
-    fun getRedis(): Database {
-        return DbRedis()
-    }
-
-    fun getCache(): DbCache {
-        return DbCache
-    }
 }

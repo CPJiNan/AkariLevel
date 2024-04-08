@@ -32,13 +32,6 @@ object AkariLevel : Plugin() {
     }
 
     override fun onDisable() {
-        DatabaseManager.getCache().playerData.forEach { (name, value) ->
-            if (ConfigManager.isEnabledRedis()) {
-                if (value != PlayerData()) DatabaseManager.getRedis().updatePlayer(name, value)
-                DatabaseManager.getDatabase().updatePlayer(name, DatabaseManager.getRedis().getPlayerByName(name))
-            } else if (value != PlayerData()) DatabaseManager.getDatabase().updatePlayer(name, value)
-        }
-        if (ConfigManager.isEnabledRedis()) DatabaseManager.getRedis().save()
         DatabaseManager.getDatabase().save()
     }
 }
