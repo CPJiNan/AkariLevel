@@ -5,6 +5,7 @@ import ac.github.oa.internal.core.attribute.impl.ExpAddon
 import com.github.cpjinan.plugin.akarilevel.api.AkariLevelAPI
 import com.github.cpjinan.plugin.akarilevel.api.event.exp.PlayerExpChangeEvent
 import com.github.cpjinan.plugin.akarilevel.internal.manager.ConfigManager
+import com.skillw.attsystem.api.AttrAPI.getAttrData
 import github.saukiya.sxattribute.SXAttribute
 import org.bukkit.Bukkit
 import org.serverct.ersha.AttributePlus
@@ -28,6 +29,9 @@ object Attribute {
                 "OriginAttribute" -> OriginAttributeAPI.getAttributeData(event.player)
                     .getData(ExpAddon().index, ExpAddon.DefaultImpl().index)
                     .get(ExpAddon.DefaultImpl().index)
+
+                "AttributeSystem" -> event.player.uniqueId.getAttrData()
+                    ?.getAttrValue<Double>(ConfigManager.getAttributeName(), "total") as Number
 
                 else -> throw IllegalArgumentException("Unsupported attribute plugin ${ConfigManager.getAttributePlugin()}.")
             }
