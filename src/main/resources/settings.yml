@@ -76,8 +76,11 @@ Hook:
     # 是否启用
     Enable: true
     # 经验掉落名称
+    # 继承自 2.X 的掉落物名称 PlayerExp
+    # Drop-Name: "PlayerExp"
     Drop-Name: "AkariExp"
   # 属性插件经验加成拓展
+  # 继承自 2.X 附属 AttributeLevel
   Attribute:
     # 是否启用
     Enable: true
@@ -86,6 +89,7 @@ Hook:
     # 属性名称
     # SX-Attribute 的属性名称是其英文名而非 DiscernName (即默认应填写 "ExpAddition" 而非"经验增幅")
     # OriginAttribute 默认读取 ExpAddon 为经验加成属性, 无需填写 Name 配置项
+    # AttributeSystem 的属性名请使用 ExpAddition
     Name: "经验加成"
     # 经验计算公式 (JavaScript支持)
     # %exp% -> 获得的经验值数量
@@ -98,4 +102,6 @@ Hook:
   # PlaceholderAPI 变量拓展
   PlaceholderAPI:
     # 变量前缀
+    # 继承自 2.X 的变量前缀 playerlevel
+    # Identifier: "playerlevel"
     Identifier: "akarilevel"
