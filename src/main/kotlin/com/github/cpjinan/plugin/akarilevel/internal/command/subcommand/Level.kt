@@ -1,7 +1,7 @@
 package com.github.cpjinan.plugin.akarilevel.internal.command.subcommand
 
 import com.github.cpjinan.plugin.akarilevel.api.AkariLevelAPI
-import com.github.cpjinan.plugin.akarilevel.utils.PlayerUtil.toBukkitPlayer
+import com.github.cpjinan.plugin.akarilevel.internal.manager.DatabaseManager.toBukkitPlayer
 import taboolib.common.platform.ProxyCommandSender
 import taboolib.common.platform.command.CommandContext
 import taboolib.common.platform.command.int

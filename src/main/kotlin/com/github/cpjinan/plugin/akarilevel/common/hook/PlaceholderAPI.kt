@@ -1,4 +1,4 @@
-package com.github.cpjinan.plugin.akarilevel.internal.hook
+package com.github.cpjinan.plugin.akarilevel.common.hook
 
 import com.github.cpjinan.plugin.akarilevel.api.AkariLevelAPI
 import com.github.cpjinan.plugin.akarilevel.internal.manager.ConfigManager

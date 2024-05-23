@@ -1,4 +1,4 @@
-package com.github.cpjinan.plugin.akarilevel.internal.listener.mythicmobs
+package com.github.cpjinan.plugin.akarilevel.common.listener.mythicmobs
 
 import com.github.cpjinan.plugin.akarilevel.api.AkariLevelAPI
 import com.github.cpjinan.plugin.akarilevel.internal.manager.ConfigManager

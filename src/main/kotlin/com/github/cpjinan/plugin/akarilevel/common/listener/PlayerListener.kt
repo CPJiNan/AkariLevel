@@ -1,7 +1,6 @@
-package com.github.cpjinan.plugin.akarilevel.internal.listener
+package com.github.cpjinan.plugin.akarilevel.common.listener
 
 import com.github.cpjinan.plugin.akarilevel.api.AkariLevelAPI
-import com.github.cpjinan.plugin.akarilevel.internal.database.type.PlayerData
 import com.github.cpjinan.plugin.akarilevel.internal.manager.ConfigManager
 import com.github.cpjinan.plugin.akarilevel.internal.manager.DatabaseManager
 import org.bukkit.event.player.PlayerExpChangeEvent

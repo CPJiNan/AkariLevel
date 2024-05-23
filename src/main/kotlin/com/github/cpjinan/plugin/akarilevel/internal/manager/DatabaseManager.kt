@@ -1,6 +1,13 @@
 package com.github.cpjinan.plugin.akarilevel.internal.manager
 
-import com.github.cpjinan.plugin.akarilevel.internal.database.*
+import com.github.cpjinan.plugin.akarilevel.internal.database.Database
+import com.github.cpjinan.plugin.akarilevel.internal.database.DbCbor
+import com.github.cpjinan.plugin.akarilevel.internal.database.DbJson
+import com.github.cpjinan.plugin.akarilevel.internal.database.DbSql
+import com.github.cpjinan.plugin.akarilevel.internal.database.type.PlayerData
+import org.bukkit.Bukkit
+import org.bukkit.entity.Player
+import taboolib.common.platform.ProxyPlayer
 
 object DatabaseManager {
     private var database: Database? = null
@@ -33,4 +40,6 @@ object DatabaseManager {
         database!!
     }
 
+    fun ProxyPlayer.toBukkitPlayer(): Player = Bukkit.getPlayer(this.uniqueId)!!
+    fun Player.data(): PlayerData = getDatabase().getPlayerByName(this.name)
 }

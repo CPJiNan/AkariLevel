@@ -1,15 +1,15 @@
 package com.github.cpjinan.plugin.akarilevel.api
 
 import com.github.cpjinan.plugin.akarilevel.AkariLevel
-import com.github.cpjinan.plugin.akarilevel.api.event.exp.PlayerExpChangeEvent
-import com.github.cpjinan.plugin.akarilevel.api.event.level.PlayerLevelChangeEvent
-import com.github.cpjinan.plugin.akarilevel.api.event.level.PlayerLevelupEvent
-import com.github.cpjinan.plugin.akarilevel.api.event.level.PlayerRefreshLevelEvent
+import com.github.cpjinan.plugin.akarilevel.common.event.exp.PlayerExpChangeEvent
+import com.github.cpjinan.plugin.akarilevel.common.event.level.PlayerLevelChangeEvent
+import com.github.cpjinan.plugin.akarilevel.common.event.level.PlayerLevelupEvent
+import com.github.cpjinan.plugin.akarilevel.common.event.level.PlayerRefreshLevelEvent
+import com.github.cpjinan.plugin.akarilevel.common.script.kether.KetherUtil.evalKether
 import com.github.cpjinan.plugin.akarilevel.internal.manager.ConfigManager
 import com.github.cpjinan.plugin.akarilevel.internal.manager.DatabaseManager
 import com.github.cpjinan.plugin.akarilevel.internal.manager.LevelManager
 import com.github.cpjinan.plugin.akarilevel.utils.DebugUtil
-import com.github.cpjinan.plugin.akarilevel.utils.KetherUtil.evalKether
 import org.bukkit.entity.Player
 import taboolib.common.platform.function.adaptPlayer
 import taboolib.module.kether.KetherShell
@@ -78,7 +78,7 @@ object AkariLevelAPI {
             db.updatePlayer(player.name, data)
             KetherShell.eval(
                 LevelManager.getAction(this.level)!!,
-                ScriptOptions.builder().namespace(listOf(AkariLevel.instance.name)).sender(sender = adaptPlayer(player))
+                ScriptOptions.builder().namespace(listOf(AkariLevel.plugin.name)).sender(sender = adaptPlayer(player))
                     .build()
             )
             DebugUtil.printArgs(

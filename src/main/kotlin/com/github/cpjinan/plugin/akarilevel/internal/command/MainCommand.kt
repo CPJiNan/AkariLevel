@@ -30,7 +30,7 @@ object MainCommand {
         execute { sender: ProxyCommandSender, _: CommandContext<ProxyCommandSender>, _: String ->
             ConfigManager.settings.reload()
             ConfigManager.levelConfig.reload()
-            sender.sendLang("Reload")
+            sender.sendLang("Plugin-Reloaded")
         }
     }
 

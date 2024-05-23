@@ -1,9 +1,9 @@
-package com.github.cpjinan.plugin.akarilevel.internal.hook
+package com.github.cpjinan.plugin.akarilevel.common.hook
 
 import ac.github.oa.api.OriginAttributeAPI
 import ac.github.oa.internal.core.attribute.impl.ExpAddon
 import com.github.cpjinan.plugin.akarilevel.api.AkariLevelAPI
-import com.github.cpjinan.plugin.akarilevel.api.event.exp.PlayerExpChangeEvent
+import com.github.cpjinan.plugin.akarilevel.common.event.exp.PlayerExpChangeEvent
 import com.github.cpjinan.plugin.akarilevel.internal.manager.ConfigManager
 import github.saukiya.sxattribute.SXAttribute
 import org.bukkit.Bukkit

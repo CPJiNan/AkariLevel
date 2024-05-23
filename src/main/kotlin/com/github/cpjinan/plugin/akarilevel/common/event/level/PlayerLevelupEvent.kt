@@ -1,4 +1,4 @@
-package com.github.cpjinan.plugin.akarilevel.api.event.level
+package com.github.cpjinan.plugin.akarilevel.common.event.level
 
 import org.bukkit.entity.Player
 import taboolib.platform.type.BukkitProxyEvent
