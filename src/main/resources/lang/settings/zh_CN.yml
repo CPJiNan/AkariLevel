@@ -1,9 +1,19 @@
 # 您在此处做出的更改并不会被应用于插件，请前往 AkariLevel/settings.yml 进行修改
-# 插件Wiki: https://cp-jinan.feishu.cn/wiki/space/7334558867143049220
+
+#     _    _              _ _                   _  #
+#    / \  | | ____ _ _ __(_) |    _____   _____| | #
+#   / _ \ | |/ / _` | '__| | |   / _ \ \ / / _ \ | #
+#  / ___ \|   < (_| | |  | | |__|  __/\ V /  __/ | #
+# /_/   \_\_|\_\__,_|_|  |_|_____\___| \_/ \___|_| #
 
 ##################################
 #       AkariLevel  Config       #
 ##################################
+
+# 其他版本的语言文件请参阅 AkariLevel.jar 中的 AkariLevel/lang/setting 文件夹
+# 插件Wiki: https://cp-jinan.feishu.cn/wiki/space/7334558867143049220
+# For other language versions of the configuration files, please refer to the AkariLevel/lang/setting folder in AkariLevel.jar
+# Plugin Docs: https://cp-jinan.feishu.cn/wiki/space/7334558867143049220
 
 ###########
 # Options #
