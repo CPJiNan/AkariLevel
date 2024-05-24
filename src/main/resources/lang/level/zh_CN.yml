@@ -1,9 +1,4 @@
-#################################
-#        Level  Settings        #
-#################################
-
-# 其他版本的语言文件请参阅 AkariLevel/lang/level 文件夹
-# For other language versions of the configuration files, please refer to the AkariLevel/lang/level folder
+# 您在此处做出的更改并不会被应用于插件，请前往 AkariLevel/level.yml 进行修改
 
 # 最高等级
 Max-Level: 100

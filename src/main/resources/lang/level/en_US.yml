@@ -1,0 +1,43 @@
+# The changes you made in this file will not be applied to the plugin
+# Please make modifications in AkariLevel/level.yml instead
+
+# Max level
+Max-Level: 100
+# Key level settings
+# Only modify the key levels, for non-key levels it will automatically read the information from the previous key level
+Settings:
+  # Level 0 settings
+  0:
+    # Level name
+    # %level% -> Corresponding level
+    Name: "§8Lv.§b0"
+    # Experience required to reach this level (supports JavaScript)
+    # %level% -> Corresponding level
+    Exp: "0"
+    # Conditions required to reach this level (supports Kether, each line must return true to level up)
+    # Kether Actions https://kether.tabooproject.org/list.html
+    # Condition:
+    #   - "permission akarilevel.default"
+    Condition: [ ]
+    # Actions to perform after leveling up (supports Kether)
+    #    Action:
+    #      - command inline "This message is sent by {{sender}} when the level changes to {{ papi %akarilevel_levelname% }} using the /say command with OP permission" as op
+    Action: [ ]
+  # Levels 1 - 49 (up to the next key level) settings
+  1:
+    Name: "§8Lv.§b%level%"
+    Exp: "%level% * 5 + 100"
+    Condition: [ ]
+    Action:
+      - title "§e§lLevel UP!"
+      - subtitle inline "{{ papi %akarilevel_lastlevelname% }} §7→ {{ papi %akarilevel_levelname% }}" by 10 20 10
+      - actionbar inline "§8[ §7{{ papi %akarilevel_exp% }} §8/ §7{{ papi %akarilevel_nextlevelexp% }} §8]"
+  # Levels 50 - 100 (max level) settings
+  50:
+    Name: "§8Lv.§b%level%"
+    Exp: "%level% * 10 + 100"
+    Condition: [ ]
+    Action:
+      - title "§e§lLevel UP!"
+      - subtitle inline "{{ papi %akarilevel_lastlevelname% }} §7→ {{ papi %akarilevel_levelname% }}" by 10 20 10
+      - actionbar inline "§8[ §7{{ papi %akarilevel_exp% }} §8/ §7{{ papi %akarilevel_nextlevelexp% }} §8]"

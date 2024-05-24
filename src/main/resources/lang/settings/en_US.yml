@@ -1,0 +1,103 @@
+# The changes you made in this file will not be applied to the plugin
+# Please make modifications in AkariLevel/settings.yml instead
+
+##################################
+#       AkariLevel  Config       #
+##################################
+
+###########
+# Options #
+###########
+
+# Global settings
+Options:
+  # Configuration file version
+  Config-Version: 1
+  # Check for updates
+  Check-Update: true
+  # Enable bStats metrics
+  Send-Metrics: true
+  # Enable debug mode
+  Debug: false
+
+############
+# Database #
+############
+
+# Data storage settings
+Database:
+  # Storage method (JSON, CBOR, SQL)
+  Method: JSON
+  JSON:
+    file: database.json
+  CBOR:
+    file: database.cbor
+  SQL:
+    host: localhost
+    port: 3306
+    user: root
+    password: password
+    database: minecraft
+    table: akarilevel
+  REDIS:
+    enable: false
+    host: localhost
+    port: 6379
+    # user: user
+    # password: password
+
+###########
+#  Level  #
+###########
+
+# Level settings
+Level:
+  # Automatically level up when requirements are met
+  Auto-Levelup: true
+  # No longer gain experience after reaching the maximum level
+  Exp-Limit: true
+  # Sync the vanilla experience bar with AkariLevel
+  Vanilla-Exp-Bar: true
+  # Conversion rate of vanilla experience to AkariExp (type: Double)
+  # AkariExp change = rounded to the nearest integer (vanilla experience change * Vanilla-Exp-Rate)
+  # When this value is 0.0, vanilla experience will not convert to AkariExp.
+  # When this value is 1.0, for every 1 point of vanilla experience gained, AkariExp will increase by 1 point.
+  # When this value is 1.5, gaining 1 point of vanilla experience will increase AkariExp by 2 points; gaining 10 points of vanilla experience will increase AkariExp by 15 points.
+  # When this value is 2.0, for every 1 point of vanilla experience gained, AkariExp will increase by 2 points.
+  Vanilla-Exp-Rate: 0.0
+
+##########
+#  Hook  #
+##########
+
+# Hook settings
+Hook:
+  # MythicMobs drop extension
+  MythicMobs:
+    # Enable
+    Enable: true
+    # Experience drop name
+    Drop-Name: "AkariExp"
+  # Attribute plugin experience bonus extension
+  Attribute:
+    # Enable
+    Enable: true
+    # Attribute plugin (AttributePlus, SX-Attribute, OriginAttribute, AttributeSystem)
+    Plugin: "AttributePlus"
+    # Attribute name
+    # The attribute name for SX-Attribute is its English name rather than DiscernName (i.e., it should be "ExpAddition" by default, not "经验增幅")
+    # OriginAttribute reads ExpAddon as the experience bonus attribute by default, no need to fill in the Name configuration item
+    # The attribute name for AttributeSystem is ExpAddition
+    Name: "经验加成"
+    # Experience calculation formula (supports JavaScript)
+    # %exp% -> Amount of experience gained
+    # %attribute% -> Additional bonus experience amount
+    Formula: "%exp% * ( 1 + %attribute% / 100 )"
+    # Sources for PlayerExpChange to listen to
+    Source:
+      - "MYTHICMOBS_DROP_EXP"
+      - "VANILLA_EXP_CHANGE"
+  # PlaceholderAPI variable extension
+  PlaceholderAPI:
+    # Variable prefix
+    Identifier: "akarilevel"

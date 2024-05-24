@@ -3,18 +3,18 @@ Plugin-Loading: '&7Loading &3Akari&bLevel&8&f... &8{0}'
 Plugin-Enabled: '&8[&3Akari&bLevel&8] &bInfo &8| &6Plugin loaded.'
 Plugin-Disable: '&8[&3Akari&bLevel&8] &bInfo &8| &6Plugin unloaded.'
 Plugin-Reloaded: '&8[&3Akari&bLevel&8] &bInfo &8| &6Plugin reloaded.'
-No-Permission: "&c无进行当前操作的权限！"
+No-Permission: "&cNo permission for the current operation!"
 # Exp-related
-Add-Exp: "&7已给予玩家 &f{0} {1} &7点经验值！"
-Remove-Exp: "&7已移除玩家 &f{0} {1} &7点经验值！"
-Set-Exp: "&7已设置玩家 &f{0} &7的经验值为 &f{1} &7！"
-Check-Exp: "&7玩家 &f{0} &7拥有的经验值为 &f{1} &7！"
+Add-Exp: "&7Given player &f{0} {1} &7 experience points!"
+Remove-Exp: "&7Removed &f{0} {1} &7 experience points from player!"
+Set-Exp: "&7Set player &f{0}'s &7 experience points to &f{1}!"
+Check-Exp: "&7Player &f{0} &7 has &f{1} &7 experience points!"
 # Level-related
-Add-Level: "&7已给予玩家 &f{0} {1} &7个等级！"
-Remove-Level: "&7已移除玩家 &f{0} {1} &7个等级！"
-Set-Level: "&7已设置玩家 &f{0} &7的等级为 &f{1} &7！"
-Check-Level: "&7玩家 &f{0} &7的等级为 &f{1} &7！"
+Add-Level: "&7Given player &f{0} {1} &7 levels!"
+Remove-Level: "&7Removed &f{0} {1} &7 levels from player!"
+Set-Level: "&7Set player &f{0}'s &7 level to &f{1}!"
+Check-Level: "&7Player &f{0}'s &7 level is &f{1}!"
 # Levelup-related
-Levelup-Success: "&a升级成功！"
-Levelup-Fail: "&c未满足升级所需条件！"
-Max-Level: "&c已达到最大等级！"
+Levelup-Success: "&aLevel up successful!"
+Levelup-Fail: "&cLevel up requirements not met!"
+Max-Level: "&cMaximum level reached!"
