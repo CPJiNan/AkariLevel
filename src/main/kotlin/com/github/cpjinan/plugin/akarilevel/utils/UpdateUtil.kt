@@ -2,7 +2,10 @@ package com.github.cpjinan.plugin.akarilevel.utils
 
 import com.github.cpjinan.plugin.akarilevel.utils.LoggerUtil.message
 import com.github.cpjinan.plugin.akarilevel.utils.VersionUtil.toSemanticVersion
+import taboolib.common.platform.function.console
+import taboolib.common5.util.replace
 import taboolib.module.chat.colored
+import taboolib.module.lang.asLangTextList
 import taboolib.platform.BukkitPlugin
 import java.net.HttpURLConnection
 import java.net.URL
@@ -30,15 +33,11 @@ object UpdateUtil {
                 val latestVersion = urlConnection.inputStream.bufferedReader().readText().toSemanticVersion()!!
                 val currentVersion = BukkitPlugin.getInstance().description.version.toSemanticVersion()!!
                 if (latestVersion > currentVersion) {
-                    message(
-                        "&r===============[&e&lUpdate&r]==============".colored(),
-                        "&r| &rPlugin &6AkariLevel &7=>".colored(),
-                        "&r| &b◈ &r发现了一个新的插件版本！".colored(),
-                        "&r| &b◈ &r最新版本: $latestVersion".colored(),
-                        "&r| &b◈ &r当前版本: $currentVersion".colored(),
-                        "&r| &b◈ &r请加QQ群704109949以获取插件最新版本...".colored(),
-                        "&r===============[&e&lUpdate&r]==============".colored()
-                    )
+                    console().asLangTextList("Plugin-Update")
+                        .replace(Pair("%latestVersion%", latestVersion), Pair("%currentVersion%", currentVersion))
+                        .forEach {
+                            message(it.colored())
+                        }
                 }
             } catch (_: java.net.ConnectException) {
             } finally {
