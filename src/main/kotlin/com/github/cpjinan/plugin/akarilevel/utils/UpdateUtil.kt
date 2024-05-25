@@ -1,5 +1,6 @@
 package com.github.cpjinan.plugin.akarilevel.utils
 
+import com.github.cpjinan.plugin.akarilevel.internal.manager.ConfigManager
 import com.github.cpjinan.plugin.akarilevel.utils.LoggerUtil.message
 import com.github.cpjinan.plugin.akarilevel.utils.VersionUtil.toSemanticVersion
 import taboolib.common.platform.function.console
@@ -44,5 +45,17 @@ object UpdateUtil {
                 urlConnection.disconnect()
             }
         }.start()
+    }
+
+    fun getConfigUpdate() {
+        val latestVersion = ConfigManager.VERSION
+        val currentVersion = ConfigManager.getConfigVersion()
+        if (currentVersion < latestVersion) {
+            console().asLangTextList("Config-Update")
+                .replace(Pair("%latestVersion%", latestVersion), Pair("%currentVersion%", currentVersion))
+                .forEach {
+                    message(it.colored())
+                }
+        }
     }
 }

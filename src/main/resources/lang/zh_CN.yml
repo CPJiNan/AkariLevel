@@ -11,6 +11,15 @@ Plugin-Update:
   - '&r| &b◈ &r当前版本: %currentVersion%'
   - '&r| &b◈ &r查看详情: https://www.minebbs.com/resources/7199/'
   - '&r===============[&e&l插件更新&r]=============='
+# Config-related
+Config-Update:
+  - '&r===============[&e&l配置更新&r]=============='
+  - '&r| &6配置文件 &7=>'
+  - '&r| &b◈ &r发现了一个新的配置文件版本！'
+  - '&r| &b◈ &r最新版本: %latestVersion%'
+  - '&r| &b◈ &r当前版本: %currentVersion%'
+  - '&r| &b◈ &r请保存备份并重新生成 lang 文件夹中的配置文件！'
+  - '&r===============[&e&l配置更新&r]=============='
 No-Permission: "&c无进行当前操作的权限！"
 # 经验相关
 Add-Exp: "&7已给予玩家 &f{0} {1} &7点经验值！"

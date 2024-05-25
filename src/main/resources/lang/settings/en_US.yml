@@ -23,7 +23,7 @@
 # Global settings
 Options:
   # Configuration file version
-  Config-Version: 1
+  Config-Version: 2
   # Check for updates
   Check-Update: true
   # Enable bStats metrics
@@ -112,3 +112,17 @@ Hook:
   PlaceholderAPI:
     # Variable prefix
     Identifier: "akarilevel"
+    # Progress Bar Variable
+    Progress-Bar:
+      # %AkariLevel_ExpProgressBar%
+      # Current Experience Points / Experience points needed to the next level
+      Exp:
+        Empty: "□"
+        Full: "■"
+        Length: 10
+      # %AkariLevel_LevelProgressBar%
+      # Current Level / Max Level
+      Level:
+        Empty: "□"
+        Full: "■"
+        Length: 10

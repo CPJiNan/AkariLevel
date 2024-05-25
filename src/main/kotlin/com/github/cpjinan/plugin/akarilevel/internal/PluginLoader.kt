@@ -2,15 +2,14 @@ package com.github.cpjinan.plugin.akarilevel.internal
 
 import com.github.cpjinan.plugin.akarilevel.AkariLevel.plugin
 import com.github.cpjinan.plugin.akarilevel.common.hook.MythicMobs
+import com.github.cpjinan.plugin.akarilevel.internal.manager.ConfigManager
 import com.github.cpjinan.plugin.akarilevel.internal.manager.DatabaseManager
 import com.github.cpjinan.plugin.akarilevel.utils.LoggerUtil
 import com.github.cpjinan.plugin.akarilevel.utils.UpdateUtil
 import taboolib.common.LifeCycle
-import taboolib.common.io.newFile
 import taboolib.common.platform.Awake
 import taboolib.common.platform.Platform
 import taboolib.common.platform.function.console
-import taboolib.common.platform.function.getDataFolder
 import taboolib.module.chat.colored
 import taboolib.module.lang.sendLang
 import taboolib.module.metrics.Metrics
@@ -33,14 +32,12 @@ object PluginLoader {
             "&o /_/   \\_\\_|\\_\\__,_|_|  |_|_____\\___| \\_/ \\___|_| ".colored(),
             ""
         )
-        newFile(getDataFolder(), "lang/settings/zh_CN.yml", create = true)
-        newFile(getDataFolder(), "lang/settings/en_US.yml", create = true)
-        newFile(getDataFolder(), "lang/level/zh_CN.yml", create = true)
-        newFile(getDataFolder(), "lang/level/en_US.yml", create = true)
+        ConfigManager.initializeConfig()
         MythicMobs.registerMythicMobsListener()
         console().sendLang("Plugin-Enabled")
         UpdateUtil.getPluginNotice()
         UpdateUtil.getPluginUpdate()
+        UpdateUtil.getConfigUpdate()
     }
 
     @Awake(LifeCycle.DISABLE)

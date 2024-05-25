@@ -14,6 +14,15 @@ Plugin-Update:
   - '&r| &b◈ &rView details: https://www.spigotmc.org/resources/116936/'
   - '&r===============[&e&lPlugin Update&r]=============='
 No-Permission: "&cNo permission for the current operation!"
+# Config-related
+Config-Update:
+  - '&r===============[&e&lConfig Update&r]=============='
+  - '&r| &6Config &7=>'
+  - '&r| &b◈ &rA new config version has been found!'
+  - '&r| &b◈ &rLatest version: %latestVersion%'
+  - '&r| &b◈ &rCurrent version: %currentVersion%'
+  - '&r| &b◈ &rPlease save the backup and regenerate the config file in lang folder'
+  - '&r===============[&e&lConfig Update&r]=============='
 # Exp-related
 Add-Exp: "&7Given player &f{0} {1} &7 experience points!"
 Remove-Exp: "&7Removed &f{0} {1} &7 experience points from player!"

@@ -20,7 +20,7 @@
 # 全局设置
 Options:
   # 配置文件版本
-  Config-Version: 1
+  Config-Version: 2
   # 检查版本更新
   Check-Update: true
   # 启用 bStats 统计
@@ -109,3 +109,17 @@ Hook:
   PlaceholderAPI:
     # 变量前缀
     Identifier: "akarilevel"
+    # 经验条变量设置
+    Progress-Bar:
+      # %AkariLevel_ExpProgressBar%
+      # 当前经验 / 升至下一级所需经验
+      Exp:
+        Empty: "□"
+        Full: "■"
+        Length: 10
+      # %AkariLevel_LevelProgressBar%
+      # 当前等级 / 最高等级
+      Level:
+        Empty: "□"
+        Full: "■"
+        Length: 10
