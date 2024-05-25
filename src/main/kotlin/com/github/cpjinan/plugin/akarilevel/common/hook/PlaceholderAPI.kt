@@ -5,6 +5,7 @@ import com.github.cpjinan.plugin.akarilevel.internal.manager.ConfigManager
 import com.github.cpjinan.plugin.akarilevel.internal.manager.LevelManager
 import org.bukkit.entity.Player
 import taboolib.common5.util.createBar
+import taboolib.module.chat.colored
 import taboolib.platform.compat.PlaceholderExpansion
 
 object PlaceholderAPI : PlaceholderExpansion {
@@ -31,15 +32,15 @@ object PlaceholderAPI : PlaceholderExpansion {
                     "nextlevelexp" -> LevelManager.getExp(nextLvl)
 
                     "expprogressbar" -> createBar(
-                        ConfigManager.getExpProgressBarEmpty(),
-                        ConfigManager.getExpProgressBarFull(),
+                        ConfigManager.getExpProgressBarEmpty().colored(),
+                        ConfigManager.getExpProgressBarFull().colored(),
                         ConfigManager.getExpProgressBarLength(),
                         AkariLevelAPI.getPlayerExp(player).toDouble() / LevelManager.getExp(nextLvl)
                     )
 
                     "levelprogressbar" -> createBar(
-                        ConfigManager.getLevelProgressBarEmpty(),
-                        ConfigManager.getLevelProgressBarFull(),
+                        ConfigManager.getLevelProgressBarEmpty().colored(),
+                        ConfigManager.getLevelProgressBarFull().colored(),
                         ConfigManager.getLevelProgressBarLength(),
                         AkariLevelAPI.getPlayerLevel(player).toDouble() / ConfigManager.getMaxLevel()
                     )
