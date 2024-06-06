@@ -1,7 +1,5 @@
 package com.github.cpjinan.plugin.akarilevel.internal.manager
 
-import taboolib.common.io.newFile
-import taboolib.common.platform.function.getDataFolder
 import taboolib.module.configuration.Config
 import taboolib.module.configuration.ConfigFile
 import taboolib.module.database.getHost
@@ -15,12 +13,17 @@ object ConfigManager {
     const val VERSION = 2
 
     // Config initialization
-    fun initializeConfig() {
-        newFile(getDataFolder(), "lang/settings/zh_CN.yml", create = true)
-        newFile(getDataFolder(), "lang/settings/en_US.yml", create = true)
-        newFile(getDataFolder(), "lang/level/zh_CN.yml", create = true)
-        newFile(getDataFolder(), "lang/level/en_US.yml", create = true)
-    }
+    @Config("lang/settings/zh_CN.yml", autoReload = false)
+    lateinit var settings_zh_CN: ConfigFile
+
+    @Config("lang/settings/en_US.yml", autoReload = false)
+    lateinit var settings_en_US: ConfigFile
+
+    @Config("lang/level/zh_CN.yml", autoReload = false)
+    lateinit var level_zh_CN: ConfigFile
+
+    @Config("lang/level/en_US.yml", autoReload = false)
+    lateinit var level_en_US: ConfigFile
 
     // Options
     fun getConfigVersion() = settings.getInt("Options.Config-Version")

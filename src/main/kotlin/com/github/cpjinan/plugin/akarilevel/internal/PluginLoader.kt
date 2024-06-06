@@ -32,7 +32,6 @@ object PluginLoader {
             "&o /_/   \\_\\_|\\_\\__,_|_|  |_|_____\\___| \\_/ \\___|_| ".colored(),
             ""
         )
-        ConfigManager.initializeConfig()
         MythicMobs.registerMythicMobsListener()
         console().sendLang("Plugin-Enabled")
         UpdateUtil.getPluginNotice()
