@@ -2,7 +2,6 @@ package com.github.cpjinan.plugin.akarilevel.internal
 
 import com.github.cpjinan.plugin.akarilevel.AkariLevel.plugin
 import com.github.cpjinan.plugin.akarilevel.common.hook.MythicMobs
-import com.github.cpjinan.plugin.akarilevel.internal.manager.ConfigManager
 import com.github.cpjinan.plugin.akarilevel.internal.manager.DatabaseManager
 import com.github.cpjinan.plugin.akarilevel.utils.LoggerUtil
 import com.github.cpjinan.plugin.akarilevel.utils.UpdateUtil
