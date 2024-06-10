@@ -27,7 +27,7 @@ Settings:
     Condition: [ ]
     # 升级后执行的动作 (Kether支持)
     #    Action:
-    #      - command inline "say 此消息由 {{sender}} 在等级变更至 {{ papi %akarilevel_levelname% }} 时以 OP 权限执行 /say 命令发出" as op
+    #      - command inline "give {{sender}} apple 1" as op
     Action: [ ]
   # 1 级 - 49 级(下一个关键等级之前的等级) 等级设置
   1:

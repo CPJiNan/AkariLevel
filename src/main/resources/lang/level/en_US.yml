@@ -30,7 +30,7 @@ Settings:
     Condition: [ ]
     # Actions to perform after leveling up (supports Kether)
     #    Action:
-    #      - command inline "This message is sent by {{sender}} when the level changes to {{ papi %akarilevel_levelname% }} using the /say command with OP permission" as op
+    #      - command inline "give {{sender}} apple 1" as op
     Action: [ ]
   # Levels 1 - 49 (up to the next key level) settings
   1:
