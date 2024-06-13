@@ -3,7 +3,7 @@ import io.izzel.taboolib.gradle.*
 plugins {
     `java-library`
     `maven-publish`
-    id("io.izzel.taboolib") version "2.0.11"
+    id("io.izzel.taboolib") version "2.0.12"
     id("org.jetbrains.kotlin.jvm") version "1.9.22"
     id("org.jetbrains.kotlin.plugin.serialization") version "1.9.22"
 }
@@ -30,7 +30,7 @@ taboolib {
             name("OriginAttribute").optional(true)
         }
     }
-    version { taboolib = "6.1.1-beta17" }
+    version { taboolib = "6.1.1" }
     relocate("kotlinx.serialization", "kotlinx.serialization160")
 }
 
