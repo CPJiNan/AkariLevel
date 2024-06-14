@@ -8,6 +8,7 @@ import taboolib.platform.BukkitPlugin
 @RuntimeDependencies(
     RuntimeDependency(
         value = "org.jetbrains.kotlinx:kotlinx-serialization-core:1.6.2",
+        test = "!kotlinx.serialization.Serializer",
         relocate = ["!kotlin.", "!kotlin1922."]
     ),
     RuntimeDependency(
