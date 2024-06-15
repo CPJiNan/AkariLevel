@@ -2,7 +2,6 @@ package com.github.cpjinan.plugin.akarilevel.api
 
 import com.github.cpjinan.plugin.akarilevel.internal.database.type.LevelData
 import com.github.cpjinan.plugin.akarilevel.internal.database.type.LevelGroupData
-import com.github.cpjinan.plugin.akarilevel.internal.manager.ConfigManager
 import com.github.cpjinan.plugin.akarilevel.utils.ConfigUtil.getConfigSections
 import com.github.cpjinan.plugin.akarilevel.utils.FileUtil
 import org.bukkit.configuration.ConfigurationSection
@@ -52,6 +51,8 @@ object LevelAPI {
         return getLvlGroups().mapValues { (_, section) ->
             LevelGroupData(
                 display = section.getString("Display")!!,
+                subscribeSource = section.getStringList("Source.Subscribe"),
+                sourceFormula = "Source.Formula",
                 isEnabledTrace = section.getBoolean("Trace.Enable"),
                 traceCondition = section.getStringList("Trace.Condition"),
                 traceAction = section.getStringList("Trace.Action"),
