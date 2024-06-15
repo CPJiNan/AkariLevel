@@ -2,6 +2,7 @@ package com.github.cpjinan.plugin.akarilevel.api
 
 import com.github.cpjinan.plugin.akarilevel.internal.database.type.LevelData
 import com.github.cpjinan.plugin.akarilevel.internal.database.type.LevelGroupData
+import com.github.cpjinan.plugin.akarilevel.internal.manager.ConfigManager
 import com.github.cpjinan.plugin.akarilevel.utils.ConfigUtil.getConfigSections
 import com.github.cpjinan.plugin.akarilevel.utils.FileUtil
 import org.bukkit.configuration.ConfigurationSection
@@ -71,21 +72,21 @@ object LevelAPI {
         return keyLevelSettings.getKeys(false)
             .mapNotNull { key ->
                 key.toIntOrNull()?.let { level ->
-                    val name = keyLevelSettings.getString("Settings.$level.Name") ?: return@mapNotNull null
-                    val exp = keyLevelSettings.getString("Settings.$level.Exp") ?: return@mapNotNull null
-                    val condition = keyLevelSettings.getStringList("Settings.$level.Condition")
-                    val action = keyLevelSettings.getStringList("Settings.$level.Action")
+                    val name = keyLevelSettings.getString("$level.Name") ?: return@mapNotNull null
+                    val exp = keyLevelSettings.getString("$level.Exp") ?: return@mapNotNull null
+                    val condition = keyLevelSettings.getStringList("$level.Condition")
+                    val action = keyLevelSettings.getStringList("$level.Action")
                     level to LevelData(name, exp, condition, action)
                 }
             }.toMap(HashMap())
     }
 
     private fun getLvlData(levelGroup: String, level: Int): LevelData {
-        return getKeyLvlData(levelGroup)
-            .filterKeys { level >= it }
-            .maxByOrNull { it.key }
-            ?.value
-            ?: throw IllegalArgumentException("No level data found for level $level in group $levelGroup")
+        var levelData: LevelData? = null
+        getKeyLvlData(levelGroup).forEach { (k, v) ->
+            if (level >= k) levelData = v
+        }
+        return levelData ?: throw IllegalArgumentException("No level data found for level $level in group $levelGroup")
     }
 
     private fun getLvlName(levelGroup: String, level: Int): String =
