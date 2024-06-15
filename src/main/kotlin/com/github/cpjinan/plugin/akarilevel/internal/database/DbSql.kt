@@ -1,6 +1,5 @@
 package com.github.cpjinan.plugin.akarilevel.internal.database
 
-import com.github.cpjinan.plugin.akarilevel.internal.database.type.PlayerData
 import com.github.cpjinan.plugin.akarilevel.internal.manager.ConfigManager
 import taboolib.module.database.ColumnOptionSQL
 import taboolib.module.database.ColumnTypeSQL
@@ -9,70 +8,72 @@ import taboolib.module.database.Table
 class DbSql : Database {
     private val host = ConfigManager.getSqlHost()
     private val dataSource by lazy { host.createDataSource() }
-    private val table = Table(ConfigManager.getSqlTable(), host) {
-        add { id() }
-        add("player") {
-            type(ColumnTypeSQL.VARCHAR, 255) {
+    private val sqlTable = Table(ConfigManager.getSqlTable(), host) {
+        add("table") {
+            type(ColumnTypeSQL.VARCHAR, 64) {
                 options(ColumnOptionSQL.KEY)
             }
         }
-        add("level") {
-            type(ColumnTypeSQL.INT)
+        add("index") {
+            type(ColumnTypeSQL.VARCHAR, 64) {
+                options(ColumnOptionSQL.KEY)
+            }
         }
-        add("exp") {
-            type(ColumnTypeSQL.INT)
+        add("key") {
+            type(ColumnTypeSQL.VARCHAR, 64) {
+                options(ColumnOptionSQL.KEY)
+            }
+        }
+        add("value") {
+            type(ColumnTypeSQL.VARCHAR, 255)
         }
     }
 
     init {
-        table.createTable(dataSource)
+        sqlTable.createTable(dataSource)
     }
 
-    override fun getPlayerByName(name: String): PlayerData {
-        return get(name)
+    override fun getValue(table: String, index: String, key: String): String {
+        return get(table, index, key)
     }
 
-    override fun updatePlayer(name: String, value: PlayerData) {
-        set(name, value.level, value.exp)
+    override fun setValue(table: String, index: String, key: String, value: String) {
+        set(table, index, key, value)
     }
 
     override fun save() {}
 
-    private fun add(player: String, level: Int, exp: Int) {
-        table.insert(dataSource, "player", "level", "exp") {
-            value(player, level, exp)
+    private fun add(table: String, index: String, key: String, value: String) {
+        sqlTable.insert(dataSource, "table", "index", "key", "value") {
+            value(table, index, key, value.orEmpty())
         }
     }
 
-    private fun delete(player: String) {
-        table.delete(dataSource) {
-            where { "player" eq player }
+    private fun delete(table: String, index: String, key: String) {
+        sqlTable.delete(dataSource) {
+            where { "table" eq table and ("index" eq index) and ("key" eq key) }
         }
     }
 
-    fun set(player: String, level: Int, exp: Int) {
-        if (have(player)) table.update(dataSource) {
-            set("level", level)
-            set("exp", exp)
-            where("player" eq player)
-        } else add(player, level, exp)
+    fun set(table: String, index: String, key: String, value: String) {
+        if (have(table, index, key)) sqlTable.update(dataSource) {
+            set("value", value)
+            where("table" eq table and ("index" eq index) and ("key" eq key))
+        } else add(table, index, key, value)
     }
 
-    fun get(player: String): PlayerData {
-        return table.select(dataSource) {
-            where("player" eq player)
+    fun get(table: String, index: String, key: String): String {
+        return sqlTable.select(dataSource) {
+            where("table" eq table and ("index" eq index) and ("key" eq key))
             limit(1)
         }.firstOrNull {
-            PlayerData(
-                this.getInt("level"),
-                this.getInt("exp")
-            )
-        } ?: PlayerData()
+            this.getString("value")
+        }.orEmpty()
     }
 
-    fun have(player: String): Boolean {
-        return table.select(dataSource) {
-            where("player" eq player)
+    fun have(table: String, index: String, key: String): Boolean {
+        return sqlTable.select(dataSource) {
+            where("table" eq table and ("index" eq index) and ("key" eq key))
             limit(1)
         }.firstOrNull {
             true

@@ -4,7 +4,7 @@ import taboolib.platform.BukkitPlugin
 import taboolib.platform.util.*
 
 /**
- * logger util
+ * logger utils
  * @author CPJiNan
  * @since 2024/01/15
  */

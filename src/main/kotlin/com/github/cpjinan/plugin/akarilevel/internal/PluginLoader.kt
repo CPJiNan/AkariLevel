@@ -1,8 +1,6 @@
 package com.github.cpjinan.plugin.akarilevel.internal
 
 import com.github.cpjinan.plugin.akarilevel.AkariLevel.plugin
-import com.github.cpjinan.plugin.akarilevel.common.hook.MythicMobs
-import com.github.cpjinan.plugin.akarilevel.internal.manager.DatabaseManager
 import com.github.cpjinan.plugin.akarilevel.utils.LoggerUtil
 import com.github.cpjinan.plugin.akarilevel.utils.UpdateUtil
 import taboolib.common.LifeCycle
@@ -31,7 +29,6 @@ object PluginLoader {
             "&o /_/   \\_\\_|\\_\\__,_|_|  |_|_____\\___| \\_/ \\___|_| ".colored(),
             ""
         )
-        MythicMobs.registerMythicMobsListener()
         console().sendLang("Plugin-Enabled")
         UpdateUtil.getPluginNotice()
         UpdateUtil.getPluginUpdate()
@@ -40,7 +37,6 @@ object PluginLoader {
 
     @Awake(LifeCycle.DISABLE)
     fun disable() {
-        DatabaseManager.getDatabase().save()
         console().sendLang("Plugin-Disable")
     }
 
