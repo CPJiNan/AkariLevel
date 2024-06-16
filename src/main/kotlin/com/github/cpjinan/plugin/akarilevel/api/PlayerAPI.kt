@@ -1,5 +1,7 @@
 package com.github.cpjinan.plugin.akarilevel.api
 
+import com.github.cpjinan.plugin.akarilevel.AkariLevel
+import com.github.cpjinan.plugin.akarilevel.api.LevelAPI.getLevelAction
 import com.github.cpjinan.plugin.akarilevel.api.LevelAPI.getLevelCondition
 import com.github.cpjinan.plugin.akarilevel.api.LevelAPI.getLevelExp
 import com.github.cpjinan.plugin.akarilevel.api.LevelAPI.getLevelGroupData
@@ -8,6 +10,9 @@ import com.github.cpjinan.plugin.akarilevel.common.event.level.PlayerLevelChange
 import com.github.cpjinan.plugin.akarilevel.common.script.kether.KetherUtil.evalKether
 import com.github.cpjinan.plugin.akarilevel.internal.database.type.PlayerData
 import org.bukkit.entity.Player
+import taboolib.common.platform.function.adaptPlayer
+import taboolib.module.kether.KetherShell
+import taboolib.module.kether.ScriptOptions
 import taboolib.platform.type.BukkitProxyEvent
 import taboolib.platform.util.sendLang
 
@@ -15,21 +20,45 @@ object PlayerAPI {
     // region function
     fun getPlayerData(player: Player, levelGroup: String): PlayerData = getData(player, levelGroup)
 
+    fun setPlayerData(player: Player, levelGroup: String, playerData: PlayerData) {
+        setData(player, levelGroup, playerData)
+    }
+
     fun getPlayerLevel(player: Player, levelGroup: String): Int = getLevel(player, levelGroup)
 
     fun getPlayerExp(player: Player, levelGroup: String): Int = getExp(player, levelGroup)
 
     fun setPlayerLevel(player: Player, levelGroup: String, amount: Int, source: String) {
         setLevel(player, levelGroup, amount, source)
+        runAction(player, levelGroup, amount)
         refreshLevel(player, levelGroup)
     }
 
     fun addPlayerLevel(player: Player, levelGroup: String, amount: Int, source: String) {
-        setLevel(player, levelGroup, getLevel(player, levelGroup) + amount, source)
+        val targetLevel = getLevel(player, levelGroup) + amount
+        setLevel(player, levelGroup, targetLevel, source)
+        runAction(player, levelGroup, targetLevel)
         refreshLevel(player, levelGroup)
     }
 
     fun removePlayerLevel(player: Player, levelGroup: String, amount: Int, source: String) {
+        val targetLevel = (getLevel(player, levelGroup) - amount).coerceAtLeast(0)
+        setLevel(player, levelGroup, targetLevel, source)
+        runAction(player, levelGroup, targetLevel)
+        refreshLevel(player, levelGroup)
+    }
+
+    fun setPlayerLevelWithoutAction(player: Player, levelGroup: String, amount: Int, source: String) {
+        setLevel(player, levelGroup, amount, source)
+        refreshLevel(player, levelGroup)
+    }
+
+    fun addPlayerLevelWithoutAction(player: Player, levelGroup: String, amount: Int, source: String) {
+        setLevel(player, levelGroup, getLevel(player, levelGroup) + amount, source)
+        refreshLevel(player, levelGroup)
+    }
+
+    fun removePlayerLevelWithoutAction(player: Player, levelGroup: String, amount: Int, source: String) {
         setLevel(player, levelGroup, (getLevel(player, levelGroup) - amount).coerceAtLeast(0), source)
         refreshLevel(player, levelGroup)
     }
@@ -53,11 +82,11 @@ object PlayerAPI {
         refreshLevel(player, levelGroup)
     }
 
-    fun playerForceLevelup(player: Player, levelGroup: String) {
-        levelup(player, levelGroup)
-    }
-
     fun checkPlayerLevelupCondition(player: Player, levelGroup: String): Boolean = checkCondition(player, levelGroup)
+
+    fun runLevelAction(player: Player, levelGroup: String, level: Int) {
+        runAction(player, levelGroup, level)
+    }
 
     // region basic function
     private fun getLevel(player: Player, levelGroup: String): Int {
@@ -137,6 +166,15 @@ object PlayerAPI {
                 if (levelGroupData.isEnabledExpLimit) setExp(player, levelGroup, 0, "EXP_LIMIT")
             }
         } while (isLevelUp)
+    }
+
+    private fun runAction(player: Player, levelGroup: String, level: Int) {
+        val levelGroupData = getLevelGroupData(levelGroup)
+        KetherShell.eval(
+            getLevelAction(levelGroup, level),
+            ScriptOptions.builder().namespace(listOf(AkariLevel.plugin.name)).sender(sender = adaptPlayer(player))
+                .build()
+        )
     }
 
     private fun getData(player: Player, levelGroup: String): PlayerData = PlayerData(
