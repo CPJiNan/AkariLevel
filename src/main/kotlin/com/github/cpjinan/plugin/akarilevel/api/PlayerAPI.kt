@@ -156,8 +156,6 @@ object PlayerAPI {
             val curLvl = getLevel(player, levelGroup)
             val maxLevel = levelGroupData.maxLevel
             if (checkCondition(player, levelGroup)) {
-                val curExp = getExp(player, levelGroup)
-                val reqExp = getLevelExp(levelGroup, curLvl + 1)
                 if (levelGroupData.isEnabledAutoLevelup) {
                     levelup(player, levelGroup)
                     isLevelUp = true
@@ -169,7 +167,6 @@ object PlayerAPI {
     }
 
     private fun runAction(player: Player, levelGroup: String, level: Int) {
-        val levelGroupData = getLevelGroupData(levelGroup)
         KetherShell.eval(
             getLevelAction(levelGroup, level),
             ScriptOptions.builder().namespace(listOf(AkariLevel.plugin.name)).sender(sender = adaptPlayer(player))
