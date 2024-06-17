@@ -5,6 +5,7 @@ import com.github.cpjinan.plugin.akarilevel.api.LevelAPI.getLevelAction
 import com.github.cpjinan.plugin.akarilevel.api.LevelAPI.getLevelCondition
 import com.github.cpjinan.plugin.akarilevel.api.LevelAPI.getLevelExp
 import com.github.cpjinan.plugin.akarilevel.api.LevelAPI.getLevelGroupData
+import com.github.cpjinan.plugin.akarilevel.api.LevelAPI.getLevelGroupNames
 import com.github.cpjinan.plugin.akarilevel.common.event.exp.PlayerExpChangeEvent
 import com.github.cpjinan.plugin.akarilevel.common.event.level.PlayerLevelChangeEvent
 import com.github.cpjinan.plugin.akarilevel.common.script.kether.KetherUtil.evalKether
@@ -76,6 +77,12 @@ object PlayerAPI {
     fun removePlayerExp(player: Player, levelGroup: String, amount: Int, source: String) {
         setExp(player, levelGroup, (getExp(player, levelGroup) - amount).coerceAtLeast(0), source)
         refreshLevel(player, levelGroup)
+    }
+
+    fun refreshPlayerLevel(player: Player) {
+        getLevelGroupNames().forEach {
+            refreshLevel(player, it)
+        }
     }
 
     fun refreshPlayerLevel(player: Player, levelGroup: String) {
