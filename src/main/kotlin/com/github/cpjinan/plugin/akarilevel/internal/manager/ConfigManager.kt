@@ -23,4 +23,18 @@ object ConfigManager {
     fun getCborSection() = settings.getConfigurationSection("Database.CBOR")!!
     fun getSqlHost() = settings.getHost("Database.SQL")
     fun getSqlTable() = settings.getString("Database.SQL.table")!!
+
+    // Hook
+    fun isEnabledAttribute() = settings.getBoolean("Attribute.Enable")
+    fun getAttributePlugin() = settings.getString("Attribute.Plugin")!!
+    fun getAttributeName() = settings.getString("Attribute.Name")!!
+    fun getAttributeFormula() = settings.getString("Attribute.Formula")!!
+    fun getAttributeSource() = settings.getStringList("Attribute.Source")
+    fun getPlaceholderIdentifier() = settings.getString("PlaceholderAPI.Identifier")!!
+    fun getExpProgressBarEmpty() = settings.getString("PlaceholderAPI.Progress-Bar.Exp.Empty")!!
+    fun getExpProgressBarFull() = settings.getString("PlaceholderAPI.Progress-Bar.Exp.Full")!!
+    fun getExpProgressBarLength() = settings.getInt("PlaceholderAPI.Progress-Bar.Exp.Length")
+    fun getLevelProgressBarEmpty() = settings.getString("PlaceholderAPI.Progress-Bar.Level.Empty")!!
+    fun getLevelProgressBarFull() = settings.getString("PlaceholderAPI.Progress-Bar.Level.Full")!!
+    fun getLevelProgressBarLength() = settings.getInt("PlaceholderAPI.Progress-Bar.Level.Length")
 }

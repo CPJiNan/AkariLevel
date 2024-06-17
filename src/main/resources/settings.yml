@@ -42,3 +42,48 @@ Database:
     password: password
     database: minecraft
     table: akarilevel
+
+#############
+# Attribute #
+#############
+
+# 属性插件经验加成
+Attribute:
+  # 是否启用
+  Enable: false
+  # 属性插件 (AttributePlus, SX-Attribute, OriginAttribute, AttributeSystem)
+  Plugin: "AttributePlus"
+  # 属性名称 (如属性插件为 OriginAttribute 则无需填写此项)
+  # AttributePlus - 经验加成
+  # SX-Attribute - ExpAddition
+  # AttributeSystem - ExpAddition
+  Name: "经验加成"
+  # 经验计算公式 (JavaScript支持)
+  # %exp% -> 获得的经验值数量
+  # %attribute% -> 额外加成经验数量
+  Formula: "%exp% * ( 1 + %attribute% / 100 )"
+  # 所监听的 PlayerExpChangeEvent 来源
+  Source:
+    - "MYTHICMOBS_DROP_EXP"
+    - "VANILLA_EXP_CHANGE"
+
+####################
+#  PlaceholderAPI  #
+####################
+
+# 变量设置
+PlaceholderAPI:
+  # 变量前缀
+  Identifier: "akarilevel"
+  # 经验条变量设置
+  Progress-Bar:
+    # 当前等级 / 最高等级
+    Level:
+      Empty: "□"
+      Full: "■"
+      Length: 10
+    # 当前经验 / 升至下一级所需经验
+    Exp:
+      Empty: "□"
+      Full: "■"
+      Length: 10
