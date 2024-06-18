@@ -11,7 +11,9 @@ import com.github.cpjinan.plugin.akarilevel.common.event.level.PlayerLevelChange
 import com.github.cpjinan.plugin.akarilevel.common.script.kether.KetherUtil.evalKether
 import com.github.cpjinan.plugin.akarilevel.internal.database.type.PlayerData
 import com.github.cpjinan.plugin.akarilevel.internal.manager.ConfigManager
+import org.bukkit.Bukkit
 import org.bukkit.entity.Player
+import taboolib.common.platform.ProxyPlayer
 import taboolib.common.platform.function.adaptPlayer
 import taboolib.common5.compileJS
 import taboolib.module.kether.KetherShell
@@ -117,6 +119,8 @@ object PlayerAPI {
     fun setPlayerTraceLevelGroup(player: Player, levelGroup: String) {
         setTraceLvlGroup(player, levelGroup)
     }
+
+    fun ProxyPlayer.toBukkitPlayer(): Player = Bukkit.getPlayer(this.uniqueId)!!
 
     // region basic function
     private fun getLevel(player: Player, levelGroup: String): Int {
