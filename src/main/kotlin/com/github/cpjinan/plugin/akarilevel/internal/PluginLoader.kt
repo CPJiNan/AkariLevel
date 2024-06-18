@@ -1,6 +1,7 @@
 package com.github.cpjinan.plugin.akarilevel.internal
 
 import com.github.cpjinan.plugin.akarilevel.AkariLevel.plugin
+import com.github.cpjinan.plugin.akarilevel.utils.ConfigUtil.saveDefaultResource
 import com.github.cpjinan.plugin.akarilevel.utils.LoggerUtil
 import com.github.cpjinan.plugin.akarilevel.utils.UpdateUtil
 import taboolib.common.LifeCycle
@@ -33,6 +34,7 @@ object PluginLoader {
         UpdateUtil.getPluginNotice()
         UpdateUtil.getPluginUpdate()
         UpdateUtil.getConfigUpdate()
+        plugin.saveDefaultResource("level/Example.yml")
     }
 
     @Awake(LifeCycle.DISABLE)
