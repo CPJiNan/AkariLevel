@@ -24,6 +24,11 @@ object ConfigManager {
     fun getSqlHost() = settings.getHost("Database.SQL")
     fun getSqlTable() = settings.getString("Database.SQL.table")!!
 
+    // Trace
+    fun getDefaultTrace() = settings.getString("Trace.Default")!!
+    fun isEnabledAutoResetTrace() = settings.getBoolean("Trace.Auto-Reset")
+
+
     // Hook
     fun isEnabledAttribute() = settings.getBoolean("Attribute.Enable")
     fun getAttributePlugin() = settings.getString("Attribute.Plugin")!!

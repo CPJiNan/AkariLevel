@@ -15,7 +15,9 @@ Example:
   Trace:
     # 该等级组是否能被追踪
     Enable: true
-    # 追踪该等级组所需条件 (Kether支持)
+    # 追踪该等级组所需条件 (Kether支持, 每行返回值均为 true 时才可追踪)
+    # Condition:
+    #   - false
     Condition: [ ]
     # 追踪该等级组后执行的动作 (Kether支持)
     Action: [ ]

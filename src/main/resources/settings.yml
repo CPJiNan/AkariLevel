@@ -43,6 +43,17 @@ Database:
     database: minecraft
     table: akarilevel
 
+#########
+# Trace #
+#########
+
+# 等级组追踪设置
+Trace:
+  # 失去追踪焦点时返回的默认等级组
+  Default: "Example"
+  # 是否在玩家每次进入服务器时重置追踪的等级组
+  Auto-Reset: true
+
 #############
 # Attribute #
 #############

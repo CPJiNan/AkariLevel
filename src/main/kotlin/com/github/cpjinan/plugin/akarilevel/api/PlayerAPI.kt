@@ -10,6 +10,7 @@ import com.github.cpjinan.plugin.akarilevel.common.event.exp.PlayerExpChangeEven
 import com.github.cpjinan.plugin.akarilevel.common.event.level.PlayerLevelChangeEvent
 import com.github.cpjinan.plugin.akarilevel.common.script.kether.KetherUtil.evalKether
 import com.github.cpjinan.plugin.akarilevel.internal.database.type.PlayerData
+import com.github.cpjinan.plugin.akarilevel.internal.manager.ConfigManager
 import org.bukkit.entity.Player
 import taboolib.common.platform.function.adaptPlayer
 import taboolib.common5.compileJS
@@ -111,6 +112,12 @@ object PlayerAPI {
         runAction(player, levelGroup, level)
     }
 
+    fun getPlayerTraceLevelGroup(player: Player): String = getTraceLvlGroup(player)
+
+    fun setPlayerTraceLevelGroup(player: Player, levelGroup: String) {
+        setTraceLvlGroup(player, levelGroup)
+    }
+
     // region basic function
     private fun getLevel(player: Player, levelGroup: String): Int {
         return getData(player, levelGroup).level
@@ -195,6 +202,26 @@ object PlayerAPI {
             ScriptOptions.builder().namespace(listOf(AkariLevel.plugin.name)).sender(sender = adaptPlayer(player))
                 .build()
         )
+    }
+
+    private fun getTraceLvlGroup(player: Player) : String {
+        return DataAPI.getDataValue("Player", player.name, "Trace").takeIf { it.isNotEmpty() } ?: ConfigManager.getDefaultTrace()
+    }
+
+    private fun setTraceLvlGroup(player: Player, levelGroup: String) {
+        val curLvl = getLevel(player, levelGroup)
+        val maxLevel = getLevelGroupData(levelGroup).maxLevel
+        if (curLvl < maxLevel) {
+            val curExp = getExp(player, levelGroup)
+            val reqExp = getLevelExp(levelGroup, curLvl + 1)
+            player.level = curLvl
+            if (reqExp != 0) player.exp = (curExp.toFloat() / reqExp.toFloat()).coerceAtMost(1F)
+            else player.exp = 1F
+        } else {
+            player.level = maxLevel
+            player.exp = 1F
+        }
+        DataAPI.setDataValue("Player", player.name, "Trace", levelGroup)
     }
 
     private fun getData(player: Player, levelGroup: String): PlayerData = PlayerData(
