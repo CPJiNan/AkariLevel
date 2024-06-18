@@ -20,7 +20,7 @@ object PlayerListener {
 
     @SubscribeEvent
     fun onPlayerJoin(event: PlayerJoinEvent) {
-        PlayerAPI.refreshPlayerLevel(event.player, "LISTENER_PLAYER_JOIN")
+        PlayerAPI.refreshPlayerLevel(event.player)
     }
 
     @SubscribeEvent
