@@ -12,6 +12,7 @@ import com.github.cpjinan.plugin.akarilevel.common.script.kether.KetherUtil.eval
 import com.github.cpjinan.plugin.akarilevel.internal.database.type.PlayerData
 import org.bukkit.entity.Player
 import taboolib.common.platform.function.adaptPlayer
+import taboolib.common5.compileJS
 import taboolib.module.kether.KetherShell
 import taboolib.module.kether.ScriptOptions
 import taboolib.platform.type.BukkitProxyEvent
@@ -70,6 +71,21 @@ object PlayerAPI {
     }
 
     fun addPlayerExp(player: Player, levelGroup: String, amount: Int, source: String) {
+        val levelGroupData = getLevelGroupData(levelGroup)
+        val subscribeSource = levelGroupData.subscribeSource
+        var sourceFormula = levelGroupData.sourceFormula
+
+        if (source in subscribeSource) {
+            subscribeSource.forEach {
+                sourceFormula = sourceFormula.replace("%$it%", if (it == source) amount.toString() else "0")
+            }
+            sourceFormula = sourceFormula.compileJS()?.eval().toString()
+            setExp(player, levelGroup, getExp(player, levelGroup) + sourceFormula.toInt(), source)
+            refreshLevel(player, source)
+        }
+    }
+
+    fun addPlayerExpWithoutFormula(player: Player, levelGroup: String, amount: Int, source: String) {
         setExp(player, levelGroup, getExp(player, levelGroup) + amount, source)
         refreshLevel(player, source)
     }
