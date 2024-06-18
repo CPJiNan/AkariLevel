@@ -204,24 +204,36 @@ object PlayerAPI {
         )
     }
 
-    private fun getTraceLvlGroup(player: Player) : String {
-        return DataAPI.getDataValue("Player", player.name, "Trace").takeIf { it.isNotEmpty() } ?: ConfigManager.getDefaultTrace()
+    private fun getTraceLvlGroup(player: Player): String {
+        return DataAPI.getDataValue("Player", player.name, "Trace").takeIf { it.isNotEmpty() }
+            ?: ConfigManager.getDefaultTrace()
     }
 
     private fun setTraceLvlGroup(player: Player, levelGroup: String) {
-        val curLvl = getLevel(player, levelGroup)
-        val maxLevel = getLevelGroupData(levelGroup).maxLevel
-        if (curLvl < maxLevel) {
-            val curExp = getExp(player, levelGroup)
-            val reqExp = getLevelExp(levelGroup, curLvl + 1)
-            player.level = curLvl
-            if (reqExp != 0) player.exp = (curExp.toFloat() / reqExp.toFloat()).coerceAtMost(1F)
-            else player.exp = 1F
-        } else {
-            player.level = maxLevel
-            player.exp = 1F
+        if (levelGroup.isEmpty()) return
+        val levelGroupData = getLevelGroupData(levelGroup)
+        if (levelGroupData.isEnabledTrace) {
+            var matchCondition = true
+            levelGroupData.traceCondition.forEach {
+                if (!it.evalKether(player).toString().toBoolean()) matchCondition = false
+            }
+            if (matchCondition) {
+                val curLvl = getLevel(player, levelGroup)
+                val maxLevel = getLevelGroupData(levelGroup).maxLevel
+                if (curLvl < maxLevel) {
+                    val curExp = getExp(player, levelGroup)
+                    val reqExp = getLevelExp(levelGroup, curLvl + 1)
+                    player.level = curLvl
+                    if (reqExp != 0) player.exp = (curExp.toFloat() / reqExp.toFloat()).coerceAtMost(1F)
+                    else player.exp = 1F
+                } else {
+                    player.level = maxLevel
+                    player.exp = 1F
+                }
+                DataAPI.setDataValue("Player", player.name, "Trace", levelGroup)
+                levelGroupData.traceAction.evalKether(player)
+            } else return
         }
-        DataAPI.setDataValue("Player", player.name, "Trace", levelGroup)
     }
 
     private fun getData(player: Player, levelGroup: String): PlayerData = PlayerData(

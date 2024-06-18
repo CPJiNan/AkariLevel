@@ -3,6 +3,8 @@ package com.github.cpjinan.plugin.akarilevel.common.listener
 import com.github.cpjinan.plugin.akarilevel.api.DataAPI
 import com.github.cpjinan.plugin.akarilevel.api.LevelAPI
 import com.github.cpjinan.plugin.akarilevel.api.PlayerAPI
+import com.github.cpjinan.plugin.akarilevel.internal.manager.ConfigManager.getDefaultTrace
+import com.github.cpjinan.plugin.akarilevel.internal.manager.ConfigManager.isEnabledAutoResetTrace
 import org.bukkit.event.player.PlayerExpChangeEvent
 import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerQuitEvent
@@ -21,6 +23,7 @@ object PlayerListener {
     @SubscribeEvent
     fun onPlayerJoin(event: PlayerJoinEvent) {
         PlayerAPI.refreshPlayerLevel(event.player)
+        if (isEnabledAutoResetTrace()) PlayerAPI.setPlayerTraceLevelGroup(event.player, getDefaultTrace())
     }
 
     @SubscribeEvent
