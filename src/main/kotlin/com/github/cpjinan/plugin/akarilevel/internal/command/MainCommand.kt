@@ -3,6 +3,7 @@ package com.github.cpjinan.plugin.akarilevel.internal.command
 import com.github.cpjinan.plugin.akarilevel.internal.command.subcommand.DataCommand
 import com.github.cpjinan.plugin.akarilevel.internal.command.subcommand.ExpCommand
 import com.github.cpjinan.plugin.akarilevel.internal.command.subcommand.LevelCommand
+import com.github.cpjinan.plugin.akarilevel.internal.command.subcommand.TraceCommand
 import com.github.cpjinan.plugin.akarilevel.internal.manager.ConfigManager
 import taboolib.common.platform.ProxyCommandSender
 import taboolib.common.platform.command.*
@@ -22,6 +23,9 @@ object MainCommand {
 
     @CommandBody(permission = "akarilevel.default")
     val levelup = LevelCommand.levelup
+
+    @CommandBody(permission = "akarilevel.default")
+    val trace = TraceCommand.trace
 
     @CommandBody(permission = "akarilevel.admin")
     val exp = ExpCommand.exp

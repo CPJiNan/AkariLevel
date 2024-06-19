@@ -11,9 +11,7 @@ import com.github.cpjinan.plugin.akarilevel.common.event.level.PlayerLevelChange
 import com.github.cpjinan.plugin.akarilevel.common.script.kether.KetherUtil.evalKether
 import com.github.cpjinan.plugin.akarilevel.internal.database.type.PlayerData
 import com.github.cpjinan.plugin.akarilevel.internal.manager.ConfigManager
-import org.bukkit.Bukkit
 import org.bukkit.entity.Player
-import taboolib.common.platform.ProxyPlayer
 import taboolib.common.platform.function.adaptPlayer
 import taboolib.common5.compileJS
 import taboolib.module.kether.KetherShell
@@ -70,7 +68,7 @@ object PlayerAPI {
 
     fun setPlayerExp(player: Player, levelGroup: String, amount: Int, source: String) {
         setExp(player, levelGroup, amount, source)
-        refreshLevel(player, source)
+        refreshLevel(player, levelGroup)
     }
 
     fun addPlayerExp(player: Player, levelGroup: String, amount: Int, source: String) {
@@ -78,19 +76,23 @@ object PlayerAPI {
         val subscribeSource = levelGroupData.subscribeSource
         var sourceFormula = levelGroupData.sourceFormula
 
+        print(source)
+        print(subscribeSource.toString())
         if (source in subscribeSource) {
             subscribeSource.forEach {
                 sourceFormula = sourceFormula.replace("%$it%", if (it == source) amount.toString() else "0")
             }
+            print(sourceFormula)
             sourceFormula = sourceFormula.compileJS()?.eval().toString()
+            print(sourceFormula)
             setExp(player, levelGroup, getExp(player, levelGroup) + sourceFormula.toInt(), source)
-            refreshLevel(player, source)
+            refreshLevel(player, levelGroup)
         }
     }
 
     fun addPlayerExpWithoutFormula(player: Player, levelGroup: String, amount: Int, source: String) {
         setExp(player, levelGroup, getExp(player, levelGroup) + amount, source)
-        refreshLevel(player, source)
+        refreshLevel(player, levelGroup)
     }
 
     fun removePlayerExp(player: Player, levelGroup: String, amount: Int, source: String) {
@@ -119,8 +121,6 @@ object PlayerAPI {
     fun setPlayerTraceLevelGroup(player: Player, levelGroup: String) {
         setTraceLvlGroup(player, levelGroup)
     }
-
-    fun ProxyPlayer.toBukkitPlayer(): Player = Bukkit.getPlayer(this.uniqueId)!!
 
     // region basic function
     private fun getLevel(player: Player, levelGroup: String): Int {
@@ -198,6 +198,7 @@ object PlayerAPI {
                 if (levelGroupData.isEnabledExpLimit) setExp(player, levelGroup, 0, "EXP_LIMIT")
             }
         } while (isLevelUp)
+        setTraceLvlGroup(player, getTraceLvlGroup(player))
     }
 
     private fun runAction(player: Player, levelGroup: String, level: Int) {
