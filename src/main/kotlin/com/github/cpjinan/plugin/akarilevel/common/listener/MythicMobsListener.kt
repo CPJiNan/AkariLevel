@@ -3,7 +3,6 @@ package com.github.cpjinan.plugin.akarilevel.common.listener
 import com.github.cpjinan.plugin.akarilevel.AkariLevel
 import com.github.cpjinan.plugin.akarilevel.api.LevelAPI
 import com.github.cpjinan.plugin.akarilevel.api.PlayerAPI
-import ink.ptms.um.Mythic
 import io.lumine.xikage.mythicmobs.adapters.AbstractItemStack
 import io.lumine.xikage.mythicmobs.api.bukkit.events.MythicDropLoadEvent
 import io.lumine.xikage.mythicmobs.drops.Drop
@@ -17,11 +16,11 @@ import org.bukkit.event.Listener
 object MythicMobsListener {
     fun registerMythicMobsListener() {
         if (Bukkit.getPluginManager().isPluginEnabled("MythicMobs")) {
-            when (Mythic.API.isLegacy) {
-                true -> Bukkit.getPluginManager().getPlugin(AkariLevel.plugin.name)
+            when (Bukkit.getPluginManager().getPlugin("MythicMobs")?.description?.version?.get(0)) {
+                '4' -> Bukkit.getPluginManager().getPlugin(AkariLevel.plugin.name)
                     ?.let { Bukkit.getPluginManager().registerEvents(LegacyMythicMobsDropListener, it) }
 
-                false -> Bukkit.getPluginManager().getPlugin(AkariLevel.plugin.name)
+                '5' -> Bukkit.getPluginManager().getPlugin(AkariLevel.plugin.name)
                     ?.let { Bukkit.getPluginManager().registerEvents(MythicMobsDropListener, it) }
             }
         }

@@ -30,7 +30,6 @@ taboolib {
         }
     }
     version { taboolib = "6.1.1" }
-    relocate("ink.ptms.um", "com.github.cpjinan.plugin.akarilevel.um")
 }
 
 repositories {
@@ -48,7 +47,6 @@ dependencies {
     compileOnly("io.lumine.xikage:MythicMobs:4.11.0@jar")
     compileOnly("io.lumine:Mythic-Dist:5.3.5@jar")
     compileOnly(fileTree("libs"))
-    taboo("ink.ptms:um:1.0.1")
 }
 
 tasks.withType<JavaCompile> {
