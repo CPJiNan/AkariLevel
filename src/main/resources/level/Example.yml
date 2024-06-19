@@ -8,8 +8,6 @@ Example:
     Subscribe:
       - "VANILLA_EXP_CHANGE"
       - "MYTHICMOBS_DROP_EXP"
-    # 经验来源公式 (JavaScript支持)
-    Formula: "%VANILLA_EXP_CHANGE% * 0 + %MYTHICMOBS_DROP_EXP% * 1"
   # 追踪设置
   # 当玩家追踪某个等级组时，将在原版经验条上显示其经验进度
   Trace:

@@ -15,7 +15,7 @@ object ExpCommand {
             player("player").dynamic("levelGroup") { suggest { LevelAPI.getLevelGroupNames().toList() } }
                 .int("amount") {
                     execute<ProxyCommandSender> { sender: ProxyCommandSender, context: CommandContext<ProxyCommandSender>, _: String ->
-                        PlayerAPI.addPlayerExp(
+                        PlayerAPI.addPlayerExpForce(
                             context.player("player").toBukkitPlayer(),
                             context["levelGroup"],
                             context["amount"].toInt(),

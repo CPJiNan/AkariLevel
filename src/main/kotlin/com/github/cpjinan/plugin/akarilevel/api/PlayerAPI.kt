@@ -13,7 +13,6 @@ import com.github.cpjinan.plugin.akarilevel.internal.database.type.PlayerData
 import com.github.cpjinan.plugin.akarilevel.internal.manager.ConfigManager
 import org.bukkit.entity.Player
 import taboolib.common.platform.function.adaptPlayer
-import taboolib.common5.compileJS
 import taboolib.module.kether.KetherShell
 import taboolib.module.kether.ScriptOptions
 import taboolib.platform.type.BukkitProxyEvent
@@ -72,25 +71,13 @@ object PlayerAPI {
     }
 
     fun addPlayerExp(player: Player, levelGroup: String, amount: Int, source: String) {
-        val levelGroupData = getLevelGroupData(levelGroup)
-        val subscribeSource = levelGroupData.subscribeSource
-        var sourceFormula = levelGroupData.sourceFormula
-
-        print(source)
-        print(subscribeSource.toString())
-        if (source in subscribeSource) {
-            subscribeSource.forEach {
-                sourceFormula = sourceFormula.replace("%$it%", if (it == source) amount.toString() else "0")
-            }
-            print(sourceFormula)
-            sourceFormula = sourceFormula.compileJS()?.eval().toString()
-            print(sourceFormula)
-            setExp(player, levelGroup, getExp(player, levelGroup) + sourceFormula.toInt(), source)
+        if (source in LevelAPI.getLevelGroupData(levelGroup).subscribeSource) {
+            setExp(player, levelGroup, getExp(player, levelGroup) + amount, source)
             refreshLevel(player, levelGroup)
         }
     }
 
-    fun addPlayerExpWithoutFormula(player: Player, levelGroup: String, amount: Int, source: String) {
+    fun addPlayerExpForce(player: Player, levelGroup: String, amount: Int, source: String) {
         setExp(player, levelGroup, getExp(player, levelGroup) + amount, source)
         refreshLevel(player, levelGroup)
     }

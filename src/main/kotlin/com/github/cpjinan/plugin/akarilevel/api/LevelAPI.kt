@@ -52,7 +52,6 @@ object LevelAPI {
             LevelGroupData(
                 display = section.getString("Display")!!,
                 subscribeSource = section.getStringList("Source.Subscribe"),
-                sourceFormula = "Source.Formula",
                 isEnabledTrace = section.getBoolean("Trace.Enable"),
                 traceCondition = section.getStringList("Trace.Condition"),
                 traceAction = section.getStringList("Trace.Action"),
