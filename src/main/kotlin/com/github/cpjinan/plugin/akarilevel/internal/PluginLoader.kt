@@ -1,6 +1,7 @@
 package com.github.cpjinan.plugin.akarilevel.internal
 
 import com.github.cpjinan.plugin.akarilevel.AkariLevel.plugin
+import com.github.cpjinan.plugin.akarilevel.common.listener.MythicMobsListener
 import com.github.cpjinan.plugin.akarilevel.utils.ConfigUtil.saveDefaultResource
 import com.github.cpjinan.plugin.akarilevel.utils.LoggerUtil
 import com.github.cpjinan.plugin.akarilevel.utils.UpdateUtil
@@ -30,11 +31,12 @@ object PluginLoader {
             "&o /_/   \\_\\_|\\_\\__,_|_|  |_|_____\\___| \\_/ \\___|_| ".colored(),
             ""
         )
+        MythicMobsListener.registerMythicMobsListener()
+        plugin.saveDefaultResource("level/Example.yml")
         console().sendLang("Plugin-Enabled")
         UpdateUtil.getPluginNotice()
         UpdateUtil.getPluginUpdate()
         UpdateUtil.getConfigUpdate()
-        plugin.saveDefaultResource("level/Example.yml")
     }
 
     @Awake(LifeCycle.DISABLE)
