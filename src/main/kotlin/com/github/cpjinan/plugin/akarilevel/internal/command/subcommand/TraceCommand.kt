@@ -13,10 +13,7 @@ import taboolib.module.lang.sendLang
 object TraceCommand {
     val trace = subCommand {
         createHelper()
-        dynamic(
-            "levelGroup",
-            optional = false
-        ) {
+        dynamic("levelGroup") {
             suggest {
                 LevelAPI.getLevelGroupNames().toList()
             }
