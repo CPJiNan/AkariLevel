@@ -30,6 +30,7 @@ taboolib {
         }
     }
     version { taboolib = "6.1.1" }
+    relocate("kotlinx.serialization", "kotlinx.serialization162")
 }
 
 repositories {
