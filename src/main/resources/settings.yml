@@ -13,14 +13,19 @@
 ###########
 
 # 全局设置
+# Global settings
 Options:
   # 配置文件版本
+  # Configuration file version
   Config-Version: 3
   # 检查版本更新
+  # Check for updates
   Check-Update: true
   # 启用 bStats 统计
+  # Enable bStats metrics
   Send-Metrics: true
   # 启用调试模式
+  # Enable debug mode
   Debug: false
 
 ############
@@ -28,8 +33,10 @@ Options:
 ############
 
 # 数据存储设置
+# Data storage settings
 Database:
   # 存储方式 (JSON, CBOR, SQL)
+  # Storage method (JSON, CBOR, SQL)
   Method: JSON
   JSON:
     file: database.json
@@ -48,10 +55,13 @@ Database:
 #########
 
 # 等级组追踪设置
+# Level group tracking settings
 Trace:
   # 失去追踪焦点时返回的默认等级组 (此项留空则不会进行追踪)
+  # Default level group to return to when tracking focus is lost (leave empty to disable tracking)
   Default: "Example"
   # 是否在玩家每次进入服务器时重置追踪的等级组
+  # Automatically reset tracked level group when the player joins the server
   Auto-Reset: true
 
 #############
@@ -59,21 +69,35 @@ Trace:
 #############
 
 # 属性插件经验加成
+# Attribute plugin experience bonus
 Attribute:
   # 是否启用
+  # Enable
   Enable: false
   # 属性插件 (AttributePlus, SX-Attribute, OriginAttribute, AttributeSystem)
+  # Attribute plugin (AttributePlus, SX-Attribute, OriginAttribute, AttributeSystem)
   Plugin: "AttributePlus"
+  #
   # 属性名称 (如属性插件为 OriginAttribute 则无需填写此项)
+  # Attribute name (leave blank if using OriginAttribute)
+  #
   # AttributePlus - 经验加成
   # SX-Attribute - ExpAddition
   # AttributeSystem - ExpAddition
+  #
   Name: "经验加成"
-  # 经验计算公式 (JavaScript支持)
+  #
+  # 经验计算公式
   # %exp% -> 获得的经验值数量
   # %attribute% -> 额外加成经验数量
+  #
+  # Experience calculation formula (JavaScript supported)
+  # %exp% -> Amount of experience gained
+  # %attribute% -> Additional experience bonus amount
+  #
   Formula: "%exp% * ( 1 + %attribute% / 100 )"
   # 所监听的 PlayerExpChangeEvent 来源
+  # PlayerExpChangeEvent sources to listen to
   Source:
     - "MYTHICMOBS_DROP_EXP"
     - "VANILLA_EXP_CHANGE"
@@ -83,17 +107,22 @@ Attribute:
 ####################
 
 # 变量设置
+# Placeholder settings
 PlaceholderAPI:
   # 变量前缀
+  # Placeholder prefix
   Identifier: "akarilevel"
   # 经验条变量设置
+  # Experience bar placeholder settings
   Progress-Bar:
     # 当前等级 / 最高等级
+    # Current level / Maximum level
     Level:
       Empty: "□"
       Full: "■"
       Length: 10
     # 当前经验 / 升至下一级所需经验
+    # Current experience / Experience needed for next level
     Exp:
       Empty: "□"
       Full: "■"
