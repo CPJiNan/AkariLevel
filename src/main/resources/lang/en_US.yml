@@ -20,7 +20,7 @@ Config-Update:
   - '&r| &b◈ &rA new config file version is available!'
   - '&r| &b◈ &rLatest version: %latestVersion%'
   - '&r| &b◈ &rCurrent version: %currentVersion%'
-  - '&r| &b◈ &rPlease save backups and regenerate the config files in the lang folder!'
+  - '&r| &b◈ &rPlease save backups and regenerate the config files!'
   - '&r===============[&e&lConfig Update&r]=============='
 No-Permission: "&cYou don't have permission to perform this action!"
 # Data storage-related
