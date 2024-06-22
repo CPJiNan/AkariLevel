@@ -97,9 +97,19 @@ object PlayerAPI {
         refreshLevel(player, levelGroup)
     }
 
+    fun levelupPlayer(player: Player) {
+        getLevelGroupNames().forEach {
+            levelup(player, it)
+        }
+    }
+
+    fun levelupPlayer(player: Player, levelGroup: String) {
+        levelup(player, levelGroup)
+    }
+
     fun checkPlayerLevelupCondition(player: Player, levelGroup: String): Boolean = checkCondition(player, levelGroup)
 
-    fun runLevelAction(player: Player, levelGroup: String, level: Int) {
+    fun runPlayerLevelAction(player: Player, levelGroup: String, level: Int) {
         runAction(player, levelGroup, level)
     }
 

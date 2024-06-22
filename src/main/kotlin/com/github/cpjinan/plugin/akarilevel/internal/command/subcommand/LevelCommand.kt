@@ -69,7 +69,7 @@ object LevelCommand {
     val levelup = subCommand {
         createHelper()
         execute<ProxyCommandSender> { _: ProxyCommandSender, context: CommandContext<ProxyCommandSender>, _: String ->
-            PlayerAPI.refreshPlayerLevel(context.player().toBukkitPlayer())
+            PlayerAPI.levelupPlayer(context.player().toBukkitPlayer())
         }
     }
 
