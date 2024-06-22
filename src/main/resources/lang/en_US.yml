@@ -12,7 +12,7 @@ Plugin-Update:
   - '&r| &b◈ &rA new plugin version is available!'
   - '&r| &b◈ &rLatest version: %latestVersion%'
   - '&r| &b◈ &rCurrent version: %currentVersion%'
-  - '&r| &b◈ &rView details: https://www.minebbs.com/resources/7199/'
+  - '&r| &b◈ &rView details: https://www.spigotmc.org/resources/116936/'
   - '&r===============[&e&lPlugin Update&r]=============='
 Config-Update:
   - '&r===============[&e&lConfig Update&r]=============='
