@@ -2,7 +2,8 @@ package com.github.cpjinan.plugin.akarilevel.internal
 
 import com.github.cpjinan.plugin.akarilevel.AkariLevel.plugin
 import com.github.cpjinan.plugin.akarilevel.common.listener.MythicMobsListener
-import com.github.cpjinan.plugin.akarilevel.internal.manager.LanguageManager
+import com.github.cpjinan.plugin.akarilevel.utils.ConfigUtil.saveDefaultResource
+import com.github.cpjinan.plugin.akarilevel.utils.FileUtil
 import com.github.cpjinan.plugin.akarilevel.utils.LoggerUtil
 import com.github.cpjinan.plugin.akarilevel.utils.UpdateUtil
 import taboolib.common.LifeCycle
@@ -10,8 +11,10 @@ import taboolib.common.platform.Awake
 import taboolib.common.platform.Platform
 import taboolib.common.platform.function.console
 import taboolib.module.chat.colored
+import taboolib.module.lang.asLangText
 import taboolib.module.lang.sendLang
 import taboolib.module.metrics.Metrics
+import java.io.File
 
 object PluginLoader {
     @Awake(LifeCycle.LOAD)
@@ -32,7 +35,10 @@ object PluginLoader {
             ""
         )
         MythicMobsListener.registerMythicMobsListener()
-        LanguageManager.saveDefaultResource()
+        plugin.saveDefaultResource(
+            "level/Example_${console().asLangText("Language")}.yml",
+            File(FileUtil.dataFolder, "level/Example.yml")
+        )
         console().sendLang("Plugin-Enabled")
         UpdateUtil.getPluginNotice()
         UpdateUtil.getPluginUpdate()
