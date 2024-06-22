@@ -30,7 +30,7 @@ taboolib {
         }
     }
     version { taboolib = "6.1.1" }
-    relocate("kotlinx.serialization", "kotlinx1922.serialization162")
+    relocate("kotlinx.serialization", "kotlinx.serialization162")
 }
 
 repositories {
@@ -43,11 +43,11 @@ dependencies {
     compileOnly("ink.ptms.core:v11902:11902-minimize:mapped")
     compileOnly("ink.ptms.core:v11902:11902-minimize:universal")
     compileOnly(kotlin("stdlib"))
-    compileOnly("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.2")
-    compileOnly("org.jetbrains.kotlinx:kotlinx-serialization-cbor:1.6.2")
     compileOnly("io.lumine.xikage:MythicMobs:4.11.0@jar")
     compileOnly("io.lumine:Mythic-Dist:5.3.5@jar")
     compileOnly(fileTree("libs"))
+    taboo("org.jetbrains.kotlinx:kotlinx-serialization-json-jvm:1.6.2")
+    taboo("org.jetbrains.kotlinx:kotlinx-serialization-cbor-jvm:1.6.2")
 }
 
 tasks.withType<JavaCompile> {
