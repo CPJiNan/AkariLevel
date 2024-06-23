@@ -311,8 +311,8 @@ object PlayerAPI {
             runAction(player, levelGroup, targetLvl)
             refreshLevel(player, levelGroup)
         } else {
-            if (curLvl >= levelGroupData.maxLevel) player.sendLang("Max-Level")
-            else player.sendLang("Levelup-Fail")
+            if (curLvl >= levelGroupData.maxLevel) player.sendLang("Max-Level", levelGroup)
+            else player.sendLang("Levelup-Fail", levelGroup)
         }
     }
 

@@ -37,8 +37,7 @@ Remove-Exp: "&7已移除玩家 &f{0} {2} &7点 &f{1} &7经验值！"
 Set-Exp: "&7已设置玩家 &f{0} &7的 &f{1} &7经验值为 &f{2} &7！"
 Check-Exp: "&7玩家 &f{0} &7拥有的 &f{1} &7经验值为 &f{2} &7！"
 # 升级相关
-Levelup-Success: "&a升级成功！"
-Levelup-Fail: "&c未满足升级所需条件！"
-Max-Level: "&c已达到最大等级！"
+Levelup-Fail: "&c未满足等级组 {0} 升级所需条件！"
+Max-Level: "&c已达到等级组 {0} 的最大等级！"
 # 追踪相关
 Trace-Success: "&7正在追踪 &f{0} &7等级组."

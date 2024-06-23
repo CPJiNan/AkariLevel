@@ -38,8 +38,7 @@ Remove-Exp: "&7Removed &f{0} {2} &7&f{1} &7experience points from player!"
 Set-Exp: "&7Set player &f{0} &7experience points of &f{1} &7to &f{2} &7!"
 Check-Exp: "&7Player &f{0} &7has &f{2} &7experience points of &f{1} &7!"
 # Level-up related
-Levelup-Success: "&aLevel up successful!"
-Levelup-Fail: "&cConditions for level-up not met!"
-Max-Level: "&cMaximum level reached!"
+Levelup-Fail: "&cConditions for level-up of {0} not met!"
+Max-Level: "&cMaximum level of {0} reached!"
 # Tracking-related
 Trace-Success: "&7Tracking &f{0} &7level group."

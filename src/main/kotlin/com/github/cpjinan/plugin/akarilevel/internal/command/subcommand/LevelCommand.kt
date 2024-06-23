@@ -68,6 +68,10 @@ object LevelCommand {
     }
     val levelup = subCommand {
         createHelper()
+        dynamic("levelGroup") { suggest { LevelAPI.getLevelGroupNames().toList() } }
+            .execute<ProxyCommandSender> { _: ProxyCommandSender, context: CommandContext<ProxyCommandSender>, _: String ->
+                PlayerAPI.levelupPlayer(context.player().toBukkitPlayer(), context["levelGroup"])
+            }
         execute<ProxyCommandSender> { _: ProxyCommandSender, context: CommandContext<ProxyCommandSender>, _: String ->
             PlayerAPI.levelupPlayer(context.player().toBukkitPlayer())
         }
