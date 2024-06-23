@@ -8,29 +8,84 @@ import org.bukkit.configuration.ConfigurationSection
 import taboolib.common5.compileJS
 import taboolib.module.chat.colored
 
+/**
+ * 等级和等级组相关 API
+ * @author CPJiNan
+ * @since 2024/06/23
+ */
 object LevelAPI {
-    // region function
+    /**
+     * 获取等级组配置列表
+     * @return 等级组配置列表
+     */
     fun getLevelGroups(): HashMap<String, ConfigurationSection> = getLvlGroups()
 
+    /**
+     * 获取等级组编辑名列表
+     * @return 等级组名称列表
+     */
     fun getLevelGroupNames(): ArrayList<String> = getLvlGroupNames()
 
+    /**
+     * 获取等级组数据列表
+     * @return 等级组数据列表
+     */
     fun getLevelGroupData(): HashMap<String, LevelGroupData> = getLvlGroupData()
 
+    /**
+     * 获取指定等级组数据
+     * @param levelGroup 等级组编辑名
+     * @return 等级组数据
+     */
     fun getLevelGroupData(levelGroup: String): LevelGroupData = getLvlGroupData(levelGroup)
 
+    /**
+     * 获取指定等级组关键等级数据列表
+     * @param levelGroup 等级组编辑名
+     * @return 关键等级数据列表
+     */
     fun getKeyLevelData(levelGroup: String): HashMap<Int, LevelData> = getKeyLvlData(levelGroup)
 
+    /**
+     * 获取指定等级组某等级数据
+     * @param levelGroup 等级组编辑名
+     * @param level 等级
+     * @return 等级数据
+     */
     fun getLevelData(levelGroup: String, level: Int): LevelData = getLvlData(levelGroup, level)
 
+    /**
+     * 获取指定等级组某等级名称
+     * @param levelGroup 等级组编辑名
+     * @param level 等级
+     * @return 等级名称
+     */
     fun getLevelName(levelGroup: String, level: Int): String = getLvlName(levelGroup, level)
 
+    /**
+     * 获取指定等级组升级到某等级所需经验
+     * @param levelGroup 等级组编辑名
+     * @param level 等级
+     * @return 等级名称
+     */
     fun getLevelExp(levelGroup: String, level: Int): Int = getLvlExp(levelGroup, level)
 
+    /**
+     * 获取指定等级组升级到某等级所需条件列表
+     * @param levelGroup 等级组编辑名
+     * @param level 等级
+     * @return 升级条件列表
+     */
     fun getLevelCondition(levelGroup: String, level: Int): List<String> = getLvlCondition(levelGroup, level)
 
+    /**
+     * 获取指定等级组升级到某等级执行动作列表
+     * @param levelGroup 等级组编辑名
+     * @param level 等级
+     * @return 升级执行动作列表
+     */
     fun getLevelAction(levelGroup: String, level: Int): List<String> = getLvlAction(levelGroup, level)
 
-    // region basic function
     private fun getLvlGroups(): HashMap<String, ConfigurationSection> {
         val levelGroups = HashMap<String, ConfigurationSection>()
         FileUtil.getFile("plugins/AkariLevel/level", true).forEach { file ->

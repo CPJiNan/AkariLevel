@@ -18,24 +18,66 @@ import taboolib.module.kether.ScriptOptions
 import taboolib.platform.type.BukkitProxyEvent
 import taboolib.platform.util.sendLang
 
+/**
+ * 玩家相关 API
+ * @author CPJiNan
+ * @since 2024/06/23
+ */
 object PlayerAPI {
-    // region function
+    /**
+     * 获取指定玩家某等级组下的数据
+     * @param player 玩家
+     * @param levelGroup 等级组编辑名
+     * @return 玩家数据
+     */
     fun getPlayerData(player: Player, levelGroup: String): PlayerData = getData(player, levelGroup)
 
+    /**
+     * 设置指定玩家某等级组下的数据
+     * @param player 玩家
+     * @param levelGroup 等级组编辑名
+     * @param playerData 玩家数据
+     */
     fun setPlayerData(player: Player, levelGroup: String, playerData: PlayerData) {
         setData(player, levelGroup, playerData)
     }
 
+    /**
+     * 获取指定玩家某等级组下的等级
+     * @param player 玩家
+     * @param levelGroup 等级组编辑名
+     * @return 等级数值
+     */
     fun getPlayerLevel(player: Player, levelGroup: String): Int = getLevel(player, levelGroup)
 
+    /**
+     * 获取指定玩家某等级组下的经验
+     * @param player 玩家
+     * @param levelGroup 等级组编辑名
+     * @return 经验数值
+     */
     fun getPlayerExp(player: Player, levelGroup: String): Int = getExp(player, levelGroup)
 
+    /**
+     * 设置指定玩家某等级组下的等级并触发该等级升级执行动作
+     * @param player 玩家
+     * @param levelGroup 等级组编辑名
+     * @param amount 等级数值
+     * @param source PlayerLevelChangeEvent 事件来源
+     */
     fun setPlayerLevel(player: Player, levelGroup: String, amount: Int, source: String) {
         setLevel(player, levelGroup, amount, source)
         runAction(player, levelGroup, amount)
         refreshLevel(player, levelGroup)
     }
 
+    /**
+     * 增加指定玩家某等级组下的等级并触发该等级升级执行动作
+     * @param player 玩家
+     * @param levelGroup 等级组编辑名
+     * @param amount 等级数值
+     * @param source PlayerLevelChangeEvent 事件来源
+     */
     fun addPlayerLevel(player: Player, levelGroup: String, amount: Int, source: String) {
         val targetLevel = getLevel(player, levelGroup) + amount
         setLevel(player, levelGroup, targetLevel, source)
@@ -43,6 +85,13 @@ object PlayerAPI {
         refreshLevel(player, levelGroup)
     }
 
+    /**
+     * 移除指定玩家某等级组下的等级并触发该等级升级执行动作
+     * @param player 玩家
+     * @param levelGroup 等级组编辑名
+     * @param amount 等级数值
+     * @param source PlayerLevelChangeEvent 事件来源
+     */
     fun removePlayerLevel(player: Player, levelGroup: String, amount: Int, source: String) {
         val targetLevel = (getLevel(player, levelGroup) - amount).coerceAtLeast(0)
         setLevel(player, levelGroup, targetLevel, source)
@@ -50,26 +99,61 @@ object PlayerAPI {
         refreshLevel(player, levelGroup)
     }
 
+    /**
+     * 设置指定玩家某等级组下的等级而不触发该等级升级执行动作
+     * @param player 玩家
+     * @param levelGroup 等级组编辑名
+     * @param amount 等级数值
+     * @param source PlayerLevelChangeEvent 事件来源
+     */
     fun setPlayerLevelWithoutAction(player: Player, levelGroup: String, amount: Int, source: String) {
         setLevel(player, levelGroup, amount, source)
         refreshLevel(player, levelGroup)
     }
 
+    /**
+     * 增加指定玩家某等级组下的等级而不触发该等级升级执行动作
+     * @param player 玩家
+     * @param levelGroup 等级组编辑名
+     * @param amount 等级数值
+     * @param source PlayerLevelChangeEvent 事件来源
+     */
     fun addPlayerLevelWithoutAction(player: Player, levelGroup: String, amount: Int, source: String) {
         setLevel(player, levelGroup, getLevel(player, levelGroup) + amount, source)
         refreshLevel(player, levelGroup)
     }
 
+    /**
+     * 移除指定玩家某等级组下的等级的而不触发该等级升级执行动作
+     * @param player 玩家
+     * @param levelGroup 等级组编辑名
+     * @param amount 等级数值
+     * @param source PlayerLevelChangeEvent 事件来源
+     */
     fun removePlayerLevelWithoutAction(player: Player, levelGroup: String, amount: Int, source: String) {
         setLevel(player, levelGroup, (getLevel(player, levelGroup) - amount).coerceAtLeast(0), source)
         refreshLevel(player, levelGroup)
     }
 
+    /**
+     * 设置指定玩家某等级组下的经验
+     * @param player 玩家
+     * @param levelGroup 等级组编辑名
+     * @param amount 经验数值
+     * @param source PlayerExpChangeEvent 事件来源
+     */
     fun setPlayerExp(player: Player, levelGroup: String, amount: Int, source: String) {
         setExp(player, levelGroup, amount, source)
         refreshLevel(player, levelGroup)
     }
 
+    /**
+     * 增加指定玩家某等级组下的经验 (带有等级组是否订阅事件来源检查)
+     * @param player 玩家
+     * @param levelGroup 等级组编辑名
+     * @param amount 经验数值
+     * @param source PlayerExpChangeEvent 事件来源
+     */
     fun addPlayerExp(player: Player, levelGroup: String, amount: Int, source: String) {
         if (source in LevelAPI.getLevelGroupData(levelGroup).subscribeSource) {
             setExp(player, levelGroup, getExp(player, levelGroup) + amount, source)
@@ -77,49 +161,102 @@ object PlayerAPI {
         }
     }
 
+    /**
+     * 增加指定玩家某等级组下的经验 (跳过等级组是否订阅事件来源检查)
+     * @param player 玩家
+     * @param levelGroup 等级组编辑名
+     * @param amount 经验数值
+     * @param source PlayerExpChangeEvent 事件来源
+     */
     fun addPlayerExpForce(player: Player, levelGroup: String, amount: Int, source: String) {
         setExp(player, levelGroup, getExp(player, levelGroup) + amount, source)
         refreshLevel(player, levelGroup)
     }
 
+    /**
+     * 移除指定玩家某等级组下的经验
+     * @param player 玩家
+     * @param levelGroup 等级组编辑名
+     * @param amount 经验数值
+     * @param source PlayerExpChangeEvent 事件来源
+     */
     fun removePlayerExp(player: Player, levelGroup: String, amount: Int, source: String) {
         setExp(player, levelGroup, (getExp(player, levelGroup) - amount).coerceAtLeast(0), source)
         refreshLevel(player, levelGroup)
     }
 
+    /**
+     * 刷新玩家所有等级组下的等级
+     * @param player 玩家
+     */
     fun refreshPlayerLevel(player: Player) {
         getLevelGroupNames().forEach {
             refreshLevel(player, it)
         }
     }
 
+    /**
+     * 刷新玩家指定等级组下的等级
+     * @param player 玩家
+     * @param levelGroup 等级组编辑名
+     */
     fun refreshPlayerLevel(player: Player, levelGroup: String) {
         refreshLevel(player, levelGroup)
     }
 
+    /**
+     * 检查玩家所有等级组是否满足升级条件并尝试升级
+     * @param player 玩家
+     */
     fun levelupPlayer(player: Player) {
         getLevelGroupNames().forEach {
             levelup(player, it)
         }
     }
 
+    /**
+     * 检查玩家指定等级组是否满足升级条件并尝试升级
+     * @param player 玩家
+     * @param levelGroup 等级组编辑名
+     */
     fun levelupPlayer(player: Player, levelGroup: String) {
         levelup(player, levelGroup)
     }
 
+    /**
+     * 获取玩家是否满足指定等级组升级条件
+     * @param player 玩家
+     * @param levelGroup 等级组编辑名
+     * @return 玩家是否满足指定等级组升级条件
+     */
     fun checkPlayerLevelupCondition(player: Player, levelGroup: String): Boolean = checkCondition(player, levelGroup)
 
+    /**
+     * 为玩家执行指定等级组下的某等级升级动作
+     * @param player 玩家
+     * @param levelGroup 等级组编辑名
+     * @param level 等级数值
+     */
     fun runPlayerLevelAction(player: Player, levelGroup: String, level: Int) {
         runAction(player, levelGroup, level)
     }
 
+    /**
+     * 获取玩家正在追踪的等级组
+     * @param player 玩家
+     * @return 等级组编辑名
+     */
     fun getPlayerTraceLevelGroup(player: Player): String = getTraceLvlGroup(player)
 
+    /**
+     * 设置玩家正在追踪的等级组
+     * @param player 玩家
+     * @param levelGroup 等级组编辑名
+     */
     fun setPlayerTraceLevelGroup(player: Player, levelGroup: String) {
         setTraceLvlGroup(player, levelGroup)
     }
 
-    // region basic function
     private fun getLevel(player: Player, levelGroup: String): Int {
         return getData(player, levelGroup).level
     }
