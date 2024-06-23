@@ -65,10 +65,10 @@ Attribute:
   # Attribute plugin (AttributePlus, SX-Attribute, OriginAttribute, AttributeSystem)
   Plugin: "AttributePlus"
   # Attribute name (leave blank if using OriginAttribute)
-  # AttributePlus - Experience Bonus
+  # AttributePlus - 经验加成
   # SX-Attribute - ExpAddition
   # AttributeSystem - ExpAddition
-  Name: "Experience Bonus"
+  Name: "经验加成"
   # Experience calculation formula (JavaScript supported)
   # %exp% -> Amount of experience gained
   # %attribute% -> Additional experience bonus amount
