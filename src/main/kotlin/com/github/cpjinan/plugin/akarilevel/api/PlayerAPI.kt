@@ -308,7 +308,6 @@ object PlayerAPI {
             val reqExp = getLevelExp(levelGroup, targetLvl)
             setExp(player, levelGroup, curExp - reqExp, "PLAYER_LEVELUP")
             setLevel(player, levelGroup, targetLvl, "PLAYER_LEVELUP")
-            player.sendLang("Levelup-Success")
             refreshLevel(player, levelGroup)
         } else {
             if (curLvl >= levelGroupData.maxLevel) player.sendLang("Max-Level")
