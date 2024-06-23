@@ -35,7 +35,7 @@ object KetherUtil {
             return KetherShell.eval(
                 script,
                 ScriptOptions.builder().namespace(namespace).sender(adaptPlayer(sender)).build()
-            ).thenApply { it }
+            ).thenApply { it }.get()
         } catch (e: Exception) {
             e.printKetherErrorMessage()
             return null
