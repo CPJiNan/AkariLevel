@@ -4,11 +4,15 @@ import com.github.cpjinan.plugin.akarilevel.internal.manager.ConfigManager
 import com.github.cpjinan.plugin.akarilevel.utils.FileUtil
 import taboolib.module.configuration.Configuration
 import taboolib.module.configuration.Type
-import taboolib.module.database.*
+import taboolib.module.database.ColumnOptionSQL
+import taboolib.module.database.ColumnTypeSQL
+import taboolib.module.database.Table
+import taboolib.module.database.getHost
 import java.io.File
 
 class DbSql : Database {
-    private val host = Configuration.loadFromFile(File(FileUtil.dataFolder, "settings.yml"), Type.YAML).getHost("Database.SQL")
+    private val host =
+        Configuration.loadFromFile(File(FileUtil.dataFolder, "settings.yml"), Type.YAML).getHost("Database.SQL")
     private val dataSource by lazy { host.createDataSource() }
     private val sqlTable = Table(ConfigManager.getSqlTable(), host) {
         add("table") {
