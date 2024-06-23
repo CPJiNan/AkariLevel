@@ -1,0 +1,100 @@
+#     _    _              _ _                   _  #
+#    / \  | | ____ _ _ __(_) |    _____   _____| | #
+#   / _ \ | |/ / _` | '__| | |   / _ \ \ / / _ \ | #
+#  / ___ \|   < (_| | |  | | |__|  __/\ V /  __/ | #
+# /_/   \_\_|\_\__,_|_|  |_|_____\___| \_/ \___|_| #
+
+##################################
+#       AkariLevel  Config       #
+##################################
+
+###########
+# Options #
+###########
+
+# 全局设置
+Options:
+  # 配置文件版本
+  Config-Version: 3
+  # 检查版本更新
+  Check-Update: true
+  # 启用 bStats 统计
+  Send-Metrics: true
+  # 启用调试模式
+  Debug: false
+
+############
+# Database #
+############
+
+# 数据存储设置
+Database:
+  # 存储方式 (JSON, CBOR, SQL)
+  Method: JSON
+  JSON:
+    file: database.json
+  CBOR:
+    file: database.cbor
+  SQL:
+    host: localhost
+    port: 3306
+    user: root
+    password: password
+    database: minecraft
+    table: akarilevel
+
+#########
+# Trace #
+#########
+
+# 等级组追踪设置
+Trace:
+  # 失去追踪焦点时返回的默认等级组 (此项留空则不会进行追踪)
+  Default: "Example"
+  # 是否在玩家每次进入服务器时重置追踪的等级组
+  Auto-Reset: true
+
+#############
+# Attribute #
+#############
+
+# 属性插件经验加成
+Attribute:
+  # 是否启用
+  Enable: false
+  # 属性插件 (AttributePlus, SX-Attribute, OriginAttribute, AttributeSystem)
+  Plugin: "AttributePlus"
+  # 属性名称 (如属性插件为 OriginAttribute 则无需填写此项)
+  # AttributePlus - 经验加成
+  # SX-Attribute - ExpAddition
+  # AttributeSystem - ExpAddition
+  Name: "经验加成"
+  # 经验计算公式 (JavaScript支持)
+  # %exp% -> 获得的经验值数量
+  # %attribute% -> 额外加成经验数量
+  Formula: "%exp% * ( 1 + %attribute% / 100 )"
+  # 所监听的 PlayerExpChangeEvent 来源
+  Source:
+    - "MYTHICMOBS_DROP_EXP"
+    - "VANILLA_EXP_CHANGE"
+
+####################
+#  PlaceholderAPI  #
+####################
+
+# 变量设置
+PlaceholderAPI:
+  # 变量前缀
+  Identifier: "akarilevel"
+  # 经验条变量设置
+  Progress-Bar:
+    # 当前等级 / 最高等级
+    Level:
+      Empty: "□"
+      Full: "■"
+      Length: 10
+    # 当前经验 / 升至下一级所需经验
+    Exp:
+      Empty: "□"
+      Full: "■"
+      Length: 10

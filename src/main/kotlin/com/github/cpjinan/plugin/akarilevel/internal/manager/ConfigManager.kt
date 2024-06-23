@@ -1,12 +1,11 @@
 package com.github.cpjinan.plugin.akarilevel.internal.manager
 
-import taboolib.module.configuration.Config
-import taboolib.module.configuration.ConfigFile
-import taboolib.module.database.getHost
+import com.github.cpjinan.plugin.akarilevel.utils.FileUtil
+import org.bukkit.configuration.file.YamlConfiguration
+import java.io.File
 
 object ConfigManager {
-    @Config("settings.yml", autoReload = false)
-    lateinit var settings: ConfigFile
+    var settings: YamlConfiguration = YamlConfiguration.loadConfiguration(File(FileUtil.dataFolder, "settings.yml"))
 
     // Config Version
     const val VERSION = 3
@@ -21,7 +20,6 @@ object ConfigManager {
     fun getMethod() = settings.getString("Database.Method")
     fun getJsonSection() = settings.getConfigurationSection("Database.JSON")!!
     fun getCborSection() = settings.getConfigurationSection("Database.CBOR")!!
-    fun getSqlHost() = settings.getHost("Database.SQL")
     fun getSqlTable() = settings.getString("Database.SQL.table")!!
 
     // Trace
