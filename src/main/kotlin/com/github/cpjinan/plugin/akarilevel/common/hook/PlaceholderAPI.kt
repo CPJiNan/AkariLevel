@@ -13,26 +13,30 @@ object PlaceholderAPI : PlaceholderExpansion {
     override fun onPlaceholderRequest(player: Player?, args: String): String {
         player?.let {
             if (it.isOnline) {
-                val levelGroup = PlayerAPI.getPlayerTraceLevelGroup(it)
+                val levelGroup: String =
+                    args.lowercase().split("_")[0].takeIf { name -> name != "Trace" }
+                        ?: PlayerAPI.getPlayerTraceLevelGroup(it)
                 val curLvl = PlayerAPI.getPlayerLevel(player, levelGroup)
                 val prevLvl = curLvl - 1
                 val nextLvl = curLvl + 1
                 return when (args.lowercase()) {
-                    "level" -> curLvl
-                    "lastlevel" -> prevLvl
-                    "nextlevel" -> nextLvl
+                    "${levelGroup}_display" -> LevelAPI.getLevelGroupData(levelGroup).display.colored()
 
-                    "exp" -> PlayerAPI.getPlayerExp(player, levelGroup)
+                    "${levelGroup}_level" -> curLvl
+                    "${levelGroup}_lastlevel" -> prevLvl
+                    "${levelGroup}_nextlevel" -> nextLvl
 
-                    "levelname" -> LevelAPI.getLevelName(levelGroup, curLvl)
-                    "lastlevelname" -> LevelAPI.getLevelName(levelGroup, prevLvl)
-                    "nextlevelname" -> LevelAPI.getLevelName(levelGroup, nextLvl)
+                    "${levelGroup}_exp" -> PlayerAPI.getPlayerExp(player, levelGroup)
 
-                    "levelexp" -> LevelAPI.getLevelExp(levelGroup, curLvl)
-                    "lastlevelexp" -> LevelAPI.getLevelExp(levelGroup, prevLvl)
-                    "nextlevelexp" -> LevelAPI.getLevelExp(levelGroup, nextLvl)
+                    "${levelGroup}_levelname" -> LevelAPI.getLevelName(levelGroup, curLvl).colored()
+                    "${levelGroup}_lastlevelname" -> LevelAPI.getLevelName(levelGroup, prevLvl).colored()
+                    "${levelGroup}_nextlevelname" -> LevelAPI.getLevelName(levelGroup, nextLvl).colored()
 
-                    "expprogressbar" -> createBar(
+                    "${levelGroup}_levelexp" -> LevelAPI.getLevelExp(levelGroup, curLvl)
+                    "${levelGroup}_lastlevelexp" -> LevelAPI.getLevelExp(levelGroup, prevLvl)
+                    "${levelGroup}_nextlevelexp" -> LevelAPI.getLevelExp(levelGroup, nextLvl)
+
+                    "${levelGroup}_expprogressbar" -> createBar(
                         ConfigManager.getExpProgressBarEmpty().colored(),
                         ConfigManager.getExpProgressBarFull().colored(),
                         ConfigManager.getExpProgressBarLength(),
@@ -42,7 +46,7 @@ object PlaceholderAPI : PlaceholderExpansion {
                         )
                     )
 
-                    "levelprogressbar" -> createBar(
+                    "${levelGroup}_levelprogressbar" -> createBar(
                         ConfigManager.getLevelProgressBarEmpty().colored(),
                         ConfigManager.getLevelProgressBarFull().colored(),
                         ConfigManager.getLevelProgressBarLength(),
