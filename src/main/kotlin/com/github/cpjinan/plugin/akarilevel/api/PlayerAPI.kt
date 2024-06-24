@@ -144,6 +144,21 @@ object PlayerAPI {
     }
 
     /**
+     * 增加指定玩家所有等级组下的经验 (带有等级组是否订阅事件来源检查)
+     * @param player 玩家
+     * @param amount 经验数值
+     * @param source PlayerExpChangeEvent 事件来源
+     */
+    fun addPlayerExp(player: Player, amount: Int, source: String) {
+        LevelAPI.getLevelGroupNames().forEach {
+            if (source in getLevelGroupData(it).subscribeSource) {
+                setExp(player, it, getExp(player, it) + amount, source)
+                refreshLevel(player, it)
+            }
+        }
+    }
+
+    /**
      * 增加指定玩家某等级组下的经验 (带有等级组是否订阅事件来源检查)
      * @param player 玩家
      * @param levelGroup 等级组编辑名
