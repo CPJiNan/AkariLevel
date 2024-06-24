@@ -1,6 +1,5 @@
 package com.github.cpjinan.plugin.akarilevel.api
 
-import com.github.cpjinan.plugin.akarilevel.AkariLevel
 import com.github.cpjinan.plugin.akarilevel.api.LevelAPI.getLevelAction
 import com.github.cpjinan.plugin.akarilevel.api.LevelAPI.getLevelCondition
 import com.github.cpjinan.plugin.akarilevel.api.LevelAPI.getLevelExp
@@ -12,9 +11,6 @@ import com.github.cpjinan.plugin.akarilevel.common.script.kether.KetherUtil.eval
 import com.github.cpjinan.plugin.akarilevel.internal.database.type.PlayerData
 import com.github.cpjinan.plugin.akarilevel.internal.manager.ConfigManager
 import org.bukkit.entity.Player
-import taboolib.common.platform.function.adaptPlayer
-import taboolib.module.kether.KetherShell
-import taboolib.module.kether.ScriptOptions
 import taboolib.platform.type.BukkitProxyEvent
 import taboolib.platform.util.sendLang
 
@@ -155,7 +151,7 @@ object PlayerAPI {
      * @param source PlayerExpChangeEvent 事件来源
      */
     fun addPlayerExp(player: Player, levelGroup: String, amount: Int, source: String) {
-        if (source in LevelAPI.getLevelGroupData(levelGroup).subscribeSource) {
+        if (source in getLevelGroupData(levelGroup).subscribeSource) {
             setExp(player, levelGroup, getExp(player, levelGroup) + amount, source)
             refreshLevel(player, levelGroup)
         }
@@ -257,6 +253,22 @@ object PlayerAPI {
         setTraceLvlGroup(player, levelGroup)
     }
 
+    /**
+     * 检查玩家是否满足指定等级组追踪条件
+     * @param player 玩家
+     * @param levelGroup 等级组编辑名
+     */
+    fun checkPlayerTraceCondition(player: Player, levelGroup: String): Boolean = checkTraceCondition(player, levelGroup)
+
+    /**
+     * 为玩家执行指定等级组下的追踪动作
+     * @param player 玩家
+     * @param levelGroup 等级组编辑名
+     */
+    fun runPlayerTraceAction(player: Player, levelGroup: String) {
+        runTraceAction(player, levelGroup)
+    }
+
     private fun getLevel(player: Player, levelGroup: String): Int {
         return getData(player, levelGroup).level
     }
@@ -299,6 +311,10 @@ object PlayerAPI {
         return matchCondition
     }
 
+    private fun runAction(player: Player, levelGroup: String, level: Int) {
+        getLevelAction(levelGroup, level).evalKether(player)
+    }
+
     private fun levelup(player: Player, levelGroup: String) {
         val levelGroupData = getLevelGroupData(levelGroup)
         val curLvl = getLevel(player, levelGroup)
@@ -335,14 +351,6 @@ object PlayerAPI {
         setTraceLvlGroup(player, getTraceLvlGroup(player))
     }
 
-    private fun runAction(player: Player, levelGroup: String, level: Int) {
-        KetherShell.eval(
-            getLevelAction(levelGroup, level),
-            ScriptOptions.builder().namespace(listOf(AkariLevel.plugin.name)).sender(sender = adaptPlayer(player))
-                .build()
-        )
-    }
-
     private fun getTraceLvlGroup(player: Player): String {
         return DataAPI.getDataValue("Player", player.name, "Trace").takeIf { it.isNotEmpty() }
             ?: ConfigManager.getDefaultTrace()
@@ -373,6 +381,22 @@ object PlayerAPI {
                 levelGroupData.traceAction.evalKether(player)
             } else return
         }
+    }
+
+    private fun checkTraceCondition(player: Player, levelGroup: String): Boolean {
+        if (levelGroup.isEmpty()) return false
+        val levelGroupData = getLevelGroupData(levelGroup)
+        if (levelGroupData.isEnabledTrace) {
+            var matchCondition = true
+            levelGroupData.traceCondition.forEach {
+                if (!it.evalKether(player).toString().toBoolean()) matchCondition = false
+            }
+            return matchCondition
+        } else return false
+    }
+
+    private fun runTraceAction(player: Player, levelGroup: String) {
+        getLevelGroupData(levelGroup).traceAction.evalKether(player)
     }
 
     private fun getData(player: Player, levelGroup: String): PlayerData = PlayerData(

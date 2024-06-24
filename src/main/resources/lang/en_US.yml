@@ -42,3 +42,4 @@ Levelup-Fail: "&cConditions for level-up of {0} not met!"
 Max-Level: "&cMaximum level of {0} reached!"
 # Tracking-related
 Trace-Success: "&7Tracking &f{0} &7level group."
+Trace-Fail: "&cConditions for tracking of {0} not met!"

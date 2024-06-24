@@ -18,11 +18,13 @@ object TraceCommand {
                 LevelAPI.getLevelGroupNames().toList()
             }
         }.execute<ProxyCommandSender> { sender: ProxyCommandSender, context: CommandContext<ProxyCommandSender>, _: String ->
-            PlayerAPI.setPlayerTraceLevelGroup(
-                Bukkit.getPlayer(sender.name)!!,
-                context["levelGroup"]
-            )
-            sender.sendLang("Trace-Success", context["levelGroup"])
+            if (PlayerAPI.checkPlayerTraceCondition(Bukkit.getPlayer(sender.name)!!, context["levelGroup"])) {
+                PlayerAPI.setPlayerTraceLevelGroup(
+                    Bukkit.getPlayer(sender.name)!!,
+                    context["levelGroup"]
+                )
+                sender.sendLang("Trace-Success", context["levelGroup"])
+            } else sender.sendLang("Trace-Fail", context["levelGroup"])
         }
     }
 }
