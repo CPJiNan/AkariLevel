@@ -29,6 +29,8 @@ Options:
 
 # Data storage settings
 Database:
+  # Use UUID
+  UUID: false
   # Storage method (JSON, CBOR, SQL)
   Method: JSON
   JSON:

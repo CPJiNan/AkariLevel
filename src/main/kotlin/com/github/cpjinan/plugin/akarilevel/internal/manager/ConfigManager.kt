@@ -21,6 +21,7 @@ object ConfigManager {
     fun getJsonSection() = settings.getConfigurationSection("Database.JSON")!!
     fun getCborSection() = settings.getConfigurationSection("Database.CBOR")!!
     fun getSqlTable() = settings.getString("Database.SQL.table")!!
+    fun isEnabledUUID() = settings.getBoolean("Database.UUID")
 
     // Trace
     fun getDefaultTrace() = settings.getString("Trace.Default")!!

@@ -367,7 +367,7 @@ object PlayerAPI {
     }
 
     private fun getTraceLvlGroup(player: Player): String {
-        return DataAPI.getDataValue("Player", player.name, "Trace").takeIf { it.isNotEmpty() }
+        return DataAPI.getDataValue("Player", player.getDataID(), "Trace").takeIf { it.isNotEmpty() }
             ?: ConfigManager.getDefaultTrace()
     }
 
@@ -392,7 +392,7 @@ object PlayerAPI {
                     player.level = maxLevel
                     player.exp = 1F
                 }
-                DataAPI.setDataValue("Player", player.name, "Trace", levelGroup)
+                DataAPI.setDataValue("Player", player.getDataID(), "Trace", levelGroup)
                 levelGroupData.traceAction.evalKether(player)
             } else return
         }
@@ -415,20 +415,26 @@ object PlayerAPI {
     }
 
     private fun getData(player: Player, levelGroup: String): PlayerData = PlayerData(
-        Integer.parseInt(DataAPI.getDataValue("Player", player.name, "$levelGroup.Level").takeIf { it.isNotEmpty() }
-            ?: "0"),
-        Integer.parseInt(DataAPI.getDataValue("Player", player.name, "$levelGroup.Exp").takeIf { it.isNotEmpty() }
-            ?: "0")
+        Integer.parseInt(
+            DataAPI.getDataValue("Player", player.getDataID(), "$levelGroup.Level").takeIf { it.isNotEmpty() }
+                ?: "0"),
+        Integer.parseInt(
+            DataAPI.getDataValue("Player", player.getDataID(), "$levelGroup.Exp").takeIf { it.isNotEmpty() }
+                ?: "0")
     )
 
     private fun setData(player: Player, levelGroup: String, playerData: PlayerData) {
-        DataAPI.setDataValue("Player", player.name, "$levelGroup.Level", playerData.level.toString())
-        DataAPI.setDataValue("Player", player.name, "$levelGroup.Exp", playerData.exp.toString())
+        DataAPI.setDataValue("Player", player.getDataID(), "$levelGroup.Level", playerData.level.toString())
+        DataAPI.setDataValue("Player", player.getDataID(), "$levelGroup.Exp", playerData.exp.toString())
     }
 
     private inline fun <reified T : BukkitProxyEvent> callEvent(event: T, action: T.() -> Unit) {
         event.call()
         if (event.isCancelled) return
         action(event)
+    }
+
+    private fun Player.getDataID(): String {
+        return this.uniqueId.toString().takeIf { ConfigManager.isEnabledUUID() } ?: this.name
     }
 }
