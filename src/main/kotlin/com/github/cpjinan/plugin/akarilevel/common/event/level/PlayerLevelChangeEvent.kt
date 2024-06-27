@@ -4,7 +4,7 @@ import org.bukkit.entity.Player
 import taboolib.platform.type.BukkitProxyEvent
 
 /**
- * 玩家经验变更事件
+ * 玩家等级变更事件
  * @param player 玩家
  * @param levelGroup 等级组编辑名
  * @param oldLevel 更改前等级
