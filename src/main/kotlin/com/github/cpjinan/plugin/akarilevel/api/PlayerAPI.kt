@@ -11,6 +11,7 @@ import com.github.cpjinan.plugin.akarilevel.common.script.kether.KetherUtil.eval
 import com.github.cpjinan.plugin.akarilevel.internal.database.type.PlayerData
 import com.github.cpjinan.plugin.akarilevel.internal.manager.ConfigManager
 import org.bukkit.entity.Player
+import taboolib.module.chat.colored
 import taboolib.platform.type.BukkitProxyEvent
 import taboolib.platform.util.sendLang
 
@@ -150,7 +151,7 @@ object PlayerAPI {
      * @param source PlayerExpChangeEvent 事件来源
      */
     fun addPlayerExp(player: Player, amount: Int, source: String) {
-        LevelAPI.getLevelGroupNames().forEach {
+        getLevelGroupNames().forEach {
             if (source in getLevelGroupData(it).subscribeSource) {
                 setExp(player, it, getExp(player, it) + amount, source)
                 refreshLevel(player, it)
@@ -342,8 +343,12 @@ object PlayerAPI {
             runAction(player, levelGroup, targetLvl)
             refreshLevel(player, levelGroup)
         } else {
-            if (curLvl >= levelGroupData.maxLevel) player.sendLang("Max-Level", levelGroup)
-            else player.sendLang("Levelup-Fail", levelGroup)
+            if (curLvl >= levelGroupData.maxLevel) player.sendLang(
+                "Max-Level",
+                levelGroup,
+                getLevelGroupData(levelGroup).display.colored()
+            )
+            else player.sendLang("Levelup-Fail", levelGroup, getLevelGroupData(levelGroup).display.colored())
         }
     }
 
