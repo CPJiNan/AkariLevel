@@ -28,15 +28,15 @@ Data-Get-Value: "&7Fetched value of key &f{2} &7in index &f{1} &7of table &f{0} 
 Data-Set-Value: "&7Set value of key &f{2} &7in index &f{1} &7of table &f{0} &7to &f{3} &7."
 Data-Save: "&7Data has been saved."
 # Level-related
-Add-Level: "&7Granted player &f{0} {2} &7&f{1} &7levels!"
-Remove-Level: "&7Removed &f{0} {2} &7&f{1} &7levels from player!"
-Set-Level: "&7Set player &f{0} &7level of &f{1} &7to &f{2} &7!"
-Check-Level: "&7Player &f{0} &7has a level of &f{1} &7of &f{2} &7!"
+Add-Level: "&7Granted player &f{0} {3} &7&f{2} &7levels!"
+Remove-Level: "&7Removed &f{0} {3} &7&f{2} &7levels from player!"
+Set-Level: "&7Set player &f{0} &7level of &f{2} &7to &f{3} &7!"
+Check-Level: "&7Player &f{0} &7has a level of &f{2} &7of &f{3} &7!"
 # Experience-related
-Add-Exp: "&7Granted player &f{0} {2} &7&f{1} &7experience points!"
-Remove-Exp: "&7Removed &f{0} {2} &7&f{1} &7experience points from player!"
-Set-Exp: "&7Set player &f{0} &7experience points of &f{1} &7to &f{2} &7!"
-Check-Exp: "&7Player &f{0} &7has &f{2} &7experience points of &f{1} &7!"
+Add-Exp: "&7Granted player &f{0} {3} &7&f{2} &7experience points!"
+Remove-Exp: "&7Removed &f{0} {3} &7&f{2} &7experience points from player!"
+Set-Exp: "&7Set player &f{0} &7experience points of &f{2} &7to &f{3} &7!"
+Check-Exp: "&7Player &f{0} &7has &f{3} &7experience points of &f{2} &7!"
 # Level-up related
 Levelup-Fail: "&cConditions for level-up of {0} not met!"
 Max-Level: "&cMaximum level of {0} reached!"
