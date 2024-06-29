@@ -76,7 +76,7 @@ object PlayerAPI {
      * @param source PlayerLevelChangeEvent 事件来源
      */
     fun addPlayerLevel(player: Player, levelGroup: String, amount: Int, source: String) {
-        val targetLevel = getLevel(player, levelGroup) + amount
+        val targetLevel = (getLevel(player, levelGroup) + amount).coerceAtMost(getLevelGroupData(levelGroup).maxLevel)
         setLevel(player, levelGroup, targetLevel, source)
         runAction(player, levelGroup, targetLevel)
         refreshLevel(player, levelGroup)
