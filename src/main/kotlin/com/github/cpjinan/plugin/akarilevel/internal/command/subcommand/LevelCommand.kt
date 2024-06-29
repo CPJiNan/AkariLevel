@@ -32,6 +32,22 @@ object LevelCommand {
                             context["amount"]
                         )
                     }
+                }.dynamic("source") {
+                    execute<ProxyCommandSender> { sender: ProxyCommandSender, context: CommandContext<ProxyCommandSender>, _: String ->
+                        PlayerAPI.addPlayerLevel(
+                            context.player("player").toBukkitPlayer(),
+                            context["levelGroup"],
+                            context["amount"].toInt(),
+                            context["source"]
+                        )
+                        sender.sendLang(
+                            "Add-Level",
+                            context["player"],
+                            context["levelGroup"],
+                            getLevelGroupData(context["levelGroup"]).display.colored(),
+                            context["amount"]
+                        )
+                    }
                 }
         }
         literal("remove") {
@@ -52,6 +68,22 @@ object LevelCommand {
                             context["amount"]
                         )
                     }
+                }.dynamic("source") {
+                    execute<ProxyCommandSender> { sender: ProxyCommandSender, context: CommandContext<ProxyCommandSender>, _: String ->
+                        PlayerAPI.removePlayerLevel(
+                            context.player("player").toBukkitPlayer(),
+                            context["levelGroup"],
+                            context["amount"].toInt(),
+                            context["source"]
+                        )
+                        sender.sendLang(
+                            "Remove-Level",
+                            context["player"],
+                            context["levelGroup"],
+                            getLevelGroupData(context["levelGroup"]).display.colored(),
+                            context["amount"]
+                        )
+                    }
                 }
         }
         literal("set") {
@@ -63,6 +95,22 @@ object LevelCommand {
                             context["levelGroup"],
                             context["amount"].toInt(),
                             "COMMAND_SET_LEVEL"
+                        )
+                        sender.sendLang(
+                            "Set-Level",
+                            context["player"],
+                            context["levelGroup"],
+                            getLevelGroupData(context["levelGroup"]).display.colored(),
+                            context["amount"]
+                        )
+                    }
+                }.dynamic("source") {
+                    execute<ProxyCommandSender> { sender: ProxyCommandSender, context: CommandContext<ProxyCommandSender>, _: String ->
+                        PlayerAPI.setPlayerLevel(
+                            context.player("player").toBukkitPlayer(),
+                            context["levelGroup"],
+                            context["amount"].toInt(),
+                            context["source"]
                         )
                         sender.sendLang(
                             "Set-Level",

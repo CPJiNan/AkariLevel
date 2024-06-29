@@ -31,6 +31,22 @@ object ExpCommand {
                             context["amount"]
                         )
                     }
+                }.dynamic("source") {
+                    execute<ProxyCommandSender> { sender: ProxyCommandSender, context: CommandContext<ProxyCommandSender>, _: String ->
+                        PlayerAPI.addPlayerExpForce(
+                            context.player("player").toBukkitPlayer(),
+                            context["levelGroup"],
+                            context["amount"].toInt(),
+                            context["source"]
+                        )
+                        sender.sendLang(
+                            "Add-Exp",
+                            context["player"],
+                            context["levelGroup"],
+                            getLevelGroupData(context["levelGroup"]).display.colored(),
+                            context["amount"]
+                        )
+                    }
                 }
         }
         literal("remove") {
@@ -51,6 +67,22 @@ object ExpCommand {
                             context["amount"]
                         )
                     }
+                }.dynamic("source") {
+                    execute<ProxyCommandSender> { sender: ProxyCommandSender, context: CommandContext<ProxyCommandSender>, _: String ->
+                        PlayerAPI.removePlayerExp(
+                            context.player("player").toBukkitPlayer(),
+                            context["levelGroup"],
+                            context["amount"].toInt(),
+                            context["source"]
+                        )
+                        sender.sendLang(
+                            "Remove-Exp",
+                            context["player"],
+                            context["levelGroup"],
+                            getLevelGroupData(context["levelGroup"]).display.colored(),
+                            context["amount"]
+                        )
+                    }
                 }
         }
         literal("set") {
@@ -62,6 +94,22 @@ object ExpCommand {
                             context["levelGroup"],
                             context["amount"].toInt(),
                             "COMMAND_SET_EXP"
+                        )
+                        sender.sendLang(
+                            "Set-Exp",
+                            context["player"],
+                            context["levelGroup"],
+                            getLevelGroupData(context["levelGroup"]).display.colored(),
+                            context["amount"]
+                        )
+                    }
+                }.dynamic("source") {
+                    execute<ProxyCommandSender> { sender: ProxyCommandSender, context: CommandContext<ProxyCommandSender>, _: String ->
+                        PlayerAPI.setPlayerExp(
+                            context.player("player").toBukkitPlayer(),
+                            context["levelGroup"],
+                            context["amount"].toInt(),
+                            context["source"]
                         )
                         sender.sendLang(
                             "Set-Exp",
