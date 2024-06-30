@@ -22,8 +22,8 @@ object PlayerListener {
 
     @SubscribeEvent
     fun onPlayerJoin(event: PlayerJoinEvent) {
+        PlayerAPI.refreshPlayerLevel(event.player)
         if (isEnabledAutoResetTrace()) PlayerAPI.setPlayerTraceLevelGroup(event.player, getDefaultTrace())
-        else PlayerAPI.refreshPlayerLevel(event.player)
     }
 
     @SubscribeEvent
