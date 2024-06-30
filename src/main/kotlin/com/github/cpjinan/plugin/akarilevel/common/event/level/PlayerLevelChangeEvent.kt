@@ -16,8 +16,8 @@ import taboolib.platform.type.BukkitProxyEvent
 class PlayerLevelChangeEvent(
     val player: Player,
     var levelGroup: String,
-    var oldLevel: Int,
-    var newLevel: Int,
+    var oldLevel: Long,
+    var newLevel: Long,
     var source: String
 ) :
     BukkitProxyEvent()

@@ -9,7 +9,7 @@ data class LevelGroupData(
     val isEnabledTrace: Boolean,
     val traceCondition: List<String>,
     val traceAction: List<String>,
-    val maxLevel: Int,
+    val maxLevel: Long,
     val isEnabledAutoLevelup: Boolean,
     val isEnabledExpLimit: Boolean,
     val keyLevelSettings: ConfigurationSection

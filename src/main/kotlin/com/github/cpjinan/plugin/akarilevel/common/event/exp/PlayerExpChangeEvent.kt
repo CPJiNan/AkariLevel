@@ -15,7 +15,7 @@ import taboolib.platform.type.BukkitProxyEvent
 class PlayerExpChangeEvent(
     val player: Player,
     var levelGroup: String,
-    var expAmount: Int,
+    var expAmount: Long,
     var source: String
 ) :
     BukkitProxyEvent()

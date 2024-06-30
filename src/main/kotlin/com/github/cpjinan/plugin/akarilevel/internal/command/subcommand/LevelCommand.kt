@@ -21,7 +21,7 @@ object LevelCommand {
                         PlayerAPI.addPlayerLevel(
                             context.player("player").toBukkitPlayer(),
                             context["levelGroup"],
-                            context["amount"].toInt(),
+                            context["amount"].toLong(),
                             "COMMAND_ADD_LEVEL"
                         )
                         sender.sendLang(
@@ -37,7 +37,7 @@ object LevelCommand {
                         PlayerAPI.addPlayerLevel(
                             context.player("player").toBukkitPlayer(),
                             context["levelGroup"],
-                            context["amount"].toInt(),
+                            context["amount"].toLong(),
                             context["source"]
                         )
                         sender.sendLang(
@@ -57,7 +57,7 @@ object LevelCommand {
                         PlayerAPI.removePlayerLevel(
                             context.player("player").toBukkitPlayer(),
                             context["levelGroup"],
-                            context["amount"].toInt(),
+                            context["amount"].toLong(),
                             "COMMAND_REMOVE_LEVEL"
                         )
                         sender.sendLang(
@@ -73,7 +73,7 @@ object LevelCommand {
                         PlayerAPI.removePlayerLevel(
                             context.player("player").toBukkitPlayer(),
                             context["levelGroup"],
-                            context["amount"].toInt(),
+                            context["amount"].toLong(),
                             context["source"]
                         )
                         sender.sendLang(
@@ -93,7 +93,7 @@ object LevelCommand {
                         PlayerAPI.setPlayerLevel(
                             context.player("player").toBukkitPlayer(),
                             context["levelGroup"],
-                            context["amount"].toInt(),
+                            context["amount"].toLong(),
                             "COMMAND_SET_LEVEL"
                         )
                         sender.sendLang(
@@ -109,7 +109,7 @@ object LevelCommand {
                         PlayerAPI.setPlayerLevel(
                             context.player("player").toBukkitPlayer(),
                             context["levelGroup"],
-                            context["amount"].toInt(),
+                            context["amount"].toLong(),
                             context["source"]
                         )
                         sender.sendLang(

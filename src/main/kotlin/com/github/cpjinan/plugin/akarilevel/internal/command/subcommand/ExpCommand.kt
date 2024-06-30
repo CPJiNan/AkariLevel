@@ -20,7 +20,7 @@ object ExpCommand {
                         PlayerAPI.addPlayerExpForce(
                             context.player("player").toBukkitPlayer(),
                             context["levelGroup"],
-                            context["amount"].toInt(),
+                            context["amount"].toLong(),
                             "COMMAND_ADD_EXP"
                         )
                         sender.sendLang(
@@ -36,7 +36,7 @@ object ExpCommand {
                         PlayerAPI.addPlayerExpForce(
                             context.player("player").toBukkitPlayer(),
                             context["levelGroup"],
-                            context["amount"].toInt(),
+                            context["amount"].toLong(),
                             context["source"]
                         )
                         sender.sendLang(
@@ -56,7 +56,7 @@ object ExpCommand {
                         PlayerAPI.removePlayerExp(
                             context.player("player").toBukkitPlayer(),
                             context["levelGroup"],
-                            context["amount"].toInt(),
+                            context["amount"].toLong(),
                             "COMMAND_REMOVE_EXP"
                         )
                         sender.sendLang(
@@ -72,7 +72,7 @@ object ExpCommand {
                         PlayerAPI.removePlayerExp(
                             context.player("player").toBukkitPlayer(),
                             context["levelGroup"],
-                            context["amount"].toInt(),
+                            context["amount"].toLong(),
                             context["source"]
                         )
                         sender.sendLang(
@@ -92,7 +92,7 @@ object ExpCommand {
                         PlayerAPI.setPlayerExp(
                             context.player("player").toBukkitPlayer(),
                             context["levelGroup"],
-                            context["amount"].toInt(),
+                            context["amount"].toLong(),
                             "COMMAND_SET_EXP"
                         )
                         sender.sendLang(
@@ -108,7 +108,7 @@ object ExpCommand {
                         PlayerAPI.setPlayerExp(
                             context.player("player").toBukkitPlayer(),
                             context["levelGroup"],
-                            context["amount"].toInt(),
+                            context["amount"].toLong(),
                             context["source"]
                         )
                         sender.sendLang(

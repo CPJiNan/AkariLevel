@@ -41,7 +41,7 @@ object LegacyMythicMobsDropListener : Listener {
 class LegacyMythicMobsExpDrop(line: String, config: MythicLineConfig) : Drop(line, config), IItemDrop {
     override fun getDrop(meta: DropMetadata): AbstractItemStack? {
         val levelGroupName = this.line.split(' ')[0].split(".")[1]
-        val amount = this.line.split(' ')[1].toInt()
+        val amount = this.line.split(' ')[1].toLong()
         PlayerAPI.addPlayerExp(Bukkit.getPlayer(meta.trigger.uniqueId)!!, levelGroupName, amount, "MYTHICMOBS_DROP_EXP")
         return null
     }
@@ -66,7 +66,7 @@ class MythicMobsExpDrop(line: String, config: io.lumine.mythic.api.config.Mythic
         p1: Double
     ): io.lumine.mythic.api.adapters.AbstractItemStack? {
         val levelGroupName = this.line.split(' ')[0].split(".")[1]
-        val amount = this.line.split(' ')[1].toInt()
+        val amount = this.line.split(' ')[1].toLong()
         if (meta != null) {
             PlayerAPI.addPlayerExp(
                 Bukkit.getPlayer(meta.trigger.uniqueId)!!,

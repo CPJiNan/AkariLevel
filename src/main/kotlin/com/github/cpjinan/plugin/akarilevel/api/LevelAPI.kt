@@ -52,7 +52,7 @@ object LevelAPI {
      * @param level 等级
      * @return 等级数据
      */
-    fun getLevelData(levelGroup: String, level: Int): LevelData = getLvlData(levelGroup, level)
+    fun getLevelData(levelGroup: String, level: Long): LevelData = getLvlData(levelGroup, level)
 
     /**
      * 获取指定等级组某等级名称
@@ -60,7 +60,7 @@ object LevelAPI {
      * @param level 等级
      * @return 等级名称
      */
-    fun getLevelName(levelGroup: String, level: Int): String = getLvlName(levelGroup, level)
+    fun getLevelName(levelGroup: String, level: Long): String = getLvlName(levelGroup, level)
 
     /**
      * 获取指定等级组升级到某等级所需经验
@@ -68,7 +68,7 @@ object LevelAPI {
      * @param level 等级
      * @return 等级名称
      */
-    fun getLevelExp(levelGroup: String, level: Int): Int = getLvlExp(levelGroup, level)
+    fun getLevelExp(levelGroup: String, level: Long): Long = getLvlExp(levelGroup, level)
 
     /**
      * 获取指定等级组升级到某等级所需条件列表
@@ -76,7 +76,7 @@ object LevelAPI {
      * @param level 等级
      * @return 升级条件列表
      */
-    fun getLevelCondition(levelGroup: String, level: Int): List<String> = getLvlCondition(levelGroup, level)
+    fun getLevelCondition(levelGroup: String, level: Long): List<String> = getLvlCondition(levelGroup, level)
 
     /**
      * 获取指定等级组升级到某等级执行动作列表
@@ -84,7 +84,7 @@ object LevelAPI {
      * @param level 等级
      * @return 升级执行动作列表
      */
-    fun getLevelAction(levelGroup: String, level: Int): List<String> = getLvlAction(levelGroup, level)
+    fun getLevelAction(levelGroup: String, level: Long): List<String> = getLvlAction(levelGroup, level)
 
     private fun getLvlGroups(): HashMap<String, ConfigurationSection> {
         val levelGroups = HashMap<String, ConfigurationSection>()
@@ -110,7 +110,7 @@ object LevelAPI {
                 isEnabledTrace = section.getBoolean("Trace.Enable"),
                 traceCondition = section.getStringList("Trace.Condition"),
                 traceAction = section.getStringList("Trace.Action"),
-                maxLevel = section.getInt("Level.Max"),
+                maxLevel = section.getLong("Level.Max"),
                 isEnabledAutoLevelup = section.getBoolean("Level.Auto-Levelup"),
                 isEnabledExpLimit = section.getBoolean("Level.Exp-Limit"),
                 keyLevelSettings = section.getConfigurationSection("Level.Key")!!
@@ -136,7 +136,7 @@ object LevelAPI {
             }.toMap(HashMap())
     }
 
-    private fun getLvlData(levelGroup: String, level: Int): LevelData {
+    private fun getLvlData(levelGroup: String, level: Long): LevelData {
         var levelData: LevelData? = null
         getKeyLvlData(levelGroup).forEach { (k, v) ->
             if (level >= k) levelData = v
@@ -144,20 +144,20 @@ object LevelAPI {
         return levelData ?: throw IllegalArgumentException("No level data found for level $level in group $levelGroup")
     }
 
-    private fun getLvlName(levelGroup: String, level: Int): String =
+    private fun getLvlName(levelGroup: String, level: Long): String =
         getLvlData(levelGroup, level).name.replace("%level%", level.toString(), true).colored()
 
-    private fun getLvlExp(levelGroup: String, level: Int): Int {
-        if (level > getLvlGroupData(levelGroup).maxLevel) return Int.MAX_VALUE
+    private fun getLvlExp(levelGroup: String, level: Long): Long {
+        if (level > getLvlGroupData(levelGroup).maxLevel) return Long.MAX_VALUE
         return getLvlData(levelGroup, level).let { levelData ->
             levelData.exp
                 .replace("%level%", level.toString(), true)
-                .compileJS()?.eval()?.toString()?.toIntOrNull() ?: return Int.MAX_VALUE
+                .compileJS()?.eval()?.toString()?.toLongOrNull() ?: return Long.MAX_VALUE
         }
     }
 
-    private fun getLvlCondition(levelGroup: String, level: Int): List<String> = getLvlData(levelGroup, level).condition
+    private fun getLvlCondition(levelGroup: String, level: Long): List<String> = getLvlData(levelGroup, level).condition
 
-    private fun getLvlAction(levelGroup: String, level: Int): List<String> = getLvlData(levelGroup, level).action
+    private fun getLvlAction(levelGroup: String, level: Long): List<String> = getLvlData(levelGroup, level).action
 
 }

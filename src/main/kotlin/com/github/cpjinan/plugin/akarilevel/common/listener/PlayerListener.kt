@@ -14,7 +14,7 @@ object PlayerListener {
     @SubscribeEvent
     fun onPlayerExpChange(event: PlayerExpChangeEvent) {
         LevelAPI.getLevelGroupNames().forEach {
-            PlayerAPI.addPlayerExp(event.player, it, event.amount, "VANILLA_EXP_CHANGE")
+            PlayerAPI.addPlayerExp(event.player, it, event.amount.toLong(), "VANILLA_EXP_CHANGE")
             PlayerAPI.refreshPlayerLevel(event.player, it)
         }
         event.amount = 0

@@ -45,7 +45,7 @@ object PlayerAPI {
      * @param levelGroup 等级组编辑名
      * @return 等级数值
      */
-    fun getPlayerLevel(player: Player, levelGroup: String): Int = getLevel(player, levelGroup)
+    fun getPlayerLevel(player: Player, levelGroup: String): Long = getLevel(player, levelGroup)
 
     /**
      * 获取指定玩家某等级组下的经验
@@ -53,7 +53,7 @@ object PlayerAPI {
      * @param levelGroup 等级组编辑名
      * @return 经验数值
      */
-    fun getPlayerExp(player: Player, levelGroup: String): Int = getExp(player, levelGroup)
+    fun getPlayerExp(player: Player, levelGroup: String): Long = getExp(player, levelGroup)
 
     /**
      * 设置指定玩家某等级组下的等级并触发该等级升级执行动作
@@ -62,7 +62,7 @@ object PlayerAPI {
      * @param amount 等级数值
      * @param source PlayerLevelChangeEvent 事件来源
      */
-    fun setPlayerLevel(player: Player, levelGroup: String, amount: Int, source: String) {
+    fun setPlayerLevel(player: Player, levelGroup: String, amount: Long, source: String) {
         setLevel(player, levelGroup, amount, source)
         runAction(player, levelGroup, amount)
         refreshLevel(player, levelGroup)
@@ -75,7 +75,7 @@ object PlayerAPI {
      * @param amount 等级数值
      * @param source PlayerLevelChangeEvent 事件来源
      */
-    fun addPlayerLevel(player: Player, levelGroup: String, amount: Int, source: String) {
+    fun addPlayerLevel(player: Player, levelGroup: String, amount: Long, source: String) {
         val targetLevel = (getLevel(player, levelGroup) + amount).coerceAtMost(getLevelGroupData(levelGroup).maxLevel)
         setLevel(player, levelGroup, targetLevel, source)
         runAction(player, levelGroup, targetLevel)
@@ -89,7 +89,7 @@ object PlayerAPI {
      * @param amount 等级数值
      * @param source PlayerLevelChangeEvent 事件来源
      */
-    fun removePlayerLevel(player: Player, levelGroup: String, amount: Int, source: String) {
+    fun removePlayerLevel(player: Player, levelGroup: String, amount: Long, source: String) {
         val targetLevel = (getLevel(player, levelGroup) - amount).coerceAtLeast(0)
         setLevel(player, levelGroup, targetLevel, source)
         runAction(player, levelGroup, targetLevel)
@@ -103,7 +103,7 @@ object PlayerAPI {
      * @param amount 等级数值
      * @param source PlayerLevelChangeEvent 事件来源
      */
-    fun setPlayerLevelWithoutAction(player: Player, levelGroup: String, amount: Int, source: String) {
+    fun setPlayerLevelWithoutAction(player: Player, levelGroup: String, amount: Long, source: String) {
         setLevel(player, levelGroup, amount, source)
         refreshLevel(player, levelGroup)
     }
@@ -115,7 +115,7 @@ object PlayerAPI {
      * @param amount 等级数值
      * @param source PlayerLevelChangeEvent 事件来源
      */
-    fun addPlayerLevelWithoutAction(player: Player, levelGroup: String, amount: Int, source: String) {
+    fun addPlayerLevelWithoutAction(player: Player, levelGroup: String, amount: Long, source: String) {
         setLevel(player, levelGroup, getLevel(player, levelGroup) + amount, source)
         refreshLevel(player, levelGroup)
     }
@@ -127,7 +127,7 @@ object PlayerAPI {
      * @param amount 等级数值
      * @param source PlayerLevelChangeEvent 事件来源
      */
-    fun removePlayerLevelWithoutAction(player: Player, levelGroup: String, amount: Int, source: String) {
+    fun removePlayerLevelWithoutAction(player: Player, levelGroup: String, amount: Long, source: String) {
         setLevel(player, levelGroup, (getLevel(player, levelGroup) - amount).coerceAtLeast(0), source)
         refreshLevel(player, levelGroup)
     }
@@ -139,7 +139,7 @@ object PlayerAPI {
      * @param amount 经验数值
      * @param source PlayerExpChangeEvent 事件来源
      */
-    fun setPlayerExp(player: Player, levelGroup: String, amount: Int, source: String) {
+    fun setPlayerExp(player: Player, levelGroup: String, amount: Long, source: String) {
         setExp(player, levelGroup, amount, source)
         refreshLevel(player, levelGroup)
     }
@@ -150,7 +150,7 @@ object PlayerAPI {
      * @param amount 经验数值
      * @param source PlayerExpChangeEvent 事件来源
      */
-    fun addPlayerExp(player: Player, amount: Int, source: String) {
+    fun addPlayerExp(player: Player, amount: Long, source: String) {
         getLevelGroupNames().forEach {
             if (source in getLevelGroupData(it).subscribeSource) {
                 setExp(player, it, getExp(player, it) + amount, source)
@@ -166,7 +166,7 @@ object PlayerAPI {
      * @param amount 经验数值
      * @param source PlayerExpChangeEvent 事件来源
      */
-    fun addPlayerExp(player: Player, levelGroup: String, amount: Int, source: String) {
+    fun addPlayerExp(player: Player, levelGroup: String, amount: Long, source: String) {
         if (source in getLevelGroupData(levelGroup).subscribeSource) {
             setExp(player, levelGroup, getExp(player, levelGroup) + amount, source)
             refreshLevel(player, levelGroup)
@@ -180,7 +180,7 @@ object PlayerAPI {
      * @param amount 经验数值
      * @param source PlayerExpChangeEvent 事件来源
      */
-    fun addPlayerExpForce(player: Player, levelGroup: String, amount: Int, source: String) {
+    fun addPlayerExpForce(player: Player, levelGroup: String, amount: Long, source: String) {
         setExp(player, levelGroup, getExp(player, levelGroup) + amount, source)
         refreshLevel(player, levelGroup)
     }
@@ -192,7 +192,7 @@ object PlayerAPI {
      * @param amount 经验数值
      * @param source PlayerExpChangeEvent 事件来源
      */
-    fun removePlayerExp(player: Player, levelGroup: String, amount: Int, source: String) {
+    fun removePlayerExp(player: Player, levelGroup: String, amount: Long, source: String) {
         setExp(player, levelGroup, (getExp(player, levelGroup) - amount).coerceAtLeast(0), source)
         refreshLevel(player, levelGroup)
     }
@@ -249,7 +249,7 @@ object PlayerAPI {
      * @param levelGroup 等级组编辑名
      * @param level 等级数值
      */
-    fun runPlayerLevelAction(player: Player, levelGroup: String, level: Int) {
+    fun runPlayerLevelAction(player: Player, levelGroup: String, level: Long) {
         runAction(player, levelGroup, level)
     }
 
@@ -285,15 +285,15 @@ object PlayerAPI {
         runTraceAction(player, levelGroup)
     }
 
-    private fun getLevel(player: Player, levelGroup: String): Int {
+    private fun getLevel(player: Player, levelGroup: String): Long {
         return getData(player, levelGroup).level
     }
 
-    private fun getExp(player: Player, levelGroup: String): Int {
+    private fun getExp(player: Player, levelGroup: String): Long {
         return getData(player, levelGroup).exp
     }
 
-    private fun setLevel(player: Player, levelGroup: String, level: Int, source: String) {
+    private fun setLevel(player: Player, levelGroup: String, level: Long, source: String) {
         val oldLvl = getLevel(player, levelGroup)
         callEvent(PlayerLevelChangeEvent(player, levelGroup, oldLvl, level, source)) {
             val data = getData(this.player, this.levelGroup)
@@ -302,7 +302,7 @@ object PlayerAPI {
         }
     }
 
-    private fun setExp(player: Player, levelGroup: String, exp: Int, source: String) {
+    private fun setExp(player: Player, levelGroup: String, exp: Long, source: String) {
         val oldExp = getExp(player, levelGroup)
         val expAmount = exp - oldExp
         callEvent(PlayerExpChangeEvent(player, levelGroup, expAmount, source)) {
@@ -327,7 +327,7 @@ object PlayerAPI {
         return matchCondition
     }
 
-    private fun runAction(player: Player, levelGroup: String, level: Int) {
+    private fun runAction(player: Player, levelGroup: String, level: Long) {
         getLevelAction(levelGroup, level).evalKether(player)
     }
 
@@ -390,11 +390,13 @@ object PlayerAPI {
                 if (curLvl < maxLevel) {
                     val curExp = getExp(player, levelGroup)
                     val reqExp = getLevelExp(levelGroup, curLvl + 1)
-                    player.level = curLvl
-                    if (reqExp != 0) player.exp = (curExp.toFloat() / reqExp.toFloat()).coerceAtMost(1F)
+                    if (curLvl <= Int.MAX_VALUE) player.level = curLvl.toInt()
+                    else player.level = Int.MAX_VALUE
+                    if (reqExp != 0.toLong()) player.exp = (curExp.toFloat() / reqExp.toFloat()).coerceAtMost(1F)
                     else player.exp = 1F
                 } else {
-                    player.level = maxLevel
+                    if (maxLevel <= Int.MAX_VALUE) player.level = maxLevel.toInt()
+                    else player.level = Int.MAX_VALUE
                     player.exp = 1F
                 }
                 DataAPI.setDataValue("Player", player.getDataID(), "Trace", levelGroup)
@@ -420,12 +422,10 @@ object PlayerAPI {
     }
 
     private fun getData(player: Player, levelGroup: String): PlayerData = PlayerData(
-        Integer.parseInt(
-            DataAPI.getDataValue("Player", player.getDataID(), "$levelGroup.Level").takeIf { it.isNotEmpty() }
-                ?: "0"),
-        Integer.parseInt(
-            DataAPI.getDataValue("Player", player.getDataID(), "$levelGroup.Exp").takeIf { it.isNotEmpty() }
-                ?: "0")
+        (DataAPI.getDataValue("Player", player.getDataID(), "$levelGroup.Level").takeIf { it.isNotEmpty() }
+            ?: "0").toLong(),
+        (DataAPI.getDataValue("Player", player.getDataID(), "$levelGroup.Exp").takeIf { it.isNotEmpty() }
+            ?: "0").toLong()
     )
 
     private fun setData(player: Player, levelGroup: String, playerData: PlayerData) {
