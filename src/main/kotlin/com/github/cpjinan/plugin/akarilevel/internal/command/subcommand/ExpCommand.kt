@@ -7,7 +7,10 @@ import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import taboolib.common.platform.ProxyCommandSender
 import taboolib.common.platform.ProxyPlayer
-import taboolib.common.platform.command.*
+import taboolib.common.platform.command.CommandContext
+import taboolib.common.platform.command.player
+import taboolib.common.platform.command.subCommand
+import taboolib.common.platform.command.suggest
 import taboolib.module.chat.colored
 import taboolib.module.lang.sendLang
 
@@ -15,7 +18,7 @@ object ExpCommand {
     val exp = subCommand {
         literal("add") {
             player("player").dynamic("levelGroup") { suggest { LevelAPI.getLevelGroupNames().toList() } }
-                .int("amount") {
+                .dynamic("amount") {
                     execute<ProxyCommandSender> { sender: ProxyCommandSender, context: CommandContext<ProxyCommandSender>, _: String ->
                         PlayerAPI.addPlayerExpForce(
                             context.player("player").toBukkitPlayer(),
@@ -51,7 +54,7 @@ object ExpCommand {
         }
         literal("remove") {
             player("player").dynamic("levelGroup") { suggest { LevelAPI.getLevelGroupNames().toList() } }
-                .int("amount") {
+                .dynamic("amount") {
                     execute<ProxyCommandSender> { sender: ProxyCommandSender, context: CommandContext<ProxyCommandSender>, _: String ->
                         PlayerAPI.removePlayerExp(
                             context.player("player").toBukkitPlayer(),
@@ -87,7 +90,7 @@ object ExpCommand {
         }
         literal("set") {
             player("player").dynamic("levelGroup") { suggest { LevelAPI.getLevelGroupNames().toList() } }
-                .int("amount") {
+                .dynamic("amount") {
                     execute<ProxyCommandSender> { sender: ProxyCommandSender, context: CommandContext<ProxyCommandSender>, _: String ->
                         PlayerAPI.setPlayerExp(
                             context.player("player").toBukkitPlayer(),
