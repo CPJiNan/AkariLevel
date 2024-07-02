@@ -27,7 +27,7 @@ object MainCommand {
     @CommandBody(permission = "akarilevel.default")
     val levelup = LevelCommand.levelup
 
-    @CommandBody(permission = "akarilevel.default", aliases = ["track"])
+    @CommandBody(permission = "akarilevel.default")
     val trace = TraceCommand.trace
 
     @CommandBody(permission = "akarilevel.admin")
