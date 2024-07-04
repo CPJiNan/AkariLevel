@@ -392,7 +392,7 @@ object PlayerAPI {
                     val reqExp = getLevelExp(levelGroup, curLvl + 1)
                     if (curLvl <= Int.MAX_VALUE) player.level = curLvl.toInt()
                     else player.level = Int.MAX_VALUE
-                    if (reqExp != 0.toLong()) player.exp = (curExp.toFloat() / reqExp.toFloat()).coerceAtMost(1F)
+                    if (reqExp != 0.toLong()) player.exp = (curExp.toFloat() / reqExp.toFloat()).coerceAtLeast(0F).coerceAtMost(1F)
                     else player.exp = 1F
                 } else {
                     if (maxLevel <= Int.MAX_VALUE) player.level = maxLevel.toInt()
