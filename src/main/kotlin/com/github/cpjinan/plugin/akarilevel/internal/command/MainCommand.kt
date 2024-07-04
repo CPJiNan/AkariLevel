@@ -40,6 +40,7 @@ object MainCommand {
     val reload = subCommand {
         execute { sender: ProxyCommandSender, _: CommandContext<ProxyCommandSender>, _: String ->
             ConfigManager.settings = YamlConfiguration.loadConfiguration(File(FileUtil.dataFolder, "settings.yml"))
+            ConfigManager.level = ConfigManager.getLevelGroups()
             sender.sendLang("Plugin-Reloaded")
         }
     }

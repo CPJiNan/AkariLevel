@@ -1,11 +1,14 @@
 package com.github.cpjinan.plugin.akarilevel.internal.manager
 
+import com.github.cpjinan.plugin.akarilevel.utils.ConfigUtil.getConfigSections
 import com.github.cpjinan.plugin.akarilevel.utils.FileUtil
+import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.configuration.file.YamlConfiguration
 import java.io.File
 
 object ConfigManager {
     var settings: YamlConfiguration = YamlConfiguration.loadConfiguration(File(FileUtil.dataFolder, "settings.yml"))
+    var level: HashMap<String, ConfigurationSection> = getLevelGroups()
 
     // Config Version
     const val VERSION = 3
@@ -41,4 +44,17 @@ object ConfigManager {
     fun getLevelProgressBarEmpty() = settings.getString("PlaceholderAPI.Progress-Bar.Level.Empty")!!
     fun getLevelProgressBarFull() = settings.getString("PlaceholderAPI.Progress-Bar.Level.Full")!!
     fun getLevelProgressBarLength() = settings.getInt("PlaceholderAPI.Progress-Bar.Level.Length")
+
+    // Level
+    fun getLevelGroups(): HashMap<String, ConfigurationSection> {
+        val levelGroups = HashMap<String, ConfigurationSection>()
+        FileUtil.getFile("plugins/AkariLevel/level", true).forEach { file ->
+            if (file.name.endsWith(".yml")) {
+                file.getConfigSections().forEach { (key, section) ->
+                    levelGroups[key] = section
+                }
+            }
+        }
+        return levelGroups
+    }
 }

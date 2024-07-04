@@ -2,8 +2,7 @@ package com.github.cpjinan.plugin.akarilevel.api
 
 import com.github.cpjinan.plugin.akarilevel.internal.database.type.LevelData
 import com.github.cpjinan.plugin.akarilevel.internal.database.type.LevelGroupData
-import com.github.cpjinan.plugin.akarilevel.utils.ConfigUtil.getConfigSections
-import com.github.cpjinan.plugin.akarilevel.utils.FileUtil
+import com.github.cpjinan.plugin.akarilevel.internal.manager.ConfigManager
 import org.bukkit.configuration.ConfigurationSection
 import taboolib.common5.compileJS
 import taboolib.module.chat.colored
@@ -86,17 +85,7 @@ object LevelAPI {
      */
     fun getLevelAction(levelGroup: String, level: Long): List<String> = getLvlAction(levelGroup, level)
 
-    private fun getLvlGroups(): HashMap<String, ConfigurationSection> {
-        val levelGroups = HashMap<String, ConfigurationSection>()
-        FileUtil.getFile("plugins/AkariLevel/level", true).forEach { file ->
-            if (file.name.endsWith(".yml")) {
-                file.getConfigSections().forEach { (key, section) ->
-                    levelGroups[key] = section
-                }
-            }
-        }
-        return levelGroups
-    }
+    private fun getLvlGroups(): HashMap<String, ConfigurationSection> = ConfigManager.level
 
     private fun getLvlGroupNames(): ArrayList<String> {
         return ArrayList(getLvlGroups().keys)

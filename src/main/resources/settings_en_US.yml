@@ -54,7 +54,8 @@ Database:
 # Level group tracking settings
 Trace:
   # Default level group to return to when tracking focus is lost (leave empty to disable tracking)
-  Default: "Example"
+  # Default: "Example"
+  Default: ""
   # Automatically reset tracked level group when the player joins the server
   Auto-Reset: true
 
