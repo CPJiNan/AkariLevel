@@ -53,7 +53,7 @@ Database:
 
 # Level group tracking settings
 Trace:
-  # Whether to retain the vanilla leveling system
+  # Whether to retain the vanilla level system
   # When enabled, vanilla experience change events will not be canceled,
   # but note that the tracking feature for level groups should be disabled.
   Vanilla: false
