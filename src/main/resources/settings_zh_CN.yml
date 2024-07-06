@@ -60,7 +60,7 @@ Trace:
   # Default: "Example"
   Default: ""
   # 是否在玩家每次进入服务器时重置追踪的等级组
-  Auto-Reset: false
+  Auto-Reset: true
 
 #############
 # Attribute #
