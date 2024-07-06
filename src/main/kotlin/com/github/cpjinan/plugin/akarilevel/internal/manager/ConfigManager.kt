@@ -28,6 +28,7 @@ object ConfigManager {
 
     // Trace
     fun getDefaultTrace() = settings.getString("Trace.Default")!!
+    fun isEnabledVanilla() = settings.getBoolean("Trace.Vanilla")
     fun isEnabledAutoResetTrace() = settings.getBoolean("Trace.Auto-Reset")
 
 
