@@ -36,7 +36,7 @@ object ExpCommand {
                     }
                 }.dynamic("source") {
                     execute<ProxyCommandSender> { sender: ProxyCommandSender, context: CommandContext<ProxyCommandSender>, _: String ->
-                        PlayerAPI.addPlayerExp(
+                        PlayerAPI.addPlayerExpForce(
                             context.player("player").toBukkitPlayer(),
                             context["levelGroup"],
                             context["amount"].toLong(),
