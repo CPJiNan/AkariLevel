@@ -29,7 +29,7 @@ taboolib {
             name("OriginAttribute").optional(true)
         }
     }
-    version { taboolib = "6.1.1" }
+    version { taboolib = "6.1.2-test1" }
     relocate("kotlinx.serialization", "kotlinx.serialization162")
 }
 
