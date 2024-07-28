@@ -43,7 +43,7 @@ object LevelAPI {
      * @param levelGroup 等级组编辑名
      * @return 关键等级数据列表
      */
-    fun getKeyLevelData(levelGroup: String): HashMap<Int, LevelData> = getKeyLvlData(levelGroup)
+    fun getKeyLevelData(levelGroup: String): HashMap<Long, LevelData> = getKeyLvlData(levelGroup)
 
     /**
      * 获取指定等级组某等级数据
@@ -111,11 +111,11 @@ object LevelAPI {
         return getLvlGroupData()[levelGroup] ?: throw IllegalArgumentException("Unknown level group $levelGroup.")
     }
 
-    private fun getKeyLvlData(levelGroup: String): HashMap<Int, LevelData> {
+    private fun getKeyLvlData(levelGroup: String): HashMap<Long, LevelData> {
         val keyLevelSettings = getLvlGroupData(levelGroup).keyLevelSettings
         return keyLevelSettings.getKeys(false)
             .mapNotNull { key ->
-                key.toIntOrNull()?.let { level ->
+                key.toLongOrNull()?.let { level ->
                     val name = keyLevelSettings.getString("$level.Name") ?: return@mapNotNull null
                     val exp = keyLevelSettings.getString("$level.Exp") ?: return@mapNotNull null
                     val condition = keyLevelSettings.getStringList("$level.Condition")
