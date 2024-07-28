@@ -4,6 +4,7 @@ import com.github.cpjinan.plugin.akarilevel.internal.database.type.LevelData
 import com.github.cpjinan.plugin.akarilevel.internal.database.type.LevelGroupData
 import com.github.cpjinan.plugin.akarilevel.internal.manager.ConfigManager
 import org.bukkit.configuration.ConfigurationSection
+import taboolib.common.platform.function.info
 import taboolib.common5.compileJS
 import taboolib.module.chat.colored
 
@@ -115,7 +116,7 @@ object LevelAPI {
         val keyLevelSettings = getLvlGroupData(levelGroup).keyLevelSettings
         return keyLevelSettings.getKeys(false)
             .mapNotNull { key ->
-                key.toLongOrNull()?.let { level ->
+                key.toLong().let { level ->
                     val name = keyLevelSettings.getString("$level.Name") ?: return@mapNotNull null
                     val exp = keyLevelSettings.getString("$level.Exp") ?: return@mapNotNull null
                     val condition = keyLevelSettings.getStringList("$level.Condition")
@@ -127,8 +128,8 @@ object LevelAPI {
 
     private fun getLvlData(levelGroup: String, level: Long): LevelData {
         var levelData: LevelData? = null
-        getKeyLvlData(levelGroup).forEach { (k, v) ->
-            if (level >= k) levelData = v
+        getKeyLvlData(levelGroup).keys.sorted().forEach {
+            if (level >= it) levelData = getKeyLvlData(levelGroup)[it]
         }
         return levelData ?: throw IllegalArgumentException("No level data found for level $level in group $levelGroup")
     }
