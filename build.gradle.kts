@@ -27,6 +27,7 @@ taboolib {
             name("MythicMobs").optional(true)
             name("SX-Attribute").optional(true)
             name("OriginAttribute").optional(true)
+            name("DungeonPlus").optional(true)
         }
     }
     version { taboolib = "6.1.2-test1" }

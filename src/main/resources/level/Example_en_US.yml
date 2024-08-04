@@ -8,6 +8,7 @@ Example:
     # - "VANILLA_EXP_CHANGE"
     Subscribe:
       - "MYTHICMOBS_DROP_EXP"
+      - "TEAM_SHARE_EXP"
   # Tracking Settings
   # When a player tracks a level group, their experience progress will be shown on the vanilla experience bar
   Trace:

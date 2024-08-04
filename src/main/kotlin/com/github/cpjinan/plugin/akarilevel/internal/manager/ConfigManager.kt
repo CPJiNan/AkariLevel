@@ -11,7 +11,7 @@ object ConfigManager {
     var level: HashMap<String, ConfigurationSection> = getLevelGroups()
 
     // Config Version
-    const val VERSION = 3
+    const val VERSION = 4
 
     // Options
     fun getConfigVersion() = settings.getInt("Options.Config-Version")
@@ -31,6 +31,13 @@ object ConfigManager {
     fun isEnabledVanilla() = settings.getBoolean("Trace.Vanilla")
     fun isEnabledAutoResetTrace() = settings.getBoolean("Trace.Auto-Reset")
 
+    // Team
+    fun isEnabledTeam() = settings.getBoolean("Team.Enable")
+    fun getTeamPlugin() = settings.getString("Team.Plugin")!!
+    fun getShareSource() = settings.getStringList("Team.Source")
+    fun getShareTotal() = settings.getString("Team.Total")!!
+    fun getShareLeaderWeight() = settings.getLong("Team.Weight.Leader")
+    fun getShareMemberWeight() = settings.getLong("Team.Weight.Member")
 
     // Hook
     fun isEnabledAttribute() = settings.getBoolean("Attribute.Enable")

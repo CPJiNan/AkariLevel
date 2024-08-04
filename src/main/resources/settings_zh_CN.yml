@@ -17,7 +17,7 @@
 # 全局设置
 Options:
   # 配置文件版本
-  Config-Version: 3
+  Config-Version: 4
   # 检查版本更新
   Check-Update: true
   # 启用 bStats 统计
@@ -61,6 +61,27 @@ Trace:
   Default: ""
   # 是否在玩家每次进入服务器时重置追踪的等级组
   Auto-Reset: true
+
+########
+# Team #
+########
+
+# 队伍经验共享设置
+Team:
+  # 是否启用
+  Enable: false
+  # 组队插件 (DungeonPlus)
+  Plugin: DungeonPlus
+  # 参与共享的经验来源
+  Source:
+    - "MYTHICMOBS_DROP_EXP"
+  # 待分配的经验池总额 (JavaScript 支持)
+  # %exp% -> 分配前的经验数额
+  Total: "%exp% * 1"
+  # 队长与队员各自的分配权重，实际所获经验 = 经验池总额 * ( 个人权重 / 队伍权重总和 )
+  Weight:
+    Leader: 1
+    Member: 1
 
 #############
 # Attribute #

@@ -4,7 +4,6 @@ import com.github.cpjinan.plugin.akarilevel.internal.database.type.LevelData
 import com.github.cpjinan.plugin.akarilevel.internal.database.type.LevelGroupData
 import com.github.cpjinan.plugin.akarilevel.internal.manager.ConfigManager
 import org.bukkit.configuration.ConfigurationSection
-import taboolib.common.platform.function.info
 import taboolib.common5.compileJS
 import taboolib.module.chat.colored
 
