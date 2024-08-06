@@ -1,0 +1,129 @@
+#     _    _              _ _                   _  #
+#    / \  | | ____ _ _ __(_) |    _____   _____| | #
+#   / _ \ | |/ / _` | '__| | |   / _ \ \ / / _ \ | #
+#  / ___ \|   < (_| | |  | | |__|  __/\ V /  __/ | #
+# /_/   \_\_|\_\__,_|_|  |_|_____\___| \_/ \___|_| #
+
+# 插件文檔: https://cpjinan.github.io/Wiki/
+
+##################################
+#       AkariLevel  Config       #
+##################################
+
+###########
+# Options #
+###########
+
+# 全局設置
+Options:
+  # 配置文件版本
+  Config-Version: 4
+  # 檢查版本更新
+  Check-Update: true
+  # 啟用 bStats 統計
+  Send-Metrics: true
+  # 啟用調試模式
+  Debug: false
+
+############
+# Database #
+############
+
+# 數據存儲設置
+Database:
+  # 使用玩家 UUID 進行存儲
+  UUID: false
+  # 存儲方式 (JSON, CBOR, SQL)
+  Method: JSON
+  JSON:
+    file: database.json
+  CBOR:
+    file: database.cbor
+  SQL:
+    host: localhost
+    port: 3306
+    user: root
+    password: password
+    database: minecraft
+    table: akarilevel
+
+#########
+# Trace #
+#########
+
+# 等級組追蹤設置
+Trace:
+  # 是否保留原版等級系統
+  # 該功能開啟後將不會取消原版經驗變化事件，但需註意關閉等級組的追蹤功能
+  Vanilla: false
+  # 失去追蹤焦點時返回的默認等級組 (此項留空則不會進行追蹤)
+  # Default: "Example"
+  Default: ""
+  # 是否在玩家每次進入服務器時重置追蹤的等級組
+  Auto-Reset: true
+
+########
+# Team #
+########
+
+# 隊伍經驗共享設置
+Team:
+  # 是否啟用
+  Enable: false
+  # 組隊插件 (DungeonPlus)
+  Plugin: DungeonPlus
+  # 參與共享的經驗來源
+  Source:
+    - "MYTHICMOBS_DROP_EXP"
+  # 待分配的經驗池總額 (JavaScript 支持)
+  # %exp% -> 分配前的經驗數額
+  Total: "%exp% * 1"
+  # 隊長與隊員各自的分配權重，實際所獲經驗 = 經驗池總額 * ( 個人權重 / 隊伍權重總和 )
+  Weight:
+    Leader: 1
+    Member: 1
+
+#############
+# Attribute #
+#############
+
+# 屬性插件經驗加成
+Attribute:
+  # 是否啟用
+  Enable: false
+  # 屬性插件 (AttributePlus, SX-Attribute, OriginAttribute, AttributeSystem)
+  Plugin: "AttributePlus"
+  # 屬性名稱 (如屬性插件為 OriginAttribute 則無需填寫此項)
+  # AttributePlus - "經驗加成"
+  # SX-Attribute - "ExpAddition"
+  # AttributeSystem - "ExpAddition"
+  Name: "經驗加成"
+  # 經驗計算公式 (JavaScript支持)
+  # %exp% -> 獲得的經驗值數量
+  # %attribute% -> 額外加成經驗數量
+  Formula: "%exp% * ( 1 + %attribute% / 100 )"
+  # 所監聽的 PlayerExpChangeEvent 來源
+  Source:
+    - "MYTHICMOBS_DROP_EXP"
+    - "VANILLA_EXP_CHANGE"
+
+####################
+#  PlaceholderAPI  #
+####################
+
+# 變量設置
+PlaceholderAPI:
+  # 變量前綴
+  Identifier: "akarilevel"
+  # 經驗條變量設置
+  Progress-Bar:
+    # 當前等級 / 最高等級
+    Level:
+      Empty: "□"
+      Full: "■"
+      Length: 10
+    # 當前經驗 / 升至下一級所需經驗
+    Exp:
+      Empty: "□"
+      Full: "■"
+      Length: 10

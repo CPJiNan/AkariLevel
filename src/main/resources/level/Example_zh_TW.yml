@@ -1,0 +1,68 @@
+# 示例等級組
+Example:
+  # 展示名稱
+  Display: "示例等級組"
+  # 來源設置
+  Source:
+    # 監聽的經驗來源
+    # - "VANILLA_EXP_CHANGE"
+    Subscribe:
+      - "MYTHICMOBS_DROP_EXP"
+      - "TEAM_SHARE_EXP"
+  # 追蹤設置
+  # 當玩家追蹤某個等級組時，將在原版經驗條上顯示其經驗進度
+  Trace:
+    # 該等級組是否能被追蹤
+    Enable: true
+    # 追蹤該等級組所需條件 (Kether支持, 每行返回值均為 true 時才可追蹤)
+    # Condition:
+    #   - false
+    Condition: [ ]
+    # 追蹤該等級組後執行的動作 (Kether支持)
+    Action: [ ]
+  # 等級設置
+  Level:
+    # 最高等級
+    Max: 100
+    # 滿足要求自動升級
+    Auto-Levelup: true
+    # 達到最大等級後不再獲取經驗
+    Exp-Limit: true
+    # 關鍵等級設置
+    # 只需對關鍵等級進行修改, 處於非關鍵等級時將自動讀取上一個關鍵等級的信息
+    Key:
+      # 0 級等級設置
+      0:
+        # 等級名稱
+        # %level% -> 對應等級
+        Name: "§8Lv.§b0"
+        # 升至該等級所需經驗 (JavaScript支持)
+        # %level% -> 對應等級
+        Exp: "0"
+        # 升至該等級所需條件 (Kether支持, 每行返回值均為 true 時才可升級)
+        # Kether動作列表 https://kether.tabooproject.org/list.html
+        # Condition:
+        #   - "permission akarilevel.default"
+        Condition: [ ]
+        # 升級後執行的動作 (Kether支持)
+        # Action:
+        #   - command inline "give {{sender}} apple 1" as op
+        Action: [ ]
+      # 1 級 - 49 級(下一個關鍵等級之前的等級) 等級設置
+      1:
+        Name: "§8Lv.§b%level%"
+        Exp: "%level% * 5 + 100"
+        Condition: [ ]
+        Action:
+          - title "§e§lLevel UP!"
+          - subtitle inline "{{ papi %AkariLevel_Example_LastLevelName% }} §7→ {{ papi %AkariLevel_Example_LevelName% }}" by 10 20 10
+          - actionbar inline "§8[ §7{{ papi %AkariLevel_Example_Exp% }} §8/ §7{{ papi %AkariLevel_Example_NextLevelExp% }} §8]"
+      # 50 級 - 100 級(滿級) 等級設置
+      50:
+        Name: "§8Lv.§b%level%"
+        Exp: "%level% * 10 + 100"
+        Condition: [ ]
+        Action:
+          - title "§e§lLevel UP!"
+          - subtitle inline "{{ papi %AkariLevel_Example_LastLevelName% }} §7→ {{ papi %AkariLevel_Example_LevelName% }}" by 10 20 10
+          - actionbar inline "§8[ §7{{ papi %AkariLevel_Example_Exp% }} §8/ §7{{ papi %AkariLevel_Example_NextLevelExp% }} §8]"
