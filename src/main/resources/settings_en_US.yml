@@ -96,9 +96,9 @@ Attribute:
   # Attribute plugin (AttributePlus, SX-Attribute, OriginAttribute, AttributeSystem)
   Plugin: "AttributePlus"
   # Attribute name (leave blank if using OriginAttribute)
-  # AttributePlus - 经验加成
-  # SX-Attribute - ExpAddition
-  # AttributeSystem - ExpAddition
+  # AttributePlus - "经验加成"
+  # SX-Attribute - "ExpAddition"
+  # AttributeSystem - "ExpAddition"
   Name: "经验加成"
   # Experience calculation formula (JavaScript supported)
   # %exp% -> Amount of experience gained

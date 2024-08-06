@@ -1,0 +1,131 @@
+#     _    _              _ _                   _  #
+#    / \  | | ____ _ _ __(_) |    _____   _____| | #
+#   / _ \ | |/ / _` | '__| | |   / _ \ \ / / _ \ | #
+#  / ___ \|   < (_| | |  | | |__|  __/\ V /  __/ | #
+# /_/   \_\_|\_\__,_|_|  |_|_____\___| \_/ \___|_| #
+
+# Documentación del plugin: https://cpjinan.github.io/Wiki/
+
+##################################
+#       AkariLevel  Config       #
+##################################
+
+###########
+# Options #
+###########
+
+# Configuración global
+Options:
+  # Versión del archivo de configuración
+  Config-Version: 4
+  # Comprobar actualizaciones
+  Check-Update: true
+  # Habilitar estadísticas de bStats
+  Send-Metrics: true
+  # Habilitar modo debug
+  Debug: false
+
+############
+# Database #
+############
+
+# Configuración de almacenamiento de datos
+Database:
+  # Almacenar usando UUID del jugador
+  UUID: false
+  # Método de almacenamiento (JSON, CBOR, SQL)
+  Method: JSON
+  JSON:
+    file: database.json
+  CBOR:
+    file: database.cbor
+  SQL:
+    host: localhost
+    port: 3306
+    user: root
+    password: password
+    database: minecraft
+    table: akarilevel
+
+#########
+# Trace #
+#########
+
+# Configuración de rastreo de grupos de niveles
+Trace:
+  # Mantener el sistema de niveles de vainilla
+  # Si se habilita, no se cancelarán los eventos de cambio de experiencia de vainilla,
+  # pero asegúrese de deshabilitar la función de rastreo de grupos de niveles.
+  Vanilla: false
+  # Grupo de niveles predeterminado al perder el enfoque de rastreo (deje vacío para no rastrear)
+  # Default: "Example"
+  Default: ""
+  # Restablecer automáticamente el grupo de niveles rastreados cuando el jugador entra en el servidor
+  Auto-Reset: true
+
+########
+# Team #
+########
+
+# Configuración de experiencia compartida en equipo
+Team:
+  # Habilitar
+  Enable: false
+  # Plugin de equipo (DungeonPlus)
+  Plugin: DungeonPlus
+  # Fuentes de experiencia para compartir
+  Source:
+    - "MYTHICMOBS_DROP_EXP"
+  # Total del pool de experiencia a distribuir (Soporte para JavaScript)
+  # %exp% -> Cantidad de experiencia antes de distribuir
+  Total: "%exp% * 1"
+  # Pesos de distribución para líder y miembros,
+  # experiencia recibida = pool total de experiencia * (peso individual / peso total del equipo)
+  Weight:
+    Leader: 1
+    Member: 1
+
+#############
+# Attribute #
+#############
+
+# Bonificación de experiencia de plugins de atributos
+Attribute:
+  # Habilitar
+  Enable: false
+  # Plugin de atributos (AttributePlus, SX-Attribute, OriginAttribute, AttributeSystem)
+  Plugin: "AttributePlus"
+  # Nombre del atributo (no es necesario para OriginAttribute)
+  # AttributePlus - "经验加成"
+  # SX-Attribute - "ExpAddition"
+  # AttributeSystem - "ExpAddition"
+  Name: "经验加成"
+  # Fórmula de cálculo de experiencia (Soporte para JavaScript)
+  # %exp% -> Cantidad de experiencia obtenida
+  # %attribute% -> Cantidad de experiencia adicional
+  Formula: "%exp% * ( 1 + %attribute% / 100 )"
+  # Fuentes del evento PlayerExpChangeEvent a monitorear
+  Source:
+    - "MYTHICMOBS_DROP_EXP"
+    - "VANILLA_EXP_CHANGE"
+
+####################
+#  PlaceholderAPI  #
+####################
+
+# Configuración de placeholders
+PlaceholderAPI:
+  # Prefijo del placeholder
+  Identifier: "akarilevel"
+  # Configuración de la barra de progreso de experiencia
+  Progress-Bar:
+    # Nivel actual / Nivel máximo
+    Level:
+      Empty: "□"
+      Full: "■"
+      Length: 10
+    # Experiencia actual / Experiencia necesaria para el siguiente nivel
+    Exp:
+      Empty: "□"
+      Full: "■"
+      Length: 10

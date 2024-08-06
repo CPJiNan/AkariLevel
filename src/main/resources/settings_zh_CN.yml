@@ -94,9 +94,9 @@ Attribute:
   # 属性插件 (AttributePlus, SX-Attribute, OriginAttribute, AttributeSystem)
   Plugin: "AttributePlus"
   # 属性名称 (如属性插件为 OriginAttribute 则无需填写此项)
-  # AttributePlus - 经验加成
-  # SX-Attribute - ExpAddition
-  # AttributeSystem - ExpAddition
+  # AttributePlus - "经验加成"
+  # SX-Attribute - "ExpAddition"
+  # AttributeSystem - "ExpAddition"
   Name: "经验加成"
   # 经验计算公式 (JavaScript支持)
   # %exp% -> 获得的经验值数量
