@@ -23,6 +23,7 @@ object DataCommand {
                 }
             }
         }
+
         literal("set") {
             dynamic("table").dynamic("index").dynamic("key").dynamic("value") {
                 execute<ProxyCommandSender> { sender: ProxyCommandSender, context: CommandContext<ProxyCommandSender>, _: String ->
@@ -37,6 +38,7 @@ object DataCommand {
                 }
             }
         }
+
         literal("reset") {
             dynamic("table").dynamic("index").dynamic("key") {
                 execute<ProxyCommandSender> { sender: ProxyCommandSender, context: CommandContext<ProxyCommandSender>, _: String ->
@@ -51,6 +53,7 @@ object DataCommand {
                 }
             }
         }
+
         literal("save") {
             execute<ProxyCommandSender> { sender: ProxyCommandSender, _: CommandContext<ProxyCommandSender>, _: String ->
                 DataAPI.saveData()

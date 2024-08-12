@@ -3,10 +3,8 @@ package com.github.cpjinan.plugin.akarilevel.internal.command.subcommand
 import com.github.cpjinan.plugin.akarilevel.api.LevelAPI
 import com.github.cpjinan.plugin.akarilevel.api.LevelAPI.getLevelGroupData
 import com.github.cpjinan.plugin.akarilevel.api.PlayerAPI
-import org.bukkit.Bukkit
-import org.bukkit.entity.Player
+import com.github.cpjinan.plugin.akarilevel.utils.CommandUtil
 import taboolib.common.platform.ProxyCommandSender
-import taboolib.common.platform.ProxyPlayer
 import taboolib.common.platform.command.CommandContext
 import taboolib.common.platform.command.player
 import taboolib.common.platform.command.subCommand
@@ -22,7 +20,7 @@ object LevelCommand {
                 .dynamic("amount") {
                     execute<ProxyCommandSender> { sender: ProxyCommandSender, context: CommandContext<ProxyCommandSender>, _: String ->
                         PlayerAPI.addPlayerLevel(
-                            context.player("player").toBukkitPlayer(),
+                            context.player("player").cast(),
                             context["levelGroup"],
                             context["amount"].toLong(),
                             "COMMAND_ADD_LEVEL"
@@ -35,15 +33,34 @@ object LevelCommand {
                             context["amount"]
                         )
                     }
-                }.dynamic("source") {
-                    execute<ProxyCommandSender> { sender: ProxyCommandSender, context: CommandContext<ProxyCommandSender>, _: String ->
-                        PlayerAPI.addPlayerLevel(
-                            context.player("player").toBukkitPlayer(),
+                }.dynamic("options") {
+                    execute<ProxyCommandSender> { sender: ProxyCommandSender, context: CommandContext<ProxyCommandSender>, content: String ->
+                        val args = CommandUtil.parseOptions(content.split(" "))
+                        var silent = false
+                        var noAction = false
+                        var source = "COMMAND_ADD_LEVEL"
+
+                        for ((k, v) in args) {
+                            when (k.lowercase()) {
+                                "silent" -> silent = true
+                                "noaction" -> noAction = true
+                                "source" -> source = v ?: "COMMAND_ADD_LEVEL"
+                            }
+                        }
+
+                        if (!noAction) PlayerAPI.addPlayerLevel(
+                            context.player("player").cast(),
                             context["levelGroup"],
                             context["amount"].toLong(),
-                            context["source"]
+                            source
+                        ) else PlayerAPI.addPlayerLevelWithoutAction(
+                            context.player("player").cast(),
+                            context["levelGroup"],
+                            context["amount"].toLong(),
+                            source
                         )
-                        sender.sendLang(
+
+                        if (!silent) sender.sendLang(
                             "Add-Level",
                             context["player"],
                             context["levelGroup"],
@@ -53,12 +70,13 @@ object LevelCommand {
                     }
                 }
         }
+
         literal("remove") {
             player("player").dynamic("levelGroup") { suggest { LevelAPI.getLevelGroupNames().toList() } }
                 .dynamic("amount") {
                     execute<ProxyCommandSender> { sender: ProxyCommandSender, context: CommandContext<ProxyCommandSender>, _: String ->
                         PlayerAPI.removePlayerLevel(
-                            context.player("player").toBukkitPlayer(),
+                            context.player("player").cast(),
                             context["levelGroup"],
                             context["amount"].toLong(),
                             "COMMAND_REMOVE_LEVEL"
@@ -71,15 +89,34 @@ object LevelCommand {
                             context["amount"]
                         )
                     }
-                }.dynamic("source") {
-                    execute<ProxyCommandSender> { sender: ProxyCommandSender, context: CommandContext<ProxyCommandSender>, _: String ->
-                        PlayerAPI.removePlayerLevel(
-                            context.player("player").toBukkitPlayer(),
+                }.dynamic("options") {
+                    execute<ProxyCommandSender> { sender: ProxyCommandSender, context: CommandContext<ProxyCommandSender>, content: String ->
+                        val args = CommandUtil.parseOptions(content.split(" "))
+                        var silent = false
+                        var noAction = false
+                        var source = "COMMAND_REMOVE_LEVEL"
+
+                        for ((k, v) in args) {
+                            when (k.lowercase()) {
+                                "silent" -> silent = true
+                                "noaction" -> noAction = true
+                                "source" -> source = v ?: "COMMAND_REMOVE_LEVEL"
+                            }
+                        }
+
+                        if (!noAction) PlayerAPI.removePlayerLevel(
+                            context.player("player").cast(),
                             context["levelGroup"],
                             context["amount"].toLong(),
-                            context["source"]
+                            source
+                        ) else PlayerAPI.removePlayerLevelWithoutAction(
+                            context.player("player").cast(),
+                            context["levelGroup"],
+                            context["amount"].toLong(),
+                            source
                         )
-                        sender.sendLang(
+
+                        if (!silent) sender.sendLang(
                             "Remove-Level",
                             context["player"],
                             context["levelGroup"],
@@ -89,12 +126,13 @@ object LevelCommand {
                     }
                 }
         }
+
         literal("set") {
             player("player").dynamic("levelGroup") { suggest { LevelAPI.getLevelGroupNames().toList() } }
                 .dynamic("amount") {
                     execute<ProxyCommandSender> { sender: ProxyCommandSender, context: CommandContext<ProxyCommandSender>, _: String ->
                         PlayerAPI.setPlayerLevel(
-                            context.player("player").toBukkitPlayer(),
+                            context.player("player").cast(),
                             context["levelGroup"],
                             context["amount"].toLong(),
                             "COMMAND_SET_LEVEL"
@@ -107,15 +145,34 @@ object LevelCommand {
                             context["amount"]
                         )
                     }
-                }.dynamic("source") {
-                    execute<ProxyCommandSender> { sender: ProxyCommandSender, context: CommandContext<ProxyCommandSender>, _: String ->
-                        PlayerAPI.setPlayerLevel(
-                            context.player("player").toBukkitPlayer(),
+                }.dynamic("options") {
+                    execute<ProxyCommandSender> { sender: ProxyCommandSender, context: CommandContext<ProxyCommandSender>, content: String ->
+                        val args = CommandUtil.parseOptions(content.split(" "))
+                        var silent = false
+                        var noAction = false
+                        var source = "COMMAND_SET_LEVEL"
+
+                        for ((k, v) in args) {
+                            when (k.lowercase()) {
+                                "silent" -> silent = true
+                                "noaction" -> noAction = true
+                                "source" -> source = v ?: "COMMAND_SET_LEVEL"
+                            }
+                        }
+
+                        if (!noAction) PlayerAPI.setPlayerLevel(
+                            context.player("player").cast(),
                             context["levelGroup"],
                             context["amount"].toLong(),
-                            context["source"]
+                            source
+                        ) else PlayerAPI.setPlayerLevelWithoutAction(
+                            context.player("player").cast(),
+                            context["levelGroup"],
+                            context["amount"].toLong(),
+                            source
                         )
-                        sender.sendLang(
+
+                        if (!silent) sender.sendLang(
                             "Set-Level",
                             context["player"],
                             context["levelGroup"],
@@ -125,6 +182,7 @@ object LevelCommand {
                     }
                 }
         }
+
         literal("check") {
             player("player").dynamic("levelGroup") { suggest { LevelAPI.getLevelGroupNames().toList() } }
                 .execute<ProxyCommandSender> { sender: ProxyCommandSender, context: CommandContext<ProxyCommandSender>, _: String ->
@@ -133,21 +191,21 @@ object LevelCommand {
                         context["player"],
                         context["levelGroup"],
                         getLevelGroupData(context["levelGroup"]).display.colored(),
-                        PlayerAPI.getPlayerLevel(context.player("player").toBukkitPlayer(), context["levelGroup"])
+                        PlayerAPI.getPlayerLevel(context.player("player").cast(), context["levelGroup"])
                     )
                 }
         }
     }
+
     val levelup = subCommand {
         createHelper()
         dynamic("levelGroup") { suggest { LevelAPI.getLevelGroupNames().toList() } }
             .execute<ProxyCommandSender> { _: ProxyCommandSender, context: CommandContext<ProxyCommandSender>, _: String ->
-                PlayerAPI.levelupPlayer(context.player().toBukkitPlayer(), context["levelGroup"])
+                PlayerAPI.levelupPlayer(context.player().cast(), context["levelGroup"])
             }
         execute<ProxyCommandSender> { _: ProxyCommandSender, context: CommandContext<ProxyCommandSender>, _: String ->
-            PlayerAPI.levelupPlayer(context.player().toBukkitPlayer())
+            PlayerAPI.levelupPlayer(context.player().cast())
         }
     }
 
-    private fun ProxyPlayer.toBukkitPlayer(): Player = Bukkit.getPlayer(this.uniqueId)!!
 }

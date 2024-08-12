@@ -3,6 +3,7 @@ package com.github.cpjinan.plugin.akarilevel.internal.command.subcommand
 import com.github.cpjinan.plugin.akarilevel.api.LevelAPI
 import com.github.cpjinan.plugin.akarilevel.api.LevelAPI.getLevelGroupData
 import com.github.cpjinan.plugin.akarilevel.api.PlayerAPI
+import com.github.cpjinan.plugin.akarilevel.utils.CommandUtil
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import taboolib.common.platform.ProxyCommandSender
@@ -21,7 +22,7 @@ object ExpCommand {
                 .dynamic("amount") {
                     execute<ProxyCommandSender> { sender: ProxyCommandSender, context: CommandContext<ProxyCommandSender>, _: String ->
                         PlayerAPI.addPlayerExpForce(
-                            context.player("player").toBukkitPlayer(),
+                            context.player("player").cast(),
                             context["levelGroup"],
                             context["amount"].toLong(),
                             "COMMAND_ADD_EXP"
@@ -34,30 +35,66 @@ object ExpCommand {
                             context["amount"]
                         )
                     }
-                }.dynamic("source") {
-                    execute<ProxyCommandSender> { sender: ProxyCommandSender, context: CommandContext<ProxyCommandSender>, _: String ->
-                        PlayerAPI.addPlayerExpForce(
-                            context.player("player").toBukkitPlayer(),
-                            context["levelGroup"],
+                }.dynamic("options") {
+                    execute<ProxyCommandSender> { sender: ProxyCommandSender, context: CommandContext<ProxyCommandSender>, content: String ->
+                        val args = CommandUtil.parseOptions(content.split(" "))
+                        var silent = false
+                        var sourceCheck = false
+                        var toAllLevelGroup = false
+                        var source = "COMMAND_ADD_EXP"
+
+                        for ((k, v) in args) {
+                            when (k.lowercase()) {
+                                "silent" -> silent = true
+                                "sourcecheck" -> sourceCheck = true
+                                "toalllevelgroup" -> toAllLevelGroup = true
+                                "source" -> source = v ?: "COMMAND_ADD_EXP"
+                            }
+                        }
+
+                        if (!toAllLevelGroup) {
+                            if (!sourceCheck) PlayerAPI.addPlayerExpForce(
+                                context.player("player").cast(),
+                                context["levelGroup"],
+                                context["amount"].toLong(),
+                                source
+                            ) else PlayerAPI.addPlayerExp(
+                                context.player("player").cast(),
+                                context["levelGroup"],
+                                context["amount"].toLong(),
+                                source
+                            )
+                        } else PlayerAPI.addPlayerExp(
+                            context.player("player").cast(),
                             context["amount"].toLong(),
-                            context["source"]
+                            source
                         )
-                        sender.sendLang(
-                            "Add-Exp",
-                            context["player"],
-                            context["levelGroup"],
-                            getLevelGroupData(context["levelGroup"]).display.colored(),
-                            context["amount"]
-                        )
+
+                        if (!silent) {
+                            if (!toAllLevelGroup) sender.sendLang(
+                                "Add-Exp",
+                                context["player"],
+                                context["levelGroup"],
+                                getLevelGroupData(context["levelGroup"]).display.colored(),
+                                context["amount"]
+                            ) else sender.sendLang(
+                                "Add-Exp",
+                                context["player"],
+                                "All",
+                                "All",
+                                context["amount"]
+                            )
+                        }
                     }
                 }
         }
+
         literal("remove") {
             player("player").dynamic("levelGroup") { suggest { LevelAPI.getLevelGroupNames().toList() } }
                 .dynamic("amount") {
                     execute<ProxyCommandSender> { sender: ProxyCommandSender, context: CommandContext<ProxyCommandSender>, _: String ->
                         PlayerAPI.removePlayerExp(
-                            context.player("player").toBukkitPlayer(),
+                            context.player("player").cast(),
                             context["levelGroup"],
                             context["amount"].toLong(),
                             "COMMAND_REMOVE_EXP"
@@ -70,15 +107,27 @@ object ExpCommand {
                             context["amount"]
                         )
                     }
-                }.dynamic("source") {
-                    execute<ProxyCommandSender> { sender: ProxyCommandSender, context: CommandContext<ProxyCommandSender>, _: String ->
+                }.dynamic("options") {
+                    execute<ProxyCommandSender> { sender: ProxyCommandSender, context: CommandContext<ProxyCommandSender>, content: String ->
+                        val args = CommandUtil.parseOptions(content.split(" "))
+                        var silent = false
+                        var source = "COMMAND_REMOVE_EXP"
+
+                        for ((k, v) in args) {
+                            when (k.lowercase()) {
+                                "silent" -> silent = true
+                                "source" -> source = v ?: "COMMAND_REMOVE_EXP"
+                            }
+                        }
+
                         PlayerAPI.removePlayerExp(
-                            context.player("player").toBukkitPlayer(),
+                            context.player("player").cast(),
                             context["levelGroup"],
                             context["amount"].toLong(),
-                            context["source"]
+                            source
                         )
-                        sender.sendLang(
+
+                        if (!silent) sender.sendLang(
                             "Remove-Exp",
                             context["player"],
                             context["levelGroup"],
@@ -88,12 +137,13 @@ object ExpCommand {
                     }
                 }
         }
+
         literal("set") {
             player("player").dynamic("levelGroup") { suggest { LevelAPI.getLevelGroupNames().toList() } }
                 .dynamic("amount") {
                     execute<ProxyCommandSender> { sender: ProxyCommandSender, context: CommandContext<ProxyCommandSender>, _: String ->
                         PlayerAPI.setPlayerExp(
-                            context.player("player").toBukkitPlayer(),
+                            context.player("player").cast(),
                             context["levelGroup"],
                             context["amount"].toLong(),
                             "COMMAND_SET_EXP"
@@ -106,15 +156,27 @@ object ExpCommand {
                             context["amount"]
                         )
                     }
-                }.dynamic("source") {
-                    execute<ProxyCommandSender> { sender: ProxyCommandSender, context: CommandContext<ProxyCommandSender>, _: String ->
+                }.dynamic("options") {
+                    execute<ProxyCommandSender> { sender: ProxyCommandSender, context: CommandContext<ProxyCommandSender>, content: String ->
+                        val args = CommandUtil.parseOptions(content.split(" "))
+                        var silent = false
+                        var source = "COMMAND_SET_EXP"
+
+                        for ((k, v) in args) {
+                            when (k.lowercase()) {
+                                "silent" -> silent = true
+                                "source" -> source = v ?: "COMMAND_SET_EXP"
+                            }
+                        }
+
                         PlayerAPI.setPlayerExp(
-                            context.player("player").toBukkitPlayer(),
+                            context.player("player").cast(),
                             context["levelGroup"],
                             context["amount"].toLong(),
-                            context["source"]
+                            source
                         )
-                        sender.sendLang(
+
+                        if (!silent) sender.sendLang(
                             "Set-Exp",
                             context["player"],
                             context["levelGroup"],
@@ -124,6 +186,7 @@ object ExpCommand {
                     }
                 }
         }
+
         literal("check") {
             player("player").dynamic("levelGroup") { suggest { LevelAPI.getLevelGroupNames().toList() } }
                 .execute<ProxyCommandSender> { sender: ProxyCommandSender, context: CommandContext<ProxyCommandSender>, _: String ->
@@ -132,11 +195,9 @@ object ExpCommand {
                         context["player"],
                         context["levelGroup"],
                         getLevelGroupData(context["levelGroup"]).display.colored(),
-                        PlayerAPI.getPlayerExp(context.player("player").toBukkitPlayer(), context["levelGroup"])
+                        PlayerAPI.getPlayerExp(context.player("player").cast(), context["levelGroup"])
                     )
                 }
         }
     }
-
-    private fun ProxyPlayer.toBukkitPlayer(): Player = Bukkit.getPlayer(this.uniqueId)!!
 }
