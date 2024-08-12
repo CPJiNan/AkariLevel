@@ -40,11 +40,13 @@ object TraceCommand {
             execute<ProxyCommandSender> { sender: ProxyCommandSender, context: CommandContext<ProxyCommandSender>, content: String ->
                 val args = CommandUtil.parseOptions(content.split(" "))
                 var silent = false
+
                 for ((k, _) in args) {
                     when (k.lowercase()) {
                         "silent" -> silent = true
                     }
                 }
+
                 if (PlayerAPI.checkPlayerTraceCondition(sender.cast(), context["levelGroup"])) {
                     PlayerAPI.setPlayerTraceLevelGroup(
                         sender.cast(),
