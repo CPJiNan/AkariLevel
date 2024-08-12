@@ -28,6 +28,7 @@ object PlayerListener {
     }
 
     @SubscribeEvent
+    @Suppress("UNUSED_PARAMETER")
     fun onPlayerQuit(event: PlayerQuitEvent) {
         DataAPI.saveData()
     }
