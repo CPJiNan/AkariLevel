@@ -17,9 +17,11 @@
 # 全局設置
 Options:
   # 配置文件版本
-  Config-Version: 4
+  Config-Version: 5
   # 檢查版本更新
   Check-Update: true
+  # OP 版本更新通知
+  OP-Notify: true
   # 啟用 bStats 統計
   Send-Metrics: true
   # 啟用調試模式

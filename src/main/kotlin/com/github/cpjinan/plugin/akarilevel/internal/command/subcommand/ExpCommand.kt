@@ -4,10 +4,7 @@ import com.github.cpjinan.plugin.akarilevel.api.LevelAPI
 import com.github.cpjinan.plugin.akarilevel.api.LevelAPI.getLevelGroupData
 import com.github.cpjinan.plugin.akarilevel.api.PlayerAPI
 import com.github.cpjinan.plugin.akarilevel.utils.CommandUtil
-import org.bukkit.Bukkit
-import org.bukkit.entity.Player
 import taboolib.common.platform.ProxyCommandSender
-import taboolib.common.platform.ProxyPlayer
 import taboolib.common.platform.command.CommandContext
 import taboolib.common.platform.command.player
 import taboolib.common.platform.command.subCommand

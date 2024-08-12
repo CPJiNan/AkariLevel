@@ -17,9 +17,11 @@
 # Configuración global
 Options:
   # Versión del archivo de configuración
-  Config-Version: 4
+  Config-Version: 5
   # Comprobar actualizaciones
   Check-Update: true
+  # Notificar al OP cuando el plugin se actualice
+  OP-Notify: true
   # Habilitar estadísticas de bStats
   Send-Metrics: true
   # Habilitar modo debug

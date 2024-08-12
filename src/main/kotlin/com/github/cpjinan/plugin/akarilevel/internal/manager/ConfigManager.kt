@@ -11,11 +11,12 @@ object ConfigManager {
     var level: HashMap<String, ConfigurationSection> = getLevelGroups()
 
     // Config Version
-    const val VERSION = 4
+    const val VERSION = 5
 
     // Options
     fun getConfigVersion() = settings.getInt("Options.Config-Version")
     fun isEnabledCheckUpdate() = settings.getBoolean("Options.Check-Update")
+    fun isEnabledOPNotify() = settings.getBoolean("Options.OP-Notify")
     fun isEnabledSendMetrics() = settings.getBoolean("Options.Send-Metrics")
     fun isEnabledDebug() = settings.getBoolean("Options.Debug")
 
