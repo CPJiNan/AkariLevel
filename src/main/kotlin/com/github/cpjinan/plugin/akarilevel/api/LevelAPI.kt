@@ -141,7 +141,7 @@ object LevelAPI {
         return getLvlData(levelGroup, level).let { levelData ->
             levelData.exp
                 .replace("%level%", level.toString(), true)
-                .compileJS()?.eval()?.toString()?.toLongOrNull() ?: return Long.MAX_VALUE
+                .compileJS()?.eval()?.toString()?.toDouble()?.toLong() ?: return Long.MAX_VALUE
         }
     }
 
