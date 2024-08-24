@@ -102,7 +102,8 @@ object LevelAPI {
                 maxLevel = section.getLong("Level.Max"),
                 isEnabledAutoLevelup = section.getBoolean("Level.Auto-Levelup"),
                 isEnabledExpLimit = section.getBoolean("Level.Exp-Limit"),
-                keyLevelSettings = section.getConfigurationSection("Level.Key")!!
+                keyLevelSettings = section.getConfigurationSection("Level.Key")!!,
+                levelGroupSection = section
             )
         } as HashMap<String, LevelGroupData>
     }
@@ -120,7 +121,8 @@ object LevelAPI {
                     val exp = keyLevelSettings.getString("$level.Exp") ?: return@mapNotNull null
                     val condition = keyLevelSettings.getStringList("$level.Condition")
                     val action = keyLevelSettings.getStringList("$level.Action")
-                    level to LevelData(name, exp, condition, action)
+                    val levelSection = keyLevelSettings.getConfigurationSection("$level") ?: return@mapNotNull null
+                    level to LevelData(name, exp, condition, action, levelSection)
                 }
             }.toMap(HashMap())
     }

@@ -12,5 +12,6 @@ data class LevelGroupData(
     val maxLevel: Long,
     val isEnabledAutoLevelup: Boolean,
     val isEnabledExpLimit: Boolean,
-    val keyLevelSettings: ConfigurationSection
+    val keyLevelSettings: ConfigurationSection,
+    val levelGroupSection: ConfigurationSection
 )
