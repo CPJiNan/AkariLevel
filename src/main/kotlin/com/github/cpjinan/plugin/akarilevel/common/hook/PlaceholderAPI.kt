@@ -36,6 +36,16 @@ object PlaceholderAPI : PlaceholderExpansion {
                     "lastlevelexp" -> LevelAPI.getLevelExp(levelGroup, prevLvl)
                     "nextlevelexp" -> LevelAPI.getLevelExp(levelGroup, nextLvl)
 
+                    "expprogresspercent" -> ((PlayerAPI.getPlayerExp(player, levelGroup)
+                        .toDouble() / LevelAPI.getLevelExp(
+                        levelGroup,
+                        nextLvl
+                    )) * 100).coerceIn(0.0, 100.0).toInt()
+
+                    "levelprogresspercent" -> ((PlayerAPI.getPlayerLevel(player, levelGroup)
+                        .toDouble() / LevelAPI.getLevelGroupData(levelGroup).maxLevel) * 100).coerceIn(0.0, 100.0)
+                        .toInt()
+
                     "expprogressbar" -> createBar(
                         ConfigManager.getExpProgressBarEmpty().colored(),
                         ConfigManager.getExpProgressBarFull().colored(),
