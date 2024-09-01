@@ -21,6 +21,9 @@ object Attribute {
                 "AttributePlus" -> AttributePlus.attributeManager.getAttributeData(event.player)
                     .getAttributeValue(ConfigManager.getAttributeName())[0]
 
+                "AttributePlus-Legacy" -> org.serverct.ersha.jd.AttributeAPI.getAttrData(event.player)
+                    .getAttributeValue(ConfigManager.getAttributeName())
+
                 "SX-Attribute" -> SXAttribute.getApi().getEntityData(event.player)
                     .getValues(ConfigManager.getAttributeName())[0]
 
