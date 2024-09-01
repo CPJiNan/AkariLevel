@@ -9,6 +9,7 @@ import github.saukiya.sxattribute.SXAttribute
 import org.bukkit.Bukkit
 import org.serverct.ersha.AttributePlus
 import taboolib.common.platform.event.SubscribeEvent
+import taboolib.common.platform.function.info
 import taboolib.common5.compileJS
 import kotlin.math.roundToLong
 
@@ -18,11 +19,17 @@ object Attribute {
         if (ConfigManager.isEnabledAttribute() && Bukkit.getServer().pluginManager.isPluginEnabled(ConfigManager.getAttributePlugin()) && event.source in ConfigManager.getAttributeSource()) {
             var exp = event.expAmount
             val attributeValue: Number = when (ConfigManager.getAttributePlugin()) {
-                "AttributePlus" -> AttributePlus.attributeManager.getAttributeData(event.player)
-                    .getAttributeValue(ConfigManager.getAttributeName())[0]
+                "AttributePlus" -> {
+                    when(Bukkit.getServer().pluginManager.getPlugin("AttributePlus")!!.description.version[0]){
+                        '3' -> AttributePlus.attributeManager.getAttributeData(event.player)
+                            .getAttributeValue(ConfigManager.getAttributeName())[0]
 
-                "AttributePlus-Legacy" -> org.serverct.ersha.jd.AttributeAPI.getAttrData(event.player)
-                    .getAttributeValue(ConfigManager.getAttributeName())
+                        '2' -> org.serverct.ersha.jd.AttributeAPI.getAttrData(event.player)
+                            .getAttributeValue(ConfigManager.getAttributeName())
+
+                        else -> throw IllegalArgumentException("Unsupported AttributePlus version ${Bukkit.getServer().pluginManager.getPlugin("AttributePlus")!!.description.version}.")
+                    }
+                }
 
                 "SX-Attribute" -> SXAttribute.getApi().getEntityData(event.player)
                     .getValues(ConfigManager.getAttributeName())[0]
@@ -40,6 +47,7 @@ object Attribute {
                 .replace("%exp%", exp.toString(), true)
                 .replace("%attribute%", attributeValue.toDouble().toString(), true)
                 .compileJS()?.eval()?.toString()?.toDouble()?.roundToLong() ?: exp
+            info(exp, attributeValue)
             event.expAmount = exp
         }
     }
