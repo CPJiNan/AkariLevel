@@ -20,14 +20,20 @@ object Attribute {
             var exp = event.expAmount
             val attributeValue: Number = when (ConfigManager.getAttributePlugin()) {
                 "AttributePlus" -> {
-                    when(Bukkit.getServer().pluginManager.getPlugin("AttributePlus")!!.description.version[0]){
+                    when (Bukkit.getServer().pluginManager.getPlugin("AttributePlus")!!.description.version[0]) {
                         '3' -> AttributePlus.attributeManager.getAttributeData(event.player)
                             .getAttributeValue(ConfigManager.getAttributeName())[0]
 
                         '2' -> org.serverct.ersha.jd.AttributeAPI.getAttrData(event.player)
                             .getAttributeValue(ConfigManager.getAttributeName())
 
-                        else -> throw IllegalArgumentException("Unsupported AttributePlus version ${Bukkit.getServer().pluginManager.getPlugin("AttributePlus")!!.description.version}.")
+                        else -> throw IllegalArgumentException(
+                            "Unsupported AttributePlus version ${
+                                Bukkit.getServer().pluginManager.getPlugin(
+                                    "AttributePlus"
+                                )!!.description.version
+                            }."
+                        )
                     }
                 }
 
@@ -47,7 +53,6 @@ object Attribute {
                 .replace("%exp%", exp.toString(), true)
                 .replace("%attribute%", attributeValue.toDouble().toString(), true)
                 .compileJS()?.eval()?.toString()?.toDouble()?.roundToLong() ?: exp
-            info(exp, attributeValue)
             event.expAmount = exp
         }
     }
