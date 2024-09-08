@@ -9,7 +9,6 @@ import com.github.cpjinan.plugin.akarilevel.utils.UpdateUtil
 import taboolib.common.LifeCycle
 import taboolib.common.platform.Awake
 import taboolib.common.platform.Platform
-import taboolib.common.platform.command.simpleCommand
 import taboolib.common.platform.function.console
 import taboolib.module.chat.colored
 import taboolib.module.lang.sendLang

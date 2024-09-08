@@ -9,7 +9,6 @@ import github.saukiya.sxattribute.SXAttribute
 import org.bukkit.Bukkit
 import org.serverct.ersha.AttributePlus
 import taboolib.common.platform.event.SubscribeEvent
-import taboolib.common.platform.function.info
 import taboolib.common5.compileJS
 import kotlin.math.roundToLong
 
@@ -45,7 +44,7 @@ object Attribute {
                     .get(ExpAddon.DefaultImpl().index)
 
                 "AttributeSystem" -> event.player.uniqueId.getAttrData()
-                    ?.getAttrValue<Double>(ConfigManager.getAttributeName(), "total") as Number
+                    ?.getAttrValue<Double>(ConfigManager.getAttributeName(), "total") ?: 0
 
                 else -> throw IllegalArgumentException("Unsupported attribute plugin ${ConfigManager.getAttributePlugin()}.")
             }
