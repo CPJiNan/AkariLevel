@@ -12,7 +12,6 @@ taboolib {
     env {
         install(
             UNIVERSAL,
-            UI,
             KETHER,
             METRICS,
             DATABASE,
