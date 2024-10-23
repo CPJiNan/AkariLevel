@@ -11,12 +11,14 @@ plugins {
 taboolib {
     env {
         install(
-            UNIVERSAL,
-            KETHER,
-            METRICS,
-            DATABASE,
-            EXPANSION_JAVASCRIPT,
-            BUKKIT_ALL
+            Metrics,
+            Database,
+            CommandHelper,
+            Kether,
+            JavaScript,
+            Bukkit,
+            BukkitHook,
+            BukkitUtil
         )
     }
     description {
