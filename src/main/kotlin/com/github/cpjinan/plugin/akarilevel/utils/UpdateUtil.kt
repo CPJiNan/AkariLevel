@@ -22,6 +22,7 @@ object UpdateUtil {
                 val message = urlConnection.inputStream.bufferedReader().readText()
                 if (message.isNotBlank()) message(message.colored())
             } catch (_: java.net.ConnectException) {
+            } catch (_: java.net.SocketException) {
             } finally {
                 urlConnection.disconnect()
             }
@@ -43,6 +44,7 @@ object UpdateUtil {
                         }
                 }
             } catch (_: java.net.ConnectException) {
+            } catch (_: java.net.SocketException) {
             } finally {
                 urlConnection.disconnect()
             }
@@ -64,6 +66,7 @@ object UpdateUtil {
                         }
                 }
             } catch (_: java.net.ConnectException) {
+            } catch (_: java.net.SocketException) {
             } finally {
                 urlConnection.disconnect()
             }
