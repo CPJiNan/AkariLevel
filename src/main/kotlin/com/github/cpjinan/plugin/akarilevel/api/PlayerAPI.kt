@@ -297,7 +297,8 @@ object PlayerAPI {
         val oldLvl = getLevel(player, levelGroup)
         callEvent(PlayerLevelChangeEvent(player, levelGroup, oldLvl, level, source)) {
             val data = getData(this.player, this.levelGroup)
-            data.level = this.newLevel
+            val maxLevel = getLevelGroupData(this.levelGroup).maxLevel
+            data.level = this.newLevel.coerceIn(0, maxLevel)
             setData(this.player, this.levelGroup, data)
         }
     }
