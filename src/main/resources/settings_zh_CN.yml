@@ -79,7 +79,8 @@ Team:
     - "MYTHICMOBS_DROP_EXP"
   # 待分配的经验池总额 (JavaScript 支持)
   # %exp% -> 分配前的经验数额
-  Total: "%exp% * 1"
+  # %size% -> 队伍人数
+  Total: "%exp% * %size%"
   # 队长与队员各自的分配权重，实际所获经验 = 经验池总额 * ( 个人权重 / 队伍权重总和 )
   Weight:
     Leader: 1

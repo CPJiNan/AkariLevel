@@ -23,6 +23,7 @@ object Team {
                     val totalAmount =
                         getShareTotal()
                             .replace("%exp%", event.expAmount.toString(), true)
+                            .replace("%size%", team.players.size.toString(), true)
                             .compileJS()?.eval()?.toString()?.toDouble()?.roundToLong() ?: event.expAmount
                     val totalWeight =
                         getShareLeaderWeight() + (team.players.size - 1) * getShareMemberWeight()
