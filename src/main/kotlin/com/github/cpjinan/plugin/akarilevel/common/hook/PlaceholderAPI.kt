@@ -19,12 +19,14 @@ object PlaceholderAPI : PlaceholderExpansion {
                 val curLvl = PlayerAPI.getPlayerLevel(player, levelGroup)
                 val prevLvl = curLvl - 1
                 val nextLvl = curLvl + 1
+                val maxLvl = LevelAPI.getLevelGroupData(levelGroup).maxLevel
                 return when (args.lowercase().split("_")[1]) {
                     "display" -> LevelAPI.getLevelGroupData(levelGroup).display.colored()
 
                     "level" -> curLvl
                     "lastlevel" -> prevLvl
                     "nextlevel" -> nextLvl
+                    "maxlevel" -> maxLvl
 
                     "exp" -> PlayerAPI.getPlayerExp(player, levelGroup)
 
@@ -43,7 +45,7 @@ object PlaceholderAPI : PlaceholderExpansion {
                     )) * 100).coerceIn(0.0, 100.0).toInt()
 
                     "levelprogresspercent" -> ((PlayerAPI.getPlayerLevel(player, levelGroup)
-                        .toDouble() / LevelAPI.getLevelGroupData(levelGroup).maxLevel) * 100).coerceIn(0.0, 100.0)
+                        .toDouble() / maxLvl) * 100).coerceIn(0.0, 100.0)
                         .toInt()
 
                     "expprogressbar" -> createBar(
@@ -61,7 +63,7 @@ object PlaceholderAPI : PlaceholderExpansion {
                         ConfigManager.getLevelProgressBarFull().colored(),
                         ConfigManager.getLevelProgressBarLength(),
                         PlayerAPI.getPlayerLevel(player, levelGroup)
-                            .toDouble() / LevelAPI.getLevelGroupData(levelGroup).maxLevel
+                            .toDouble() / maxLvl
                     )
 
                     else -> ""
