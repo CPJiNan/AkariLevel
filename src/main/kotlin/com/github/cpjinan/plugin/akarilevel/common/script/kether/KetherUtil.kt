@@ -30,10 +30,11 @@ object KetherUtil {
         namespace: List<String> = listOf(BukkitPlugin.getInstance().name),
         args: Map<String, Any>? = null,
     ): Any? {
-        args?.forEach { (k, v) -> script.replace(Pair(k, v)) }
+        var scriptList = script
+        args?.forEach { (k, v) -> scriptList = scriptList.replace(Pair(k, v)) }
         try {
             return KetherShell.eval(
-                script,
+                scriptList,
                 ScriptOptions.builder().namespace(namespace).sender(adaptPlayer(sender)).build()
             ).thenApply { it }.get()
         } catch (e: Exception) {

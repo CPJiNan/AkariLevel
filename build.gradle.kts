@@ -3,7 +3,7 @@ import io.izzel.taboolib.gradle.*
 plugins {
     `java-library`
     `maven-publish`
-    id("io.izzel.taboolib") version "2.0.20"
+    id("io.izzel.taboolib") version "2.0.21"
     kotlin("jvm") version "1.9.22"
     kotlin("plugin.serialization") version "1.9.22"
 }
@@ -31,7 +31,7 @@ taboolib {
             name("DungeonPlus").optional(true)
         }
     }
-    version { taboolib = "6.2.0-beta33" }
+    version { taboolib = "6.2.0-beta36" }
     relocate("kotlinx.serialization", "kotlinx.serialization162")
 }
 

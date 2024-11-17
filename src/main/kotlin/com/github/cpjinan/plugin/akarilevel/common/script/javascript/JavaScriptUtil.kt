@@ -14,7 +14,8 @@ object JavaScriptUtil {
         script: String,
         args: Map<String, Any>? = null,
     ): Any? {
-        args?.forEach { (k, v) -> script.replace(Pair(k, v)) }
-        return script.compileJS()?.eval()
+        var scriptList = script
+        args?.forEach { (k, v) -> scriptList = scriptList.replace(Pair(k, v)) }
+        return scriptList.compileJS()?.eval()
     }
 }
