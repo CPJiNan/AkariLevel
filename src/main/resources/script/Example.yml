@@ -1,0 +1,4 @@
+ExampleScript:
+  Event: PlayerExpChangeEvent
+  Kether:
+    - tell inline "§7Exp &f+%expAmount% &7."
