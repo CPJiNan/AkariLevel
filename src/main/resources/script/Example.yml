@@ -1,4 +1,8 @@
 ExampleScript:
   Event: PlayerExpChangeEvent
+  # Kether Action List https://kether.tabooproject.org/list.html
   Kether:
-    - tell inline "§7Exp §f+%expAmount% §7."
+    - |
+      if check %expAmount% > 0 then {
+        tell inline "§7Exp §f+%expAmount% §7." 
+      }
