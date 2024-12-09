@@ -12,6 +12,7 @@ import io.lumine.xikage.mythicmobs.io.MythicLineConfig
 import org.bukkit.Bukkit
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
+import kotlin.random.Random
 
 object MythicMobsListener {
     fun registerMythicMobsListener() {
@@ -41,7 +42,7 @@ object LegacyMythicMobsDropListener : Listener {
 class LegacyMythicMobsExpDrop(line: String, config: MythicLineConfig) : Drop(line, config), IItemDrop {
     override fun getDrop(meta: DropMetadata): AbstractItemStack? {
         val levelGroupName = this.line.split(' ')[0].split(".")[1]
-        val amount = this.line.split(' ')[1].toLong()
+        val amount = this.line.split(' ')[1].toAmount()
         PlayerAPI.addPlayerExp(Bukkit.getPlayer(meta.trigger.uniqueId)!!, levelGroupName, amount, "MYTHICMOBS_DROP_EXP")
         return null
     }
@@ -66,7 +67,7 @@ class MythicMobsExpDrop(line: String, config: io.lumine.mythic.api.config.Mythic
         p1: Double
     ): io.lumine.mythic.api.adapters.AbstractItemStack? {
         val levelGroupName = this.line.split(' ')[0].split(".")[1]
-        val amount = this.line.split(' ')[1].toLong()
+        val amount = this.line.split(' ')[1].toAmount()
         if (meta != null) {
             PlayerAPI.addPlayerExp(
                 Bukkit.getPlayer(meta.trigger.uniqueId)!!,
@@ -76,5 +77,15 @@ class MythicMobsExpDrop(line: String, config: io.lumine.mythic.api.config.Mythic
             )
         }
         return null
+    }
+}
+
+fun String.toAmount(): Long {
+    return if (this.contains("~")) {
+        val range = this.split("~", limit = 2)
+        val (start, end) = range.map { it.toLong() }
+        return Random.nextLong(start, end + 1)
+    } else {
+        this.toLong()
     }
 }
