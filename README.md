@@ -3,18 +3,10 @@
 </h1>
 
 <p align="center" class="shields">
-    <a href="https://github.com/CPJiNan/AkariLevel/releases" style="text-decoration:none" >
-        <img src="https://img.shields.io/badge/dynamic/json?label=Version&amp;query=$.tag_name&amp;url=https://api.github.com/repos/CPJiNan/AkariLevel/releases/latest" alt="Version"/>
-    </a>
-    <a href="https://github.com/CPJiNan/AkariLevel/issues" style="text-decoration:none">
-        <img src="https://img.shields.io/badge/dynamic/json?label=Date&amp;query=$.created_at&amp;url=https://api.github.com/repos/TabooLib/TabooLib/releases/latest" alt="Date"/>
-    </a>
-    <a href='https://img.shields.io/github/commit-activity/t/CPJiNan/AkariLevel'>
-        <img src='https://img.shields.io/github/commit-activity/t/CPJiNan/AkariLevel' alt="Build Status">
-    </a>
-    <a href="https://github.com/CPJiNan/AkariLevel/issues" style="text-decoration:none">
-        <img src="https://img.shields.io/github/issues/CPJiNan/AkariLevel.svg" alt="GitHub issues"/>
-    </a>
+    <img src="https://img.shields.io/badge/dynamic/json?label=Version&amp;query=$.tag_name&amp;url=https://api.github.com/repos/CPJiNan/AkariLevel/releases/latest" alt="Version"/>
+    <img src="https://img.shields.io/badge/dynamic/json?label=Date&amp;query=$.created_at&amp;url=https://api.github.com/repos/TabooLib/TabooLib/releases/latest" alt="Date"/>
+    <img src='https://img.shields.io/github/commit-activity/t/CPJiNan/AkariLevel' alt="Build Status">
+    <img src="https://img.shields.io/github/issues/CPJiNan/AkariLevel.svg" alt="GitHub issues"/>
 </p>
 
 ![](img/AkariLevel-封面图.png)
