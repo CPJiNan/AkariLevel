@@ -66,6 +66,8 @@ object CommandUtil {
     fun ProxyCommandSender.createHelper(
         plugin: String = pluginId,
         version: String = "v$pluginVersion",
+        commandI18N: String = "命令",
+        parametersI18N: String = "参数",
         mainCommand: Command,
         vararg subCommands: Command? = arrayOf()
     ) {
@@ -74,9 +76,9 @@ object CommandUtil {
         sendMessage(" ")
 
         // 发送主命令信息
-        " &7命令: &f/${mainCommand.getInfo()}".component().buildColored().sendTo(this)
+        " &7$commandI18N: &f/${mainCommand.getInfo()}".component().buildColored().sendTo(this)
 
-        if (subCommands.isNotEmpty()) sendMessage(" &7参数:".colored())
+        if (subCommands.isNotEmpty()) sendMessage(" &7$parametersI18N:".colored())
 
         // 发送子命令信息
         subCommands.forEach { subCommand ->
@@ -99,10 +101,19 @@ object CommandUtil {
     fun Player.createHelper(
         plugin: String = pluginId,
         version: String = "v$pluginVersion",
+        commandI18N: String = "命令",
+        parametersI18N: String = "参数",
         mainCommand: Command,
         vararg subCommands: Command? = arrayOf()
     ) {
-        adaptCommandSender(this).createHelper(plugin, version, mainCommand, *subCommands)
+        adaptCommandSender(this).createHelper(
+            plugin = plugin,
+            version = version,
+            commandI18N = commandI18N,
+            parametersI18N = parametersI18N,
+            mainCommand = mainCommand,
+            subCommands = subCommands
+        )
     }
 
     data class Command(

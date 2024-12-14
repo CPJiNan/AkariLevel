@@ -46,6 +46,7 @@
 
 ![](../img/图片展示-1.png)
 ![](../img/图片展示-2.png)
+![](https://s2.loli.net/2024/12/14/2uMhbZEjq8J54re.png)
 
 ## 命令
 
@@ -75,6 +76,9 @@
 
 ```
 akarilevel.command.akarilevel.use - 插件命令使用权限
+
+akarilevel.admin - 管理员命令权限
+akarilevel.default - 玩家命令权限
 ```
 
 ## 变量

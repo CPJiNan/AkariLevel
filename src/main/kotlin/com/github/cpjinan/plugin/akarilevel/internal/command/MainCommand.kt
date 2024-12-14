@@ -36,27 +36,27 @@ object MainCommand {
         }
     }
 
-    @CommandBody
+    @CommandBody(permission = "akarilevel.admin")
     val level = LevelCommand.level
 
-    @CommandBody
+    @CommandBody(permission = "akarilevel.default")
     val levelup = LevelCommand.levelup
 
-    @CommandBody
+    @CommandBody(permission = "akarilevel.default")
     val trace = TraceCommand.trace
 
-    @CommandBody
+    @CommandBody(permission = "akarilevel.admin")
     val exp = ExpCommand.exp
 
-    @CommandBody
+    @CommandBody(permission = "akarilevel.admin")
     val data = DataCommand.data
 
-    @CommandBody
+    @CommandBody(permission = "akarilevel.admin")
     val reload = subCommand {
         execute { sender: ProxyCommandSender, _: CommandContext<ProxyCommandSender>, _: String ->
             PluginConfig.settings = YamlConfiguration.loadConfiguration(File(FileUtil.dataFolder, "settings.yml"))
             PluginConfig.level = PluginConfig.getLevelGroups()
-            PluginConfig.commands = YamlConfiguration.loadConfiguration(File(FileUtil.dataFolder, "commands.yml"))
+            commands = YamlConfiguration.loadConfiguration(File(FileUtil.dataFolder, "commands.yml"))
             ScriptAPI.reloadScript()
             Language.reload()
             sender.sendLang("Plugin-Reloaded")
@@ -67,6 +67,8 @@ object MainCommand {
         this.createHelper(
             plugin = commands.getString("plugin")!!,
             version = commands.getString("version")!!.replaceWithOrder(pluginVersion),
+            commandI18N = commands.getString("commandI18N")!!,
+            parametersI18N = commands.getString("parametersI18N")!!,
             mainCommand = Command(
                 name = commands.getString("mainCommand.name")!!,
                 parameters = listOf(

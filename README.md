@@ -46,6 +46,7 @@ Why choose **AkariLevel**?
 
 ![](./img/图片展示-1.png)
 ![](./img/图片展示-2.png)
+![](https://s2.loli.net/2024/12/14/TavdtXzoYF5HpAN.png)
 
 ## Commands
 
@@ -75,6 +76,9 @@ Why choose **AkariLevel**?
 
 ```
 akarilevel.command.akarilevel.use - Permission to use plugin commands
+
+akarilevel.admin - Administrator command permission
+akarilevel.default - Player command permission
 ```
 
 ## Placeholders
