@@ -5,11 +5,11 @@ import com.github.cpjinan.plugin.akarilevel.api.LevelAPI.getLevelCondition
 import com.github.cpjinan.plugin.akarilevel.api.LevelAPI.getLevelExp
 import com.github.cpjinan.plugin.akarilevel.api.LevelAPI.getLevelGroupData
 import com.github.cpjinan.plugin.akarilevel.api.LevelAPI.getLevelGroupNames
+import com.github.cpjinan.plugin.akarilevel.common.PluginConfig
 import com.github.cpjinan.plugin.akarilevel.common.event.exp.PlayerExpChangeEvent
 import com.github.cpjinan.plugin.akarilevel.common.event.level.PlayerLevelChangeEvent
-import com.github.cpjinan.plugin.akarilevel.common.script.kether.KetherUtil.evalKether
 import com.github.cpjinan.plugin.akarilevel.internal.database.type.PlayerData
-import com.github.cpjinan.plugin.akarilevel.internal.manager.ConfigManager
+import com.github.cpjinan.plugin.akarilevel.utils.scripts.Kether.evalKether
 import org.bukkit.entity.Player
 import taboolib.module.chat.colored
 import taboolib.platform.type.BukkitProxyEvent
@@ -374,7 +374,7 @@ object PlayerAPI {
 
     private fun getTraceLvlGroup(player: Player): String {
         return DataAPI.getDataValue("Player", player.getDataID(), "Trace").takeIf { it.isNotEmpty() }
-            ?: ConfigManager.getDefaultTrace()
+            ?: PluginConfig.getDefaultTrace()
     }
 
     private fun setTraceLvlGroup(player: Player, levelGroup: String) {
@@ -442,6 +442,6 @@ object PlayerAPI {
     }
 
     private fun Player.getDataID(): String {
-        return this.uniqueId.toString().takeIf { ConfigManager.isEnabledUUID() } ?: this.name
+        return this.uniqueId.toString().takeIf { PluginConfig.isEnabledUUID() } ?: this.name
     }
 }

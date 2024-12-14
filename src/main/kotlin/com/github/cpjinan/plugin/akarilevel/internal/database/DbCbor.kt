@@ -1,7 +1,7 @@
 package com.github.cpjinan.plugin.akarilevel.internal.database
 
 import com.github.cpjinan.plugin.akarilevel.AkariLevel.plugin
-import com.github.cpjinan.plugin.akarilevel.internal.manager.ConfigManager
+import com.github.cpjinan.plugin.akarilevel.common.PluginConfig
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.cbor.Cbor
 import kotlinx.serialization.decodeFromByteArray
@@ -16,7 +16,7 @@ class DbCbor : Database {
 
     init {
         val parent = Bukkit.getPluginManager().getPlugin(plugin.name)?.dataFolder ?: File(".")
-        file = File(parent, ConfigManager.getCborSection().getString("file")!!)
+        file = File(parent, PluginConfig.getCborSection().getString("file")!!)
         database = if (file.exists()) {
             val content = file.readBytes()
             if (content.isNotEmpty()) {

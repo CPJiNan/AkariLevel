@@ -1,4 +1,4 @@
-package com.github.cpjinan.plugin.akarilevel.common.script.kether
+package com.github.cpjinan.plugin.akarilevel.utils.scripts
 
 import taboolib.common.platform.function.adaptPlayer
 import taboolib.common5.util.replace
@@ -7,7 +7,7 @@ import taboolib.module.kether.ScriptOptions
 import taboolib.module.kether.printKetherErrorMessage
 import taboolib.platform.BukkitPlugin
 
-object KetherUtil {
+object Kether {
     fun String.evalKether(
         sender: Any,
         namespace: List<String> = listOf(BukkitPlugin.getInstance().name),

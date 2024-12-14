@@ -3,18 +3,16 @@ package com.github.cpjinan.plugin.akarilevel.internal.command.subcommand
 import com.github.cpjinan.plugin.akarilevel.api.LevelAPI
 import com.github.cpjinan.plugin.akarilevel.api.LevelAPI.getLevelGroupData
 import com.github.cpjinan.plugin.akarilevel.api.PlayerAPI
-import com.github.cpjinan.plugin.akarilevel.utils.CommandUtil
+import com.github.cpjinan.plugin.akarilevel.utils.core.CommandUtil
 import taboolib.common.platform.ProxyCommandSender
 import taboolib.common.platform.command.CommandContext
 import taboolib.common.platform.command.subCommand
 import taboolib.common.platform.command.suggest
-import taboolib.expansion.createHelper
 import taboolib.module.chat.colored
 import taboolib.module.lang.sendLang
 
 object TraceCommand {
     val trace = subCommand {
-        createHelper()
         dynamic("levelGroup") {
             suggest {
                 LevelAPI.getLevelGroupNames().toList()

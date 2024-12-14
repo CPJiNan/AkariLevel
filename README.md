@@ -52,35 +52,29 @@ Why choose **AkariLevel**?
 ```
 <> - Required [] - Optional
 
-/akarilevel - Main plugin command
+/akarilevel - Main plugin command (Aliases: `/exp` or `/level`)
 
-/akarilevel exp add <player> <levelGroup> <value> [options] - Grant specified experience points to a player
-/akarilevel exp remove <player> <levelGroup> <value> [options] - Remove specified experience points from a player
-/akarilevel exp set <player> <levelGroup> <value> [options] - Set a player's experience to a specific value
-/akarilevel exp check <player> <levelGroup> - Check a player's experience
+/akarilevel exp add [player] [levelGroup] [amount] [options] - Add a specified amount of experience to a player
+/akarilevel exp remove [player] [levelGroup] [amount] [options] - Remove a specified amount of experience from a player
+/akarilevel exp set [player] [levelGroup] [amount] [options] - Set a player's experience to a specified amount
+/akarilevel exp check [player] [levelGroup] [options] - Check a player's experience
 
-/akarilevel level add <player> <levelGroup> <value> [options] - Grant specified levels to a player
-/akarilevel level remove <player> <levelGroup> <value> [options] - Remove specified levels from a player
-/akarilevel level set <player> <levelGroup> <value> [options] - Set a player's level to a specific value
-/akarilevel level check <player> <levelGroup> - Check a player's level
+/akarilevel level add [player] [levelGroup] [amount] [options] - Add a specified number of levels to a player
+/akarilevel level remove [player] [levelGroup] [amount] [options] - Remove a specified number of levels from a player
+/akarilevel level set [player] [levelGroup] [amount] [options] - Set a player's level to a specified amount
+/akarilevel level check [player] [levelGroup] [options] - Check a player's level
 
-/akarilevel data get <table> <index> <key> - Get the value of a specific key in a table and index
-/akarilevel data set <table> <index> <key> <value> - Set a value for a specific key in a table and index
-
-/akarilevel levelup [levelGroup] - Attempt to level up
+/akarilevel levelup [levelGroup] [options] - Player requests to level up
 
 /akarilevel trace <levelGroup> [options] - Attempt to trace the specified level group
 
-/akarilevel reload - Reload plugin configuration
+/akarilevel reload - Reload plugin configuration (settings.yml, level.yml, lang folder)
 ```
 
 ## Permissions
 
 ```
 akarilevel.command.akarilevel.use - Permission to use plugin commands
-
-akarilevel.admin - Administrator command permission
-akarilevel.default - Player command permission
 ```
 
 ## Placeholders

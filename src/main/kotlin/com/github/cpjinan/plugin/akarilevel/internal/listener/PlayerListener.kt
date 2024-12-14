@@ -1,12 +1,12 @@
-package com.github.cpjinan.plugin.akarilevel.common.listener
+package com.github.cpjinan.plugin.akarilevel.internal.listener
 
 import com.github.cpjinan.plugin.akarilevel.api.DataAPI
 import com.github.cpjinan.plugin.akarilevel.api.LevelAPI
 import com.github.cpjinan.plugin.akarilevel.api.PlayerAPI
-import com.github.cpjinan.plugin.akarilevel.internal.manager.ConfigManager
-import com.github.cpjinan.plugin.akarilevel.internal.manager.ConfigManager.getDefaultTrace
-import com.github.cpjinan.plugin.akarilevel.internal.manager.ConfigManager.isEnabledAutoResetTrace
-import com.github.cpjinan.plugin.akarilevel.utils.UpdateUtil
+import com.github.cpjinan.plugin.akarilevel.common.PluginConfig
+import com.github.cpjinan.plugin.akarilevel.common.PluginConfig.getDefaultTrace
+import com.github.cpjinan.plugin.akarilevel.common.PluginConfig.isEnabledAutoResetTrace
+import com.github.cpjinan.plugin.akarilevel.common.PluginUpdate
 import org.bukkit.event.player.PlayerExpChangeEvent
 import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerQuitEvent
@@ -19,7 +19,7 @@ object PlayerListener {
             PlayerAPI.addPlayerExp(event.player, it, event.amount.toLong(), "VANILLA_EXP_CHANGE")
             PlayerAPI.refreshPlayerLevel(event.player, it)
         }
-        if (!ConfigManager.isEnabledVanilla()) event.amount = 0
+        if (!PluginConfig.isEnabledVanilla()) event.amount = 0
     }
 
     @SubscribeEvent
@@ -27,7 +27,7 @@ object PlayerListener {
         PlayerAPI.refreshPlayerLevel(event.player)
         if (isEnabledAutoResetTrace()) PlayerAPI.setPlayerTraceLevelGroup(event.player, getDefaultTrace())
 
-        if (event.player.isOp && ConfigManager.isEnabledOPNotify()) UpdateUtil.sendPlayerUpdateNotify(event.player)
+        if (event.player.isOp && PluginConfig.isEnabledOPNotify()) PluginUpdate.sendPlayerUpdateNotify(event.player)
     }
 
     @SubscribeEvent

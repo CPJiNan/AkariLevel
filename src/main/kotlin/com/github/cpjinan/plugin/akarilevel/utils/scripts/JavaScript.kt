@@ -1,9 +1,9 @@
-package com.github.cpjinan.plugin.akarilevel.common.script.javascript
+package com.github.cpjinan.plugin.akarilevel.utils.scripts
 
 import taboolib.common5.compileJS
 import taboolib.common5.util.replace
 
-object JavaScriptUtil {
+object JavaScript {
     fun String.evalJS(
         args: Map<String, Any>? = null
     ): Any? {

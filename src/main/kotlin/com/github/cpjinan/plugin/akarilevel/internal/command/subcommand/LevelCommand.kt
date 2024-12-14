@@ -3,7 +3,7 @@ package com.github.cpjinan.plugin.akarilevel.internal.command.subcommand
 import com.github.cpjinan.plugin.akarilevel.api.LevelAPI
 import com.github.cpjinan.plugin.akarilevel.api.LevelAPI.getLevelGroupData
 import com.github.cpjinan.plugin.akarilevel.api.PlayerAPI
-import com.github.cpjinan.plugin.akarilevel.utils.CommandUtil
+import com.github.cpjinan.plugin.akarilevel.utils.core.CommandUtil
 import taboolib.common.platform.ProxyCommandSender
 import taboolib.common.platform.command.CommandContext
 import taboolib.common.platform.command.player

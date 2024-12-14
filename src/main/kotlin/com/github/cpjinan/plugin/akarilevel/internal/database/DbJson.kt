@@ -1,7 +1,7 @@
 package com.github.cpjinan.plugin.akarilevel.internal.database
 
 import com.github.cpjinan.plugin.akarilevel.AkariLevel.plugin
-import com.github.cpjinan.plugin.akarilevel.internal.manager.ConfigManager
+import com.github.cpjinan.plugin.akarilevel.common.PluginConfig
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.bukkit.Bukkit
@@ -13,7 +13,7 @@ class DbJson : Database {
 
     init {
         val parent = Bukkit.getPluginManager().getPlugin(plugin.name)?.dataFolder ?: File(".")
-        file = File(parent, ConfigManager.getJsonSection().getString("file")!!)
+        file = File(parent, PluginConfig.getJsonSection().getString("file")!!)
         database = if (file.exists()) {
             val content = file.readText(Charsets.UTF_8)
             if (content.isNotBlank()) {

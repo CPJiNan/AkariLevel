@@ -1,4 +1,4 @@
-package com.github.cpjinan.plugin.akarilevel.utils
+package com.github.cpjinan.plugin.akarilevel.utils.core
 
 import com.github.cpjinan.plugin.akarilevel.AkariLevel.plugin
 import org.bukkit.Bukkit
@@ -46,7 +46,7 @@ object FileUtil {
      */
     @JvmStatic
     fun getFileOrNull(file: String): File? {
-        return File(plugin.dataFolder, File.separator + file).let {
+        return File(plugin.dataFolder, file).let {
             if (!it.exists()) null
             else it
         }
@@ -60,7 +60,7 @@ object FileUtil {
      */
     @JvmStatic
     fun getFileOrCreate(file: String): File {
-        return File(plugin.dataFolder, File.separator + file).createFile()
+        return File(plugin.dataFolder, file).createFile()
     }
 
     /**

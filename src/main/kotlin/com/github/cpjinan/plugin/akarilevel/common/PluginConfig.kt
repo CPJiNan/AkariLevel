@@ -1,14 +1,15 @@
-package com.github.cpjinan.plugin.akarilevel.internal.manager
+package com.github.cpjinan.plugin.akarilevel.common
 
-import com.github.cpjinan.plugin.akarilevel.utils.ConfigUtil.getConfigSections
-import com.github.cpjinan.plugin.akarilevel.utils.FileUtil
+import com.github.cpjinan.plugin.akarilevel.utils.core.ConfigUtil.getConfigSections
+import com.github.cpjinan.plugin.akarilevel.utils.core.FileUtil
 import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.configuration.file.YamlConfiguration
 import java.io.File
 
-object ConfigManager {
+object PluginConfig {
     var settings: YamlConfiguration = YamlConfiguration.loadConfiguration(File(FileUtil.dataFolder, "settings.yml"))
     var level: HashMap<String, ConfigurationSection> = getLevelGroups()
+    var commands: YamlConfiguration = YamlConfiguration.loadConfiguration(File(FileUtil.dataFolder, "commands.yml"))
 
     // Config Version
     const val VERSION = 5

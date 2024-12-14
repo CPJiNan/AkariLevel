@@ -64,10 +64,7 @@
 /akarilevel level set <玩家名称> <等级组编辑名> <数值> [命令参数] - 设置玩家指定数值的等级
 /akarilevel level check <玩家名称> <等级组编辑名> - 查询玩家等级
 
-/akarilevel data get <表> <索引> <键> - 获取指定表中某索引下某键的值
-/akarilevel data set <表> <索引> <键> <值> - 设置指定表中某索引下某键的值
-
-/akarilevel levelup [等级组编辑名] - 尝试进行升级
+/akarilevel levelup [等级组编辑名] - 玩家尝试进行升级
 
 /akarilevel trace <等级组编辑名> [命令参数] - 尝试追踪指定等级组
 
@@ -78,9 +75,6 @@
 
 ```
 akarilevel.command.akarilevel.use - 插件命令使用权限
-
-akarilevel.admin - 管理员命令权限
-akarilevel.default - 玩家命令权限
 ```
 
 ## 变量

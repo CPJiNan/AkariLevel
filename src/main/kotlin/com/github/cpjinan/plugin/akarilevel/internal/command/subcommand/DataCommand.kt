@@ -4,12 +4,10 @@ import com.github.cpjinan.plugin.akarilevel.api.DataAPI
 import taboolib.common.platform.ProxyCommandSender
 import taboolib.common.platform.command.CommandContext
 import taboolib.common.platform.command.subCommand
-import taboolib.expansion.createHelper
 import taboolib.module.lang.sendLang
 
 object DataCommand {
     val data = subCommand {
-        createHelper()
         literal("get") {
             dynamic("table").dynamic("index").dynamic("key") {
                 execute<ProxyCommandSender> { sender: ProxyCommandSender, context: CommandContext<ProxyCommandSender>, _: String ->

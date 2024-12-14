@@ -1,8 +1,8 @@
 package com.github.cpjinan.plugin.akarilevel.api
 
+import com.github.cpjinan.plugin.akarilevel.common.PluginConfig
 import com.github.cpjinan.plugin.akarilevel.internal.database.type.LevelData
 import com.github.cpjinan.plugin.akarilevel.internal.database.type.LevelGroupData
-import com.github.cpjinan.plugin.akarilevel.internal.manager.ConfigManager
 import org.bukkit.configuration.ConfigurationSection
 import taboolib.common5.compileJS
 import taboolib.module.chat.colored
@@ -85,7 +85,7 @@ object LevelAPI {
      */
     fun getLevelAction(levelGroup: String, level: Long): List<String> = getLvlAction(levelGroup, level)
 
-    private fun getLvlGroups(): HashMap<String, ConfigurationSection> = ConfigManager.level
+    private fun getLvlGroups(): HashMap<String, ConfigurationSection> = PluginConfig.level
 
     private fun getLvlGroupNames(): ArrayList<String> {
         return ArrayList(getLvlGroups().keys)

@@ -1,10 +1,10 @@
 package com.github.cpjinan.plugin.akarilevel.api
 
 import com.github.cpjinan.plugin.akarilevel.AkariLevel.plugin
-import com.github.cpjinan.plugin.akarilevel.utils.ConfigUtil
-import com.github.cpjinan.plugin.akarilevel.utils.ConfigUtil.getConfigSections
-import com.github.cpjinan.plugin.akarilevel.utils.ConfigUtil.saveDefaultResource
-import com.github.cpjinan.plugin.akarilevel.utils.FileUtil
+import com.github.cpjinan.plugin.akarilevel.utils.core.ConfigUtil
+import com.github.cpjinan.plugin.akarilevel.utils.core.ConfigUtil.getConfigSections
+import com.github.cpjinan.plugin.akarilevel.utils.core.ConfigUtil.saveDefaultResource
+import com.github.cpjinan.plugin.akarilevel.utils.core.FileUtil
 import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.configuration.file.YamlConfiguration
 import taboolib.common.LifeCycle

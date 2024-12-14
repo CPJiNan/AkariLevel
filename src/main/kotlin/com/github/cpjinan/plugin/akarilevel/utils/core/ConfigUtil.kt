@@ -1,6 +1,6 @@
-package com.github.cpjinan.plugin.akarilevel.utils
+package com.github.cpjinan.plugin.akarilevel.utils.core
 
-import com.github.cpjinan.plugin.akarilevel.utils.FileUtil.createDirectory
+import com.github.cpjinan.plugin.akarilevel.utils.core.FileUtil.createDirectory
 import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.plugin.java.JavaPlugin
@@ -9,6 +9,19 @@ import java.io.FileOutputStream
 import java.io.OutputStream
 
 object ConfigUtil {
+    /**
+     * 获取配置节点中所有ConfigurationSection
+     * @return 配置节点中所有ConfigurationSection
+     * @author CPJiNan
+     */
+    @JvmStatic
+    fun ConfigurationSection.getConfigSections(): HashMap<String, ConfigurationSection> {
+        val map = HashMap<String, ConfigurationSection>()
+        this.getKeys(false).forEach { key ->
+            this.getConfigurationSection(key)?.let { map[key] = it }
+        }
+        return map
+    }
 
     /**
      * 获取文件中所有ConfigurationSection
@@ -71,6 +84,22 @@ object ConfigUtil {
                 }
             }
         }
+    }
+
+    /**
+     * 将多个 YamlConfiguration 合并
+     * @return 合并后的 YamlConfiguration
+     * @author CPJiNan
+     */
+    @JvmStatic
+    fun getMergedConfig(configs: ArrayList<YamlConfiguration>): YamlConfiguration {
+        val newConfig = YamlConfiguration()
+        configs.forEach { config ->
+            config.getValues(true).forEach { (key, value) ->
+                newConfig.set(key, value)
+            }
+        }
+        return newConfig
     }
 
     /**

@@ -1,22 +1,26 @@
-package com.github.cpjinan.plugin.akarilevel.internal.manager
+package com.github.cpjinan.plugin.akarilevel.common
 
 import com.github.cpjinan.plugin.akarilevel.AkariLevel.plugin
-import com.github.cpjinan.plugin.akarilevel.utils.ConfigUtil.saveDefaultResource
-import com.github.cpjinan.plugin.akarilevel.utils.FileUtil
+import com.github.cpjinan.plugin.akarilevel.utils.core.ConfigUtil.saveDefaultResource
+import com.github.cpjinan.plugin.akarilevel.utils.core.FileUtil
 import taboolib.common.platform.function.console
 import taboolib.module.lang.asLangText
 import java.io.File
 
-object LanguageManager {
+object PluginLanguage {
     val lang = console().asLangText("Language")
     fun saveDefaultResource() {
         plugin.saveDefaultResource(
-            "level/Example_${lang}.yml",
+            "level/Example_$lang.yml",
             File(FileUtil.dataFolder, "level/Example.yml")
         )
         plugin.saveDefaultResource(
-            "settings_${lang}.yml",
+            "settings_$lang.yml",
             File(FileUtil.dataFolder, "settings.yml")
+        )
+        plugin.saveDefaultResource(
+            "commands_$lang.yml",
+            File(FileUtil.dataFolder, "commands.yml")
         )
     }
 }

@@ -1,11 +1,11 @@
 package com.github.cpjinan.plugin.akarilevel.common.hook
 
 import com.github.cpjinan.plugin.akarilevel.api.PlayerAPI
+import com.github.cpjinan.plugin.akarilevel.common.PluginConfig
+import com.github.cpjinan.plugin.akarilevel.common.PluginConfig.getShareLeaderWeight
+import com.github.cpjinan.plugin.akarilevel.common.PluginConfig.getShareMemberWeight
+import com.github.cpjinan.plugin.akarilevel.common.PluginConfig.getShareTotal
 import com.github.cpjinan.plugin.akarilevel.common.event.exp.PlayerExpChangeEvent
-import com.github.cpjinan.plugin.akarilevel.internal.manager.ConfigManager
-import com.github.cpjinan.plugin.akarilevel.internal.manager.ConfigManager.getShareLeaderWeight
-import com.github.cpjinan.plugin.akarilevel.internal.manager.ConfigManager.getShareMemberWeight
-import com.github.cpjinan.plugin.akarilevel.internal.manager.ConfigManager.getShareTotal
 import org.bukkit.Bukkit
 import org.serverct.ersha.dungeon.DungeonPlus
 import taboolib.common.platform.event.SubscribeEvent
@@ -16,8 +16,8 @@ object Team {
     @SubscribeEvent
     fun onPlayerExpChange(event: PlayerExpChangeEvent) {
         val eventPlayer = event.player
-        if (ConfigManager.isEnabledTeam() && Bukkit.getServer().pluginManager.isPluginEnabled(ConfigManager.getTeamPlugin()) && event.source in ConfigManager.getShareSource()) {
-            when (ConfigManager.getTeamPlugin()) {
+        if (PluginConfig.isEnabledTeam() && Bukkit.getServer().pluginManager.isPluginEnabled(PluginConfig.getTeamPlugin()) && event.source in PluginConfig.getShareSource()) {
+            when (PluginConfig.getTeamPlugin()) {
                 "DungeonPlus" -> {
                     val team = DungeonPlus.teamManager.getTeam(eventPlayer) ?: return
                     val totalAmount =
@@ -49,7 +49,7 @@ object Team {
                     }
                 }
 
-                else -> throw IllegalArgumentException("Unsupported team plugin ${ConfigManager.getTeamPlugin()}.")
+                else -> throw IllegalArgumentException("Unsupported team plugin ${PluginConfig.getTeamPlugin()}.")
             }
         }
     }

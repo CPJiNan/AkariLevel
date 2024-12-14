@@ -2,14 +2,14 @@ package com.github.cpjinan.plugin.akarilevel.common.hook
 
 import com.github.cpjinan.plugin.akarilevel.api.LevelAPI
 import com.github.cpjinan.plugin.akarilevel.api.PlayerAPI
-import com.github.cpjinan.plugin.akarilevel.internal.manager.ConfigManager
+import com.github.cpjinan.plugin.akarilevel.common.PluginConfig
 import org.bukkit.entity.Player
 import taboolib.common5.util.createBar
 import taboolib.module.chat.colored
 import taboolib.platform.compat.PlaceholderExpansion
 
 object PlaceholderAPI : PlaceholderExpansion {
-    override val identifier = ConfigManager.getPlaceholderIdentifier()
+    override val identifier = PluginConfig.getPlaceholderIdentifier()
     override fun onPlaceholderRequest(player: Player?, args: String): String {
         player?.let {
             if (it.isOnline) {
@@ -49,9 +49,9 @@ object PlaceholderAPI : PlaceholderExpansion {
                         .toInt()
 
                     "expprogressbar" -> createBar(
-                        ConfigManager.getExpProgressBarEmpty().colored(),
-                        ConfigManager.getExpProgressBarFull().colored(),
-                        ConfigManager.getExpProgressBarLength(),
+                        PluginConfig.getExpProgressBarEmpty().colored(),
+                        PluginConfig.getExpProgressBarFull().colored(),
+                        PluginConfig.getExpProgressBarLength(),
                         PlayerAPI.getPlayerExp(player, levelGroup).toDouble() / LevelAPI.getLevelExp(
                             levelGroup,
                             nextLvl
@@ -59,9 +59,9 @@ object PlaceholderAPI : PlaceholderExpansion {
                     )
 
                     "levelprogressbar" -> createBar(
-                        ConfigManager.getLevelProgressBarEmpty().colored(),
-                        ConfigManager.getLevelProgressBarFull().colored(),
-                        ConfigManager.getLevelProgressBarLength(),
+                        PluginConfig.getLevelProgressBarEmpty().colored(),
+                        PluginConfig.getLevelProgressBarFull().colored(),
+                        PluginConfig.getLevelProgressBarLength(),
                         PlayerAPI.getPlayerLevel(player, levelGroup)
                             .toDouble() / maxLvl
                     )

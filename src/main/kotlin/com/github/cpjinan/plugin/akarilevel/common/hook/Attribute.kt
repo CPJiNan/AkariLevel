@@ -2,8 +2,8 @@ package com.github.cpjinan.plugin.akarilevel.common.hook
 
 import ac.github.oa.api.OriginAttributeAPI
 import ac.github.oa.internal.core.attribute.impl.ExpAddon
+import com.github.cpjinan.plugin.akarilevel.common.PluginConfig
 import com.github.cpjinan.plugin.akarilevel.common.event.exp.PlayerExpChangeEvent
-import com.github.cpjinan.plugin.akarilevel.internal.manager.ConfigManager
 import com.skillw.attsystem.api.AttrAPI.getAttrData
 import github.saukiya.sxattribute.SXAttribute
 import org.bukkit.Bukkit
@@ -15,16 +15,16 @@ import kotlin.math.roundToLong
 object Attribute {
     @SubscribeEvent
     fun onPlayerExpChange(event: PlayerExpChangeEvent) {
-        if (ConfigManager.isEnabledAttribute() && Bukkit.getServer().pluginManager.isPluginEnabled(ConfigManager.getAttributePlugin()) && event.source in ConfigManager.getAttributeSource()) {
+        if (PluginConfig.isEnabledAttribute() && Bukkit.getServer().pluginManager.isPluginEnabled(PluginConfig.getAttributePlugin()) && event.source in PluginConfig.getAttributeSource()) {
             var exp = event.expAmount
-            val attributeValue: Number = when (ConfigManager.getAttributePlugin()) {
+            val attributeValue: Number = when (PluginConfig.getAttributePlugin()) {
                 "AttributePlus" -> {
                     when (Bukkit.getServer().pluginManager.getPlugin("AttributePlus")!!.description.version[0]) {
                         '3' -> AttributePlus.attributeManager.getAttributeData(event.player)
-                            .getAttributeValue(ConfigManager.getAttributeName())[0]
+                            .getAttributeValue(PluginConfig.getAttributeName())[0]
 
                         '2' -> org.serverct.ersha.jd.AttributeAPI.getAttrData(event.player)
-                            .getAttributeValue(ConfigManager.getAttributeName())
+                            .getAttributeValue(PluginConfig.getAttributeName())
 
                         else -> throw IllegalArgumentException(
                             "Unsupported AttributePlus version ${
@@ -37,18 +37,18 @@ object Attribute {
                 }
 
                 "SX-Attribute" -> SXAttribute.getApi().getEntityData(event.player)
-                    .getValues(ConfigManager.getAttributeName())[0]
+                    .getValues(PluginConfig.getAttributeName())[0]
 
                 "OriginAttribute" -> OriginAttributeAPI.getAttributeData(event.player)
                     .getData(ExpAddon().index, ExpAddon.DefaultImpl().index)
                     .get(ExpAddon.DefaultImpl().index)
 
                 "AttributeSystem" -> event.player.uniqueId.getAttrData()
-                    ?.getAttrValue<Double>(ConfigManager.getAttributeName(), "total") ?: 0
+                    ?.getAttrValue<Double>(PluginConfig.getAttributeName(), "total") ?: 0
 
-                else -> throw IllegalArgumentException("Unsupported attribute plugin ${ConfigManager.getAttributePlugin()}.")
+                else -> throw IllegalArgumentException("Unsupported attribute plugin ${PluginConfig.getAttributePlugin()}.")
             }
-            exp = ConfigManager.getAttributeFormula()
+            exp = PluginConfig.getAttributeFormula()
                 .replace("%exp%", exp.toString(), true)
                 .replace("%attribute%", attributeValue.toDouble().toString(), true)
                 .compileJS()?.eval()?.toString()?.toDouble()?.roundToLong() ?: exp

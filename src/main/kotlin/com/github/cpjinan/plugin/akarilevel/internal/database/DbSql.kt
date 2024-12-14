@@ -1,7 +1,7 @@
 package com.github.cpjinan.plugin.akarilevel.internal.database
 
-import com.github.cpjinan.plugin.akarilevel.internal.manager.ConfigManager
-import com.github.cpjinan.plugin.akarilevel.utils.FileUtil
+import com.github.cpjinan.plugin.akarilevel.common.PluginConfig
+import com.github.cpjinan.plugin.akarilevel.utils.core.FileUtil
 import taboolib.module.configuration.Configuration
 import taboolib.module.configuration.Type
 import taboolib.module.database.ColumnOptionSQL
@@ -14,7 +14,7 @@ class DbSql : Database {
     private val host =
         Configuration.loadFromFile(File(FileUtil.dataFolder, "settings.yml"), Type.YAML).getHost("Database.SQL")
     private val dataSource by lazy { host.createDataSource() }
-    private val sqlTable = Table(ConfigManager.getSqlTable(), host) {
+    private val sqlTable = Table(PluginConfig.getSqlTable(), host) {
         add("table") {
             type(ColumnTypeSQL.VARCHAR, 64) {
                 options(ColumnOptionSQL.KEY)

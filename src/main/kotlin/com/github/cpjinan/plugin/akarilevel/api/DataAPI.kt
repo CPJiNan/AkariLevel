@@ -1,6 +1,6 @@
 package com.github.cpjinan.plugin.akarilevel.api
 
-import com.github.cpjinan.plugin.akarilevel.internal.manager.DatabaseManager.getDatabase
+import com.github.cpjinan.plugin.akarilevel.common.PluginDatabase.getDatabase
 
 /**
  * 插件数据相关 API

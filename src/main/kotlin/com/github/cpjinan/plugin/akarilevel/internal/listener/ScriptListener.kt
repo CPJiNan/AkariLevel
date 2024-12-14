@@ -1,9 +1,9 @@
-package com.github.cpjinan.plugin.akarilevel.common.listener
+package com.github.cpjinan.plugin.akarilevel.internal.listener
 
 import com.github.cpjinan.plugin.akarilevel.api.ScriptAPI
 import com.github.cpjinan.plugin.akarilevel.common.event.exp.PlayerExpChangeEvent
 import com.github.cpjinan.plugin.akarilevel.common.event.level.PlayerLevelChangeEvent
-import com.github.cpjinan.plugin.akarilevel.common.script.kether.KetherUtil.evalKether
+import com.github.cpjinan.plugin.akarilevel.utils.scripts.Kether.evalKether
 import taboolib.common.platform.event.SubscribeEvent
 import taboolib.platform.BukkitPlugin
 

@@ -1,21 +1,21 @@
-package com.github.cpjinan.plugin.akarilevel.utils
+package com.github.cpjinan.plugin.akarilevel.utils.core
 
 import org.bukkit.plugin.Plugin
 
 
 object VersionUtil {
-    data class SemanticVersion(
+    data class Version(
         val major: String,
         val minor: String,
         val patch: String,
         val prerelease: String? = null,
         val buildmetadata: String? = null
-    ) : Comparable<SemanticVersion> {
+    ) : Comparable<Version> {
         override fun toString(): String =
             "$major.$minor.$patch${prerelease?.let { "-$it" } ?: ""}${buildmetadata?.let { "+$it" } ?: ""}"
 
-        override fun compareTo(other: SemanticVersion): Int =
-            compareValuesBy(this, other, SemanticVersion::major, SemanticVersion::minor, SemanticVersion::patch)
+        override fun compareTo(other: Version): Int =
+            compareValuesBy(this, other, Version::major, Version::minor, Version::patch)
                 .thenCompare(compareNullableStrings(prerelease, other.prerelease))
                 .thenCompare(compareNullableStrings(buildmetadata, other.buildmetadata))
 
@@ -30,11 +30,12 @@ object VersionUtil {
         private infix fun Int.thenCompare(other: Int): Int = if (this != 0) this else other
     }
 
-    fun String.toSemanticVersion(): SemanticVersion? =
+    @JvmStatic
+    fun String.toVersion(): Version? =
         Regex("^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?$")
             .matchEntire(this)
             ?.let {
-                SemanticVersion(
+                Version(
                     major = it.groupValues[1],
                     minor = it.groupValues[2],
                     patch = it.groupValues[3],
@@ -43,8 +44,9 @@ object VersionUtil {
                 )
             }
 
-    fun Plugin.getSemanticVersion(): SemanticVersion? {
-        return this.description.version.toSemanticVersion()
+    @JvmStatic
+    fun Plugin.getVersion(): Version? {
+        return this.description.version.toVersion()
     }
 
 }

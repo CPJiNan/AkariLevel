@@ -1,4 +1,4 @@
-package com.github.cpjinan.plugin.akarilevel.common.listener
+package com.github.cpjinan.plugin.akarilevel.internal.listener
 
 import com.github.cpjinan.plugin.akarilevel.AkariLevel
 import com.github.cpjinan.plugin.akarilevel.api.LevelAPI

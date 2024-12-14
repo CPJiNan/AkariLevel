@@ -1,8 +1,7 @@
-package com.github.cpjinan.plugin.akarilevel.utils
+package com.github.cpjinan.plugin.akarilevel.common
 
-import com.github.cpjinan.plugin.akarilevel.internal.manager.ConfigManager
-import com.github.cpjinan.plugin.akarilevel.utils.LoggerUtil.message
-import com.github.cpjinan.plugin.akarilevel.utils.VersionUtil.toSemanticVersion
+import com.github.cpjinan.plugin.akarilevel.utils.core.LoggerUtil.message
+import com.github.cpjinan.plugin.akarilevel.utils.core.VersionUtil.toVersion
 import org.bukkit.entity.Player
 import taboolib.common.platform.function.console
 import taboolib.common5.util.replace
@@ -13,7 +12,7 @@ import taboolib.platform.util.asLangTextList
 import java.net.HttpURLConnection
 import java.net.URL
 
-object UpdateUtil {
+object PluginUpdate {
     fun getPluginNotice() {
         Thread {
             val urlConnection =
@@ -34,8 +33,8 @@ object UpdateUtil {
             val urlConnection =
                 URL("https://cpjinan.github.io/Pages/AkariLevel/version.html").openConnection() as HttpURLConnection
             try {
-                val latestVersion = urlConnection.inputStream.bufferedReader().readText().toSemanticVersion()!!
-                val currentVersion = BukkitPlugin.getInstance().description.version.toSemanticVersion()!!
+                val latestVersion = urlConnection.inputStream.bufferedReader().readText().toVersion()!!
+                val currentVersion = BukkitPlugin.getInstance().description.version.toVersion()!!
                 if (latestVersion > currentVersion) {
                     console().asLangTextList("Plugin-Update")
                         .replace(Pair("%latestVersion%", latestVersion), Pair("%currentVersion%", currentVersion))
@@ -56,8 +55,8 @@ object UpdateUtil {
             val urlConnection =
                 URL("https://cpjinan.github.io/Pages/AkariLevel/version.html").openConnection() as HttpURLConnection
             try {
-                val latestVersion = urlConnection.inputStream.bufferedReader().readText().toSemanticVersion()!!
-                val currentVersion = BukkitPlugin.getInstance().description.version.toSemanticVersion()!!
+                val latestVersion = urlConnection.inputStream.bufferedReader().readText().toVersion()!!
+                val currentVersion = BukkitPlugin.getInstance().description.version.toVersion()!!
                 if (latestVersion > currentVersion) {
                     player.asLangTextList("Plugin-Update")
                         .replace(Pair("%latestVersion%", latestVersion), Pair("%currentVersion%", currentVersion))
@@ -74,8 +73,8 @@ object UpdateUtil {
     }
 
     fun getConfigUpdate() {
-        val latestVersion = ConfigManager.VERSION
-        val currentVersion = ConfigManager.getConfigVersion()
+        val latestVersion = PluginConfig.VERSION
+        val currentVersion = PluginConfig.getConfigVersion()
         if (currentVersion < latestVersion) {
             console().asLangTextList("Config-Update")
                 .replace(Pair("%latestVersion%", latestVersion), Pair("%currentVersion%", currentVersion))

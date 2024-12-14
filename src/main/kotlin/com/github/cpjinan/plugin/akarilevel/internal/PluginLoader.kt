@@ -1,25 +1,27 @@
 package com.github.cpjinan.plugin.akarilevel.internal
 
 import com.github.cpjinan.plugin.akarilevel.AkariLevel.plugin
-import com.github.cpjinan.plugin.akarilevel.common.listener.MythicMobsListener
-import com.github.cpjinan.plugin.akarilevel.internal.manager.ConfigManager
-import com.github.cpjinan.plugin.akarilevel.internal.manager.LanguageManager
-import com.github.cpjinan.plugin.akarilevel.utils.LoggerUtil
-import com.github.cpjinan.plugin.akarilevel.utils.UpdateUtil
+import com.github.cpjinan.plugin.akarilevel.common.PluginConfig
+import com.github.cpjinan.plugin.akarilevel.common.PluginLanguage
+import com.github.cpjinan.plugin.akarilevel.common.PluginUpdate
+import com.github.cpjinan.plugin.akarilevel.internal.listener.MythicMobsListener
+import com.github.cpjinan.plugin.akarilevel.utils.core.LoggerUtil
 import taboolib.common.LifeCycle
 import taboolib.common.platform.Awake
 import taboolib.common.platform.Platform
 import taboolib.common.platform.function.console
 import taboolib.module.chat.colored
+import taboolib.module.lang.Language
 import taboolib.module.lang.sendLang
 import taboolib.module.metrics.Metrics
 
 object PluginLoader {
     @Awake(LifeCycle.LOAD)
     fun load() {
-        LanguageManager.saveDefaultResource()
+        Language.enableSimpleComponent = true
+        PluginLanguage.saveDefaultResource()
         console().sendLang("Plugin-Loading", plugin.description.version)
-        if (ConfigManager.isEnabledSendMetrics()) Metrics(18992, plugin.description.version, Platform.BUKKIT)
+        if (PluginConfig.isEnabledSendMetrics()) Metrics(18992, plugin.description.version, Platform.BUKKIT)
     }
 
     @Awake(LifeCycle.ENABLE)
@@ -35,9 +37,9 @@ object PluginLoader {
         )
         MythicMobsListener.registerMythicMobsListener()
         console().sendLang("Plugin-Enabled")
-        if (ConfigManager.isEnabledCheckUpdate()) UpdateUtil.getPluginUpdate()
-        UpdateUtil.getPluginNotice()
-        UpdateUtil.getConfigUpdate()
+        if (PluginConfig.isEnabledCheckUpdate()) PluginUpdate.getPluginUpdate()
+        PluginUpdate.getPluginNotice()
+        PluginUpdate.getConfigUpdate()
     }
 
     @Awake(LifeCycle.DISABLE)
