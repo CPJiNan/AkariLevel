@@ -36,7 +36,7 @@ object LevelCommand {
                     }
                 }.dynamic("options") {
                     suggestion<CommandSender>(uncheck = true) { _, _ ->
-                        listOf("--silent", "--noAction","--source=")
+                        listOf("--silent", "--noAction", "--source=")
                     }
                     execute<ProxyCommandSender> { sender: ProxyCommandSender, context: CommandContext<ProxyCommandSender>, content: String ->
                         val args = CommandUtil.parseOptions(content.split(" "))
@@ -95,7 +95,7 @@ object LevelCommand {
                     }
                 }.dynamic("options") {
                     suggestion<CommandSender>(uncheck = true) { _, _ ->
-                        listOf("--silent", "--noAction","--source=")
+                        listOf("--silent", "--noAction", "--source=")
                     }
                     execute<ProxyCommandSender> { sender: ProxyCommandSender, context: CommandContext<ProxyCommandSender>, content: String ->
                         val args = CommandUtil.parseOptions(content.split(" "))
@@ -154,7 +154,7 @@ object LevelCommand {
                     }
                 }.dynamic("options") {
                     suggestion<CommandSender>(uncheck = true) { _, _ ->
-                        listOf("--silent", "--noAction","--source=")
+                        listOf("--silent", "--noAction", "--source=")
                     }
                     execute<ProxyCommandSender> { sender: ProxyCommandSender, context: CommandContext<ProxyCommandSender>, content: String ->
                         val args = CommandUtil.parseOptions(content.split(" "))

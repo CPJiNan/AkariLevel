@@ -2,43 +2,76 @@ Language: "zh_TW"
 
 # 插件相關
 Plugin-Loading: '&7正在加載 &3Akari&bLevel&8&f... &8{0}'
-Plugin-Enabled: '&8\[&3Akari&bLevel&8\] &b信息 &8| &6插件加載完畢.'
-Plugin-Disable: '&8\[&3Akari&bLevel&8\] &b信息 &8| &6插件卸載完畢.'
-Plugin-Reloaded: '&8\[&3Akari&bLevel&8\] &b信息 &8| &6插件重載完畢.'
+Plugin-Enabled: '[&8\[&3Akari&bLevel&8\]] &b信息 &8| &6插件加載完畢.'
+Plugin-Disable: '[&8\[&3Akari&bLevel&8\]] &b信息 &8| &6插件卸載完畢.'
+Plugin-Reloaded: '[&8\[&3Akari&bLevel&8\]] &b信息 &8| &6插件重載完畢.'
 Plugin-Update:
-  - '&r===============\[&e&l插件更新&r\]=============='
+  - '&r===============[&r\[&e&l插件更新&r\]]&r=============='
   - '&r| &r插件 &6AkariLevel &7=>'
   - '&r| &b◈ &r發現了一個新的插件版本！'
   - '&r| &b◈ &r最新版本: %latestVersion%'
   - '&r| &b◈ &r當前版本: %currentVersion%'
   - '&r| &b◈ &r查看詳情: https://www.minebbs.com/resources/7199/'
-  - '&r===============\[&e&l插件更新&r\]=============='
+  - '&r===============[&r\[&e&l插件更新&r\]]&r=============='
 Config-Update:
-  - '&r===============\[&e&l配置更新&r\]=============='
+  - '&r===============[&r\[&e&l配置更新&r\]]&r=============='
   - '&r| &6配置文件 &7=>'
   - '&r| &b◈ &r發現了一個新的配置文件版本！'
   - '&r| &b◈ &r最新版本: %latestVersion%'
   - '&r| &b◈ &r當前版本: %currentVersion%'
   - '&r| &b◈ &r請保存備份並重新生成配置文件！'
-  - '&r===============\[&e&l配置更新&r\]=============='
+  - '&r===============[&r\[&e&l配置更新&r\]]&r=============='
 No-Permission: "&c無進行當前操作的權限！"
+
 # 數據存儲相關
 Data-Get-Value: "&7獲取到表 &f{0} &7中索引 &f{1} &7下鍵 &f{2} &7的值為 &f{3} &7."
 Data-Set-Value: "&7已設置表 &f{0} &7中索引 &f{1} &7下鍵 &f{2} &7的值為 &f{3} &7."
 Data-Save: "&7數據已保存."
+
 # 等級相關
 Add-Level: "&7已給予玩家 &f{0} {3} &7個 &f{2} &7等級！"
 Remove-Level: "&7已移除玩家 &f{0} {3} &7個 &f{2} &7等級！"
 Set-Level: "&7已設置玩家 &f{0} &7的 &f{2} &7等級為 &f{3} &7！"
 Check-Level: "&7玩家 &f{0} &7的 &f{2} &7等級為 &f{3} &7！"
+
 # 經驗相關
 Add-Exp: "&7已給予玩家 &f{0} {3} &7點 &f{2} &7經驗值！"
 Remove-Exp: "&7已移除玩家 &f{0} {3} &7點 &f{2} &7經驗值！"
 Set-Exp: "&7已設置玩家 &f{0} &7的 &f{2} &7經驗值為 &f{3} &7！"
 Check-Exp: "&7玩家 &f{0} &7擁有的 &f{2} &7經驗值為 &f{3} &7！"
+
 # 升級相關
 Levelup-Fail: "&c未滿足等級組 {1} 升級所需條件！"
 Max-Level: "&c已達到等級組 {1} 的最大等級！"
+
 # 追蹤相關
 Trace-Success: "&7正在追蹤 &f{1} &7等級組."
 Trace-Fail: "&c未滿足等級組 {1} 追蹤所需條件！"
+
+# 命令幫助
+Command-Help: |
+  &f&lAkariLevel &f&lv{0}
+   &7命令: [&f/akarilevel](suggest=/akarilevel) [&8\[...\]]
+   &7參數:
+     &8- [&flevel](suggest=/akarilevel level) [&fadd](suggest=/akarilevel level add) [&8<player>](hover=&f玩家名稱) [&8<levelGroup>](hover=&f等級組編輯名) [&8<amount>](hover=&f等級) [&8\[options\]](hover=&f命令參數)
+       &7增加玩家等級
+     &8- [&flevel](suggest=/akarilevel level) [&fremove](suggest=/akarilevel level remove) [&8<player>](hover=&f玩家名稱) [&8<levelGroup>](hover=&f等級組編輯名) [&8<amount>](hover=&f等級) [&8\[options\]](hover=&f命令參數)
+       &7移除玩家等級
+     &8- [&flevel](suggest=/akarilevel level) [&fset](suggest=/akarilevel level set) [&8<player>](hover=&f玩家名稱) [&8<levelGroup>](hover=&f等級組編輯名) [&8<amount>](hover=&f等級) [&8\[options\]](hover=&f命令參數)
+       &7設置玩家等級
+     &8- [&flevel](suggest=/akarilevel level) [&fcheck](suggest=/akarilevel level check) [&8<player>](hover=&f玩家名稱) [&8<levelGroup>](hover=&f等級組編輯名)
+       &7查看玩家等級
+     &8- [&fexp](suggest=/akarilevel exp) [&fadd](suggest=/akarilevel exp add) [&8<player>](hover=&f玩家名稱) [&8<levelGroup>](hover=&f等級組編輯名) [&8<amount>](hover=&f經驗) [&8\[options\]](hover=&f命令參數)
+       &7增加玩家經驗
+     &8- [&fexp](suggest=/akarilevel exp) [&fremove](suggest=/akarilevel exp remove) [&8<player>](hover=&f玩家名稱) [&8<levelGroup>](hover=&f等級組編輯名) [&8<amount>](hover=&f經驗) [&8\[options\]](hover=&f命令參數)
+       &7移除玩家經驗
+     &8- [&fexp](suggest=/akarilevel exp) [&fset](suggest=/akarilevel exp set) [&8<player>](hover=&f玩家名稱) [&8<levelGroup>](hover=&f等級組編輯名) [&8<amount>](hover=&f經驗) [&8\[options\]](hover=&f命令參數)
+       &7設置玩家經驗
+     &8- [&fexp](suggest=/akarilevel exp) [&fcheck](suggest=/akarilevel exp check) [&8<player>](hover=&f玩家名稱) [&8<levelGroup>](hover=&f等級組編輯名)
+       &7查看玩家經驗
+     &8- [&flevelup](suggest=/akarilevel levelup) [&8\[levelGroup\]](hover=&f等級組編輯名)
+       &7嘗試升級
+     &8- [&ftrace](suggest=/akarilevel trace) [&8<levelGroup>](hover=&f等級組編輯名) [&8\[options\]](hover=&f命令參數)
+       &7追蹤等級組
+     &8- [&freload](suggest=/akarilevel reload)
+       &7重載插件

@@ -3,25 +3,25 @@ Language: "es_ES"
 
 # Plugin-related
 Plugin-Loading: '&7Loading &3Akari&bLevel&8&f... &8{0}'
-Plugin-Enabled: '&8\[&3Akari&bLevel&8\] &bInfo &8| &6Plugin activado.'
-Plugin-Disable: '&8\[&3Akari&bLevel&8\] &bInfo &8| &6Plugin desactivado.'
-Plugin-Reloaded: '&8\[&3Akari&bLevel&8\] &bInfo &8| &6Plugin recargado.'
+Plugin-Enabled: '[&8\\[&3Akari&bLevel&8\]] &bInfo &8| &6Plugin activado.'
+Plugin-Disable: '[&8\\[&3Akari&bLevel&8\]] &bInfo &8| &6Plugin desactivado.'
+Plugin-Reloaded: '[&8\\[&3Akari&bLevel&8\]] &bInfo &8| &6Plugin recargado.'
 Plugin-Update:
-  - '&r===============\[&e&lActualización del plugin&r\]=============='
+  - '&r===============[&r\[&e&lActualización del plugin&r\]]&r=============='
   - '&r| &rPlugin &6AkariLevel &7=>'
   - '&r| &b◈ &r¡Ya está disponible una nueva versión del plugin!'
   - '&r| &b◈ &rÚltima versión: %latestVersion%'
   - '&r| &b◈ &rVersión actual: %currentVersion%'
   - '&r| &b◈ &rVer detalles: https://www.spigotmc.org/resources/116936/'
-  - '&r===============\[&e&lActualización del plugin&r\]=============='
+  - '&r===============[&r\[&e&lActualización del plugin&r\]]&r=============='
 Config-Update:
-  - '&r===============\[&e&lActualización de configuración&r\]=============='
+  - '&r===============[&r\[&e&lActualización de configuración&r\]]&r=============='
   - '&r| &6Archivo de configuración &7=>'
   - '&r| &b◈ &r¡Existe una nueva versión del archivo de configuración!'
   - '&r| &b◈ &rÚltima versión: %latestVersion%'
   - '&r| &b◈ &rVersión actual: %currentVersion%'
   - '&r| &b◈ &rGuarde copias de seguridad y vuelva a generar los archivos.'
-  - '&r===============\[&e&lActualización de configuración&r\]=============='
+  - '&r===============[&r\[&e&lActualización de configuración&r\]]&r=============='
 No-Permission: "&c¡No tienes permiso para realizar esta acción!"
 # Data storage-related
 Data-Get-Value: "&7Valor obtenido de la clave &f{2} &7en el índice &f{1} &7de la tabla &f{0} &7como &f{3} &7."
