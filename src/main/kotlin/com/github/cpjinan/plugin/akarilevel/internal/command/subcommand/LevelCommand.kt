@@ -4,6 +4,7 @@ import com.github.cpjinan.plugin.akarilevel.api.LevelAPI
 import com.github.cpjinan.plugin.akarilevel.api.LevelAPI.getLevelGroupData
 import com.github.cpjinan.plugin.akarilevel.api.PlayerAPI
 import com.github.cpjinan.plugin.akarilevel.utils.core.CommandUtil
+import org.bukkit.command.CommandSender
 import taboolib.common.platform.ProxyCommandSender
 import taboolib.common.platform.command.CommandContext
 import taboolib.common.platform.command.player
@@ -34,6 +35,9 @@ object LevelCommand {
                         )
                     }
                 }.dynamic("options") {
+                    suggestion<CommandSender>(uncheck = true) { _, _ ->
+                        listOf("--silent", "--noAction","--source=")
+                    }
                     execute<ProxyCommandSender> { sender: ProxyCommandSender, context: CommandContext<ProxyCommandSender>, content: String ->
                         val args = CommandUtil.parseOptions(content.split(" "))
                         var silent = false
@@ -90,6 +94,9 @@ object LevelCommand {
                         )
                     }
                 }.dynamic("options") {
+                    suggestion<CommandSender>(uncheck = true) { _, _ ->
+                        listOf("--silent", "--noAction","--source=")
+                    }
                     execute<ProxyCommandSender> { sender: ProxyCommandSender, context: CommandContext<ProxyCommandSender>, content: String ->
                         val args = CommandUtil.parseOptions(content.split(" "))
                         var silent = false
@@ -146,6 +153,9 @@ object LevelCommand {
                         )
                     }
                 }.dynamic("options") {
+                    suggestion<CommandSender>(uncheck = true) { _, _ ->
+                        listOf("--silent", "--noAction","--source=")
+                    }
                     execute<ProxyCommandSender> { sender: ProxyCommandSender, context: CommandContext<ProxyCommandSender>, content: String ->
                         val args = CommandUtil.parseOptions(content.split(" "))
                         var silent = false

@@ -9,7 +9,6 @@ import java.io.File
 object PluginConfig {
     var settings: YamlConfiguration = YamlConfiguration.loadConfiguration(File(FileUtil.dataFolder, "settings.yml"))
     var level: HashMap<String, ConfigurationSection> = getLevelGroups()
-    var commands: YamlConfiguration = YamlConfiguration.loadConfiguration(File(FileUtil.dataFolder, "commands.yml"))
 
     // Config Version
     const val VERSION = 5

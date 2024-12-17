@@ -2,25 +2,25 @@ Language: "zh_TW"
 
 # 插件相關
 Plugin-Loading: '&7正在加載 &3Akari&bLevel&8&f... &8{0}'
-Plugin-Enabled: '&8[&3Akari&bLevel&8] &b信息 &8| &6插件加載完畢.'
-Plugin-Disable: '&8[&3Akari&bLevel&8] &b信息 &8| &6插件卸載完畢.'
-Plugin-Reloaded: '&8[&3Akari&bLevel&8] &b信息 &8| &6插件重載完畢.'
+Plugin-Enabled: '&8\[&3Akari&bLevel&8\] &b信息 &8| &6插件加載完畢.'
+Plugin-Disable: '&8\[&3Akari&bLevel&8\] &b信息 &8| &6插件卸載完畢.'
+Plugin-Reloaded: '&8\[&3Akari&bLevel&8\] &b信息 &8| &6插件重載完畢.'
 Plugin-Update:
-  - '&r===============[&e&l插件更新&r]=============='
+  - '&r===============\[&e&l插件更新&r\]=============='
   - '&r| &r插件 &6AkariLevel &7=>'
   - '&r| &b◈ &r發現了一個新的插件版本！'
   - '&r| &b◈ &r最新版本: %latestVersion%'
   - '&r| &b◈ &r當前版本: %currentVersion%'
   - '&r| &b◈ &r查看詳情: https://www.minebbs.com/resources/7199/'
-  - '&r===============[&e&l插件更新&r]=============='
+  - '&r===============\[&e&l插件更新&r\]=============='
 Config-Update:
-  - '&r===============[&e&l配置更新&r]=============='
+  - '&r===============\[&e&l配置更新&r\]=============='
   - '&r| &6配置文件 &7=>'
   - '&r| &b◈ &r發現了一個新的配置文件版本！'
   - '&r| &b◈ &r最新版本: %latestVersion%'
   - '&r| &b◈ &r當前版本: %currentVersion%'
   - '&r| &b◈ &r請保存備份並重新生成配置文件！'
-  - '&r===============[&e&l配置更新&r]=============='
+  - '&r===============\[&e&l配置更新&r\]=============='
 No-Permission: "&c無進行當前操作的權限！"
 # 數據存儲相關
 Data-Get-Value: "&7獲取到表 &f{0} &7中索引 &f{1} &7下鍵 &f{2} &7的值為 &f{3} &7."

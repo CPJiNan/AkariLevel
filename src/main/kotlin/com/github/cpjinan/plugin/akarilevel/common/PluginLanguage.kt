@@ -18,9 +18,5 @@ object PluginLanguage {
             "settings_$lang.yml",
             File(FileUtil.dataFolder, "settings.yml")
         )
-        plugin.saveDefaultResource(
-            "commands_$lang.yml",
-            File(FileUtil.dataFolder, "commands.yml")
-        )
     }
 }
