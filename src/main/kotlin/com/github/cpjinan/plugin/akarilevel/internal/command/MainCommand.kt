@@ -19,14 +19,14 @@ object MainCommand {
     @CommandBody
     val main = mainCommand {
         execute<ProxyCommandSender> { sender, _, _ ->
-            sender.sendLang()
+            sender.sendLang("Command-Help")
         }
     }
 
     @CommandBody(hidden = true)
     val help = mainCommand {
         execute<ProxyCommandSender> { sender, _, _ ->
-            sender.sendLang()
+            sender.sendLang("Command-Help")
         }
     }
 
