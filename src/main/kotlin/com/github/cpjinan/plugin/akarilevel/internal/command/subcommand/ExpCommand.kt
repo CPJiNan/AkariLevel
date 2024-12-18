@@ -10,11 +10,16 @@ import taboolib.common.platform.command.CommandContext
 import taboolib.common.platform.command.player
 import taboolib.common.platform.command.subCommand
 import taboolib.common.platform.command.suggest
+import taboolib.common.platform.function.pluginVersion
 import taboolib.module.chat.colored
 import taboolib.module.lang.sendLang
 
 object ExpCommand {
     val exp = subCommand {
+        execute<ProxyCommandSender> { sender: ProxyCommandSender, _: CommandContext<ProxyCommandSender>, _: String ->
+            sender.sendLang("Command-Help-Exp", pluginVersion)
+        }
+
         literal("add") {
             player("player").dynamic("levelGroup") { suggest { LevelAPI.getLevelGroupNames().toList() } }
                 .dynamic("amount") {

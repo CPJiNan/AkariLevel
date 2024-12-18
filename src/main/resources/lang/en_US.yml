@@ -7,21 +7,21 @@ Plugin-Enabled: '[&8\[&3Akari&bLevel&8\]] &bInfo &8| &6Plugin enabled.'
 Plugin-Disable: '[&8\[&3Akari&bLevel&8\]] &bInfo &8| &6Plugin disabled.'
 Plugin-Reloaded: '[&8\[&3Akari&bLevel&8\]] &bInfo &8| &6Plugin reloaded.'
 Plugin-Update:
-  - '&r===============[&r\[&e&lPlugin Update&r\]]&r=============='
+  - '&r===============&r[&e&lPlugin Update&r]&r=============='
   - '&r| &rPlugin &6AkariLevel &7=>'
   - '&r| &b◈ &rA new plugin version is available!'
   - '&r| &b◈ &rLatest version: %latestVersion%'
   - '&r| &b◈ &rCurrent version: %currentVersion%'
   - '&r| &b◈ &rView details: https://www.spigotmc.org/resources/116936/'
-  - '&r===============[&r\[&e&lPlugin Update&r\]]&r=============='
+  - '&r===============&r[&e&lPlugin Update&r]&r=============='
 Config-Update:
-  - '&r===============[&r\[&e&lConfig Update&r\]]&r=============='
+  - '&r===============&r[&e&lConfig Update&r]&r=============='
   - '&r| &6Config file &7=>'
   - '&r| &b◈ &rA new config file version is available!'
   - '&r| &b◈ &rLatest version: %latestVersion%'
   - '&r| &b◈ &rCurrent version: %currentVersion%'
   - '&r| &b◈ &rPlease save backups and regenerate the config files!'
-  - '&r===============[&r\[&e&lConfig Update&r\]]&r=============='
+  - '&r===============&r[&e&lConfig Update&r]&r=============='
 No-Permission: "&cYou don't have permission to perform this action!"
 
 # Data storage related
@@ -76,3 +76,27 @@ Command-Help: |
        &7Trace level group
      &8- [&freload](suggest=/akarilevel reload)
        &7Reload config
+Command-Help-Level: |
+  &f&lAkariLevel &f&lv{0}
+   &7Commands: [&f/akarilevel level](suggest=/akarilevel level) [&8\[...\]]
+   &7Parameters:
+     &8- [&fadd](suggest=/akarilevel level add) [&8<player>](hover=&fPlayer name) [&8<levelGroup>](hover=&fLevel group edit name) [&8<amount>](hover=&fLevel) [&8\[options\]](hover=&fCommand parameters)
+       &7Add player level
+     &8- [&fremove](suggest=/akarilevel level remove) [&8<player>](hover=&fPlayer name) [&8<levelGroup>](hover=&fLevel group edit name) [&8<amount>](hover=&fLevel) [&8\[options\]](hover=&fCommand parameters)
+       &7Remove player level
+     &8- [&fset](suggest=/akarilevel level set) [&8<player>](hover=&fPlayer name) [&8<levelGroup>](hover=&fLevel group edit name) [&8<amount>](hover=&fLevel) [&8\[options\]](hover=&fCommand parameters)
+       &7Set player level
+     &8- [&fcheck](suggest=/akarilevel level check) [&8<player>](hover=&fPlayer name) [&8<levelGroup>](hover=&fLevel group edit name)
+       &7Check player level
+Command-Help-Exp: |
+  &f&lAkariLevel &f&lv{0}
+   &7Commands: [&f/akarilevel exp](suggest=/akarilevel exp) [&8\[...\]]
+   &7Parameters:
+     &8- [&fadd](suggest=/akarilevel exp add) [&8<player>](hover=&fPlayer name) [&8<levelGroup>](hover=&fLevel group edit name) [&8<amount>](hover=&fExp) [&8\[options\]](hover=&fCommand parameters)
+       &7Add player exp
+     &8- [&fremove](suggest=/akarilevel exp remove) [&8<player>](hover=&fPlayer name) [&8<levelGroup>](hover=&fLevel group edit name) [&8<amount>](hover=&fExp) [&8\[options\]](hover=&fCommand parameters)
+       &7Remove player exp
+     &8- [&fset](suggest=/akarilevel exp set) [&8<player>](hover=&fPlayer name) [&8<levelGroup>](hover=&fLevel group edit name) [&8<amount>](hover=&fExp) [&8\[options\]](hover=&fCommand parameters)
+       &7Set player exp
+     &8- [&fcheck](suggest=/akarilevel exp check) [&8<player>](hover=&fPlayer name) [&8<levelGroup>](hover=&fLevel group edit name)
+       &7Check player exp

@@ -7,21 +7,21 @@ Plugin-Enabled: '[&8\\[&3Akari&bLevel&8\]] &bInfo &8| &6Plugin activado.'
 Plugin-Disable: '[&8\\[&3Akari&bLevel&8\]] &bInfo &8| &6Plugin desactivado.'
 Plugin-Reloaded: '[&8\\[&3Akari&bLevel&8\]] &bInfo &8| &6Plugin recargado.'
 Plugin-Update:
-  - '&r===============[&r\[&e&lActualización del plugin&r\]]&r=============='
+  - '&r===============&r[&e&lActualización del plugin&r]&r=============='
   - '&r| &rPlugin &6AkariLevel &7=>'
   - '&r| &b◈ &r¡Ya está disponible una nueva versión del plugin!'
   - '&r| &b◈ &rÚltima versión: %latestVersion%'
   - '&r| &b◈ &rVersión actual: %currentVersion%'
   - '&r| &b◈ &rVer detalles: https://www.spigotmc.org/resources/116936/'
-  - '&r===============[&r\[&e&lActualización del plugin&r\]]&r=============='
+  - '&r===============&r[&e&lActualización del plugin&r]&r=============='
 Config-Update:
-  - '&r===============[&r\[&e&lActualización de configuración&r\]]&r=============='
+  - '&r===============&r[&e&lActualización de configuración&r]&r=============='
   - '&r| &6Archivo de configuración &7=>'
   - '&r| &b◈ &r¡Existe una nueva versión del archivo de configuración!'
   - '&r| &b◈ &rÚltima versión: %latestVersion%'
   - '&r| &b◈ &rVersión actual: %currentVersion%'
   - '&r| &b◈ &rGuarde copias de seguridad y vuelva a generar los archivos.'
-  - '&r===============[&r\[&e&lActualización de configuración&r\]]&r=============='
+  - '&r===============&r[&e&lActualización de configuración&r]&r=============='
 No-Permission: "&c¡No tienes permiso para realizar esta acción!"
 
 # Data storage related
@@ -76,3 +76,27 @@ Command-Help: |
        &7Rastrear grupo de nivel
      &8- [&freload](suggest=/akarilevel reload)
        &7Recargar el plugin
+Command-Help-Level: |
+  &f&lAkariLevel &f&lv{0}
+   &7Comandos: [&f/akarilevel level](suggest=/akarilevel level) [&8\[...\]]
+   &7Parámetros:
+     &8- [&fadd](suggest=/akarilevel level add) [&8<player>](hover=&fNombre del jugador) [&8<levelGroup>](hover=&fNombre de edición del grupo de nivel) [&8<amount>](hover=&fNivel) [&8\[options\]](hover=&fParámetros del comando)
+       &7Añadir nivel al jugador
+     &8- [&fremove](suggest=/akarilevel level remove) [&8<player>](hover=&fNombre del jugador) [&8<levelGroup>](hover=&fNombre de edición del grupo de nivel) [&8<amount>](hover=&fNivel) [&8\[options\]](hover=&fParámetros del comando)
+       &7Eliminar nivel del jugador
+     &8- [&fset](suggest=/akarilevel level set) [&8<player>](hover=&fNombre del jugador) [&8<levelGroup>](hover=&fNombre de edición del grupo de nivel) [&8<amount>](hover=&fNivel) [&8\[options\]](hover=&fParámetros del comando)
+       &7Establecer nivel del jugador
+     &8- [&fcheck](suggest=/akarilevel level check) [&8<player>](hover=&fNombre del jugador) [&8<levelGroup>](hover=&fNombre de edición del grupo de nivel)
+       &7Comprobar nivel del jugador
+Command-Help-Exp: |
+  &f&lAkariLevel &f&lv{0}
+   &7Comandos: [&f/akarilevel exp](suggest=/akarilevel exp) [&8\[...\]]
+   &7Parámetros:
+     &8- [&fadd](suggest=/akarilevel exp add) [&8<player>](hover=&fNombre del jugador) [&8<levelGroup>](hover=&fNombre de edición del grupo de nivel) [&8<amount>](hover=&fExperiencia) [&8\[options\]](hover=&fParámetros del comando)
+       &7Añadir experiencia al jugador
+     &8- [&fremove](suggest=/akarilevel exp remove) [&8<player>](hover=&fNombre del jugador) [&8<levelGroup>](hover=&fNombre de edición del grupo de nivel) [&8<amount>](hover=&fExperiencia) [&8\[options\]](hover=&fParámetros del comando)
+       &7Eliminar experiencia del jugador
+     &8- [&fset](suggest=/akarilevel exp set) [&8<player>](hover=&fNombre del jugador) [&8<levelGroup>](hover=&fNombre de edición del grupo de nivel) [&8<amount>](hover=&fExperiencia) [&8\[options\]](hover=&fParámetros del comando)
+       &7Establecer experiencia del jugador
+     &8- [&fcheck](suggest=/akarilevel exp check) [&8<player>](hover=&fNombre del jugador) [&8<levelGroup>](hover=&fNombre de edición del grupo de nivel)
+       &7Comprobar experiencia del jugador
