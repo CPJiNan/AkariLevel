@@ -1,7 +1,7 @@
 # Spanish language file by: AlesixDev
 Language: "es_ES"
 
-# Plugin-related
+# Plugin related
 Plugin-Loading: '&7Loading &3Akari&bLevel&8&f... &8{0}'
 Plugin-Enabled: '[&8\\[&3Akari&bLevel&8\]] &bInfo &8| &6Plugin activado.'
 Plugin-Disable: '[&8\\[&3Akari&bLevel&8\]] &bInfo &8| &6Plugin desactivado.'
@@ -23,23 +23,56 @@ Config-Update:
   - '&r| &b◈ &rGuarde copias de seguridad y vuelva a generar los archivos.'
   - '&r===============[&r\[&e&lActualización de configuración&r\]]&r=============='
 No-Permission: "&c¡No tienes permiso para realizar esta acción!"
-# Data storage-related
+
+# Data storage related
 Data-Get-Value: "&7Valor obtenido de la clave &f{2} &7en el índice &f{1} &7de la tabla &f{0} &7como &f{3} &7."
 Data-Set-Value: "&7Establecer el valor de la clave &f{2} &7en el índice &f{1} &7de la tabla &f{0} &7en &f{3} &7."
 Data-Save: "&7Se han guardado los datos."
-# Level-related
+
+# Level related
 Add-Level: "&7¡Concedido al jugador &f{0} {3} &7&f{2} &7niveles!"
 Remove-Level: "&7¡Eliminados &f{0} {3} &7&f{2} &7niveles del jugador!"
 Set-Level: "&7¡Ponga al jugador &f{0} &7nivel de &f{2} &7a &f{3} &7!"
 Check-Level: "&7¡El jugador &f{0} &7tiene un nivel de &f{2} &7de &f{3} &7!"
-# Experience-related
+
+# Experience related
 Add-Exp: "&7¡Concedido al jugador &f{0} {3} &7&f{2} &7puntos de experiencia!"
 Remove-Exp: "&7¡Eliminados &f{0} {3} &7&f{2} &7puntos de experiencia del jugador!"
 Set-Exp: "&7¡Ponga al jugador &f{0} &7puntos de experiencia de &f{2} &7a &f{3} &7!"
 Check-Exp: "&7¡El jugador &f{0} &7tiene &f{3} &7puntos de experiencia de &f{2} &7!"
+
 # Level-up related
 Levelup-Fail: "&cNo se cumplen las condiciones para subir de nivel a {1}."
 Max-Level: "&c¡Nivel máximo de {1} alcanzado!"
-# Tracking-related
+
+# Tracking related
 Trace-Success: "&7Rastreo del grupo de nivel &f{1} &7."
 Trace-Fail: "&c¡No se cumplen las condiciones para el rastreo de {1}!"
+
+# Command help related
+Command-Help: |
+  &f&lAkariLevel &f&lv{0}
+   &7Comandos: [&f/akarilevel](suggest=/akarilevel) [&8\[...\]]
+   &7Parámetros:
+     &8- [&flevel](suggest=/akarilevel level) [&fadd](suggest=/akarilevel level add) [&8<player>](hover=&fNombre del jugador) [&8<levelGroup>](hover=&fNombre de edición del grupo de nivel) [&8<amount>](hover=&fNivel) [&8\[options\]](hover=&fParámetros del comando)
+       &7Añadir nivel al jugador
+     &8- [&flevel](suggest=/akarilevel level) [&fremove](suggest=/akarilevel level remove) [&8<player>](hover=&fNombre del jugador) [&8<levelGroup>](hover=&fNombre de edición del grupo de nivel) [&8<amount>](hover=&fNivel) [&8\[options\]](hover=&fParámetros del comando)
+       &7Eliminar nivel del jugador
+     &8- [&flevel](suggest=/akarilevel level) [&fset](suggest=/akarilevel level set) [&8<player>](hover=&fNombre del jugador) [&8<levelGroup>](hover=&fNombre de edición del grupo de nivel) [&8<amount>](hover=&fNivel) [&8\[options\]](hover=&fParámetros del comando)
+       &7Establecer nivel del jugador
+     &8- [&flevel](suggest=/akarilevel level) [&fcheck](suggest=/akarilevel level check) [&8<player>](hover=&fNombre del jugador) [&8<levelGroup>](hover=&fNombre de edición del grupo de nivel)
+       &7Comprobar nivel del jugador
+     &8- [&fexp](suggest=/akarilevel exp) [&fadd](suggest=/akarilevel exp add) [&8<player>](hover=&fNombre del jugador) [&8<levelGroup>](hover=&fNombre de edición del grupo de nivel) [&8<amount>](hover=&fExperiencia) [&8\[options\]](hover=&fParámetros del comando)
+       &7Añadir experiencia al jugador
+     &8- [&fexp](suggest=/akarilevel exp) [&fremove](suggest=/akarilevel exp remove) [&8<player>](hover=&fNombre del jugador) [&8<levelGroup>](hover=&fNombre de edición del grupo de nivel) [&8<amount>](hover=&fExperiencia) [&8\[options\]](hover=&fParámetros del comando)
+       &7Eliminar experiencia del jugador
+     &8- [&fexp](suggest=/akarilevel exp) [&fset](suggest=/akarilevel exp set) [&8<player>](hover=&fNombre del jugador) [&8<levelGroup>](hover=&fNombre de edición del grupo de nivel) [&8<amount>](hover=&fExperiencia) [&8\[options\]](hover=&fParámetros del comando)
+       &7Establecer experiencia del jugador
+     &8- [&fexp](suggest=/akarilevel exp) [&fcheck](suggest=/akarilevel exp check) [&8<player>](hover=&fNombre del jugador) [&8<levelGroup>](hover=&fNombre de edición del grupo de nivel)
+       &7Comprobar experiencia del jugador
+     &8- [&flevelup](suggest=/akarilevel levelup) [&8\[levelGroup\]](hover=&fNombre de edición del grupo de nivel)
+       &7Intentar subir de nivel
+     &8- [&ftrace](suggest=/akarilevel trace) [&8<levelGroup>](hover=&fNombre de edición del grupo de nivel) [&8\[options\]](hover=&fParámetros del comando)
+       &7Rastrear grupo de nivel
+     &8- [&freload](suggest=/akarilevel reload)
+       &7Recargar el plugin

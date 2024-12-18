@@ -1,7 +1,7 @@
 # English Language File Contributor: YangXiaoMian
 Language: "en_US"
 
-# Plugin-related
+# Plugin related
 Plugin-Loading: '&7Loading &3Akari&bLevel&8&f... &8{0}'
 Plugin-Enabled: '[&8\[&3Akari&bLevel&8\]] &bInfo &8| &6Plugin enabled.'
 Plugin-Disable: '[&8\[&3Akari&bLevel&8\]] &bInfo &8| &6Plugin disabled.'
@@ -23,23 +23,56 @@ Config-Update:
   - '&r| &b◈ &rPlease save backups and regenerate the config files!'
   - '&r===============[&r\[&e&lConfig Update&r\]]&r=============='
 No-Permission: "&cYou don't have permission to perform this action!"
-# Data storage-related
+
+# Data storage related
 Data-Get-Value: "&7Fetched value of key &f{2} &7in index &f{1} &7of table &f{0} &7as &f{3} &7."
 Data-Set-Value: "&7Set value of key &f{2} &7in index &f{1} &7of table &f{0} &7to &f{3} &7."
 Data-Save: "&7Data has been saved."
-# Level-related
+
+# Level related
 Add-Level: "&7Granted player &f{0} {3} &7&f{2} &7levels!"
 Remove-Level: "&7Removed &f{0} {3} &7&f{2} &7levels from player!"
 Set-Level: "&7Set player &f{0} &7level of &f{2} &7to &f{3} &7!"
 Check-Level: "&7Player &f{0} &7has a level of &f{2} &7of &f{3} &7!"
-# Experience-related
+
+# Experience related
 Add-Exp: "&7Granted player &f{0} {3} &7&f{2} &7experience points!"
 Remove-Exp: "&7Removed &f{0} {3} &7&f{2} &7experience points from player!"
 Set-Exp: "&7Set player &f{0} &7experience points of &f{2} &7to &f{3} &7!"
 Check-Exp: "&7Player &f{0} &7has &f{3} &7experience points of &f{2} &7!"
+
 # Level-up related
 Levelup-Fail: "&cConditions for level-up of {1} not met!"
 Max-Level: "&cMaximum level of {1} reached!"
-# Tracking-related
+
+# Tracking related
 Trace-Success: "&7Tracking &f{1} &7level group."
 Trace-Fail: "&cConditions for tracking of {1} not met!"
+
+# Command help related
+Command-Help: |
+  &f&lAkariLevel &f&lv{0}
+   &7Commands: [&f/akarilevel](suggest=/akarilevel) [&8\[...\]]
+   &7Parameters:
+     &8- [&flevel](suggest=/akarilevel level) [&fadd](suggest=/akarilevel level add) [&8<player>](hover=&fPlayer name) [&8<levelGroup>](hover=&fLevel group edit name) [&8<amount>](hover=&fLevel) [&8\[options\]](hover=&fCommand parameters)
+       &7Add player level
+     &8- [&flevel](suggest=/akarilevel level) [&fremove](suggest=/akarilevel level remove) [&8<player>](hover=&fPlayer name) [&8<levelGroup>](hover=&fLevel group edit name) [&8<amount>](hover=&fLevel) [&8\[options\]](hover=&fCommand parameters)
+       &7Remove player level
+     &8- [&flevel](suggest=/akarilevel level) [&fset](suggest=/akarilevel level set) [&8<player>](hover=&fPlayer name) [&8<levelGroup>](hover=&fLevel group edit name) [&8<amount>](hover=&fLevel) [&8\[options\]](hover=&fCommand parameters)
+       &7Set player level
+     &8- [&flevel](suggest=/akarilevel level) [&fcheck](suggest=/akarilevel level check) [&8<player>](hover=&fPlayer name) [&8<levelGroup>](hover=&fLevel group edit name)
+       &7Check player level
+     &8- [&fexp](suggest=/akarilevel exp) [&fadd](suggest=/akarilevel exp add) [&8<player>](hover=&fPlayer name) [&8<levelGroup>](hover=&fLevel group edit name) [&8<amount>](hover=&fExp) [&8\[options\]](hover=&fCommand parameters)
+       &7Add player exp
+     &8- [&fexp](suggest=/akarilevel exp) [&fremove](suggest=/akarilevel exp remove) [&8<player>](hover=&fPlayer name) [&8<levelGroup>](hover=&fLevel group edit name) [&8<amount>](hover=&fExp) [&8\[options\]](hover=&fCommand parameters)
+       &7Remove player exp
+     &8- [&fexp](suggest=/akarilevel exp) [&fset](suggest=/akarilevel exp set) [&8<player>](hover=&fPlayer name) [&8<levelGroup>](hover=&fLevel group edit name) [&8<amount>](hover=&fExp) [&8\[options\]](hover=&fCommand parameters)
+       &7Set player exp
+     &8- [&fexp](suggest=/akarilevel exp) [&fcheck](suggest=/akarilevel exp check) [&8<player>](hover=&fPlayer name) [&8<levelGroup>](hover=&fLevel group edit name)
+       &7Check player exp
+     &8- [&flevelup](suggest=/akarilevel levelup) [&8\[levelGroup\]](hover=&fLevel group edit name)
+       &7Attempt to level up
+     &8- [&ftrace](suggest=/akarilevel trace) [&8<levelGroup>](hover=&fLevel group edit name) [&8\[options\]](hover=&fCommand parameters)
+       &7Trace level group
+     &8- [&freload](suggest=/akarilevel reload)
+       &7Reload config
