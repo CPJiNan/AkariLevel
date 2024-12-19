@@ -1,4 +1,4 @@
-package com.github.cpjinan.plugin.akarilevel.internal.listener
+package com.github.cpjinan.plugin.akarilevel.common.hook
 
 import com.github.cpjinan.plugin.akarilevel.AkariLevel
 import com.github.cpjinan.plugin.akarilevel.api.LevelAPI
@@ -14,7 +14,7 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import kotlin.random.Random
 
-object MythicMobsListener {
+object MythicMobs {
     fun registerMythicMobsListener() {
         if (Bukkit.getPluginManager().isPluginEnabled("MythicMobs")) {
             when (Bukkit.getPluginManager().getPlugin("MythicMobs")?.description?.version?.get(0)) {

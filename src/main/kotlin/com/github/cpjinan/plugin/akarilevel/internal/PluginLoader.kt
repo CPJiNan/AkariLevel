@@ -4,7 +4,7 @@ import com.github.cpjinan.plugin.akarilevel.AkariLevel.plugin
 import com.github.cpjinan.plugin.akarilevel.common.PluginConfig
 import com.github.cpjinan.plugin.akarilevel.common.PluginLanguage
 import com.github.cpjinan.plugin.akarilevel.common.PluginUpdate
-import com.github.cpjinan.plugin.akarilevel.internal.listener.MythicMobsListener
+import com.github.cpjinan.plugin.akarilevel.common.hook.MythicMobs
 import com.github.cpjinan.plugin.akarilevel.utils.core.LoggerUtil
 import taboolib.common.LifeCycle
 import taboolib.common.platform.Awake
@@ -35,7 +35,7 @@ object PluginLoader {
             "&o /_/   \\_\\_|\\_\\__,_|_|  |_|_____\\___| \\_/ \\___|_| ".colored(),
             ""
         )
-        MythicMobsListener.registerMythicMobsListener()
+        MythicMobs.registerMythicMobsListener()
         console().sendLang("Plugin-Enabled")
         if (PluginConfig.isEnabledCheckUpdate()) PluginUpdate.getPluginUpdate()
         PluginUpdate.getPluginNotice()
