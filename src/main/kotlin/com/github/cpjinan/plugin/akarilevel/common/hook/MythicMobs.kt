@@ -3,16 +3,26 @@ package com.github.cpjinan.plugin.akarilevel.common.hook
 import com.github.cpjinan.plugin.akarilevel.AkariLevel
 import com.github.cpjinan.plugin.akarilevel.api.LevelAPI
 import com.github.cpjinan.plugin.akarilevel.api.PlayerAPI
-import io.lumine.xikage.mythicmobs.adapters.AbstractItemStack
-import io.lumine.xikage.mythicmobs.api.bukkit.events.MythicDropLoadEvent
-import io.lumine.xikage.mythicmobs.drops.Drop
-import io.lumine.xikage.mythicmobs.drops.DropMetadata
-import io.lumine.xikage.mythicmobs.drops.IItemDrop
-import io.lumine.xikage.mythicmobs.io.MythicLineConfig
+import io.lumine.mythic.api.adapters.AbstractItemStack
+import io.lumine.mythic.api.config.MythicLineConfig
+import io.lumine.mythic.api.drops.DropMetadata
+import io.lumine.mythic.api.drops.IItemDrop
+import io.lumine.mythic.bukkit.BukkitAdapter
+import io.lumine.mythic.bukkit.events.MythicDropLoadEvent
+import io.lumine.mythic.core.drops.Drop
 import org.bukkit.Bukkit
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
+import taboolib.library.xseries.XMaterial
+import taboolib.platform.util.buildItem
 import kotlin.random.Random
+import io.lumine.xikage.mythicmobs.adapters.AbstractItemStack as LegacyAbstractItemStack
+import io.lumine.xikage.mythicmobs.adapters.bukkit.BukkitAdapter as LegacyBukkitAdapter
+import io.lumine.xikage.mythicmobs.api.bukkit.events.MythicDropLoadEvent as LegacyMythicDropLoadEvent
+import io.lumine.xikage.mythicmobs.drops.Drop as LegacyDrop
+import io.lumine.xikage.mythicmobs.drops.DropMetadata as LegacyDropMetadata
+import io.lumine.xikage.mythicmobs.drops.IItemDrop as LegacyIItemDrop
+import io.lumine.xikage.mythicmobs.io.MythicLineConfig as LegacyMythicLineConfig
 
 object MythicMobs {
     fun registerMythicMobsListener() {
@@ -30,7 +40,7 @@ object MythicMobs {
 
 object LegacyMythicMobsDropListener : Listener {
     @EventHandler
-    fun onRegisterDrop(event: MythicDropLoadEvent) {
+    fun onRegisterDrop(event: LegacyMythicDropLoadEvent) {
         LevelAPI.getLevelGroupNames().forEach { levelGroupName ->
             if (event.dropName.equals("AkariExp.$levelGroupName", ignoreCase = true)) {
                 event.register(LegacyMythicMobsExpDrop(event.container.configLine, event.config))
@@ -39,18 +49,19 @@ object LegacyMythicMobsDropListener : Listener {
     }
 }
 
-class LegacyMythicMobsExpDrop(line: String, config: MythicLineConfig) : Drop(line, config), IItemDrop {
-    override fun getDrop(meta: DropMetadata): AbstractItemStack? {
+class LegacyMythicMobsExpDrop(line: String, config: LegacyMythicLineConfig) : LegacyDrop(line, config),
+    LegacyIItemDrop {
+    override fun getDrop(meta: LegacyDropMetadata): LegacyAbstractItemStack? {
         val levelGroupName = this.line.split(' ')[0].split(".")[1]
         val amount = this.line.split(' ')[1].toAmount()
         PlayerAPI.addPlayerExp(Bukkit.getPlayer(meta.trigger.uniqueId)!!, levelGroupName, amount, "MYTHICMOBS_DROP_EXP")
-        return null
+        return LegacyBukkitAdapter.adapt(buildItem(XMaterial.AIR))
     }
 }
 
 object MythicMobsDropListener : Listener {
     @EventHandler
-    fun onRegisterDrop(event: io.lumine.mythic.bukkit.events.MythicDropLoadEvent) {
+    fun onRegisterDrop(event: MythicDropLoadEvent) {
         LevelAPI.getLevelGroupNames().forEach { levelGroupName ->
             if (event.dropName.equals("AkariExp.$levelGroupName", ignoreCase = true)) {
                 event.register(MythicMobsExpDrop(event.container.configLine, event.config))
@@ -59,13 +70,13 @@ object MythicMobsDropListener : Listener {
     }
 }
 
-class MythicMobsExpDrop(line: String, config: io.lumine.mythic.api.config.MythicLineConfig) :
-    io.lumine.mythic.core.drops.Drop(line, config),
-    io.lumine.mythic.api.drops.IItemDrop {
+class MythicMobsExpDrop(line: String, config: MythicLineConfig) :
+    Drop(line, config),
+    IItemDrop {
     override fun getDrop(
-        meta: io.lumine.mythic.api.drops.DropMetadata?,
+        meta: DropMetadata?,
         p1: Double
-    ): io.lumine.mythic.api.adapters.AbstractItemStack? {
+    ): AbstractItemStack? {
         val levelGroupName = this.line.split(' ')[0].split(".")[1]
         val amount = this.line.split(' ')[1].toAmount()
         if (meta != null) {
@@ -76,7 +87,7 @@ class MythicMobsExpDrop(line: String, config: io.lumine.mythic.api.config.Mythic
                 "MYTHICMOBS_DROP_EXP"
             )
         }
-        return null
+        return BukkitAdapter.adapt(buildItem(XMaterial.AIR))
     }
 }
 
