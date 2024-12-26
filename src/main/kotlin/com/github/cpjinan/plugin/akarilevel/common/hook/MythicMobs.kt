@@ -7,7 +7,7 @@ import io.lumine.mythic.api.adapters.AbstractItemStack
 import io.lumine.mythic.api.config.MythicLineConfig
 import io.lumine.mythic.api.drops.DropMetadata
 import io.lumine.mythic.api.drops.IItemDrop
-import io.lumine.mythic.bukkit.BukkitAdapter
+import io.lumine.mythic.bukkit.adapters.BukkitItemStack
 import io.lumine.mythic.bukkit.events.MythicDropLoadEvent
 import io.lumine.mythic.core.drops.Drop
 import org.bukkit.Bukkit
@@ -17,7 +17,7 @@ import taboolib.library.xseries.XMaterial
 import taboolib.platform.util.buildItem
 import kotlin.random.Random
 import io.lumine.xikage.mythicmobs.adapters.AbstractItemStack as LegacyAbstractItemStack
-import io.lumine.xikage.mythicmobs.adapters.bukkit.BukkitAdapter as LegacyBukkitAdapter
+import io.lumine.xikage.mythicmobs.adapters.bukkit.BukkitItemStack as LegacyBukkitItemStack
 import io.lumine.xikage.mythicmobs.api.bukkit.events.MythicDropLoadEvent as LegacyMythicDropLoadEvent
 import io.lumine.xikage.mythicmobs.drops.Drop as LegacyDrop
 import io.lumine.xikage.mythicmobs.drops.DropMetadata as LegacyDropMetadata
@@ -55,7 +55,7 @@ class LegacyMythicMobsExpDrop(line: String, config: LegacyMythicLineConfig) : Le
         val levelGroupName = this.line.split(' ')[0].split(".")[1]
         val amount = this.line.split(' ')[1].toAmount()
         PlayerAPI.addPlayerExp(Bukkit.getPlayer(meta.trigger.uniqueId)!!, levelGroupName, amount, "MYTHICMOBS_DROP_EXP")
-        return LegacyBukkitAdapter.adapt(buildItem(XMaterial.AIR))
+        return LegacyBukkitItemStack(buildItem(XMaterial.AIR))
     }
 }
 
@@ -87,7 +87,7 @@ class MythicMobsExpDrop(line: String, config: MythicLineConfig) :
                 "MYTHICMOBS_DROP_EXP"
             )
         }
-        return BukkitAdapter.adapt(buildItem(XMaterial.AIR))
+        return BukkitItemStack(buildItem(XMaterial.AIR))
     }
 }
 
