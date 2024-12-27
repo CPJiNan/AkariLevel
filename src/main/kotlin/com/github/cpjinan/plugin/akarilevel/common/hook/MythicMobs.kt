@@ -54,7 +54,8 @@ class LegacyMythicMobsExpDrop(line: String, config: LegacyMythicLineConfig) : Le
     override fun getDrop(meta: LegacyDropMetadata): LegacyAbstractItemStack {
         val levelGroupName = this.line.split(' ')[0].split(".")[1]
         val amount = this.line.split(' ')[1].toAmount()
-        PlayerAPI.addPlayerExp(Bukkit.getPlayer(meta.trigger.uniqueId)!!, levelGroupName, amount, "MYTHICMOBS_DROP_EXP")
+        Bukkit.getPlayer(meta.trigger.uniqueId)
+            ?.let { PlayerAPI.addPlayerExp(it, levelGroupName, amount, "MYTHICMOBS_DROP_EXP") }
         return LegacyBukkitItemStack(buildItem(XMaterial.AIR))
     }
 }
@@ -77,15 +78,18 @@ class MythicMobsExpDrop(line: String, config: MythicLineConfig) :
         meta: DropMetadata?,
         p1: Double
     ): AbstractItemStack {
+
         val levelGroupName = this.line.split(' ')[0].split(".")[1]
         val amount = this.line.split(' ')[1].toAmount()
         if (meta != null) {
-            PlayerAPI.addPlayerExp(
-                Bukkit.getPlayer(meta.trigger.uniqueId)!!,
-                levelGroupName,
-                amount,
-                "MYTHICMOBS_DROP_EXP"
-            )
+            Bukkit.getPlayer(meta.trigger.uniqueId)?.let {
+                PlayerAPI.addPlayerExp(
+                    it,
+                    levelGroupName,
+                    amount,
+                    "MYTHICMOBS_DROP_EXP"
+                )
+            }
         }
         return BukkitItemStack(buildItem(XMaterial.AIR))
     }
