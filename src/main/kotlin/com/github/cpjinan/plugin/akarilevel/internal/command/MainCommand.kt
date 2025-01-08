@@ -8,7 +8,6 @@ import com.github.cpjinan.plugin.akarilevel.internal.command.subcommand.ExpComma
 import com.github.cpjinan.plugin.akarilevel.internal.command.subcommand.LevelCommand
 import com.github.cpjinan.plugin.akarilevel.internal.command.subcommand.TraceCommand
 import com.github.cpjinan.plugin.akarilevel.utils.core.FileUtil
-import com.github.cpjinan.plugin.akarilevel.utils.core.SchedulerUtil.async
 import com.github.cpjinan.plugin.akarilevel.utils.script.Kether.evalKether
 import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.entity.Player
@@ -81,15 +80,13 @@ object MainCommand {
     @CommandBody(permission = "akarilevel.admin")
     val reload = subCommand {
         execute { sender: ProxyCommandSender, _: CommandContext<ProxyCommandSender>, _: String ->
-            async {
-                PluginReloadEvent.Pre().call()
-                PluginConfig.settings = YamlConfiguration.loadConfiguration(File(FileUtil.dataFolder, "settings.yml"))
-                PluginConfig.level = PluginConfig.getLevelGroups()
-                PluginExpansion.reload()
-                Language.reload()
-                PluginReloadEvent.Post().call()
-                sender.sendLang("Plugin-Reloaded")
-            }
+            PluginReloadEvent.Pre().call()
+            PluginConfig.settings = YamlConfiguration.loadConfiguration(File(FileUtil.dataFolder, "settings.yml"))
+            PluginConfig.level = PluginConfig.getLevelGroups()
+            PluginExpansion.reload()
+            Language.reload()
+            PluginReloadEvent.Post().call()
+            sender.sendLang("Plugin-Reloaded")
         }
     }
 }

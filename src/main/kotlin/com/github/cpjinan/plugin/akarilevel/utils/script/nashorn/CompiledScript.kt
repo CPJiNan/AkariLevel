@@ -10,10 +10,7 @@ import javax.script.Invocable
 import javax.script.ScriptEngine
 
 open class CompiledScript {
-    /**
-     * 获取已编译脚本
-     */
-    private val compiledScript: javax.script.CompiledScript
+    private val handle: javax.script.CompiledScript
 
     /**
      * 获取该脚本对应的 ScriptEngine
@@ -29,7 +26,7 @@ open class CompiledScript {
     constructor(reader: Reader) {
         scriptEngine = nashornHooker.getNashornEngine()
         this.loadLib()
-        compiledScript = nashornHooker.compile(scriptEngine, reader)
+        handle = nashornHooker.compile(scriptEngine, reader)
         magicFunction()
     }
 
@@ -42,11 +39,9 @@ open class CompiledScript {
     constructor(file: File) {
         scriptEngine = nashornHooker.getNashornEngine()
         this.loadLib()
-        val input = FileInputStream(file)
-        val reader = InputStreamReader(input, FileUtil.charset(file))
-        compiledScript = nashornHooker.compile(scriptEngine, reader)
-        input.close()
-        reader.close()
+        file.reader().use {
+            handle = nashornHooker.compile(scriptEngine, it)
+        }
         magicFunction()
     }
 
@@ -59,10 +54,13 @@ open class CompiledScript {
     constructor(script: String) {
         scriptEngine = nashornHooker.getNashornEngine()
         this.loadLib()
-        compiledScript = nashornHooker.compile(scriptEngine, script)
+        handle = nashornHooker.compile(scriptEngine, script)
         magicFunction()
     }
 
+    /**
+     * 加载 JS 前置库
+     */
     open fun loadLib() {}
 
     /**
@@ -92,7 +90,7 @@ open class CompiledScript {
      * 此段代码用于解决 js 脚本的高并发调用问题, 只可意会不可言传
      */
     private fun magicFunction() {
-        compiledScript.eval()
+        handle.eval()
         scriptEngine.eval(
             """
             function MagicFunction() {}

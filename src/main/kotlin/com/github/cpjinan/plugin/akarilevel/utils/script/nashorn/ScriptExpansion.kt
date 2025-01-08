@@ -62,8 +62,8 @@ class ScriptExpansion : CompiledScript {
                 const scheduler = Bukkit.getScheduler()
                 const plugin = pluginManager.getPlugin("AkariLevel")
                 
-                let sync = SchedulerUtils.sync
-                let async = SchedulerUtils.async
+                let sync = SchedulerUtil.sync
+                let async = SchedulerUtil.async
             """.trimIndent()
         )
     }
