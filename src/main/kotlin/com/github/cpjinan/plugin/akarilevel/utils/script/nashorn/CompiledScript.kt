@@ -1,4 +1,4 @@
-package com.github.cpjinan.plugin.akarilevel.utils.script.nashorn.script
+package com.github.cpjinan.plugin.akarilevel.utils.script.nashorn
 
 import com.github.cpjinan.plugin.akarilevel.common.PluginScript.nashornHooker
 import com.github.cpjinan.plugin.akarilevel.utils.core.FileUtil

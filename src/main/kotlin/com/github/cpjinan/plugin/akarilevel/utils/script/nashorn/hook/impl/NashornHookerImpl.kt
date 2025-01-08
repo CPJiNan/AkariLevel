@@ -1,12 +1,11 @@
 package com.github.cpjinan.plugin.akarilevel.utils.script.nashorn.hook.impl
 
 import com.github.cpjinan.plugin.akarilevel.utils.script.nashorn.hook.NashornHooker
-import com.github.cpjinan.plugin.akarilevel.utils.script.nashorn.script.CompiledScript
+import com.github.cpjinan.plugin.akarilevel.utils.script.nashorn.CompiledScript
 import jdk.nashorn.api.scripting.NashornScriptEngineFactory
 import jdk.nashorn.api.scripting.ScriptObjectMirror
 import javax.script.Invocable
 import javax.script.ScriptEngine
-
 
 /**
  * @author InkerXoe

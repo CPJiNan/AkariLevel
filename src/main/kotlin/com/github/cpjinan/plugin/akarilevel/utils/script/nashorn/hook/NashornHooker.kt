@@ -100,7 +100,7 @@ abstract class NashornHooker {
      * @return 返回值
      */
     abstract fun invoke(
-        compiledScript: com.github.cpjinan.plugin.akarilevel.utils.script.nashorn.script.CompiledScript,
+        compiledScript: com.github.cpjinan.plugin.akarilevel.utils.script.nashorn.CompiledScript,
         function: String,
         map: Map<String, Any>?,
         vararg args: Any

@@ -11,7 +11,7 @@ Plugin-Update:
   - '&r| &b◈ &r发现了一个新的插件版本！'
   - '&r| &b◈ &r最新版本: %latestVersion%'
   - '&r| &b◈ &r当前版本: %currentVersion%'
-  - '&r| &b◈ &r查看详情: https://www.minebbs.com/resources/7199/'
+  - '&r| &b◈ &r查看详情: https://www.mcbbs.co/thread-213-1-1.html'
   - '&r===============&r[&e&l插件更新&r]&r=============='
 Config-Update:
   - '&r===============&r[&e&l配置更新&r]&r=============='

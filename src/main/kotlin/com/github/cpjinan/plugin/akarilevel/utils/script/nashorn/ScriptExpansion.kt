@@ -1,4 +1,4 @@
-package com.github.cpjinan.plugin.akarilevel.utils.script.nashorn.script
+package com.github.cpjinan.plugin.akarilevel.utils.script.nashorn
 
 import java.io.File
 import java.io.Reader
