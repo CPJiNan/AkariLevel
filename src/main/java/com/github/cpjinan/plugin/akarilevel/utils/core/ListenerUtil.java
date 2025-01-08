@@ -1,4 +1,4 @@
-package com.github.cpjinan.plugin.akarilevel.utils;
+package com.github.cpjinan.plugin.akarilevel.utils.core;
 
 import org.bukkit.Bukkit;
 import org.bukkit.event.Event;

@@ -1,9 +1,9 @@
 package com.github.cpjinan.plugin.akarilevel.utils.script.nashorn.tool
 
 import com.github.cpjinan.plugin.akarilevel.AkariLevel
-import com.github.cpjinan.plugin.akarilevel.utils.ListenerUtil
-import com.github.cpjinan.plugin.akarilevel.utils.SchedulerUtil.sync
-import com.github.cpjinan.plugin.akarilevel.utils.SchedulerUtil.syncAndGet
+import com.github.cpjinan.plugin.akarilevel.utils.core.ListenerUtil
+import com.github.cpjinan.plugin.akarilevel.utils.core.SchedulerUtil.sync
+import com.github.cpjinan.plugin.akarilevel.utils.core.SchedulerUtil.syncAndGet
 import org.bukkit.event.Event
 import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener

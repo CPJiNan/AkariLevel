@@ -9,10 +9,6 @@ import java.io.Reader
 import javax.script.Invocable
 import javax.script.ScriptEngine
 
-/**
- * @author InkerXoe
- * @since 2024/2/4 09:26
- */
 open class CompiledScript {
     /**
      * 获取已编译脚本
@@ -20,28 +16,28 @@ open class CompiledScript {
     private val compiledScript: javax.script.CompiledScript
 
     /**
-     * 获取该脚本对应的ScriptEngine
+     * 获取该脚本对应的 ScriptEngine
      */
     val scriptEngine: ScriptEngine
 
     /**
      * 编译js脚本并进行包装, 便于调用其中的指定函数
      *
-     * @property reader js脚本文件
-     * @constructor 编译js脚本并进行包装
+     * @property reader js 脚本文件
+     * @constructor 编译 js 脚本并进行包装
      */
     constructor(reader: Reader) {
         scriptEngine = nashornHooker.getNashornEngine()
-        loadLib()
+        this.loadLib()
         compiledScript = nashornHooker.compile(scriptEngine, reader)
         magicFunction()
     }
 
     /**
-     * 编译js脚本并进行包装, 便于调用其中的指定函数
+     * 编译 js 脚本并进行包装, 便于调用其中的指定函数
      *
-     * @property file js脚本文件
-     * @constructor 编译js脚本并进行包装
+     * @property file js 脚本文件
+     * @constructor 编译 js 脚本并进行包装
      */
     constructor(file: File) {
         scriptEngine = nashornHooker.getNashornEngine()
@@ -55,10 +51,10 @@ open class CompiledScript {
     }
 
     /**
-     * 编译js脚本并进行包装, 便于调用其中的指定函数
+     * 编译 js 脚本并进行包装, 便于调用其中的指定函数
      *
-     * @property script js脚本文本
-     * @constructor 编译js脚本并进行包装
+     * @property script js 脚本文本
+     * @constructor 编译 js 脚本并进行包装
      */
     constructor(script: String) {
         scriptEngine = nashornHooker.getNashornEngine()
@@ -93,7 +89,7 @@ open class CompiledScript {
     }
 
     /**
-     * 此段代码用于解决js脚本的高并发调用问题, 只可意会不可言传
+     * 此段代码用于解决 js 脚本的高并发调用问题, 只可意会不可言传
      */
     private fun magicFunction() {
         compiledScript.eval()

@@ -3,10 +3,6 @@ package com.github.cpjinan.plugin.akarilevel.utils.script.nashorn
 import java.io.File
 import java.io.Reader
 
-/**
- * @author InkerXoe
- * @since 2024/2/4 09:30
- */
 class ScriptExpansion : CompiledScript {
     /**
      * 构建JavaScript脚本扩展
@@ -36,21 +32,38 @@ class ScriptExpansion : CompiledScript {
         scriptEngine.eval(
             """
                 const Bukkit = Packages.org.bukkit.Bukkit
-                const plugin = Packages.com.github.cpjinan.plugin.akarilevel.plugin
+                const Material = Packages.org.bukkit.Material
+                const ItemStack = Packages.org.bukkit.inventory.ItemStack
+                const EventPriority = Packages.org.bukkit.event.EventPriority
+                const Listener = Packages.com.github.cpjinan.plugin.akarilevel.utils.script.nashorn.tool.ScriptListener
+                const Task = Packages.com.github.cpjinan.plugin.akarilevel.utils.script.nashorn.tool.ScriptTask
+                
+                const CommandUtil = Packages.com.github.cpjinan.plugin.akarilevel.utils.core.CommandUtil
+                const ConfigUtil = Packages.com.github.cpjinan.plugin.akarilevel.utils.core.ConfigUtil
+                const FileUtil = Packages.com.github.cpjinan.plugin.akarilevel.utils.core.FileUtil
+                const LoggerUtil = Packages.com.github.cpjinan.plugin.akarilevel.utils.core.LoggerUtil
+                
+                const JavaScriptUtil = Packages.com.github.cpjinan.plugin.akarilevel.utils.script.JavaScript
+                const KetherUtil = Packages.com.github.cpjinan.plugin.akarilevel.utils.script.Kether
+                
+                const ListenerUtil = Packages.com.github.cpjinan.plugin.akarilevel.utils.core.ListenerUtil
+                const SchedulerUtils = Packages.com.github.cpjinan.plugin.akarilevel.utils.core.SchedulerUtil
+                
+                const DataAPI = Packages.com.github.cpjinan.plugin.akarilevel.api.DataAPI
+                const LevelAPI = Packages.com.github.cpjinan.plugin.akarilevel.api.LevelAPI
+                const PlayerAPI = Packages.com.github.cpjinan.plugin.akarilevel.api.PlayerAPI
+                
+                const PlayerExpChangeEvent = com.github.cpjinan.plugin.akarilevel.common.event.exp.PlayerExpChangeEvent
+                const PlayerLevelChangeEvent = com.github.cpjinan.plugin.akarilevel.common.event.level.PlayerLevelChangeEvent
+                
+                const AkariLevel = Packages.com.github.cpjinan.plugin.akarilevel.AkariLevel
+
                 const pluginManager = Bukkit.getPluginManager()
                 const scheduler = Bukkit.getScheduler()
+                const plugin = pluginManager.getPlugin("AkariLevel")
                 
-                function sync(task) {
-                    if (Bukkit.isPrimaryThread()) {
-                        task()
-                    } else {
-                        scheduler.callSyncMethod(plugin, task)
-                    }
-                }
-                
-                function async(task) {
-                    scheduler["runTaskAsynchronously(Plugin,Runnable)"](plugin, task)
-                }
+                let sync = SchedulerUtils.sync
+                let async = SchedulerUtils.async
             """.trimIndent()
         )
     }
