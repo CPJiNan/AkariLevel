@@ -3,10 +3,10 @@ package com.github.cpjinan.plugin.akarilevel.common
 import com.github.cpjinan.plugin.akarilevel.AkariLevel.plugin
 import com.github.cpjinan.plugin.akarilevel.utils.core.ConfigUtil.saveDefaultResource
 import com.github.cpjinan.plugin.akarilevel.utils.core.FileUtil
+import com.github.cpjinan.plugin.akarilevel.utils.script.nashorn.CompiledScript
 import com.github.cpjinan.plugin.akarilevel.utils.script.nashorn.hook.NashornHooker
 import com.github.cpjinan.plugin.akarilevel.utils.script.nashorn.hook.impl.LegacyNashornHookerImpl
 import com.github.cpjinan.plugin.akarilevel.utils.script.nashorn.hook.impl.NashornHookerImpl
-import com.github.cpjinan.plugin.akarilevel.utils.script.nashorn.CompiledScript
 import taboolib.common.LifeCycle
 import taboolib.common.platform.Awake
 import java.io.File
