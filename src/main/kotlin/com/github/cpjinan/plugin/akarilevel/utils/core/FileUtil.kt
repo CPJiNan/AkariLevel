@@ -2,9 +2,7 @@ package com.github.cpjinan.plugin.akarilevel.utils.core
 
 import com.github.cpjinan.plugin.akarilevel.AkariLevel.plugin
 import org.bukkit.Bukkit
-import java.io.BufferedInputStream
 import java.io.File
-import java.io.FileInputStream
 
 object FileUtil {
     val dataFolder =

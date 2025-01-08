@@ -1,10 +1,7 @@
 package com.github.cpjinan.plugin.akarilevel.utils.script.nashorn
 
 import com.github.cpjinan.plugin.akarilevel.common.PluginExpansion.nashornHooker
-import com.github.cpjinan.plugin.akarilevel.utils.core.FileUtil
 import java.io.File
-import java.io.FileInputStream
-import java.io.InputStreamReader
 import java.io.Reader
 import javax.script.Invocable
 import javax.script.ScriptEngine
