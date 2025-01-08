@@ -1,7 +1,7 @@
 package com.github.cpjinan.plugin.akarilevel.internal.command
 
-import com.github.cpjinan.plugin.akarilevel.api.ScriptAPI
 import com.github.cpjinan.plugin.akarilevel.common.PluginConfig
+import com.github.cpjinan.plugin.akarilevel.common.PluginScript
 import com.github.cpjinan.plugin.akarilevel.internal.command.subcommand.DataCommand
 import com.github.cpjinan.plugin.akarilevel.internal.command.subcommand.ExpCommand
 import com.github.cpjinan.plugin.akarilevel.internal.command.subcommand.LevelCommand
@@ -56,7 +56,7 @@ object MainCommand {
         execute { sender: ProxyCommandSender, _: CommandContext<ProxyCommandSender>, _: String ->
             PluginConfig.settings = YamlConfiguration.loadConfiguration(File(FileUtil.dataFolder, "settings.yml"))
             PluginConfig.level = PluginConfig.getLevelGroups()
-            ScriptAPI.reloadScript()
+            PluginScript.reload()
             Language.reload()
             sender.sendLang("Plugin-Reloaded")
         }

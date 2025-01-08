@@ -31,7 +31,7 @@ taboolib {
             name("DungeonPlus").optional(true)
         }
     }
-    version { taboolib = "6.2.1-f095116" }
+    version { taboolib = "6.2.2" }
     relocate("kotlinx.serialization", "kotlinx.serialization162")
 }
 

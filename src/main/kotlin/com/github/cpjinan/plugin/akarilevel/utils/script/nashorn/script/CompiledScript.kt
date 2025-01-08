@@ -1,7 +1,7 @@
-package me.inkerxoe.oishplugin.eternity.common.script.nashorn.script
+package com.github.cpjinan.plugin.akarilevel.utils.script.nashorn.script
 
-import me.inkerxoe.oishplugin.eternity.internal.manager.HookerManager.nashornHooker
-import me.inkerxoe.oishplugin.eternity.utils.FileUtil
+import com.github.cpjinan.plugin.akarilevel.common.PluginScript.nashornHooker
+import com.github.cpjinan.plugin.akarilevel.utils.core.FileUtil
 import java.io.File
 import java.io.FileInputStream
 import java.io.InputStreamReader
@@ -10,9 +10,6 @@ import javax.script.Invocable
 import javax.script.ScriptEngine
 
 /**
- * OishEternity
- * me.inkerxoe.oishplugin.eternity.common.script.nashorn.script
- *
  * @author InkerXoe
  * @since 2024/2/4 09:26
  */
@@ -48,7 +45,7 @@ open class CompiledScript {
      */
     constructor(file: File) {
         scriptEngine = nashornHooker.getNashornEngine()
-        loadLib()
+        this.loadLib()
         val input = FileInputStream(file)
         val reader = InputStreamReader(input, FileUtil.charset(file))
         compiledScript = nashornHooker.compile(scriptEngine, reader)
@@ -65,7 +62,7 @@ open class CompiledScript {
      */
     constructor(script: String) {
         scriptEngine = nashornHooker.getNashornEngine()
-        loadLib()
+        this.loadLib()
         compiledScript = nashornHooker.compile(scriptEngine, script)
         magicFunction()
     }
@@ -100,10 +97,12 @@ open class CompiledScript {
      */
     private fun magicFunction() {
         compiledScript.eval()
-        scriptEngine.eval("""
-            function OishEternityNumberOne() {}
-            OishEternityNumberOne.prototype = this
-            function newObject() { return new OishEternityNumberOne() }
-        """)
+        scriptEngine.eval(
+            """
+            function MagicFunction() {}
+            MagicFunction.prototype = this
+            function newObject() { return new MagicFunction() }
+        """
+        )
     }
 }
