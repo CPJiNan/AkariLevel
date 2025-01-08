@@ -5,10 +5,6 @@ import javax.script.Compilable
 import javax.script.CompiledScript
 import javax.script.ScriptEngine
 
-/**
- * @author InkerXoe
- * @since 2024/2/4 09:24
- */
 abstract class NashornHooker {
     /**
      * 获取一个新的 Nashorn 引擎

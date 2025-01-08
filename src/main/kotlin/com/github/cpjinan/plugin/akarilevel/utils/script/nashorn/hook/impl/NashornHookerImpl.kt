@@ -7,11 +7,9 @@ import jdk.nashorn.api.scripting.ScriptObjectMirror
 import javax.script.Invocable
 import javax.script.ScriptEngine
 
-/**
- * @author InkerXoe
- * @since 2024/2/4 09:32
- */
 class NashornHookerImpl : NashornHooker() {
+
+
     override fun getNashornEngine(args: Array<String>, classLoader: ClassLoader): ScriptEngine {
         return NashornScriptEngineFactory().getScriptEngine(args, classLoader)
     }

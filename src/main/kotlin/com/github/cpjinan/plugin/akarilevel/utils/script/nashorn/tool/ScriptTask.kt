@@ -1,5 +1,6 @@
 package com.github.cpjinan.plugin.akarilevel.utils.script.nashorn.tool
 
+import com.github.cpjinan.plugin.akarilevel.common.PluginExpansion
 import com.github.cpjinan.plugin.akarilevel.utils.core.SchedulerUtil.sync
 import com.github.cpjinan.plugin.akarilevel.utils.core.SchedulerUtil.syncAndGet
 import org.bukkit.Bukkit
@@ -123,6 +124,7 @@ class ScriptTask {
                 }
             }
         }
+        PluginExpansion.tasks.add(this)
         return this
     }
 
