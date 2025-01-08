@@ -1,4 +1,4 @@
-package com.github.cpjinan.plugin.akarilevel.utils.scripts
+package com.github.cpjinan.plugin.akarilevel.utils.script
 
 import taboolib.common5.compileJS
 import taboolib.common5.util.replace

@@ -9,7 +9,7 @@ import com.github.cpjinan.plugin.akarilevel.common.PluginConfig
 import com.github.cpjinan.plugin.akarilevel.common.event.exp.PlayerExpChangeEvent
 import com.github.cpjinan.plugin.akarilevel.common.event.level.PlayerLevelChangeEvent
 import com.github.cpjinan.plugin.akarilevel.internal.database.type.PlayerData
-import com.github.cpjinan.plugin.akarilevel.utils.scripts.Kether.evalKether
+import com.github.cpjinan.plugin.akarilevel.utils.script.Kether.evalKether
 import org.bukkit.entity.Player
 import taboolib.module.chat.colored
 import taboolib.platform.type.BukkitProxyEvent
