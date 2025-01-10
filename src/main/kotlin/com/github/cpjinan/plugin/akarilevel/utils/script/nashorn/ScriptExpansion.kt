@@ -1,6 +1,6 @@
 package com.github.cpjinan.plugin.akarilevel.utils.script.nashorn
 
-import com.github.cpjinan.plugin.akarilevel.common.PluginExpansion.nashornHooker
+import com.github.cpjinan.plugin.akarilevel.common.PluginScript.nashornHooker
 import java.io.File
 import java.io.Reader
 

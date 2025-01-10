@@ -1,7 +1,7 @@
 package com.github.cpjinan.plugin.akarilevel.utils.script.nashorn.tool
 
 import com.github.cpjinan.plugin.akarilevel.AkariLevel
-import com.github.cpjinan.plugin.akarilevel.common.PluginExpansion
+import com.github.cpjinan.plugin.akarilevel.common.PluginScript
 import com.github.cpjinan.plugin.akarilevel.utils.core.ListenerUtil
 import com.github.cpjinan.plugin.akarilevel.utils.core.SchedulerUtil.sync
 import com.github.cpjinan.plugin.akarilevel.utils.core.SchedulerUtil.syncAndGet
@@ -90,7 +90,7 @@ class ScriptListener(private val event: Class<Event>) {
                 executor
             )
         }
-        PluginExpansion.listeners.add(this)
+        PluginScript.listeners.add(this)
         return this
     }
 

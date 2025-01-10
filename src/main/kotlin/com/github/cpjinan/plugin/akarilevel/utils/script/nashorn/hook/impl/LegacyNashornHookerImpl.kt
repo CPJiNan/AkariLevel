@@ -2,17 +2,14 @@ package com.github.cpjinan.plugin.akarilevel.utils.script.nashorn.hook.impl
 
 import com.github.cpjinan.plugin.akarilevel.utils.script.nashorn.CompiledScript
 import com.github.cpjinan.plugin.akarilevel.utils.script.nashorn.hook.NashornHooker
-import pers.neige.neigeitems.libs.nashorn.api.scripting.NashornScriptEngineFactory
-import pers.neige.neigeitems.libs.nashorn.api.scripting.ScriptObjectMirror
+import jdk.nashorn.api.scripting.NashornScriptEngineFactory
+import jdk.nashorn.api.scripting.ScriptObjectMirror
 import javax.script.Invocable
 import javax.script.ScriptEngine
 
-/**
- * openjdk nashorn挂钩
- *
- * @constructor 启用openjdk nashorn挂钩
- */
-class NashornHookerImpl : NashornHooker() {
+class LegacyNashornHookerImpl : NashornHooker() {
+
+
     override fun getNashornEngine(args: Array<String>, classLoader: ClassLoader): ScriptEngine {
         return NashornScriptEngineFactory().getScriptEngine(args, classLoader)
     }

@@ -7,6 +7,7 @@ import com.github.cpjinan.plugin.akarilevel.utils.core.FileUtil
 import com.github.cpjinan.plugin.akarilevel.utils.core.SchedulerUtil.async
 import com.github.cpjinan.plugin.akarilevel.utils.script.nashorn.ScriptExpansion
 import com.github.cpjinan.plugin.akarilevel.utils.script.nashorn.hook.NashornHooker
+import com.github.cpjinan.plugin.akarilevel.utils.script.nashorn.hook.impl.LegacyNashornHookerImpl
 import com.github.cpjinan.plugin.akarilevel.utils.script.nashorn.hook.impl.NashornHookerImpl
 import com.github.cpjinan.plugin.akarilevel.utils.script.nashorn.tool.ScriptListener
 import com.github.cpjinan.plugin.akarilevel.utils.script.nashorn.tool.ScriptTask
@@ -17,7 +18,7 @@ import java.io.File
 import java.util.concurrent.ConcurrentHashMap
 
 @Suppress("UNUSED_PARAMETER")
-object PluginExpansion {
+object PluginScript {
     @Awake(LifeCycle.LOAD)
     fun onLoad() {
         plugin.saveDefaultResource(
@@ -29,7 +30,7 @@ object PluginExpansion {
     /**
      * 所有脚本扩展<文件名, 脚本扩展>
      */
-    val expansions = ConcurrentHashMap<String, ScriptExpansion>()
+    val scripts = ConcurrentHashMap<String, ScriptExpansion>()
 
     /**
      * 所有脚本扩展注册的监听器
@@ -37,11 +38,24 @@ object PluginExpansion {
     val listeners: ConcurrentHashMap.KeySetView<ScriptListener, Boolean> = ConcurrentHashMap.newKeySet()
 
     /**
-     * 所有脚本扩展注册的Bukkit任务
+     * 所有脚本扩展注册的 Bukkit 任务
      */
     val tasks: ConcurrentHashMap.KeySetView<ScriptTask, Boolean> = ConcurrentHashMap.newKeySet()
 
-    val nashornHooker: NashornHooker = NashornHookerImpl()
+    /**
+     * nashorn 依赖挂钩
+     */
+    val nashornHooker: NashornHooker = when {
+        // jdk 自带 nashorn
+        try {
+            Class.forName("jdk.nashorn.api.scripting.NashornScriptEngineFactory")
+            true
+        } catch (error: Throwable) {
+            false
+        } -> LegacyNashornHookerImpl()
+        // 主动下载 nashorn
+        else -> NashornHookerImpl()
+    }
 
     /**
      * 获取公用ScriptEngine
@@ -73,7 +87,7 @@ object PluginExpansion {
         }
         tasks.clear()
         // 清除脚本扩展
-        expansions.clear()
+        scripts.clear()
     }
 
     /**
@@ -91,7 +105,7 @@ object PluginExpansion {
             try {
                 // 加载脚本
                 val script = ScriptExpansion(file)
-                expansions[fileName] = script
+                scripts[fileName] = script
             } catch (error: Throwable) {
                 error.printStackTrace()
             }
@@ -105,7 +119,7 @@ object PluginExpansion {
     @JvmStatic
     @SubscribeEvent
     fun pluginEnable(event: PluginReloadEvent.Post) {
-        expansions.forEach { (scriptName, scriptExpansion) ->
+        scripts.forEach { (scriptName, scriptExpansion) ->
             scriptExpansion.run("pluginEnable", scriptName)
         }
     }
@@ -118,7 +132,7 @@ object PluginExpansion {
     @Awake(LifeCycle.ACTIVE)
     private fun serverEnable() {
         async {
-            expansions.forEach { (scriptName, scriptExpansion) ->
+            scripts.forEach { (scriptName, scriptExpansion) ->
                 scriptExpansion.run("pluginEnable", scriptName)
                 scriptExpansion.run("serverEnable", scriptName)
             }
@@ -132,7 +146,7 @@ object PluginExpansion {
     @JvmStatic
     @SubscribeEvent
     fun pluginDisable(event: PluginReloadEvent.Pre) {
-        expansions.forEach { (scriptName, scriptExpansion) ->
+        scripts.forEach { (scriptName, scriptExpansion) ->
             scriptExpansion.run("pluginDisable", scriptName)
         }
     }
@@ -144,7 +158,7 @@ object PluginExpansion {
     @JvmStatic
     @Awake(LifeCycle.DISABLE)
     private fun serverDisable() {
-        expansions.forEach { (scriptName, scriptExpansion) ->
+        scripts.forEach { (scriptName, scriptExpansion) ->
             scriptExpansion.run("pluginDisable", scriptName)
             scriptExpansion.run("serverDisable", scriptName)
         }

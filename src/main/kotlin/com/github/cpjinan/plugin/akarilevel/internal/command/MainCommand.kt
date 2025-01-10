@@ -1,7 +1,7 @@
 package com.github.cpjinan.plugin.akarilevel.internal.command
 
 import com.github.cpjinan.plugin.akarilevel.common.PluginConfig
-import com.github.cpjinan.plugin.akarilevel.common.PluginExpansion
+import com.github.cpjinan.plugin.akarilevel.common.PluginScript
 import com.github.cpjinan.plugin.akarilevel.common.event.plugin.PluginReloadEvent
 import com.github.cpjinan.plugin.akarilevel.internal.command.subcommand.DataCommand
 import com.github.cpjinan.plugin.akarilevel.internal.command.subcommand.ExpCommand
@@ -60,8 +60,8 @@ object MainCommand {
             literal(aliases = arrayOf("javascript", "js")).dynamic {
                 execute { sender: ProxyCommandSender, _: CommandContext<ProxyCommandSender>, content: String ->
                     try {
-                        PluginExpansion.scriptEngine.put("sender", sender)
-                        val result = PluginExpansion.scriptEngine.eval(content) ?: ""
+                        PluginScript.scriptEngine.put("sender", sender)
+                        val result = PluginScript.scriptEngine.eval(content) ?: ""
                         sender.sendMessage("§8§l‹ ›§r §7Result: §f$result")
                     } catch (e: Throwable) {
                         e.printStackTrace()
@@ -83,7 +83,7 @@ object MainCommand {
             PluginReloadEvent.Pre().call()
             PluginConfig.settings = YamlConfiguration.loadConfiguration(File(FileUtil.dataFolder, "settings.yml"))
             PluginConfig.level = PluginConfig.getLevelGroups()
-            PluginExpansion.reload()
+            PluginScript.reload()
             Language.reload()
             PluginReloadEvent.Post().call()
             sender.sendLang("Plugin-Reloaded")
