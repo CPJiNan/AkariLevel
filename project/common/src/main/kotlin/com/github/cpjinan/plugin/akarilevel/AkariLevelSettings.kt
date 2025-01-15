@@ -18,6 +18,30 @@ object AkariLevelSettings {
         private set
 
     /**
+     * 配置文件版本
+     */
+    @ConfigNode("Options.Config-Version")
+    var configVersion: Int? = null
+
+    /**
+     * 检查版本更新
+     */
+    @ConfigNode("Options.Check-Update")
+    var checkUpdate = true
+
+    /**
+     * OP 版本更新通知
+     */
+    @ConfigNode("Options.OP-Notify")
+    var opNotify = true
+
+    /**
+     * bStats 统计
+     */
+    @ConfigNode("Options.Send-Metrics")
+    var sendMetrics = true
+
+    /**
      * 调试模式
      */
     @ConfigNode("Options.Debug")
