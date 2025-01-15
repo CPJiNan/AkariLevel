@@ -1,5 +1,5 @@
 rootProject.name = "AkariLevel"
 
 include("plugin")
-include("project:core")
+include("project:common")
 include("project:module-bukkit")
