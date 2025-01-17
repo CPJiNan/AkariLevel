@@ -33,7 +33,6 @@ taboolib {
     }
     version { taboolib = "6.2.2" }
     relocate("kotlinx.serialization", "kotlinx.serialization162")
-    relocate("pers.neige.neigeitems.libs", "com.github.cpjinan.plugin.akarilevel.lib")
 }
 
 repositories {
