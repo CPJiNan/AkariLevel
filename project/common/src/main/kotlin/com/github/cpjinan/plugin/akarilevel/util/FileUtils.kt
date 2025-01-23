@@ -1,6 +1,7 @@
 package com.github.cpjinan.plugin.akarilevel.util
 
 import taboolib.common.platform.function.getDataFolder
+import taboolib.platform.BukkitPlugin
 import java.io.File
 
 /**
@@ -11,6 +12,31 @@ import java.io.File
  * @since 2025/1/22 22:44
  */
 object FileUtils {
+    /**
+     * 保存资源文件 (不覆盖)
+     * @param resourcePath 文件路径
+     */
+    @JvmStatic
+    fun saveResource(resourcePath: String) {
+        saveResource(resourcePath, File(getDataFolder(), resourcePath))
+    }
+
+    /**
+     * 保存资源文件 (不覆盖)
+     * @param resourcePath 文件路径
+     * @param outFile 输出路径
+     */
+    @JvmStatic
+    fun saveResource(resourcePath: String, outFile: File) {
+        val inputStream = BukkitPlugin.getInstance().getResource(resourcePath.replace('\\', '/')) ?: return
+        outFile.parentFile.mkdirs()
+        if (!outFile.exists()) {
+            outFile.outputStream().use { fileOutputStream ->
+                inputStream.copyTo(fileOutputStream)
+            }
+        }
+    }
+
     /**
      * 获取文件夹内所有文件
      * @param dir 待获取文件夹
@@ -107,7 +133,7 @@ object FileUtils {
 
     private fun traverseFile(dir: Any, deep: Boolean, action: (File) -> Unit) {
         val parent = when (dir) {
-            is String -> File(dir)
+            is String -> File(getDataFolder(), dir)
             is File -> dir
             else -> return
         }

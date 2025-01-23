@@ -1,0 +1,167 @@
+@file:RuntimeDependencies(
+    RuntimeDependency(
+        "!org.openjdk.nashorn:nashorn-core:15.6",
+        test = "!jdk.nashorn.api.scripting.NashornScriptEngineFactory",
+        relocate = ["!org.openjdk.nashorn", "!com.github.cpjinan.plugin.akarilevel.library.nashorn"]
+    )
+)
+
+package com.github.cpjinan.plugin.akarilevel.script
+
+import org.openjdk.nashorn.api.scripting.NashornScriptEngineFactory
+import org.openjdk.nashorn.api.scripting.ScriptObjectMirror
+import taboolib.common.env.RuntimeDependencies
+import taboolib.common.env.RuntimeDependency
+import java.io.Reader
+import javax.script.*
+import jdk.nashorn.api.scripting.NashornScriptEngineFactory as JDKNashornScriptEngineFactory
+import jdk.nashorn.api.scripting.ScriptObjectMirror as JDKScriptObjectMirror
+
+/**
+ * AkariLevel
+ * com.github.cpjinan.plugin.akarilevel.script
+ *
+ * @author Taboolib, 季楠
+ * @since 2025/1/23 10:04
+ */
+
+/**
+ * 获取脚本引擎工厂实例
+ *
+ * @return Nashorn 引擎
+ */
+val scriptEngineFactory by lazy {
+    try {
+        JDKNashornScriptEngineFactory()
+    } catch (ex: NoClassDefFoundError) {
+        NashornScriptEngineFactory()
+    }
+}
+
+/**
+ * 获取公用的脚本引擎
+ *
+ * @return 公用的 Nashorn 引擎
+ */
+val globalScriptEngine: ScriptEngine by lazy {
+    getScriptEngine()
+}
+
+/**
+ * 获取一个新的脚本引擎
+ *
+ * @return 新的 Nashorn 引擎
+ */
+fun getScriptEngine(): ScriptEngine {
+    return scriptEngineFactory.scriptEngine.also { loadLib(it) }
+}
+
+/**
+ * 编译 JS 脚本 (创建一个新的脚本引擎)
+ *
+ * @param string 待编译脚本文本
+ * @return 已编译 JS 脚本
+ */
+fun compile(string: String): CompiledScript {
+    return (getScriptEngine() as Compilable).compile(string)
+}
+
+/**
+ * 编译 JS 脚本 (创建一个新的脚本引擎)
+ *
+ * @param reader 待编译脚本文件
+ * @return 已编译 JS 脚本
+ */
+fun compile(reader: Reader): CompiledScript {
+    return (getScriptEngine() as Compilable).compile(reader)
+}
+
+/**
+ * 编译 JS 脚本 (使用现有的脚本引擎)
+ *
+ * @param engine 脚本引擎
+ * @param string 待编译脚本文本
+ * @return 已编译 JS 脚本
+ */
+fun compile(engine: ScriptEngine, string: String): CompiledScript {
+    return (engine as Compilable).compile(string)
+}
+
+/**
+ * 编译 JS 脚本 (使用现有的脚本引擎)
+ *
+ * @param reader 待编译脚本文件
+ * @return 已编译 JS 脚本
+ */
+fun compile(engine: ScriptEngine, reader: Reader): CompiledScript {
+    return (engine as Compilable).compile(reader)
+}
+
+/**
+ * 执行函数并获取返回值
+ *
+ * @param compiledScript 待调用脚本
+ * @param function 待执行函数名
+ * @param map 待替换的变量
+ * @param args 传入函数的参数
+ * @return 返回值
+ */
+fun invoke(
+    compiledScript: CompiledScript,
+    function: String,
+    vararg args: Any
+): Any? {
+    compiledScript.eval()
+    return (compiledScript.engine as Invocable).invokeFunction(function, *args)
+}
+
+/**
+ * 执行函数但不获取返回值
+ *
+ * @param compiledScript 待调用脚本
+ * @param function 待执行函数名
+ */
+fun run(compiledScript: CompiledScript, function: String) {
+    compiledScript.eval()
+    if (hasFunction(compiledScript.engine, function)) {
+        try {
+            invoke(compiledScript, function)
+        } catch (error: Throwable) {
+            error.printStackTrace()
+        }
+    }
+}
+
+/**
+ * 检测引擎中是否存在对应函数
+ *
+ * @param engine 脚本引擎
+ * @param function 函数名称
+ * @return 是否存在对应函数
+ */
+fun hasFunction(engine: ScriptEngine, function: String): Boolean {
+    try {
+        val func = engine.get(function)
+        return func is JDKScriptObjectMirror && func.isFunction
+    } catch (ex: NoClassDefFoundError) {
+        val func = engine.get(function)
+        return func is ScriptObjectMirror && func.isFunction
+    }
+}
+
+/**
+ * 将插件依赖传递给 JS 脚本
+ */
+fun loadLib(engine: ScriptEngine) {
+    engine.eval(
+        """
+            var Bukkit = Packages.org.bukkit.Bukkit
+            var PluginManager = Bukkit.getPluginManager()
+            
+            var AkariLevel = PluginManager.getPlugin("AkariLevel")
+            
+            var FileUtils = Packages.com.github.cpjinan.plugin.akarilevel.util.FileUtils.INSTANCE
+            var DebugUtils = Packages.com.github.cpjinan.plugin.akarilevel.util.DebugUtils.INSTANCE
+        """.trimIndent()
+    )
+}

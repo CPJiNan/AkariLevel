@@ -1,5 +1,6 @@
 package com.github.cpjinan.plugin.akarilevel.command
 
+import com.github.cpjinan.plugin.akarilevel.AkariLevelScript
 import com.github.cpjinan.plugin.akarilevel.AkariLevelSettings
 import com.github.cpjinan.plugin.akarilevel.event.AkariLevelReloadEvent
 import com.github.cpjinan.plugin.akarilevel.util.DebugUtils.debug
@@ -28,7 +29,7 @@ object MainCommand {
                 "&r============================="
             )
 
-            AkariLevelReloadEvent().call()
+            AkariLevelReloadEvent.Pre().call()
             val start = System.currentTimeMillis()
             var time = System.currentTimeMillis()
 
@@ -38,12 +39,17 @@ object MainCommand {
 
             Language.reload()
             debug("&r| &b◈ &r语言文件重载完成，用时 ${System.currentTimeMillis() - time}ms。")
+            time = System.currentTimeMillis()
+
+            AkariLevelScript.reload()
+            debug("&r| &b◈ &r脚本拓展重载完成，共加载 ${AkariLevelScript.scripts.size} 个脚本，用时 ${System.currentTimeMillis() - time}ms。")
 
             debug(
                 "&r| &a◈ &r插件重载完毕，总计用时 ${System.currentTimeMillis() - start}ms。",
                 "&r============================="
             )
 
+            AkariLevelReloadEvent.Post().call()
             sender.sendLang("Plugin-Reloaded")
         }
     }
