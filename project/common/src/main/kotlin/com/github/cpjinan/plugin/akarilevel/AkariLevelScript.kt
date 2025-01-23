@@ -5,6 +5,7 @@ package com.github.cpjinan.plugin.akarilevel
 import com.github.cpjinan.plugin.akarilevel.event.AkariLevelReloadEvent
 import com.github.cpjinan.plugin.akarilevel.script.compile
 import com.github.cpjinan.plugin.akarilevel.script.run
+import com.github.cpjinan.plugin.akarilevel.script.type.ScriptListener
 import com.github.cpjinan.plugin.akarilevel.util.FileUtils
 import taboolib.common.LifeCycle
 import taboolib.common.platform.Awake
@@ -20,7 +21,15 @@ import javax.script.CompiledScript
  * @since 2025/1/23 10:49
  */
 object AkariLevelScript {
+    /**
+     * 脚本列表
+     */
     val scripts = ConcurrentHashMap<String, CompiledScript>()
+
+    /**
+     * 脚本注册的监听器列表
+     */
+    val listeners: ConcurrentHashMap.KeySetView<ScriptListener, Boolean> = ConcurrentHashMap.newKeySet()
 
     @Awake(LifeCycle.LOAD)
     fun onLoad() {
@@ -56,6 +65,12 @@ object AkariLevelScript {
      * 卸载脚本
      */
     fun unload() {
+        // 卸载监听器
+        listeners.forEach {
+            it.unregister()
+        }
+        listeners.clear()
+        // 卸载脚本拓展
         scripts.clear()
     }
 

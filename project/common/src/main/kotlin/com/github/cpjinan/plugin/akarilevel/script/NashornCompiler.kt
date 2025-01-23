@@ -25,8 +25,12 @@ import org.openjdk.nashorn.api.scripting.NashornScriptEngineFactory
 import org.openjdk.nashorn.api.scripting.ScriptObjectMirror
 import taboolib.common.env.RuntimeDependencies
 import taboolib.common.env.RuntimeDependency
+import taboolib.platform.BukkitPlugin
 import java.io.Reader
-import javax.script.*
+import javax.script.Compilable
+import javax.script.CompiledScript
+import javax.script.Invocable
+import javax.script.ScriptEngine
 import jdk.nashorn.api.scripting.NashornScriptEngineFactory as JDKNashornScriptEngineFactory
 import jdk.nashorn.api.scripting.ScriptObjectMirror as JDKScriptObjectMirror
 
@@ -66,7 +70,18 @@ val globalScriptEngine: ScriptEngine by lazy {
  * @return 新的 Nashorn 引擎
  */
 fun getScriptEngine(): ScriptEngine {
-    return scriptEngineFactory.scriptEngine.also { loadLib(it) }
+    val args = arrayOf<String>()
+    return try {
+        (scriptEngineFactory as JDKNashornScriptEngineFactory).getScriptEngine(
+            args,
+            BukkitPlugin.getInstance()::class.java.classLoader
+        ).also { loadLib(it) }
+    } catch (ex: NoClassDefFoundError) {
+        (scriptEngineFactory as NashornScriptEngineFactory).getScriptEngine(
+            args,
+            BukkitPlugin.getInstance()::class.java.classLoader
+        ).also { loadLib(it) }
+    }
 }
 
 /**
@@ -115,7 +130,6 @@ fun compile(engine: ScriptEngine, reader: Reader): CompiledScript {
  *
  * @param compiledScript 待调用脚本
  * @param function 待执行函数名
- * @param map 待替换的变量
  * @param args 传入函数的参数
  * @return 返回值
  */
@@ -170,11 +184,15 @@ fun loadLib(engine: ScriptEngine) {
         """
             var Bukkit = Packages.org.bukkit.Bukkit
             var PluginManager = Bukkit.getPluginManager()
+            var EventPriority = Packages.org.bukkit.event.EventPriority
             
             var AkariLevel = PluginManager.getPlugin("AkariLevel")
             
+            var Listener = Packages.com.github.cpjinan.plugin.akarilevel.script.type.ScriptListener
+            
             var FileUtils = Packages.com.github.cpjinan.plugin.akarilevel.util.FileUtils.INSTANCE
             var DebugUtils = Packages.com.github.cpjinan.plugin.akarilevel.util.DebugUtils.INSTANCE
+            var ListenerUtils = Packages.com.github.cpjinan.plugin.akarilevel.util.ListenerUtils.INSTANCE
         """.trimIndent()
     )
 }

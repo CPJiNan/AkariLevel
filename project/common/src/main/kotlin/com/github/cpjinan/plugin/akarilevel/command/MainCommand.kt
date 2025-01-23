@@ -42,7 +42,7 @@ object MainCommand {
             time = System.currentTimeMillis()
 
             AkariLevelScript.reload()
-            debug("&r| &b◈ &r脚本拓展重载完成，共加载 ${AkariLevelScript.scripts.size} 个脚本，用时 ${System.currentTimeMillis() - time}ms。")
+            debug("&r| &b◈ &r脚本重载完成，共加载 ${AkariLevelScript.scripts.size} 个脚本，用时 ${System.currentTimeMillis() - time}ms。")
 
             debug(
                 "&r| &a◈ &r插件重载完毕，总计用时 ${System.currentTimeMillis() - start}ms。",
