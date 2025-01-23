@@ -2,7 +2,6 @@ package com.github.cpjinan.plugin.akarilevel.command
 
 import com.github.cpjinan.plugin.akarilevel.AkariLevelSettings
 import com.github.cpjinan.plugin.akarilevel.event.AkariLevelReloadEvent
-import com.github.cpjinan.plugin.akarilevel.util.DebugUtils
 import com.github.cpjinan.plugin.akarilevel.util.DebugUtils.debug
 import taboolib.common.platform.ProxyCommandSender
 import taboolib.common.platform.command.CommandBody
@@ -24,7 +23,7 @@ object MainCommand {
     @CommandBody(permission = "akarilevel.admin")
     val reload = subCommand {
         execute { sender: ProxyCommandSender, _: CommandContext<ProxyCommandSender>, _: String ->
-            DebugUtils.debug(
+            debug(
                 "&8[&3Akari&bLevel&8] &5调试&7#3 &8| &6触发插件重载命令，正在展示处理逻辑。",
                 "&r============================="
             )
