@@ -3,8 +3,21 @@
         "!org.openjdk.nashorn:nashorn-core:15.6",
         test = "!jdk.nashorn.api.scripting.NashornScriptEngineFactory",
         relocate = ["!org.openjdk.nashorn", "!com.github.cpjinan.plugin.akarilevel.library.nashorn"]
-    )
+    ),
+    RuntimeDependency(
+        "!org.ow2.asm:asm:9.6",
+        relocate = ["!org.ow2.asm", "!com.github.cpjinan.plugin.akarilevel.library.asm"]
+    ),
+    RuntimeDependency(
+        "!org.ow2.asm:asm-util:9.6",
+        relocate = ["!org.ow2.asm", "!com.github.cpjinan.plugin.akarilevel.library.asm"]
+    ),
+    RuntimeDependency(
+        "!org.ow2.asm:asm-commons:9.6",
+        relocate = ["!org.ow2.asm", "!com.github.cpjinan.plugin.akarilevel.library.asm"]
+    ),
 )
+
 
 package com.github.cpjinan.plugin.akarilevel.script
 
