@@ -1,0 +1,5 @@
+# Plugin related
+Plugin-Loading: '&7Loading &3Akari&bLevel&8&f... &8{0}'
+Plugin-Enabled: '&8[&3Akari&bLevel&8] &bInfo &8| &6Plugin enabled.'
+Plugin-Disable: '&8[&3Akari&bLevel&8] &bInfo &8| &6Plugin disabled.'
+Plugin-Reloaded: '&8[&3Akari&bLevel&8] &bInfo &8| &6Plugin reloaded.'

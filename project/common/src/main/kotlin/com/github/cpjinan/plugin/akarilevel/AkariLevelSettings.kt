@@ -20,8 +20,14 @@ object AkariLevelSettings {
     /**
      * 配置文件版本
      */
+    @ConfigNode("Options.Language")
+    var language = "zh_CN"
+
+    /**
+     * 配置文件版本
+     */
     @ConfigNode("Options.Config-Version")
-    var configVersion: Int? = null
+    var configVersion = -1
 
     /**
      * 检查版本更新

@@ -12,6 +12,8 @@
 
 # 全局设置
 Options:
+  # 语言
+  Language: "zh_CN"
   # 配置文件版本
   Config-Version: 6
   # 检查版本更新

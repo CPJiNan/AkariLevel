@@ -5,4 +5,4 @@ import taboolib.common.platform.PlatformSide
 import taboolib.common.platform.Plugin
 
 @PlatformSide(Platform.BUKKIT)
-object BukkitPlugin : Plugin()
+object AkariLevelPlugin : Plugin()
