@@ -10,6 +10,10 @@
 #       AkariLevel  Config       #
 ##################################
 
+###########
+# Options #
+###########
+
 # 全局设置
 Options:
   # 语言
@@ -24,3 +28,13 @@ Options:
   Send-Metrics: true
   # 启用调试模式
   Debug: false
+
+#############
+# Attribute #
+#############
+
+# 属性模块设置
+Attribute:
+  # 属性插件 (留空以禁用)
+  # AttributePlus, SX-Attribute, OriginAttribute, AttributeSystem
+  Plugin: ""
