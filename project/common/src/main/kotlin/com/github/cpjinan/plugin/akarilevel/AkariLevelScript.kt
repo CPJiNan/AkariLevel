@@ -12,28 +12,18 @@ import javax.script.CompiledScript
  * @since 2025/1/23 10:49
  */
 interface AkariLevelScript {
-    /**
-     * 脚本列表
-     */
+    /** 脚本列表 **/
     var scripts: ConcurrentHashMap<String, CompiledScript>
 
-    /**
-     * 监听器列表
-     */
+    /** 监听器列表 **/
     var listeners: ConcurrentHashMap.KeySetView<ScriptListener, Boolean>
 
-    /**
-     * 重载脚本
-     */
+    /** 重载脚本 **/
     fun reload()
 
-    /**
-     * 加载脚本
-     */
+    /** 加载脚本 **/
     fun load()
 
-    /**
-     * 卸载脚本
-     */
+    /** 卸载脚本 **/
     fun unload()
 }

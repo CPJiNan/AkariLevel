@@ -23,14 +23,10 @@ import javax.script.CompiledScript
  * @since 2025/1/23 10:49
  */
 object DefaultAkariLevelScript : AkariLevelScript {
-    /**
-     * 脚本列表
-     */
+    /** 脚本列表 **/
     override var scripts = ConcurrentHashMap<String, CompiledScript>()
 
-    /**
-     * 监听器列表
-     */
+    /** 监听器列表 **/
     override var listeners: ConcurrentHashMap.KeySetView<ScriptListener, Boolean> = ConcurrentHashMap.newKeySet()
 
     /** 重载脚本 */
@@ -39,9 +35,7 @@ object DefaultAkariLevelScript : AkariLevelScript {
         load()
     }
 
-    /**
-     * 加载脚本
-     */
+    /** 加载脚本 **/
     @Awake(LifeCycle.ACTIVE)
     override fun load() {
         FileUtils.getFile("script", true).filter { it.name.endsWith(".js") }.forEach {
@@ -53,9 +47,7 @@ object DefaultAkariLevelScript : AkariLevelScript {
         }
     }
 
-    /**
-     * 卸载脚本
-     */
+    /** 卸载脚本 **/
     override fun unload() {
         // 卸载监听器
         listeners.forEach {
@@ -66,9 +58,7 @@ object DefaultAkariLevelScript : AkariLevelScript {
         scripts.clear()
     }
 
-    /**
-     * 服务器启动事件
-     */
+    /** 服务器启动事件 **/
     @JvmStatic
     @Awake(LifeCycle.ACTIVE)
     private fun serverEnable() {
@@ -92,9 +82,7 @@ object DefaultAkariLevelScript : AkariLevelScript {
         )
     }
 
-    /**
-     * 服务器关闭事件
-     */
+    /** 服务器关闭事件 **/
     @JvmStatic
     @Awake(LifeCycle.DISABLE)
     private fun serverDisable() {
@@ -119,9 +107,7 @@ object DefaultAkariLevelScript : AkariLevelScript {
         )
     }
 
-    /**
-     * 插件重载前事件
-     */
+    /** 插件重载前事件 **/
     @JvmStatic
     @SubscribeEvent
     fun pluginDisable(event: AkariLevelReloadEvent.Pre) {
@@ -144,9 +130,7 @@ object DefaultAkariLevelScript : AkariLevelScript {
         )
     }
 
-    /**
-     * 插件重载后事件
-     */
+    /** 插件重载后事件 **/
     @JvmStatic
     @SubscribeEvent
     fun pluginEnable(event: AkariLevelReloadEvent.Post) {

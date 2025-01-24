@@ -106,9 +106,7 @@ object FileUtils {
         file.writeText(text)
     }
 
-    /**
-     * 创建文件
-     */
+    /** 创建文件 **/
     @JvmStatic
     fun File.createFile(): File {
         if (!exists()) {
@@ -120,9 +118,7 @@ object FileUtils {
         return this
     }
 
-    /**
-     * 创建文件夹
-     */
+    /** 创建文件夹 **/
     @JvmStatic
     fun File.createDirectory(): File {
         if (!exists()) {
