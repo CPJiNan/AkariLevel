@@ -33,7 +33,7 @@ object MainCommand {
             val start = System.currentTimeMillis()
             var time = System.currentTimeMillis()
 
-            AkariLevelSettings.config.reload()
+            AkariLevelSettings.settings.reload()
             debug("&r| &b◈ &r配置文件重载完成，用时 ${System.currentTimeMillis() - time}ms。")
             time = System.currentTimeMillis()
 

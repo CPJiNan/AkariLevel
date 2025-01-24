@@ -14,7 +14,7 @@ import taboolib.module.configuration.Configuration
 @ConfigNode(bind = "settings.yml")
 object AkariLevelSettings {
     @Config("settings.yml")
-    lateinit var config: Configuration
+    lateinit var settings: Configuration
         private set
 
     /**
