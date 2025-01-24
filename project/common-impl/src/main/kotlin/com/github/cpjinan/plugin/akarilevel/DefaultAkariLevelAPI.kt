@@ -13,8 +13,16 @@ class DefaultAkariLevelAPI : AkariLevelAPI {
     /** 脚本拓展接口 **/
     var localScript = PlatformFactory.getAPI<AkariLevelScript>()
 
+    /** 属性接口 **/
+    var localAttribute = PlatformFactory.getAPI<AkariLevelAttribute>()
+
     /** 获取脚本拓展接口 **/
     override fun getScript(): AkariLevelScript {
         return localScript
+    }
+
+    /** 获取属性接口 **/
+    override fun getAttribute(): AkariLevelAttribute {
+        return localAttribute
     }
 }
