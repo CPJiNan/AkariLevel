@@ -1,15 +1,6 @@
-@file:Suppress("UNUSED_PARAMETER")
-
 package com.github.cpjinan.plugin.akarilevel
 
-import com.github.cpjinan.plugin.akarilevel.event.AkariLevelReloadEvent
-import com.github.cpjinan.plugin.akarilevel.script.compile
-import com.github.cpjinan.plugin.akarilevel.script.run
 import com.github.cpjinan.plugin.akarilevel.script.type.ScriptListener
-import com.github.cpjinan.plugin.akarilevel.util.FileUtils
-import taboolib.common.LifeCycle
-import taboolib.common.platform.Awake
-import taboolib.common.platform.event.SubscribeEvent
 import java.util.concurrent.ConcurrentHashMap
 import javax.script.CompiledScript
 
@@ -20,104 +11,29 @@ import javax.script.CompiledScript
  * @author 季楠
  * @since 2025/1/23 10:49
  */
-object AkariLevelScript {
+interface AkariLevelScript {
     /**
      * 脚本列表
      */
-    val scripts = ConcurrentHashMap<String, CompiledScript>()
+    var scripts: ConcurrentHashMap<String, CompiledScript>
 
     /**
-     * 脚本注册的监听器列表
+     * 监听器列表
      */
-    val listeners: ConcurrentHashMap.KeySetView<ScriptListener, Boolean> = ConcurrentHashMap.newKeySet()
-
-    @Awake(LifeCycle.LOAD)
-    fun onLoad() {
-        FileUtils.saveResource(
-            "script/Example.js"
-        )
-        reload()
-    }
+    var listeners: ConcurrentHashMap.KeySetView<ScriptListener, Boolean>
 
     /**
      * 重载脚本
      */
-    fun reload() {
-        unload()
-        load()
-    }
+    fun reload()
 
     /**
      * 加载脚本
      */
-    @Awake(LifeCycle.ACTIVE)
-    private fun load() {
-        FileUtils.getFile("script", true).filter { it.name.endsWith(".js") }.forEach {
-            try {
-                scripts[it.path] = compile(FileUtils.readText(it))
-            } catch (error: Throwable) {
-                error.printStackTrace()
-            }
-        }
-    }
+    fun load()
 
     /**
      * 卸载脚本
      */
-    fun unload() {
-        // 卸载监听器
-        listeners.forEach {
-            it.unregister()
-        }
-        listeners.clear()
-        // 卸载脚本拓展
-        scripts.clear()
-    }
-
-    /**
-     * 服务器启动事件
-     */
-    @JvmStatic
-    @Awake(LifeCycle.ACTIVE)
-    private fun serverEnable() {
-        scripts.forEach { (_, script) ->
-            run(script, "serverEnable")
-            run(script, "pluginEnable")
-        }
-    }
-
-    /**
-     * 服务器关闭事件
-     */
-    @JvmStatic
-    @Awake(LifeCycle.DISABLE)
-    private fun serverDisable() {
-        scripts.forEach { (_, script) ->
-            run(script, "pluginDisable")
-            run(script, "serverDisable")
-        }
-        unload()
-    }
-
-    /**
-     * 插件重载前事件
-     */
-    @JvmStatic
-    @SubscribeEvent
-    fun pluginDisable(event: AkariLevelReloadEvent.Pre) {
-        scripts.forEach { (_, script) ->
-            run(script, "pluginDisable")
-        }
-    }
-
-    /**
-     * 插件重载后事件
-     */
-    @JvmStatic
-    @SubscribeEvent
-    fun pluginEnable(event: AkariLevelReloadEvent.Post) {
-        scripts.forEach { (_, script) ->
-            run(script, "pluginEnable")
-        }
-    }
+    fun unload()
 }

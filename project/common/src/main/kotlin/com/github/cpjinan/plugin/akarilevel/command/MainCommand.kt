@@ -1,6 +1,6 @@
 package com.github.cpjinan.plugin.akarilevel.command
 
-import com.github.cpjinan.plugin.akarilevel.AkariLevelScript
+import com.github.cpjinan.plugin.akarilevel.AkariLevel
 import com.github.cpjinan.plugin.akarilevel.AkariLevelSettings
 import com.github.cpjinan.plugin.akarilevel.event.AkariLevelReloadEvent
 import com.github.cpjinan.plugin.akarilevel.util.DebugUtils.debug
@@ -26,27 +26,26 @@ object MainCommand {
         execute { sender: ProxyCommandSender, _: CommandContext<ProxyCommandSender>, _: String ->
             debug(
                 "&8[&3Akari&bLevel&8] &5调试&7#3 &8| &6触发插件重载命令，正在展示处理逻辑。",
-                "&r============================="
             )
 
             AkariLevelReloadEvent.Pre().call()
             val start = System.currentTimeMillis()
-            var time = System.currentTimeMillis()
+            var time = start
 
             AkariLevelSettings.settings.reload()
-            debug("&r| &b◈ &r配置文件重载完成，用时 ${System.currentTimeMillis() - time}ms。")
+            debug("&r| &b◈ &r#3 配置文件重载完成，用时 ${System.currentTimeMillis() - time}ms。")
             time = System.currentTimeMillis()
 
             Language.reload()
-            debug("&r| &b◈ &r语言文件重载完成，用时 ${System.currentTimeMillis() - time}ms。")
+            debug("&r| &b◈ &r#3 语言文件重载完成，用时 ${System.currentTimeMillis() - time}ms。")
             time = System.currentTimeMillis()
 
-            AkariLevelScript.reload()
-            debug("&r| &b◈ &r脚本重载完成，共加载 ${AkariLevelScript.scripts.size} 个脚本，用时 ${System.currentTimeMillis() - time}ms。")
+            val scriptAPI = AkariLevel.api().getScript()
+            scriptAPI.reload()
+            debug("&r| &b◈ &r#3 脚本重载完成，共加载 ${scriptAPI.scripts.size} 个脚本，用时 ${System.currentTimeMillis() - time}ms。")
 
             debug(
-                "&r| &a◈ &r插件重载完毕，总计用时 ${System.currentTimeMillis() - start}ms。",
-                "&r============================="
+                "&r| &a◈ &r#3 插件重载完毕，总计用时 ${System.currentTimeMillis() - start}ms。",
             )
 
             AkariLevelReloadEvent.Post().call()
