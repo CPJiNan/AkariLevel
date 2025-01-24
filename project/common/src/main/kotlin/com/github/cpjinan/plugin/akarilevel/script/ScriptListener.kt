@@ -1,4 +1,4 @@
-package com.github.cpjinan.plugin.akarilevel.script.type
+package com.github.cpjinan.plugin.akarilevel.script
 
 import org.bukkit.event.Event
 import org.bukkit.event.EventPriority

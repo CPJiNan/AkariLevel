@@ -18,6 +18,10 @@ subprojects {
     configure<TabooLibExtension> {
         description {
             name(rootProject.name)
+            dependencies {
+                name("AttributePlus").optional(true)
+                name("SX-Attribute").optional(true)
+            }
         }
         env {
             install(

@@ -1,4 +1,4 @@
-package com.github.cpjinan.plugin.akarilevel.script.type
+package com.github.cpjinan.plugin.akarilevel.script
 
 import com.github.cpjinan.plugin.akarilevel.DefaultAkariLevelScript
 import com.github.cpjinan.plugin.akarilevel.util.ListenerUtils

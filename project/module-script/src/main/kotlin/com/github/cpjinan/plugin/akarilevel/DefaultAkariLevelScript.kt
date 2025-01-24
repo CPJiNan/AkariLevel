@@ -5,7 +5,7 @@ package com.github.cpjinan.plugin.akarilevel
 import com.github.cpjinan.plugin.akarilevel.event.AkariLevelReloadEvent
 import com.github.cpjinan.plugin.akarilevel.script.compile
 import com.github.cpjinan.plugin.akarilevel.script.run
-import com.github.cpjinan.plugin.akarilevel.script.type.ScriptListener
+import com.github.cpjinan.plugin.akarilevel.script.ScriptListener
 import com.github.cpjinan.plugin.akarilevel.util.DebugUtils
 import com.github.cpjinan.plugin.akarilevel.util.FileUtils
 import taboolib.common.LifeCycle

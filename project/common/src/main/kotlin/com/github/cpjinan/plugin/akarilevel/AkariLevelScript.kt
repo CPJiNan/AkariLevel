@@ -1,6 +1,6 @@
 package com.github.cpjinan.plugin.akarilevel
 
-import com.github.cpjinan.plugin.akarilevel.script.type.ScriptListener
+import com.github.cpjinan.plugin.akarilevel.script.ScriptListener
 import java.util.concurrent.ConcurrentHashMap
 import javax.script.CompiledScript
 
