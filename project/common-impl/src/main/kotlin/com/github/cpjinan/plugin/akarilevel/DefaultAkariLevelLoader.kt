@@ -1,6 +1,9 @@
 package com.github.cpjinan.plugin.akarilevel
 
+import taboolib.common.platform.Platform
 import taboolib.common.util.unsafeLazy
+import taboolib.module.metrics.Metrics
+import taboolib.platform.BukkitPlugin
 
 /**
  * AkariLevel
@@ -15,5 +18,11 @@ object DefaultAkariLevelLoader {
     /** 启动 AkariLevel 服务 **/
     fun startup() {
         AkariLevel.register(api)
+        // 数据统计
+        if (AkariLevelSettings.sendMetrics) Metrics(
+            18992,
+            BukkitPlugin.getInstance().description.version,
+            Platform.BUKKIT
+        )
     }
 }
