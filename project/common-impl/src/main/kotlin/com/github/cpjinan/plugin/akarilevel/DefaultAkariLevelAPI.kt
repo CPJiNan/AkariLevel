@@ -11,6 +11,9 @@ import taboolib.common.platform.PlatformFactory
  */
 class DefaultAkariLevelAPI : AkariLevelAPI {
     /** 脚本拓展接口 **/
+    var localLanguage = PlatformFactory.getAPI<AkariLevelLanguage>()
+
+    /** 脚本拓展接口 **/
     var localScript = PlatformFactory.getAPI<AkariLevelScript>()
 
     /** 属性接口 **/
@@ -18,6 +21,11 @@ class DefaultAkariLevelAPI : AkariLevelAPI {
         AkariLevelSettings.attributePlugin.takeIf { it.isNotEmpty() }?.let {
             PlatformFactory.getAPI<AkariLevelAttribute>()
         }
+
+    /** 获取语言文件接口 **/
+    override fun getLanguage(): AkariLevelLanguage {
+        return localLanguage
+    }
 
     /** 获取脚本拓展接口 **/
     override fun getScript(): AkariLevelScript {
