@@ -2,9 +2,9 @@ package com.github.cpjinan.plugin.akarilevel.attribute
 
 import com.github.cpjinan.plugin.akarilevel.AkariLevelAttribute
 import com.github.cpjinan.plugin.akarilevel.AkariLevelSettings
+import github.saukiya.sxattribute.SXAttribute
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
-import org.serverct.ersha.api.AttributeAPI
 import taboolib.common.LifeCycle
 import taboolib.common.platform.Awake
 import taboolib.common.platform.PlatformFactory
@@ -15,39 +15,44 @@ import taboolib.platform.BukkitPlugin
  * com.github.cpjinan.plugin.akarilevel.attribute
  *
  * @author 季楠
- * @since 2025/1/24 14:04
+ * @since 2025/1/25 11:19
  */
-class AttributePlusImpl : AkariLevelAttribute {
+class SXAttributeImpl : AkariLevelAttribute {
+    private val api = SXAttribute.getApi()
+    private val pluginClass = BukkitPlugin.getInstance().javaClass
+
     override fun getAttribute(player: Player, attributeName: String): Number {
-        return AttributeAPI.getAttrData(player).getAttributeValue(attributeName)[0]
+        return api.getEntityData(player).getValues(attributeName)[0]
     }
 
     override fun getSourceAttribute(player: Player, attributeName: String): Number {
-        return AttributeAPI.getAttrData(player)
-            .getSourceAttributeValue(BukkitPlugin.getInstance().name, attributeName)[0]
+        return api.getEntityAPIData(
+            pluginClass,
+            player.uniqueId
+        ).getValues(attributeName)[0]
     }
 
     override fun setSourceAttribute(player: Player, attributeList: List<String>, amount: Number) {
-        AttributeAPI.addSourceAttribute(
-            AttributeAPI.getAttrData(player),
-            BukkitPlugin.getInstance().name,
-            attributeList
+        api.setEntityAPIData(
+            pluginClass,
+            player.uniqueId,
+            api.loadListData(attributeList)
         )
     }
 
     override fun removeSourceAttribute(player: Player) {
-        AttributeAPI.takeSourceAttribute(AttributeAPI.getAttrData(player), BukkitPlugin.getInstance().name)
+        api.removePluginAllEntityData(pluginClass)
     }
 
     override fun updateAttribute(player: Player) {
-        AttributeAPI.updateAttribute(player)
+        api.attributeUpdate(player)
     }
 
     companion object {
         @Awake(LifeCycle.ENABLE)
         fun onEnable() {
-            if (Bukkit.getServer().pluginManager.isPluginEnabled("AttributePlus") && AkariLevelSettings.attributePlugin.lowercase() == "attributeplus") {
-                PlatformFactory.registerAPI<AkariLevelAttribute>(AttributePlusImpl())
+            if (Bukkit.getServer().pluginManager.isPluginEnabled("SX-Attribute") && AkariLevelSettings.attributePlugin.lowercase() == "sx-attribute") {
+                PlatformFactory.registerAPI<AkariLevelAttribute>(SXAttributeImpl())
             }
         }
     }

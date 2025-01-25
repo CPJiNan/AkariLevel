@@ -10,5 +10,9 @@ import org.bukkit.entity.Player
  * @since 2025/1/24 13:17
  */
 interface AkariLevelAttribute {
-    fun getAttributeValue(player: Player, attribute: String): Number
+    fun getAttribute(player: Player, attributeName: String): Number
+    fun getSourceAttribute(player: Player, attributeName: String): Number
+    fun setSourceAttribute(player: Player, attributeList: List<String>, amount: Number)
+    fun removeSourceAttribute(player: Player)
+    fun updateAttribute(player: Player)
 }
