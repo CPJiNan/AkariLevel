@@ -1,6 +1,6 @@
 package com.github.cpjinan.plugin.akarilevel
 
-import taboolib.common.platform.ProxyCommandSender
+import org.bukkit.command.CommandSender
 
 /**
  * AkariLevel
@@ -11,11 +11,11 @@ import taboolib.common.platform.ProxyCommandSender
  */
 interface AkariLevelLanguage {
     /** 发送语言文本 **/
-    fun sendLang(sender: ProxyCommandSender, key: String, vararg args: Any)
+    fun sendLang(sender: CommandSender, key: String, vararg args: Any)
 
     /** 获取语言文本 **/
-    fun getLang(sender: ProxyCommandSender, key: String, vararg args: Any): String?
+    fun getLang(sender: CommandSender, key: String, vararg args: Any): String?
 
     /** 获取语言文本 **/
-    fun getLangList(sender: ProxyCommandSender, key: String, vararg args: Any): List<String>
+    fun getLangList(sender: CommandSender, key: String, vararg args: Any): List<String>
 }

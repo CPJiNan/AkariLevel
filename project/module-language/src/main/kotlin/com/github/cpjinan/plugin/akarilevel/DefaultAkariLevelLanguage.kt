@@ -2,14 +2,18 @@ package com.github.cpjinan.plugin.akarilevel
 
 import com.github.cpjinan.plugin.akarilevel.util.DebugUtils.debug
 import com.github.cpjinan.plugin.akarilevel.util.FileUtils
+import org.bukkit.command.CommandSender
 import taboolib.common.LifeCycle
 import taboolib.common.platform.Awake
 import taboolib.common.platform.PlatformFactory
-import taboolib.common.platform.ProxyCommandSender
 import taboolib.common.platform.event.SubscribeEvent
-import taboolib.module.lang.*
+import taboolib.module.lang.Language
 import taboolib.module.lang.event.PlayerSelectLocaleEvent
 import taboolib.module.lang.event.SystemSelectLocaleEvent
+import taboolib.module.lang.registerLanguage
+import taboolib.platform.util.asLangTextList
+import taboolib.platform.util.asLangTextOrNull
+import taboolib.platform.util.sendLang
 
 /**
  * AkariLevel
@@ -19,15 +23,15 @@ import taboolib.module.lang.event.SystemSelectLocaleEvent
  * @since 2025/1/25 16:05
  */
 object DefaultAkariLevelLanguage : AkariLevelLanguage {
-    override fun sendLang(sender: ProxyCommandSender, key: String, vararg args: Any) {
+    override fun sendLang(sender: CommandSender, key: String, vararg args: Any) {
         sender.sendLang(key, *args)
     }
 
-    override fun getLang(sender: ProxyCommandSender, key: String, vararg args: Any): String? {
+    override fun getLang(sender: CommandSender, key: String, vararg args: Any): String? {
         return sender.asLangTextOrNull(key, *args)
     }
 
-    override fun getLangList(sender: ProxyCommandSender, key: String, vararg args: Any): List<String> {
+    override fun getLangList(sender: CommandSender, key: String, vararg args: Any): List<String> {
         return sender.asLangTextList(key, *args)
     }
 

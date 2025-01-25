@@ -3,7 +3,7 @@ function pluginEnable() {
 }
 
 function onPluginPreReload() {
-    new Listener(Packages.com.github.cpjinan.plugin.akarilevel.event.AkariLevelReloadEvent.Pre.class)
+    new Listener(Packages.org.bukkit.event.player.PlayerJoinEvent.class)
         .setExecutor(
             function (event) {
                 print("测试");
