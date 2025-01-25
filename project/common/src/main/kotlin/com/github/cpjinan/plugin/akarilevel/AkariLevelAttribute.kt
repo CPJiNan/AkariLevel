@@ -10,18 +10,18 @@ import org.bukkit.entity.Player
  * @since 2025/1/24 13:17
  */
 interface AkariLevelAttribute {
-    /** 获取玩家属性值 (全部来源) **/
+    /** 获取玩家属性值 **/
     fun getAttribute(player: Player, attributeName: String): Number
 
-    /** 获取玩家属性值 (插件来源) **/
+    /** 获取玩家属性值 **/
     fun getSourceAttribute(player: Player, attributeName: String): Number
 
-    /** 设置玩家属性值 (插件来源) **/
+    /** 设置玩家属性值 **/
     fun setSourceAttribute(player: Player, attributeList: List<String>, amount: Number)
 
-    /** 清空玩家属性值 (插件来源) **/
+    /** 清空玩家属性值 **/
     fun removeSourceAttribute(player: Player)
 
-    /** 更新玩家属性值 (全部来源) **/
+    /** 更新玩家属性值 **/
     fun updateAttribute(player: Player)
 }
