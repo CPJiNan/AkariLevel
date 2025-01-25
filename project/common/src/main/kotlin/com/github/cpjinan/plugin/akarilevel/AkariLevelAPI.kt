@@ -12,5 +12,5 @@ interface AkariLevelAPI {
     fun getScript(): AkariLevelScript
 
     /** 获取属性接口 **/
-    fun getAttribute(): AkariLevelAttribute
+    fun getAttribute(): AkariLevelAttribute?
 }

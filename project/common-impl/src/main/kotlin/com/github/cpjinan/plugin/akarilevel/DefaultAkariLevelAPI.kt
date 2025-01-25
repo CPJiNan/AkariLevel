@@ -14,7 +14,10 @@ class DefaultAkariLevelAPI : AkariLevelAPI {
     var localScript = PlatformFactory.getAPI<AkariLevelScript>()
 
     /** 属性接口 **/
-    var localAttribute = PlatformFactory.getAPI<AkariLevelAttribute>()
+    var localAttribute =
+        AkariLevelSettings.attributePlugin.takeIf { it.isNotEmpty() }?.let {
+            PlatformFactory.getAPI<AkariLevelAttribute>()
+        }
 
     /** 获取脚本拓展接口 **/
     override fun getScript(): AkariLevelScript {
@@ -22,7 +25,7 @@ class DefaultAkariLevelAPI : AkariLevelAPI {
     }
 
     /** 获取属性接口 **/
-    override fun getAttribute(): AkariLevelAttribute {
+    override fun getAttribute(): AkariLevelAttribute? {
         return localAttribute
     }
 }

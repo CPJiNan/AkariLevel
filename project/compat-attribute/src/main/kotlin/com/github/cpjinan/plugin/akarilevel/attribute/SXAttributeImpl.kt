@@ -3,7 +3,6 @@ package com.github.cpjinan.plugin.akarilevel.attribute
 import com.github.cpjinan.plugin.akarilevel.AkariLevelAttribute
 import com.github.cpjinan.plugin.akarilevel.AkariLevelSettings
 import github.saukiya.sxattribute.SXAttribute
-import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import taboolib.common.LifeCycle
 import taboolib.common.platform.Awake
@@ -49,9 +48,9 @@ class SXAttributeImpl : AkariLevelAttribute {
     }
 
     companion object {
-        @Awake(LifeCycle.ENABLE)
-        fun onEnable() {
-            if (Bukkit.getServer().pluginManager.isPluginEnabled("SX-Attribute") && AkariLevelSettings.attributePlugin.lowercase() == "sx-attribute") {
+        @Awake(LifeCycle.CONST)
+        fun onConst() {
+            if (AkariLevelSettings.attributePlugin.lowercase() == "sx-attribute") {
                 PlatformFactory.registerAPI<AkariLevelAttribute>(SXAttributeImpl())
             }
         }

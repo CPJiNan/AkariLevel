@@ -2,7 +2,6 @@ package com.github.cpjinan.plugin.akarilevel.attribute
 
 import com.github.cpjinan.plugin.akarilevel.AkariLevelAttribute
 import com.github.cpjinan.plugin.akarilevel.AkariLevelSettings
-import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import org.serverct.ersha.api.AttributeAPI
 import taboolib.common.LifeCycle
@@ -44,9 +43,9 @@ class AttributePlusImpl : AkariLevelAttribute {
     }
 
     companion object {
-        @Awake(LifeCycle.ENABLE)
-        fun onEnable() {
-            if (Bukkit.getServer().pluginManager.isPluginEnabled("AttributePlus") && AkariLevelSettings.attributePlugin.lowercase() == "attributeplus") {
+        @Awake(LifeCycle.CONST)
+        fun onConst() {
+            if (AkariLevelSettings.attributePlugin.lowercase() == "attributeplus") {
                 PlatformFactory.registerAPI<AkariLevelAttribute>(AttributePlusImpl())
             }
         }
