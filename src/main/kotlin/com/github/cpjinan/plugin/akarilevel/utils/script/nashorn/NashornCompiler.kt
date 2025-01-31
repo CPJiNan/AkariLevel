@@ -188,7 +188,7 @@ fun loadLib(engine: ScriptEngine) {
             
             var AkariLevel = PluginManager.getPlugin("AkariLevel")
             
-            var Listener = Packages.com.github.cpjinan.plugin.akarilevel.script.ScriptListener
+            var Listener = Packages.com.github.cpjinan.plugin.akarilevel.utils.script.nashorn.ScriptListener
             
             var DataAPI = Packages.com.github.cpjinan.plugin.akarilevel.api.DataAPI.INSTANCE
             var LevelAPI = Packages.com.github.cpjinan.plugin.akarilevel.api.LevelAPI.INSTANCE
