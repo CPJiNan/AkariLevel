@@ -9,6 +9,7 @@ import com.github.cpjinan.plugin.akarilevel.internal.command.subcommand.LevelCom
 import com.github.cpjinan.plugin.akarilevel.internal.command.subcommand.TraceCommand
 import com.github.cpjinan.plugin.akarilevel.utils.core.FileUtil
 import com.github.cpjinan.plugin.akarilevel.utils.script.Kether.evalKether
+import com.github.cpjinan.plugin.akarilevel.utils.script.nashorn.getScriptEngine
 import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.entity.Player
 import taboolib.common.platform.ProxyCommandSender
@@ -60,9 +61,9 @@ object MainCommand {
             literal(aliases = arrayOf("javascript", "js")).dynamic {
                 execute { sender: ProxyCommandSender, _: CommandContext<ProxyCommandSender>, content: String ->
                     try {
-                        PluginScript.scriptEngine.put("sender", sender)
-                        val result = PluginScript.scriptEngine.eval(content) ?: ""
-                        sender.sendMessage("§8§l‹ ›§r §7Result: §f$result")
+                        val engine = getScriptEngine()
+                        engine.put("sender", sender)
+                        sender.sendMessage("§8§l‹ ›§r §7Result: §f${engine.eval(content) ?: ""}")
                     } catch (e: Throwable) {
                         e.printStackTrace()
                     }
