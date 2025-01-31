@@ -39,7 +39,7 @@ object PluginScript {
     /** 加载脚本 **/
     @Awake(LifeCycle.ACTIVE)
     fun load() {
-        FileUtil.getFile("script", true).filter { it.name.endsWith(".js") }.forEach {
+        FileUtil.getFile("plugins/AkariLevel/script", true).filter { it.name.endsWith(".js") }.forEach {
             try {
                 scripts[it.path.removePrefix("plugins/AkariLevel/script/")] = compile(FileUtil.readText(it))
             } catch (error: Throwable) {
