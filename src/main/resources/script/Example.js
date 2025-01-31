@@ -6,13 +6,13 @@ function playerLevelChangeListener() {
     new Listener(PlayerExpChangeEvent.class)
         .setPriority(EventPriority.NORMAL)
         .setExecutor(function (event) {
-            const player = event.getPlayer();
-            const levelGroup = event.getLevelGroup();
-            const expAmount = event.getExpAmount();
-            // const source = event.getSource();
+            var player = event.getPlayer();
+            var levelGroup = event.getLevelGroup();
+            var expAmount = event.getExpAmount();
+            // var source = event.getSource();
 
-            const playerLevel = PlayerAPI.getPlayerLevel(player, levelGroup);
-            const maxLevel = LevelAPI.getLevelGroupData(levelGroup).getMaxLevel();
+            var playerLevel = PlayerAPI.getPlayerLevel(player, levelGroup);
+            var maxLevel = LevelAPI.getLevelGroupData(levelGroup).getMaxLevel();
 
             if (playerLevel === maxLevel || expAmount <= 0) return;
 
