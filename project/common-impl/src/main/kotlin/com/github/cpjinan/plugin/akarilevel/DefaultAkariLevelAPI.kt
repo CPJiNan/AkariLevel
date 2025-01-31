@@ -10,6 +10,9 @@ import taboolib.common.platform.PlatformFactory
  * @since 2025/1/24 10:04
  */
 class DefaultAkariLevelAPI : AkariLevelAPI {
+    /** 数据接口 **/
+    var localDatabase = PlatformFactory.getAPI<AkariLevelDatabase>()
+
     /** 脚本拓展接口 **/
     var localLanguage = PlatformFactory.getAPI<AkariLevelLanguage>()
 
@@ -21,6 +24,11 @@ class DefaultAkariLevelAPI : AkariLevelAPI {
         AkariLevelSettings.attributePlugin.takeIf { it.isNotEmpty() }?.let {
             PlatformFactory.getAPI<AkariLevelAttribute>()
         }
+
+    /** 获取数据接口 **/
+    override fun getDatabase(): AkariLevelDatabase {
+        return localDatabase
+    }
 
     /** 获取语言文件接口 **/
     override fun getLanguage(): AkariLevelLanguage {
