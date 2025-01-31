@@ -48,7 +48,7 @@ dependencies {
     compileOnly("io.lumine.xikage:MythicMobs:4.11.0@jar")
     compileOnly("io.lumine:Mythic-Dist:5.3.5@jar")
     compileOnly(fileTree("libs"))
-    taboo(fileTree("libs/nashorn-15.4.jar"))
+    compileOnly("org.openjdk.nashorn:nashorn-core:15.6")
     taboo("org.jetbrains.kotlinx:kotlinx-serialization-json-jvm:1.6.2")
     taboo("org.jetbrains.kotlinx:kotlinx-serialization-cbor-jvm:1.6.2")
 }

@@ -1,167 +1,166 @@
+@file:Suppress("UNUSED_PARAMETER")
+
 package com.github.cpjinan.plugin.akarilevel.common
 
 import com.github.cpjinan.plugin.akarilevel.AkariLevel.plugin
 import com.github.cpjinan.plugin.akarilevel.common.event.plugin.PluginReloadEvent
 import com.github.cpjinan.plugin.akarilevel.utils.core.ConfigUtil.saveDefaultResource
 import com.github.cpjinan.plugin.akarilevel.utils.core.FileUtil
-import com.github.cpjinan.plugin.akarilevel.utils.core.SchedulerUtil.async
-import com.github.cpjinan.plugin.akarilevel.utils.script.nashorn.ScriptExpansion
-import com.github.cpjinan.plugin.akarilevel.utils.script.nashorn.hook.NashornHooker
-import com.github.cpjinan.plugin.akarilevel.utils.script.nashorn.hook.impl.LegacyNashornHookerImpl
-import com.github.cpjinan.plugin.akarilevel.utils.script.nashorn.hook.impl.NashornHookerImpl
-import com.github.cpjinan.plugin.akarilevel.utils.script.nashorn.tool.ScriptListener
-import com.github.cpjinan.plugin.akarilevel.utils.script.nashorn.tool.ScriptTask
+import com.github.cpjinan.plugin.akarilevel.utils.core.LoggerUtil.debug
+import com.github.cpjinan.plugin.akarilevel.utils.script.nashorn.ScriptListener
+import com.github.cpjinan.plugin.akarilevel.utils.script.nashorn.compile
+import com.github.cpjinan.plugin.akarilevel.utils.script.nashorn.run
 import taboolib.common.LifeCycle
 import taboolib.common.platform.Awake
 import taboolib.common.platform.event.SubscribeEvent
-import java.io.File
 import java.util.concurrent.ConcurrentHashMap
+import javax.script.CompiledScript
 
-@Suppress("UNUSED_PARAMETER")
+/**
+ * AkariLevel
+ * com.github.cpjinan.plugin.akarilevel.script
+ *
+ * @author 季楠
+ * @since 2025/1/23 10:49
+ */
 object PluginScript {
-    @Awake(LifeCycle.LOAD)
-    fun onLoad() {
-        plugin.saveDefaultResource(
-            "script/Example.js"
-        )
-        reload()
-    }
+    /** 脚本列表 **/
+    var scripts = ConcurrentHashMap<String, CompiledScript>()
 
-    /**
-     * 所有脚本扩展<文件名, 脚本扩展>
-     */
-    val scripts = ConcurrentHashMap<String, ScriptExpansion>()
+    /** 监听器列表 **/
+    var listeners: ConcurrentHashMap.KeySetView<ScriptListener, Boolean> = ConcurrentHashMap.newKeySet()
 
-    /**
-     * 所有脚本扩展注册的监听器
-     */
-    val listeners: ConcurrentHashMap.KeySetView<ScriptListener, Boolean> = ConcurrentHashMap.newKeySet()
-
-    /**
-     * 所有脚本扩展注册的 Bukkit 任务
-     */
-    val tasks: ConcurrentHashMap.KeySetView<ScriptTask, Boolean> = ConcurrentHashMap.newKeySet()
-
-    /**
-     * nashorn 依赖挂钩
-     */
-    val nashornHooker: NashornHooker = when {
-        // jdk 自带 nashorn
-        try {
-            Class.forName("jdk.nashorn.api.scripting.NashornScriptEngineFactory")
-            true
-        } catch (error: Throwable) {
-            false
-        } -> LegacyNashornHookerImpl()
-        // 主动下载 nashorn
-        else -> NashornHookerImpl()
-    }
-
-    /**
-     * 获取公用ScriptEngine
-     */
-    val scriptEngine = nashornHooker.getNashornEngine()
-
-    /**
-     * 重载管理器
-     */
+    /** 重载脚本 */
     fun reload() {
-        // 卸载脚本扩展
         unload()
-        // 加载脚本扩展
         load()
     }
 
-    /**
-     * 卸载管理器
-     */
-    fun unload() {
-        // 卸载脚本监听器
-        listeners.forEach {
-            it.unregister()
-        }
-        listeners.clear()
-        // 卸载Bukkit任务
-        tasks.forEach {
-            it.unregister()
-        }
-        tasks.clear()
-        // 清除脚本扩展
-        scripts.clear()
-    }
-
-    /**
-     * 加载脚本扩展
-     */
+    /** 加载脚本 **/
     @Awake(LifeCycle.ACTIVE)
-    private fun load() {
-        // 加载文件中的扩展
-        for (file in FileUtil.getFile("plugins/AkariLevel/script", true)) {
-            val fileName =
-                file.path.replace("plugins${File.separator}AkariLevel${File.separator}script${File.separator}", "")
-            // 仅加载.js文件
-            if (!fileName.endsWith(".js")) continue
-            // 防止某个脚本出错导致加载中断
+    fun load() {
+        FileUtil.getFile("script", true).filter { it.name.endsWith(".js") }.forEach {
             try {
-                // 加载脚本
-                val script = ScriptExpansion(file)
-                scripts[fileName] = script
+                scripts[it.path.removePrefix("plugins/AkariLevel/script/")] = compile(FileUtil.readText(it))
             } catch (error: Throwable) {
                 error.printStackTrace()
             }
         }
     }
 
-    /**
-     * 触发 pluginEnable
-     * PluginReloadEvent 是异步触发的, 所以内部没有 runTaskAsynchronously
-     */
-    @JvmStatic
-    @SubscribeEvent
-    fun pluginEnable(event: PluginReloadEvent.Post) {
-        scripts.forEach { (scriptName, scriptExpansion) ->
-            scriptExpansion.run("pluginEnable", scriptName)
+    /** 卸载脚本 **/
+    fun unload() {
+        // 卸载监听器
+        listeners.forEach {
+            it.unregister()
         }
+        listeners.clear()
+        // 卸载脚本拓展
+        scripts.clear()
     }
 
-    /**
-     * 触发 serverEnable (同时也会触发pluginEnable)
-     * 内部 runTaskAsynchronously 了
-     */
+    /** 服务器启动事件 **/
     @JvmStatic
     @Awake(LifeCycle.ACTIVE)
     private fun serverEnable() {
-        async {
-            scripts.forEach { (scriptName, scriptExpansion) ->
-                scriptExpansion.run("pluginEnable", scriptName)
-                scriptExpansion.run("serverEnable", scriptName)
-            }
+        debug(
+            "&8[&3Akari&bLevel&8] &5调试&7#1 &8| &6触发服务器启动事件，正在展示脚本模块处理逻辑。",
+        )
+
+        val start = System.currentTimeMillis()
+        var time = start
+
+        scripts.forEach { (name, script) ->
+            run(script, "serverEnable")
+            run(script, "pluginEnable")
+
+            debug("&r| &b◈ &r#1 执行 $name 脚本的 serverEnable 及 pluginEnable 函数，用时 ${System.currentTimeMillis() - time}ms。")
+            time = System.currentTimeMillis()
         }
+
+        debug(
+            "&r| &a◈ &r#1 事件处理完毕，总计用时 ${System.currentTimeMillis() - start}ms。",
+        )
     }
 
-    /**
-     * 触发 pluginDisable
-     * PluginReloadEvent是异步触发的, 所以内部没有 runTaskAsynchronously
-     */
-    @JvmStatic
-    @SubscribeEvent
-    fun pluginDisable(event: PluginReloadEvent.Pre) {
-        scripts.forEach { (scriptName, scriptExpansion) ->
-            scriptExpansion.run("pluginDisable", scriptName)
-        }
-    }
-
-    /**
-     * 触发 serverDisable (同时也会触发disable)
-     * 关服的时候不能开新任务，所以是在主线程触发的
-     */
+    /** 服务器关闭事件 **/
     @JvmStatic
     @Awake(LifeCycle.DISABLE)
     private fun serverDisable() {
-        scripts.forEach { (scriptName, scriptExpansion) ->
-            scriptExpansion.run("pluginDisable", scriptName)
-            scriptExpansion.run("serverDisable", scriptName)
+        debug(
+            "&8[&3Akari&bLevel&8] &5调试&7#2 &8| &6触发服务器关闭事件，正在展示脚本模块处理逻辑。",
+        )
+
+        val start = System.currentTimeMillis()
+        var time = start
+
+        scripts.forEach { (name, script) ->
+            run(script, "pluginDisable")
+            run(script, "serverDisable")
+
+            debug("&r| &b◈ &r#2 执行 $name 脚本的 pluginDisable 及 serverDisable 函数，用时 ${System.currentTimeMillis() - time}ms。")
+            time = System.currentTimeMillis()
         }
         unload()
+
+        debug(
+            "&r| &a◈ &r#2 事件处理完毕，总计用时 ${System.currentTimeMillis() - start}ms。",
+        )
+    }
+
+    /** 插件重载前事件 **/
+    @JvmStatic
+    @SubscribeEvent
+    fun pluginDisable(event: PluginReloadEvent.Pre) {
+        debug(
+            "&8[&3Akari&bLevel&8] &5调试&7#3 &8| &6触发插件重载前事件，正在展示脚本模块处理逻辑。",
+        )
+
+        val start = System.currentTimeMillis()
+        var time = start
+
+        scripts.forEach { (name, script) ->
+            run(script, "pluginDisable")
+
+            debug("&r| &b◈ &r#3 执行 $name 脚本的 pluginDisable 函数，用时 ${System.currentTimeMillis() - time}ms。")
+            time = System.currentTimeMillis()
+        }
+
+        debug(
+            "&r| &a◈ &r#3 事件处理完毕，总计用时 ${System.currentTimeMillis() - start}ms。",
+        )
+    }
+
+    /** 插件重载后事件 **/
+    @JvmStatic
+    @SubscribeEvent
+    fun pluginEnable(event: PluginReloadEvent.Post) {
+        debug(
+            "&8[&3Akari&bLevel&8] &5调试&7#4 &8| &6触发插件重载后事件，正在展示脚本模块处理逻辑。",
+        )
+
+        val start = System.currentTimeMillis()
+        var time = start
+
+        scripts.forEach { (name, script) ->
+            run(script, "pluginEnable")
+
+            debug("&r| &b◈ &r#4 执行 $name 脚本的 pluginEnable 函数，用时 ${System.currentTimeMillis() - time}ms。")
+            time = System.currentTimeMillis()
+        }
+
+        debug(
+            "&r| &a◈ &r#4 事件处理完毕，总计用时 ${System.currentTimeMillis() - start}ms。",
+        )
+    }
+
+    @Awake(LifeCycle.ENABLE)
+    fun onEnable() {
+        // 保存默认资源文件
+        plugin.saveDefaultResource(
+            "script/Example.js"
+        )
+        // 重载脚本
+        reload()
     }
 }

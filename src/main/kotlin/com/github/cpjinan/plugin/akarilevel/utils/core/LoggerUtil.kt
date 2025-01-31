@@ -1,5 +1,7 @@
 package com.github.cpjinan.plugin.akarilevel.utils.core
 
+import com.github.cpjinan.plugin.akarilevel.common.PluginConfig
+import taboolib.module.chat.colored
 import taboolib.platform.BukkitPlugin
 import taboolib.platform.util.*
 
@@ -83,6 +85,15 @@ object LoggerUtil {
     fun errorMessage(vararg message: String) {
         for (i in message) {
             BukkitPlugin.getInstance().server.consoleSender.sendErrorMessage(i)
+        }
+    }
+
+    @JvmStatic
+    fun debug(vararg message: String) {
+        if (PluginConfig.isEnabledDebug()) {
+            message.forEach {
+                BukkitPlugin.getInstance().server.consoleSender.sendMessage(it.colored())
+            }
         }
     }
 }
