@@ -15,7 +15,7 @@ object PluginUpdate {
     fun getPluginNotice() {
         Thread {
             val urlConnection =
-                URL("https://cpjinan.github.io/Pages/AkariLevel/notice.html").openConnection() as HttpURLConnection
+                URL("https://raw.githubusercontent.com/CPJiNan/AkariLevel/refs/heads/master/src/main/kotlin/com/github/cpjinan/plugin/akarilevel/common/PluginNotice").openConnection() as HttpURLConnection
             try {
                 val message = urlConnection.inputStream.bufferedReader().readText()
                 if (message.isNotBlank()) message(message.colored())
@@ -30,7 +30,7 @@ object PluginUpdate {
     fun getPluginUpdate() {
         Thread {
             val urlConnection =
-                URL("https://cpjinan.github.io/Pages/AkariLevel/version.html").openConnection() as HttpURLConnection
+                URL("https://raw.githubusercontent.com/CPJiNan/AkariLevel/refs/heads/master/src/main/kotlin/com/github/cpjinan/plugin/akarilevel/common/PluginVersion").openConnection() as HttpURLConnection
             try {
                 val latestVersion = urlConnection.inputStream.bufferedReader().readText()
                 val currentVersion = BukkitPlugin.getInstance().description.version
@@ -52,7 +52,7 @@ object PluginUpdate {
     fun sendPlayerUpdateNotify(player: Player) {
         Thread {
             val urlConnection =
-                URL("https://cpjinan.github.io/Pages/AkariLevel/version.html").openConnection() as HttpURLConnection
+                URL("https://raw.githubusercontent.com/CPJiNan/AkariLevel/refs/heads/master/src/main/kotlin/com/github/cpjinan/plugin/akarilevel/common/PluginVersion").openConnection() as HttpURLConnection
             try {
                 val latestVersion = urlConnection.inputStream.bufferedReader().readText()
                 val currentVersion = BukkitPlugin.getInstance().description.version
