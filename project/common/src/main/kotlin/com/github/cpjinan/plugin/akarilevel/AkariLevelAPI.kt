@@ -9,14 +9,11 @@ package com.github.cpjinan.plugin.akarilevel
  */
 interface AkariLevelAPI {
     /** 获取数据接口 **/
-    fun getDatabase(): AkariLevelDatabase
+    fun getData(): AkariLevelData
 
     /** 获取语言文件接口 **/
     fun getLanguage(): AkariLevelLanguage
 
     /** 获取脚本拓展接口 **/
     fun getScript(): AkariLevelScript
-
-    /** 获取属性接口 **/
-    fun getAttribute(): AkariLevelAttribute?
 }

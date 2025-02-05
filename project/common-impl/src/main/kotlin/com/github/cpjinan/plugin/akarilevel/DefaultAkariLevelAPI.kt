@@ -11,7 +11,7 @@ import taboolib.common.platform.PlatformFactory
  */
 class DefaultAkariLevelAPI : AkariLevelAPI {
     /** 数据接口 **/
-    var localDatabase = PlatformFactory.getAPI<AkariLevelDatabase>()
+    var localDatabase = PlatformFactory.getAPI<AkariLevelData>()
 
     /** 脚本拓展接口 **/
     var localLanguage = PlatformFactory.getAPI<AkariLevelLanguage>()
@@ -19,14 +19,8 @@ class DefaultAkariLevelAPI : AkariLevelAPI {
     /** 脚本拓展接口 **/
     var localScript = PlatformFactory.getAPI<AkariLevelScript>()
 
-    /** 属性接口 **/
-    var localAttribute =
-        AkariLevelSettings.attributePlugin.takeIf { it.isNotEmpty() }?.let {
-            PlatformFactory.getAPI<AkariLevelAttribute>()
-        }
-
     /** 获取数据接口 **/
-    override fun getDatabase(): AkariLevelDatabase {
+    override fun getData(): AkariLevelData {
         return localDatabase
     }
 
@@ -38,10 +32,5 @@ class DefaultAkariLevelAPI : AkariLevelAPI {
     /** 获取脚本拓展接口 **/
     override fun getScript(): AkariLevelScript {
         return localScript
-    }
-
-    /** 获取属性接口 **/
-    override fun getAttribute(): AkariLevelAttribute? {
-        return localAttribute
     }
 }
