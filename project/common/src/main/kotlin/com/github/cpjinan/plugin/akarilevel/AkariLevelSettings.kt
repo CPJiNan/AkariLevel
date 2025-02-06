@@ -40,8 +40,4 @@ object AkariLevelSettings {
     /** 调试模式 **/
     @ConfigNode("Options.Debug")
     var debug = false
-
-    /** 调试模式 **/
-    @ConfigNode("Attribute.Plugin")
-    var attributePlugin = ""
 }
