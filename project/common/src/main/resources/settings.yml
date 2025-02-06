@@ -29,12 +29,24 @@ Options:
   # 启用调试模式
   Debug: false
 
-#############
-# Attribute #
-#############
+############
+# Database #
+############
 
-# 属性模块设置
-Attribute:
-  # 属性插件 (留空以禁用)
-  # AttributePlus, SX-Attribute, OriginAttribute, AttributeSystem
-  Plugin: ""
+# 数据存储设置
+Database:
+  # 使用玩家 UUID 进行存储
+  UUID: false
+  # 存储方式 (JSON, CBOR, SQL)
+  Method: JSON
+  JSON:
+    file: database.json
+  CBOR:
+    file: database.cbor
+  SQL:
+    host: localhost
+    port: 3306
+    user: root
+    password: password
+    database: minecraft
+    table: akarilevel
