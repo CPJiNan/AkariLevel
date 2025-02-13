@@ -10,7 +10,8 @@ import java.io.File
 
 @RuntimeDependency(
     value = "com.google.code.gson:gson:2.12.1",
-    test = "com.google.gson.Gson"
+    test = "com.google.gson.Gson",
+    relocate = ["!com.google.gson", "!com.github.cpjinan.plugin.akarilevel.gson"]
 )
 class DbJson : Database {
     private val file: File
