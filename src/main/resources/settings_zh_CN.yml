@@ -35,12 +35,10 @@ Options:
 Database:
   # 使用玩家 UUID 进行存储
   UUID: false
-  # 存储方式 (JSON, CBOR, SQL)
+  # 存储方式 (JSON, SQL)
   Method: JSON
   JSON:
     file: database.json
-  CBOR:
-    file: database.cbor
   SQL:
     host: localhost
     port: 3306

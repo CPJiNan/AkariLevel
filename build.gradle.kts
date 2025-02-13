@@ -5,7 +5,6 @@ plugins {
     `maven-publish`
     id("io.izzel.taboolib") version "2.0.22"
     kotlin("jvm") version "1.9.22"
-    kotlin("plugin.serialization") version "1.9.22"
 }
 
 taboolib {
@@ -32,7 +31,6 @@ taboolib {
         }
     }
     version { taboolib = "6.2.2" }
-    relocate("kotlinx.serialization", "kotlinx.serialization162")
 }
 
 repositories {
@@ -49,8 +47,7 @@ dependencies {
     compileOnly("io.lumine:Mythic-Dist:5.3.5@jar")
     compileOnly(fileTree("libs"))
     compileOnly("org.openjdk.nashorn:nashorn-core:15.6")
-    taboo("org.jetbrains.kotlinx:kotlinx-serialization-json-jvm:1.6.2")
-    taboo("org.jetbrains.kotlinx:kotlinx-serialization-cbor-jvm:1.6.2")
+    compileOnly("com.google.code.gson:gson:2.12.1")
 }
 
 tasks.withType<JavaCompile> {

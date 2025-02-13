@@ -1,7 +1,6 @@
 package com.github.cpjinan.plugin.akarilevel.common
 
 import com.github.cpjinan.plugin.akarilevel.internal.database.Database
-import com.github.cpjinan.plugin.akarilevel.internal.database.DbCbor
 import com.github.cpjinan.plugin.akarilevel.internal.database.DbJson
 import com.github.cpjinan.plugin.akarilevel.internal.database.DbSql
 
@@ -13,10 +12,6 @@ object PluginDatabase {
         return when (dbType) {
             "JSON" -> {
                 DbJson()
-            }
-
-            "CBOR" -> {
-                DbCbor()
             }
 
             "SQL" -> {

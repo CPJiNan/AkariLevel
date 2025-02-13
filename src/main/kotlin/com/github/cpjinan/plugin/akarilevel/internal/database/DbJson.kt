@@ -2,11 +2,16 @@ package com.github.cpjinan.plugin.akarilevel.internal.database
 
 import com.github.cpjinan.plugin.akarilevel.AkariLevel.plugin
 import com.github.cpjinan.plugin.akarilevel.common.PluginConfig
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import org.bukkit.Bukkit
+import taboolib.common.env.RuntimeDependency
 import java.io.File
 
+@RuntimeDependency(
+    value = "com.google.code.gson:gson:2.12.1",
+    test = "com.google.gson.Gson"
+)
 class DbJson : Database {
     private val file: File
     private val database: HashMap<String, HashMap<String, HashMap<String, String>>>
@@ -17,7 +22,8 @@ class DbJson : Database {
         database = if (file.exists()) {
             val content = file.readText(Charsets.UTF_8)
             if (content.isNotBlank()) {
-                Json.decodeFromString(content)
+                val type = object : TypeToken<HashMap<String, HashMap<String, HashMap<String, String>>>>() {}.type
+                Gson().fromJson(content, type)
             } else {
                 hashMapOf()
             }
@@ -37,6 +43,7 @@ class DbJson : Database {
 
     override fun save() {
         if (!file.exists()) file.createNewFile()
-        file.writeText(Json.encodeToString(database), Charsets.UTF_8)
+        val jsonContent = Gson().toJson(database)
+        file.writeText(jsonContent, Charsets.UTF_8)
     }
 }

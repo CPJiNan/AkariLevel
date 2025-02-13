@@ -35,12 +35,10 @@ Options:
 Database:
   # Almacenar usando UUID del jugador
   UUID: false
-  # Método de almacenamiento (JSON, CBOR, SQL)
+  # Método de almacenamiento (JSON, SQL)
   Method: JSON
   JSON:
     file: database.json
-  CBOR:
-    file: database.cbor
   SQL:
     host: localhost
     port: 3306

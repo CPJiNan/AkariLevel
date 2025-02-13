@@ -35,12 +35,10 @@ Options:
 Database:
   # Use UUID
   UUID: false
-  # Storage method (JSON, CBOR, SQL)
+  # Storage method (JSON, SQL)
   Method: JSON
   JSON:
     file: database.json
-  CBOR:
-    file: database.cbor
   SQL:
     host: localhost
     port: 3306
