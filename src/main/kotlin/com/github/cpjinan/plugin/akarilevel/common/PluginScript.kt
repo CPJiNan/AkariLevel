@@ -18,7 +18,7 @@ import javax.script.CompiledScript
 
 /**
  * AkariLevel
- * com.github.cpjinan.plugin.akarilevel.script
+ * com.github.cpjinan.plugin.akarilevel.common
  *
  * @author 季楠
  * @since 2025/1/23 10:49

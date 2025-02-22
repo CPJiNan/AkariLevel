@@ -10,8 +10,6 @@ import taboolib.platform.type.BukkitProxyEvent
  * @param oldLevel 更改前等级
  * @param newLevel 更改后等级
  * @param source 事件来源
- * @author CPJiNan
- * @since 2024/06/23
  */
 class PlayerLevelChangeEvent(
     val player: Player,

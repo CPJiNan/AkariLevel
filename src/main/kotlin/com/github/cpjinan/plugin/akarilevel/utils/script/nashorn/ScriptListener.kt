@@ -11,7 +11,7 @@ import java.util.function.Consumer
 
 /**
  * AkariLevel
- * com.github.cpjinan.plugin.akarilevel.script.type
+ * com.github.cpjinan.plugin.akarilevel.utils.script.nashorn
  *
  * @property event 监听的事件
  * @constructor Bukkit 监听器

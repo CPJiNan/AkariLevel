@@ -1,21 +1,14 @@
 package com.github.cpjinan.plugin.akarilevel.utils.core
 
 import com.github.cpjinan.plugin.akarilevel.AkariLevel.plugin
-import org.bukkit.Bukkit
 import java.io.File
 
 object FileUtil {
-    val dataFolder =
-        Bukkit.getPluginManager().getPlugin(plugin.name)?.dataFolder ?: throw IllegalArgumentException(
-            "Unable to find plugin data folder."
-        )
-
     /**
      * 获取文件夹内所有文件
      * @param dir 待获取文件夹
      * @param deep 是否查找目标路径中文件夹内文件
      * @return 文件夹内所有文件
-     * @author CPJiNan
      */
     @JvmStatic
     fun getFile(dir: Any, deep: Boolean): ArrayList<File> {
@@ -29,7 +22,6 @@ object FileUtil {
      * @param dir 待获取文件夹
      * @param deep 是否查找目标路径中文件夹内文件
      * @return 文件夹内所有文件名称
-     * @author CPJiNan
      */
     @JvmStatic
     fun getFileName(dir: Any, deep: Boolean): List<String> {
@@ -42,7 +34,6 @@ object FileUtil {
      * 获取文件夹内文件 (不存在时返回null)
      * @param file 待获取文件路径
      * @return 对应文件
-     * @author InkerXoe
      */
     @JvmStatic
     fun getFileOrNull(file: String): File? {
@@ -56,7 +47,6 @@ object FileUtil {
      * 获取文件夹内文件 (不存在时创建文件)
      * @param file 待获取文件路径
      * @return 对应文件
-     * @author InkerXoe
      */
     @JvmStatic
     fun getFileOrCreate(file: String): File {
@@ -67,7 +57,6 @@ object FileUtil {
      * 读取文本文件
      * @param file 文本文件
      * @return 文件文本
-     * @author InkerXoe
      */
     @JvmStatic
     fun readText(file: File): String {
@@ -78,7 +67,6 @@ object FileUtil {
      * 写入文本文件
      * @param file 文本文件
      * @param text 文件文本
-     * @author InkerXoe
      */
     @JvmStatic
     fun writeText(file: File, text: String) {
@@ -87,7 +75,6 @@ object FileUtil {
 
     /**
      * 创建文件
-     * @author InkerXoe
      */
     @JvmStatic
     fun File.createFile(): File {
@@ -102,7 +89,6 @@ object FileUtil {
 
     /**
      * 创建文件夹
-     * @author InkerXoe
      */
     @JvmStatic
     fun File.createDirectory(): File {

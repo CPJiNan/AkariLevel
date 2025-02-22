@@ -12,7 +12,6 @@ object ConfigUtil {
     /**
      * 获取配置节点中所有ConfigurationSection
      * @return 配置节点中所有ConfigurationSection
-     * @author CPJiNan
      */
     @JvmStatic
     fun ConfigurationSection.getConfigSections(): HashMap<String, ConfigurationSection> {
@@ -26,7 +25,6 @@ object ConfigUtil {
     /**
      * 获取文件中所有ConfigurationSection
      * @return 文件中所有ConfigurationSection
-     * @author CPJiNan
      */
     @JvmStatic
     fun File.getConfigSections(): HashMap<String, ConfigurationSection> {
@@ -41,7 +39,6 @@ object ConfigUtil {
     /**
      * 获取所有文件中所有ConfigurationSection
      * @return 文件中所有ConfigurationSection
-     * @author CPJiNan
      */
     @JvmStatic
     fun ArrayList<File>.getConfigSections(): HashMap<String, ConfigurationSection> {
@@ -57,7 +54,6 @@ object ConfigUtil {
     /**
      * 保存默认文件(不覆盖)
      * @param resourcePath 文件路径
-     * @author InkerXoe
      */
     @JvmStatic
     fun JavaPlugin.saveDefaultResource(resourcePath: String) {
@@ -68,7 +64,6 @@ object ConfigUtil {
      * 保存默认文件(不覆盖)
      * @param resourcePath 文件路径
      * @param outFile 输出路径
-     * @author InkerXoe
      */
     @JvmStatic
     fun JavaPlugin.saveDefaultResource(resourcePath: String, outFile: File) {
@@ -89,7 +84,6 @@ object ConfigUtil {
     /**
      * 将多个 YamlConfiguration 合并
      * @return 合并后的 YamlConfiguration
-     * @author CPJiNan
      */
     @JvmStatic
     fun getMergedConfig(configs: ArrayList<YamlConfiguration>): YamlConfiguration {
@@ -105,7 +99,6 @@ object ConfigUtil {
     /**
      * 将多个 YamlConfiguration 合并
      * @return 合并后的 YamlConfiguration
-     * @author CPJiNan
      */
     @JvmStatic
     fun getMergedConfig(sections: HashMap<String, ConfigurationSection>): YamlConfiguration {

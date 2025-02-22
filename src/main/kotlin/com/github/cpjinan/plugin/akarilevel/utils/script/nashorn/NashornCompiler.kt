@@ -36,7 +36,7 @@ import jdk.nashorn.api.scripting.ScriptObjectMirror as JDKScriptObjectMirror
 
 /**
  * AkariLevel
- * com.github.cpjinan.plugin.akarilevel.script
+ * com.github.cpjinan.plugin.akarilevel.utils.script.nashorn
  *
  * @author Taboolib, 季楠
  * @since 2025/1/23 10:04

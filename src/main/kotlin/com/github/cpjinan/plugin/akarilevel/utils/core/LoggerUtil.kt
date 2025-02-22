@@ -6,9 +6,11 @@ import taboolib.platform.BukkitPlugin
 import taboolib.platform.util.*
 
 /**
- * logger utils
- * @author CPJiNan
- * @since 2024/01/15
+ * AkariLevel
+ * com.github.cpjinan.plugin.akarilevel.utils.core
+ *
+ * @author 季楠
+ * @since 2025/1/22 18:56
  */
 object LoggerUtil {
     /**

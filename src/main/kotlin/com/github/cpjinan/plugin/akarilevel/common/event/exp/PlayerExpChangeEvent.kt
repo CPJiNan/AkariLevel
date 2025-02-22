@@ -9,8 +9,6 @@ import taboolib.platform.type.BukkitProxyEvent
  * @param levelGroup 等级组编辑名
  * @param expAmount 经验变化量 (经验减少时为负值)
  * @param source 事件来源
- * @author CPJiNan
- * @since 2024/06/23
  */
 class PlayerExpChangeEvent(
     val player: Player,

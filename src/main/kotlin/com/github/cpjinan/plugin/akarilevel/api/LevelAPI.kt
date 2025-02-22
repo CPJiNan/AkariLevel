@@ -8,9 +8,13 @@ import taboolib.common5.compileJS
 import taboolib.module.chat.colored
 
 /**
+ * AkariLevel
+ * com.github.cpjinan.plugin.akarilevel.common
+ *
  * 等级和等级组相关 API
- * @author CPJiNan
- * @since 2024/06/23
+ *
+ * @author 季楠
+ * @since 2025/1/23 10:49
  */
 object LevelAPI {
     /**

@@ -16,9 +16,13 @@ import taboolib.platform.type.BukkitProxyEvent
 import taboolib.platform.util.sendLang
 
 /**
+ * AkariLevel
+ * com.github.cpjinan.plugin.akarilevel.api
+ *
  * 玩家相关 API
- * @author CPJiNan
- * @since 2024/06/23
+ *
+ * @author 季楠
+ * @since 2025/1/22 18:56
  */
 object PlayerAPI {
     /**
