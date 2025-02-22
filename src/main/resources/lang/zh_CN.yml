@@ -1,5 +1,3 @@
-Language: "zh_CN"
-
 # 插件相关
 Plugin-Loading: '&7正在加载 &3Akari&bLevel&8&f... &8{0}'
 Plugin-Enabled: '[&8\[&3Akari&bLevel&8\]] &b信息 &8| &6插件加载完毕.'
