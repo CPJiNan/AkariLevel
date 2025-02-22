@@ -44,8 +44,8 @@
 
 ## 图片展示
 
-![](../img/图片展示-1.png)
-![](../img/图片展示-2.png)
+![](https://raw.githubusercontent.com/CPJiNan/AkariLevel/refs/heads/master/img/图片展示-1.png)
+![](https://raw.githubusercontent.com/CPJiNan/AkariLevel/refs/heads/master/img/图片展示-2.png)
 ![](https://s2.loli.net/2024/12/14/2uMhbZEjq8J54re.png)
 
 ## 命令
