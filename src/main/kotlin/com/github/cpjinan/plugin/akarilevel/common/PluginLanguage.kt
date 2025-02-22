@@ -14,7 +14,6 @@ import java.io.File
 import java.util.*
 
 object PluginLanguage {
-
     fun saveDefaultResource() {
         fun getLocale(): String {
             val locale = Locale.getDefault()
