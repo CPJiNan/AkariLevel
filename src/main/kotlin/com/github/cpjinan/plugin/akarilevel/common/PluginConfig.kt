@@ -4,10 +4,11 @@ import com.github.cpjinan.plugin.akarilevel.utils.core.ConfigUtil.getConfigSecti
 import com.github.cpjinan.plugin.akarilevel.utils.core.FileUtil
 import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.configuration.file.YamlConfiguration
+import taboolib.common.platform.function.getDataFolder
 import java.io.File
 
 object PluginConfig {
-    var settings: YamlConfiguration = YamlConfiguration.loadConfiguration(File(FileUtil.dataFolder, "settings.yml"))
+    var settings: YamlConfiguration = YamlConfiguration.loadConfiguration(File(getDataFolder(), "settings.yml"))
     var level: HashMap<String, ConfigurationSection> = getLevelGroups()
 
     // Config Version

@@ -7,13 +7,13 @@ import com.github.cpjinan.plugin.akarilevel.internal.command.subcommand.DataComm
 import com.github.cpjinan.plugin.akarilevel.internal.command.subcommand.ExpCommand
 import com.github.cpjinan.plugin.akarilevel.internal.command.subcommand.LevelCommand
 import com.github.cpjinan.plugin.akarilevel.internal.command.subcommand.TraceCommand
-import com.github.cpjinan.plugin.akarilevel.utils.core.FileUtil
 import com.github.cpjinan.plugin.akarilevel.utils.script.Kether.evalKether
 import com.github.cpjinan.plugin.akarilevel.utils.script.nashorn.getScriptEngine
 import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.entity.Player
 import taboolib.common.platform.ProxyCommandSender
 import taboolib.common.platform.command.*
+import taboolib.common.platform.function.getDataFolder
 import taboolib.common.platform.function.pluginVersion
 import taboolib.module.lang.Language
 import taboolib.module.lang.sendLang
@@ -82,7 +82,7 @@ object MainCommand {
     val reload = subCommand {
         execute { sender: ProxyCommandSender, _: CommandContext<ProxyCommandSender>, _: String ->
             PluginReloadEvent.Pre().call()
-            PluginConfig.settings = YamlConfiguration.loadConfiguration(File(FileUtil.dataFolder, "settings.yml"))
+            PluginConfig.settings = YamlConfiguration.loadConfiguration(File(getDataFolder(), "settings.yml"))
             PluginConfig.level = PluginConfig.getLevelGroups()
             PluginScript.reload()
             Language.reload()

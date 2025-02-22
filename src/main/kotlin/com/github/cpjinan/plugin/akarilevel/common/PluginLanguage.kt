@@ -5,6 +5,7 @@ import com.github.cpjinan.plugin.akarilevel.utils.core.ConfigUtil.saveDefaultRes
 import com.github.cpjinan.plugin.akarilevel.utils.core.FileUtil
 import com.github.cpjinan.plugin.akarilevel.utils.core.LoggerUtil.debug
 import taboolib.common.platform.event.SubscribeEvent
+import taboolib.common.platform.function.getDataFolder
 import taboolib.module.lang.Language
 import taboolib.module.lang.event.PlayerSelectLocaleEvent
 import taboolib.module.lang.event.SystemSelectLocaleEvent
@@ -26,14 +27,14 @@ object PluginLanguage {
                 if (FileUtil.getFileOrNull("lang/${getLocale()}.yml") != null) getLocale()
                 else "en_US"
             }.yml",
-            File(FileUtil.dataFolder, "level/Example.yml")
+            File(getDataFolder(), "level/Example.yml")
         )
         plugin.saveDefaultResource(
             "settings_${
                 if (FileUtil.getFileOrNull("lang/${getLocale()}.yml") != null) getLocale()
                 else "en_US"
             }.yml",
-            File(FileUtil.dataFolder, "settings.yml")
+            File(getDataFolder(), "settings.yml")
         )
     }
 
