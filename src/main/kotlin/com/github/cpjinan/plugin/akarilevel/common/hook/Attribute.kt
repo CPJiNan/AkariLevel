@@ -17,7 +17,7 @@ object Attribute {
     fun onPlayerExpChange(event: PlayerExpChangeEvent) {
         if (PluginConfig.isEnabledAttribute() && Bukkit.getServer().pluginManager.isPluginEnabled(PluginConfig.getAttributePlugin()) && event.source in PluginConfig.getAttributeSource()) {
             var exp = event.expAmount
-            val attributeValue: Number = when (PluginConfig.getAttributePlugin()) {
+            val attributeValue = when (PluginConfig.getAttributePlugin()) {
                 "AttributePlus" -> {
                     when (Bukkit.getServer().pluginManager.getPlugin("AttributePlus")!!.description.version[0]) {
                         '3' -> AttributePlus.attributeManager.getAttributeData(event.player)
