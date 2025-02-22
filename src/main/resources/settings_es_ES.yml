@@ -16,8 +16,10 @@
 
 # Configuración global
 Options:
+  # Lengua
+  Language: "es_ES"
   # Versión del archivo de configuración
-  Config-Version: 5
+  Config-Version: 6
   # Comprobar actualizaciones
   Check-Update: true
   # Notificar al OP cuando el plugin se actualice

@@ -11,9 +11,10 @@ object PluginConfig {
     var level: HashMap<String, ConfigurationSection> = getLevelGroups()
 
     // Config Version
-    const val VERSION = 5
+    const val VERSION = 6
 
     // Options
+    fun getLanguage() = settings.getString("Options.Language", "en_US")!!
     fun getConfigVersion() = settings.getInt("Options.Config-Version")
     fun isEnabledCheckUpdate() = settings.getBoolean("Options.Check-Update")
     fun isEnabledOPNotify() = settings.getBoolean("Options.OP-Notify")

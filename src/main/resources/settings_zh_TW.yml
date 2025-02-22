@@ -16,6 +16,8 @@
 
 # 全局設置
 Options:
+  # 語言
+  Language: "zh_TW"
   # 配置文件版本
   Config-Version: 5
   # 檢查版本更新
