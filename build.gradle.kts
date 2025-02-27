@@ -33,7 +33,7 @@ taboolib {
             name("DungeonPlus").optional(true)
         }
     }
-    version { taboolib = "6.2.3" }
+    version { taboolib = "6.2.2" }
 }
 
 repositories {
