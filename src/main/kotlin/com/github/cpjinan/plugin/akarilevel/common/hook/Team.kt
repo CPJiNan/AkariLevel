@@ -10,6 +10,7 @@ import org.bukkit.Bukkit
 import org.serverct.ersha.dungeon.DungeonPlus
 import taboolib.common.platform.event.SubscribeEvent
 import taboolib.common5.compileJS
+import taboolib.platform.compat.replacePlaceholder
 import kotlin.math.roundToLong
 
 object Team {
@@ -24,6 +25,7 @@ object Team {
                         getShareTotal()
                             .replace("%exp%", event.expAmount.toString(), true)
                             .replace("%size%", team.players.size.toString(), true)
+                            .replacePlaceholder(eventPlayer)
                             .compileJS()?.eval()?.toString()?.toDouble()?.roundToLong() ?: event.expAmount
                     val totalWeight =
                         getShareLeaderWeight() + (team.players.size - 1) * getShareMemberWeight()

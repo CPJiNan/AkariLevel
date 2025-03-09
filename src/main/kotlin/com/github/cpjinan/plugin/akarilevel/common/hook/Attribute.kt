@@ -10,6 +10,7 @@ import org.bukkit.Bukkit
 import org.serverct.ersha.AttributePlus
 import taboolib.common.platform.event.SubscribeEvent
 import taboolib.common5.compileJS
+import taboolib.platform.compat.replacePlaceholder
 import kotlin.math.roundToLong
 
 object Attribute {
@@ -51,6 +52,7 @@ object Attribute {
             exp = PluginConfig.getAttributeFormula()
                 .replace("%exp%", exp.toString(), true)
                 .replace("%attribute%", attributeValue.toDouble().toString(), true)
+                .replacePlaceholder(event.player)
                 .compileJS()?.eval()?.toString()?.toDouble()?.roundToLong() ?: exp
             event.expAmount = exp
         }
