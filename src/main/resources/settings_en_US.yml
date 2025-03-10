@@ -37,8 +37,10 @@ Options:
 Database:
   # Use UUID
   UUID: false
-  # Storage method (JSON, SQL)
+  # Storage method (JSON, SQL, SQLITE)
   Method: JSON
+  SQLITE:
+    file: database.db
   JSON:
     file: database.json
   SQL:

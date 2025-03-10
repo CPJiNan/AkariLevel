@@ -1,5 +1,6 @@
 package com.github.cpjinan.plugin.akarilevel.common
 
+import com.github.cpjinan.plugin.akarilevel.internal.database.DBSqlite
 import com.github.cpjinan.plugin.akarilevel.internal.database.Database
 import com.github.cpjinan.plugin.akarilevel.internal.database.DbJson
 import com.github.cpjinan.plugin.akarilevel.internal.database.DbSql
@@ -16,6 +17,10 @@ object PluginDatabase {
 
             "SQL" -> {
                 DbSql()
+            }
+
+            "SQLITE" -> {
+                DBSqlite()
             }
 
             else -> {
