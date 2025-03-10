@@ -8,7 +8,7 @@ import java.io.File
 class DBSqlite : Database {
 
     private val host =
-        HostSQLite(File(getDataFolder(), PluginConfig.getJsonSection().getString("file")!!))
+        HostSQLite(File(getDataFolder(), PluginConfig.getSqliteSection().getString("file")!!))
     private val dataSource by lazy { host.createDataSource() }
     private val sqlTable = Table(PluginConfig.getSqlTable(), host) {
         add("table") {
