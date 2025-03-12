@@ -2,10 +2,12 @@ package com.github.cpjinan.plugin.akarilevel.internal.database
 
 import com.github.cpjinan.plugin.akarilevel.common.PluginConfig
 import taboolib.common.platform.function.getDataFolder
-import taboolib.module.database.*
+import taboolib.module.database.ColumnTypeSQLite
+import taboolib.module.database.HostSQLite
+import taboolib.module.database.Table
 import java.io.File
 
-class DBSqlite : Database {
+class DbSqlite : Database {
 
     private val host =
         HostSQLite(File(getDataFolder(), PluginConfig.getSqliteSection().getString("file")!!))

@@ -39,8 +39,6 @@ Database:
   UUID: false
   # 存储方式 (JSON, SQL, SQLITE)
   Method: JSON
-  SQLITE:
-    file: database.db
   JSON:
     file: database.json
   SQL:
@@ -50,6 +48,8 @@ Database:
     password: password
     database: minecraft
     table: akarilevel
+  SQLITE:
+    file: database.db
 
 #########
 # Trace #
