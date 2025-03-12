@@ -37,8 +37,10 @@ Options:
 Database:
   # Almacenar usando UUID del jugador
   UUID: false
-  # Método de almacenamiento (JSON, SQL)
+  # Método de almacenamiento (JSON, SQL, SQLITE)
   Method: JSON
+  SQLITE:
+    file: database.db
   JSON:
     file: database.json
   SQL:

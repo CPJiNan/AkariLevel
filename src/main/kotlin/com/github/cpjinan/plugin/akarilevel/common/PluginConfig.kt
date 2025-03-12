@@ -26,6 +26,7 @@ object PluginConfig {
     fun getMethod() = settings.getString("Database.Method")
     fun getJsonSection() = settings.getConfigurationSection("Database.JSON")!!
     fun getCborSection() = settings.getConfigurationSection("Database.CBOR")!!
+    fun getSqliteSection() = settings.getConfigurationSection("Database.SQLITE")!!
     fun getSqlTable() = settings.getString("Database.SQL.table")!!
     fun isEnabledUUID() = settings.getBoolean("Database.UUID")
 
