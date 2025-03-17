@@ -38,7 +38,7 @@ Database:
   # 使用玩家 UUID 進行存儲
   UUID: false
   # 存儲方式 (JSON, SQL, SQLITE)
-  Method: JSON
+  Method: SQLITE
   JSON:
     file: database.json
   SQL:
