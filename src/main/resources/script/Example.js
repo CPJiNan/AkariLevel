@@ -16,7 +16,7 @@ function playerLevelChangeListener() {
 
             if (playerLevel === maxLevel || expAmount <= 0) return;
 
-            player.sendMessage("§7Exp §f+" + expAmount + " §7.");
+            // player.sendMessage("§7Exp §f+" + expAmount + " §7.");
         })
         .register();
 }
