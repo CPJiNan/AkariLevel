@@ -19,8 +19,7 @@ object PluginUpdate {
             try {
                 val message = urlConnection.inputStream.bufferedReader().readText()
                 if (message.isNotBlank()) message(message.colored())
-            } catch (_: java.net.ConnectException) {
-            } catch (_: java.net.SocketException) {
+            } catch (_: Exception) {
             } finally {
                 urlConnection.disconnect()
             }
@@ -41,8 +40,7 @@ object PluginUpdate {
                             message(it.colored())
                         }
                 }
-            } catch (_: java.net.ConnectException) {
-            } catch (_: java.net.SocketException) {
+            } catch (_: Exception) {
             } finally {
                 urlConnection.disconnect()
             }
@@ -63,8 +61,7 @@ object PluginUpdate {
                             player.sendMessage(it.colored())
                         }
                 }
-            } catch (_: java.net.ConnectException) {
-            } catch (_: java.net.SocketException) {
+            } catch (_: Exception) {
             } finally {
                 urlConnection.disconnect()
             }
