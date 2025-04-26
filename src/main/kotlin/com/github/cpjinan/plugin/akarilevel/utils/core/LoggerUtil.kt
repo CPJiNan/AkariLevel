@@ -1,6 +1,7 @@
 package com.github.cpjinan.plugin.akarilevel.utils.core
 
 import com.github.cpjinan.plugin.akarilevel.common.PluginConfig
+import com.github.cpjinan.plugin.akarilevel.utils.core.LoggerUtil.message
 import taboolib.module.chat.colored
 import taboolib.platform.BukkitPlugin
 import taboolib.platform.util.*

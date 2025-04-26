@@ -1,13 +1,14 @@
 @file:Suppress("DEPRECATION")
 
 import io.izzel.taboolib.gradle.*
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     `java-library`
     `maven-publish`
-    id("io.izzel.taboolib") version "2.0.22"
-    kotlin("jvm") version "1.9.22"
+    id("io.izzel.taboolib") version "2.0.23"
+    kotlin("jvm") version "2.1.20"
 }
 
 taboolib {
@@ -33,7 +34,7 @@ taboolib {
             name("DungeonPlus").optional(true)
         }
     }
-    version { taboolib = "6.2.3-0b616a8" }
+    version { taboolib = "6.2.3-8cc2f66" }
 }
 
 repositories {
@@ -64,8 +65,8 @@ tasks.withType<JavaCompile> {
 }
 
 tasks.withType<KotlinCompile> {
-    kotlinOptions {
-        jvmTarget = "1.8"
-        freeCompilerArgs = listOf("-Xjvm-default=all", "-Xextended-compiler-checks")
+    compilerOptions {
+        jvmTarget.set(JvmTarget.JVM_1_8)
+        freeCompilerArgs.set(listOf("-Xjvm-default=all", "-Xextended-compiler-checks"))
     }
 }
