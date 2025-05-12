@@ -95,7 +95,7 @@ Team:
 Attribute:
   # 是否啟用
   Enable: false
-  # 屬性插件 (AttributePlus, SX-Attribute, OriginAttribute, AttributeSystem)
+  # 屬性插件 (AttributePlus, SX-Attribute, OriginAttribute, AttributeSystem, PlaceholderAPI)
   Plugin: "AttributePlus"
   # 屬性名稱 (如屬性插件為 OriginAttribute 則無需填寫此項)
   # AttributePlus - "經驗加成"

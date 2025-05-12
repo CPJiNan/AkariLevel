@@ -97,7 +97,7 @@ Team:
 Attribute:
   # Enable
   Enable: false
-  # Attribute plugin (AttributePlus, SX-Attribute, OriginAttribute, AttributeSystem)
+  # Attribute plugin (AttributePlus, SX-Attribute, OriginAttribute, AttributeSystem, PlaceholderAPI)
   Plugin: "AttributePlus"
   # Attribute name (leave blank if using OriginAttribute)
   # AttributePlus - "经验加成"

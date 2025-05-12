@@ -47,6 +47,8 @@ object Attribute {
                 "AttributeSystem" -> event.player.uniqueId.getAttrData()
                     ?.getAttrValue<Double>(PluginConfig.getAttributeName(), "total") ?: 0
 
+                "PlaceholderAPI" -> PluginConfig.getAttributeName().replacePlaceholder(event.player).toDouble()
+
                 else -> throw IllegalArgumentException("Unsupported attribute plugin ${PluginConfig.getAttributePlugin()}.")
             }
             exp = PluginConfig.getAttributeFormula()
