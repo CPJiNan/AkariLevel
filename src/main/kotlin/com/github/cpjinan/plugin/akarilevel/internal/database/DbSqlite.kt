@@ -13,10 +13,10 @@ class DbSqlite : Database {
         HostSQLite(File(getDataFolder(), PluginConfig.getSqliteSection().getString("file")!!))
     private val dataSource by lazy { host.createDataSource() }
     private val sqlTable = Table(PluginConfig.getSqlTable(), host) {
-        add("table") {
+        add("table_name") {
             type(ColumnTypeSQLite.TEXT)
         }
-        add("index") {
+        add("index_name") {
             type(ColumnTypeSQLite.TEXT)
         }
         add("key") {
@@ -29,8 +29,8 @@ class DbSqlite : Database {
 
     init {
         sqlTable.createTable(dataSource, checkExists = true)
-        sqlTable.createIndex(dataSource, "idx_table", listOf("table"), checkExists = true)
-        sqlTable.createIndex(dataSource, "idx_index", listOf("index"), checkExists = true)
+        sqlTable.createIndex(dataSource, "idx_table", listOf("table_name"), checkExists = true)
+        sqlTable.createIndex(dataSource, "idx_index", listOf("index_name"), checkExists = true)
         sqlTable.createIndex(dataSource, "idx_key", listOf("key"), checkExists = true)
     }
 
@@ -45,27 +45,27 @@ class DbSqlite : Database {
     override fun save() {}
 
     private fun add(table: String, index: String, key: String, value: String) {
-        sqlTable.insert(dataSource, "table", "index", "key", "value") {
-            value(table, index, key, value.orEmpty())
+        sqlTable.insert(dataSource, "table_name", "index_name", "key", "value") {
+            value(table, index, key, value)
         }
     }
 
     private fun delete(table: String, index: String, key: String) {
         sqlTable.delete(dataSource) {
-            where { "table" eq table and ("index" eq index) and ("key" eq key) }
+            where { "table_name" eq table and ("index_name" eq index) and ("key" eq key) }
         }
     }
 
     fun set(table: String, index: String, key: String, value: String) {
         if (have(table, index, key)) sqlTable.update(dataSource) {
             set("value", value)
-            where("table" eq table and ("index" eq index) and ("key" eq key))
+            where("table_name" eq table and ("index_name" eq index) and ("key" eq key))
         } else add(table, index, key, value)
     }
 
     fun get(table: String, index: String, key: String): String {
         return sqlTable.select(dataSource) {
-            where("table" eq table and ("index" eq index) and ("key" eq key))
+            where("table_name" eq table and ("index_name" eq index) and ("key" eq key))
             limit(1)
         }.firstOrNull {
             this.getString("value")
@@ -74,7 +74,7 @@ class DbSqlite : Database {
 
     fun have(table: String, index: String, key: String): Boolean {
         return sqlTable.select(dataSource) {
-            where("table" eq table and ("index" eq index) and ("key" eq key))
+            where("table_name" eq table and ("index_name" eq index) and ("key" eq key))
             limit(1)
         }.firstOrNull {
             true
