@@ -15,12 +15,12 @@ class DbSql : Database {
         Configuration.loadFromFile(File(getDataFolder(), "settings.yml"), Type.YAML).getHost("Database.SQL")
     private val dataSource by lazy { host.createDataSource() }
     private val sqlTable = Table(PluginConfig.getSqlTable(), host) {
-        add("table") {
+        add("table_name") {
             type(ColumnTypeSQL.VARCHAR, 64) {
                 options(ColumnOptionSQL.KEY)
             }
         }
-        add("index") {
+        add("index_name") {
             type(ColumnTypeSQL.VARCHAR, 64) {
                 options(ColumnOptionSQL.KEY)
             }
@@ -50,27 +50,27 @@ class DbSql : Database {
     override fun save() {}
 
     private fun add(table: String, index: String, key: String, value: String) {
-        sqlTable.insert(dataSource, "table", "index", "key", "value") {
-            value(table, index, key, value.orEmpty())
+        sqlTable.insert(dataSource, "table_name", "index_name", "key", "value") {
+            value(table, index, key, value)
         }
     }
 
     private fun delete(table: String, index: String, key: String) {
         sqlTable.delete(dataSource) {
-            where { "table" eq table and ("index" eq index) and ("key" eq key) }
+            where { "table_name" eq table and ("index_name" eq index) and ("key" eq key) }
         }
     }
 
     fun set(table: String, index: String, key: String, value: String) {
         if (have(table, index, key)) sqlTable.update(dataSource) {
             set("value", value)
-            where("table" eq table and ("index" eq index) and ("key" eq key))
+            where("table_name" eq table and ("index_name" eq index) and ("key" eq key))
         } else add(table, index, key, value)
     }
 
     fun get(table: String, index: String, key: String): String {
         return sqlTable.select(dataSource) {
-            where("table" eq table and ("index" eq index) and ("key" eq key))
+            where("table_name" eq table and ("index_name" eq index) and ("key" eq key))
             limit(1)
         }.firstOrNull {
             this.getString("value")
@@ -79,7 +79,7 @@ class DbSql : Database {
 
     fun have(table: String, index: String, key: String): Boolean {
         return sqlTable.select(dataSource) {
-            where("table" eq table and ("index" eq index) and ("key" eq key))
+            where("table_name" eq table and ("index_name" eq index) and ("key" eq key))
             limit(1)
         }.firstOrNull {
             true
