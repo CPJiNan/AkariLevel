@@ -32,14 +32,14 @@ interface Database {
      *
      * @return 包含当前 [Database] 所有键值对的 Map。
      */
-    fun getValues(): Map<String, Any?>
+    fun getValues(): Map<String, String?>
 
     /**
      * 将当前 [Database] 转换为 Map。
      *
      * @return 包含当前 [Database] 所有键值对的 Map。
      */
-    fun toMap(): Map<String, Any?>
+    fun toMap(): Map<String, String?>
 
     /**
      * 检查此 [Database] 是否包含给定路径。
@@ -64,7 +64,7 @@ interface Database {
      * @param path 要获取的对象的路径。
      * @return 请求的对象。
      */
-    operator fun get(path: String): Any?
+    operator fun get(path: String): String?
 
     /**
      * 通过路径获取请求的对象。
@@ -75,7 +75,7 @@ interface Database {
      * @param path 要获取的对象的路径。
      * @return 请求的对象。
      */
-    operator fun get(path: String, def: Any?): Any?
+    operator fun get(path: String, def: String?): String?
 
     /**
      * 将指定路径设置为给定值。
@@ -85,7 +85,7 @@ interface Database {
      * @param path 要设置的对象的路径。
      * @param value 要设置的新值。
      */
-    operator fun set(path: String, value: Any?)
+    operator fun set(path: String, value: String?)
 
     /**
      * 保存当前 [Database] 中的所有数据。

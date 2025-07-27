@@ -40,7 +40,7 @@ class DatabaseSQLite() : Database {
         }.toSet()
     }
 
-    override fun getValues(): Map<String, Any?> {
+    override fun getValues(): Map<String, String?> {
         return table.select(dataSource) {
             rows("key", "value")
         }.map {
@@ -48,7 +48,7 @@ class DatabaseSQLite() : Database {
         }.toMap()
     }
 
-    override fun toMap(): Map<String, Any?> {
+    override fun toMap(): Map<String, String?> {
         return getValues()
     }
 
@@ -64,11 +64,11 @@ class DatabaseSQLite() : Database {
         return contains(path)
     }
 
-    override operator fun get(path: String): Any? {
+    override operator fun get(path: String): String? {
         return get(path, null)
     }
 
-    override operator fun get(path: String, def: Any?): Any? {
+    override operator fun get(path: String, def: String?): String? {
         return table.select(dataSource) {
             rows("key", "value")
             where("key" eq path)
@@ -78,7 +78,7 @@ class DatabaseSQLite() : Database {
         } ?: def
     }
 
-    override operator fun set(path: String, value: Any?) {
+    override operator fun set(path: String, value: String?) {
         if (value == null) {
             table.delete(dataSource) {
                 where { "key" eq path }
