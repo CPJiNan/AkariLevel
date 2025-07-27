@@ -1,8 +1,8 @@
-package com.github.cpjinan.plugin.akarilevel.database
+package com.github.cpjinan.plugin.akarilevel.data
 
 import com.github.cpjinan.plugin.akarilevel.config.DatabaseConfig
-import taboolib.module.database.ColumnOptionSQL
-import taboolib.module.database.ColumnTypeSQL
+import taboolib.module.database.ColumnOptionSQLite
+import taboolib.module.database.ColumnTypeSQLite
 import taboolib.module.database.Table
 
 /**
@@ -12,19 +12,19 @@ import taboolib.module.database.Table
  * @author 季楠
  * @since 2025/7/27 18:29
  */
-class DatabaseMySQL() : Database {
-    override val type: DatabaseType = DatabaseType.MYSQL
+class DatabaseSQLite() : Database {
+    override val type: DatabaseType = DatabaseType.SQLITE
 
-    override val dataSource by lazy { DatabaseConfig.hostSQL.createDataSource() }
+    override val dataSource by lazy { DatabaseConfig.hostSQLite.createDataSource() }
 
-    override val table = Table(DatabaseConfig.table, DatabaseConfig.hostSQL) {
+    override val table = Table(DatabaseConfig.table, DatabaseConfig.hostSQLite) {
         add("key") {
-            type(ColumnTypeSQL.TEXT) {
-                options(ColumnOptionSQL.PRIMARY_KEY)
+            type(ColumnTypeSQLite.TEXT) {
+                options(ColumnOptionSQLite.PRIMARY_KEY)
             }
         }
         add("value") {
-            type(ColumnTypeSQL.TEXT)
+            type(ColumnTypeSQLite.TEXT)
         }
     }
 

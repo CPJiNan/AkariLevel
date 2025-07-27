@@ -1,4 +1,4 @@
-package com.github.cpjinan.plugin.akarilevel.database
+package com.github.cpjinan.plugin.akarilevel.data
 
 import com.github.cpjinan.plugin.akarilevel.config.DatabaseConfig
 

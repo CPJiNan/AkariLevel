@@ -1,6 +1,6 @@
 package com.github.cpjinan.plugin.akarilevel
 
-import com.github.cpjinan.plugin.akarilevel.database.Database
+import com.github.cpjinan.plugin.akarilevel.data.Database
 
 /**
  * AkariLevel
