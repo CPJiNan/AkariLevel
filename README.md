@@ -9,7 +9,7 @@
     <img src="https://img.shields.io/github/issues/CPJiNan/AkariLevel.svg" alt="GitHub issues"/>
 </p>
 
-![](img/AkariLevel.png)
+![](./img/AkariLevel.png)
 
 ## 构建发行版本
 
