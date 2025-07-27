@@ -12,3 +12,20 @@ Options:
   Send-Metrics: true
   # 启用调试模式
   Debug: false
+
+# 数据库设置
+Database:
+  # 存储方式 (MYSQL, SQLITE)
+  Type: SQLITE
+  # 数据表名
+  Table: "akarilevel"
+  # MySQL 存储设置
+  MYSQL:
+    host: localhost
+    port: 3306
+    user: root
+    password: password
+    database: minecraft
+  # SQLite 存储设置
+  SQLITE:
+    file: database.db

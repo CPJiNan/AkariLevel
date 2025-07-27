@@ -10,4 +10,7 @@ package com.github.cpjinan.plugin.akarilevel
 interface AkariLevelAPI {
     /** 获取语言文件接口 **/
     fun getLanguage(): AkariLevelLanguage
+
+    /** 获取数据库接口 **/
+    fun getDatabase(): AkariLevelDatabase
 }

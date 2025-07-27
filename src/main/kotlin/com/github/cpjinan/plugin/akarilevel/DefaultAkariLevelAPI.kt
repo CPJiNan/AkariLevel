@@ -12,7 +12,13 @@ import taboolib.common.platform.PlatformFactory
 class DefaultAkariLevelAPI : AkariLevelAPI {
     var localLanguage = PlatformFactory.getAPI<AkariLevelLanguage>()
 
+    var localDatabase = PlatformFactory.getAPI<AkariLevelDatabase>()
+
     override fun getLanguage(): AkariLevelLanguage {
         return localLanguage
+    }
+
+    override fun getDatabase(): AkariLevelDatabase {
+        return localDatabase
     }
 }

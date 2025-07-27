@@ -13,6 +13,7 @@ taboolib {
     env {
         install(
             Metrics,
+            Database,
             CommandHelper,
             Kether,
             Bukkit,
@@ -50,6 +51,6 @@ tasks.withType<JavaCompile> {
 tasks.withType<KotlinCompile> {
     compilerOptions {
         jvmTarget.set(JvmTarget.JVM_1_8)
-        freeCompilerArgs.set(listOf("-Xjvm-default=all", "-Xextended-compiler-checks"))
+        freeCompilerArgs.set(listOf("-Xjvm-default=all"))
     }
 }
