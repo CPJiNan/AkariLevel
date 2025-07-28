@@ -15,6 +15,9 @@ import taboolib.platform.BukkitPlugin
  */
 object AkariLevel : Plugin() {
     val plugin by lazy { BukkitPlugin.getInstance() }
+
+    val database by lazy { api().getDatabase().getDefault() }
+
     private var api: AkariLevelAPI? = null
 
     init {
