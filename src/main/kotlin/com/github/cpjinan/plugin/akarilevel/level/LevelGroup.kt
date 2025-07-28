@@ -31,6 +31,7 @@ interface LevelGroup {
         }
     }
 
+    /** 成员变更类型 **/
     enum class MemberChangeType {
         JOIN,
         QUIT
