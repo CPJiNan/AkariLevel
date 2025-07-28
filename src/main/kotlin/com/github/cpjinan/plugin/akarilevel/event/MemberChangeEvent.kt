@@ -1,6 +1,6 @@
 package com.github.cpjinan.plugin.akarilevel.event
 
-import com.github.cpjinan.plugin.akarilevel.level.MemberChangeType
+import com.github.cpjinan.plugin.akarilevel.level.LevelGroup
 import taboolib.platform.type.BukkitProxyEvent
 
 /**
@@ -13,6 +13,6 @@ import taboolib.platform.type.BukkitProxyEvent
 class MemberChangeEvent(
     var member: String,
     var levelGroup: String,
-    var type: MemberChangeType,
+    var type: LevelGroup.MemberChangeType,
     var source: String
 ) : BukkitProxyEvent()

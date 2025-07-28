@@ -31,6 +31,11 @@ interface LevelGroup {
         }
     }
 
+    enum class MemberChangeType {
+        JOIN,
+        QUIT
+    }
+
     /** 编辑名 **/
     val name: String
 
