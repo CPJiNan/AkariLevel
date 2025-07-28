@@ -26,6 +26,7 @@ taboolib {
         contributors { name("CPJiNan") }
     }
     version { taboolib = "6.2.3-ac49c9a" }
+    relocate("top.maplex.arim", "com.github.cpjinan.plugin.akarilevel.arim")
 }
 
 repositories {
@@ -36,6 +37,7 @@ dependencies {
     compileOnly("ink.ptms.core:v11200:11200")
     compileOnly(kotlin("stdlib"))
     compileOnly(fileTree("libs"))
+    taboo("top.maplex.arim:Arim:1.2.14")
 }
 
 java {

@@ -52,7 +52,7 @@ interface LevelGroup {
             call()
             if (isCancelled) return
         }
-        onRegister()
+        if (!onRegister()) return
         registerLevelGroup(name, this)
     }
 
@@ -62,24 +62,34 @@ interface LevelGroup {
             call()
             if (isCancelled) return
         }
-        onUnregister()
+        if (!onUnregister()) return
         unregisterLevelGroup(name)
     }
 
     /** 等级组注册回调 **/
-    fun onRegister() {}
+    fun onRegister(): Boolean {
+        return true
+    }
 
     /** 等级组取消注册回调 **/
-    fun onUnregister() {}
+    fun onUnregister(): Boolean {
+        return true
+    }
 
     /** 成员变更回调 **/
-    fun onMemberChange(member: String, type: MemberChangeType, source: String) {}
+    fun onMemberChange(member: String, type: MemberChangeType, source: String): Boolean {
+        return true
+    }
 
     /** 成员等级变更回调 **/
-    fun onMemberLevelChange(member: String, oldLevel: Long, newLevel: Long, source: String) {}
+    fun onMemberLevelChange(member: String, oldLevel: Long, newLevel: Long, source: String): Boolean {
+        return true
+    }
 
     /** 成员经验变更回调 **/
-    fun onMemberExpChange(member: String, expAmount: Long, source: String) {}
+    fun onMemberExpChange(member: String, expAmount: Long, source: String): Boolean {
+        return true
+    }
 
     /** 获取成员列表 **/
     fun getMember(): List<String> {
@@ -92,7 +102,7 @@ interface LevelGroup {
             call()
             if (isCancelled) return
         }
-        onMemberChange(member, MemberChangeType.JOIN, source)
+        if (!onMemberChange(member, MemberChangeType.JOIN, source)) return
         this.member.add(member)
     }
 
@@ -102,7 +112,7 @@ interface LevelGroup {
             call()
             if (isCancelled) return
         }
-        onMemberChange(member, MemberChangeType.QUIT, source)
+        if (!onMemberChange(member, MemberChangeType.QUIT, source)) return
         this.member.remove(member)
     }
 
@@ -122,7 +132,7 @@ interface LevelGroup {
             call()
             if (isCancelled) return
         }
-        onMemberLevelChange(member, getMemberLevel(member), amount, source)
+        if (!onMemberLevelChange(member, getMemberLevel(member), amount, source)) return
         database["LevelGroup.${name}.Member.${member}.Level"] = amount.toString()
     }
 
@@ -132,7 +142,7 @@ interface LevelGroup {
             call()
             if (isCancelled) return
         }
-        onMemberExpChange(member, amount - getMemberExp(member), source)
+        if (!onMemberExpChange(member, amount - getMemberExp(member), source)) return
         database["LevelGroup.${name}.Member.${member}.Exp"] = amount.toString()
     }
 
