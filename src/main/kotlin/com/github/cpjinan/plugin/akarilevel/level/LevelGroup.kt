@@ -13,21 +13,21 @@ import java.util.concurrent.ConcurrentHashMap
  */
 interface LevelGroup {
     companion object {
-        private var levelGroupMap: ConcurrentHashMap<String, LevelGroup> = ConcurrentHashMap()
+        private var levelGroups: ConcurrentHashMap<String, LevelGroup> = ConcurrentHashMap()
 
         /** 获取等级组列表 **/
-        fun getLevelGroup(): Map<String, LevelGroup> {
-            return levelGroupMap
+        fun getLevelGroups(): Map<String, LevelGroup> {
+            return levelGroups
         }
 
         /** 注册等级组 **/
         fun registerLevelGroup(name: String, levelGroup: LevelGroup) {
-            levelGroupMap[name] = levelGroup
+            levelGroups[name] = levelGroup
         }
 
         /** 取消注册等级组 **/
         fun unregisterLevelGroup(name: String) {
-            levelGroupMap.remove(name)
+            levelGroups.remove(name)
         }
     }
 
@@ -44,7 +44,7 @@ interface LevelGroup {
     val display: String
 
     /** 成员 **/
-    val member: MutableList<String>
+    val members: MutableList<String>
 
     /** 注册等级组 **/
     fun register() {
@@ -81,8 +81,8 @@ interface LevelGroup {
     fun getLevelExp(level: Long): Long
 
     /** 获取成员列表 **/
-    fun getMember(): List<String> {
-        return this.member
+    fun getMembers(): List<String> {
+        return this.members
     }
 
     /** 增加成员 **/
@@ -96,7 +96,7 @@ interface LevelGroup {
             isCancelled = it
         }
         if (isCancelled) return
-        this.member.add(member)
+        this.members.add(member)
     }
 
     /** 移除成员 **/
@@ -110,7 +110,7 @@ interface LevelGroup {
             isCancelled = it
         }
         if (isCancelled) return
-        this.member.remove(member)
+        this.members.remove(member)
     }
 
     /** 获取成员等级 **/
