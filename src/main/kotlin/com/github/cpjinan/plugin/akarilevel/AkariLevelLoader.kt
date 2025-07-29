@@ -2,6 +2,7 @@ package com.github.cpjinan.plugin.akarilevel
 
 import com.github.cpjinan.plugin.akarilevel.AkariLevel.plugin
 import com.github.cpjinan.plugin.akarilevel.config.SettingsConfig
+import com.github.cpjinan.plugin.akarilevel.level.ConfigLevelGroup
 import com.github.cpjinan.plugin.akarilevel.utils.LoggerUtils
 import taboolib.common.LifeCycle
 import taboolib.common.platform.Awake
@@ -9,9 +10,12 @@ import taboolib.common.platform.Platform
 import taboolib.common.platform.function.console
 import taboolib.common.util.unsafeLazy
 import taboolib.module.chat.colored
+import taboolib.module.configuration.Type
 import taboolib.module.lang.sendLang
 import taboolib.module.metrics.Metrics
 import taboolib.platform.BukkitPlugin
+import top.maplex.arim.tools.folderreader.readFolderWalkConfig
+import java.io.File
 
 /**
  * AkariLevel
@@ -49,6 +53,15 @@ object AkariLevelLoader {
             ""
         )
         console().sendLang("Plugin-Enabled")
+        readFolderWalkConfig(File("./plugins/AkariLevel/level")) {
+            setReadType(Type.YAML)
+            walk {
+                for (i in 0..50) {
+                    println(ConfigLevelGroup(getConfigurationSection("Example")!!).getLevelName(i.toLong()))
+                    println(ConfigLevelGroup(getConfigurationSection("Example")!!).getLevelName(i.toLong()))
+                }
+            }
+        }
     }
 
     @Awake(LifeCycle.DISABLE)
