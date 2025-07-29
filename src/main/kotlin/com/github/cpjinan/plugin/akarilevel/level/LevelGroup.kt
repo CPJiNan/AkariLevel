@@ -80,11 +80,6 @@ interface LevelGroup {
     /** 获取等级经验 **/
     fun getLevelExp(level: Long): Long
 
-    /** 获取成员列表 **/
-    fun getMembersList(): List<String> {
-        return this.members
-    }
-
     /** 增加成员 **/
     fun addMember(member: String, source: String) {
         MemberChangeEvent(member, name, MemberChangeType.JOIN, source).run {
