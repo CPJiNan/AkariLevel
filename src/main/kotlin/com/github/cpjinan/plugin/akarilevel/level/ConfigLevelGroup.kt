@@ -35,7 +35,7 @@ class ConfigLevelGroup(val config: ConfigurationSection) : LevelGroup {
             ?.value ?: throw IllegalArgumentException()
     }
 
-    /** 获取关键等级配置列表 **/
+    /** 获取关键等级配置 **/
     fun getKeyLevelConfig(): Map<Long, ConfigurationSection> {
         return config.getConfigurationSection("Level.Key")!!.getKeys(false)
             .associateBy(
