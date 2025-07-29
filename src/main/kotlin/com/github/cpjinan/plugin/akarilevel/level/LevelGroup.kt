@@ -81,7 +81,7 @@ interface LevelGroup {
     fun getLevelExp(level: Long): Long
 
     /** 获取成员列表 **/
-    fun getMembers(): List<String> {
+    fun getMembersList(): List<String> {
         return this.members
     }
 
