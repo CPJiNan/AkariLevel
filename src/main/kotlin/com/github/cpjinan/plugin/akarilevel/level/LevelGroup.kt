@@ -74,27 +74,11 @@ interface LevelGroup {
         unregisterLevelGroup(name)
     }
 
-    /** 等级组注册回调 **/
-    fun onRegister(onCancel: (Boolean) -> Unit = { }) {}
+    /** 获取等级名称 **/
+    fun getLevelName(level: Long): String
 
-    /** 等级组取消注册回调 **/
-    fun onUnregister(onCancel: (Boolean) -> Unit = { }) {}
-
-    /** 成员变更回调 **/
-    fun onMemberChange(member: String, type: MemberChangeType, source: String, onCancel: (Boolean) -> Unit = { }) {}
-
-    /** 成员等级变更回调 **/
-    fun onMemberLevelChange(
-        member: String,
-        oldLevel: Long,
-        newLevel: Long,
-        source: String,
-        onCancel: (Boolean) -> Unit = { }
-    ) {
-    }
-
-    /** 成员经验变更回调 **/
-    fun onMemberExpChange(member: String, expAmount: Long, source: String, onCancel: (Boolean) -> Unit = { }) {}
+    /** 获取等级经验 **/
+    fun getLevelExp(level: Long): Long
 
     /** 获取成员列表 **/
     fun getMember(): List<String> {
@@ -186,4 +170,26 @@ interface LevelGroup {
     fun removeMemberExp(member: String, amount: Long, source: String) {
         setMemberExp(member, getMemberExp(member) - amount, source)
     }
+
+    /** 等级组注册回调 **/
+    fun onRegister(onCancel: (Boolean) -> Unit = { }) {}
+
+    /** 等级组取消注册回调 **/
+    fun onUnregister(onCancel: (Boolean) -> Unit = { }) {}
+
+    /** 成员变更回调 **/
+    fun onMemberChange(member: String, type: MemberChangeType, source: String, onCancel: (Boolean) -> Unit = { }) {}
+
+    /** 成员等级变更回调 **/
+    fun onMemberLevelChange(
+        member: String,
+        oldLevel: Long,
+        newLevel: Long,
+        source: String,
+        onCancel: (Boolean) -> Unit = { }
+    ) {
+    }
+
+    /** 成员经验变更回调 **/
+    fun onMemberExpChange(member: String, expAmount: Long, source: String, onCancel: (Boolean) -> Unit = { }) {}
 }
