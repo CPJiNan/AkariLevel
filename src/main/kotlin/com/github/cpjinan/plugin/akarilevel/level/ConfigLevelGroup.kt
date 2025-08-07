@@ -9,8 +9,10 @@ import top.maplex.arim.Arim
  * AkariLevel
  * com.github.cpjinan.plugin.akarilevel.level
  *
+ * [LevelGroup] 接口的实现，从配置文件获取等级组。
+ *
  * @author 季楠
- * @since 2025/7/28 21:32
+ * @since 2025/8/7 23:15
  */
 class ConfigLevelGroup(val config: ConfigurationSection) : LevelGroup {
     override val name: String = config.name

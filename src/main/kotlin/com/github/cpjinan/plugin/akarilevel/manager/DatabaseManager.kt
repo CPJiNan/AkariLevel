@@ -18,7 +18,7 @@ object DatabaseManager {
     /**
      * 获取数据库实例。
      *
-     * @return 配置文件 [Database] 实例。
+     * @return [Database] 实例。
      */
     fun getDatabase(): Database {
         return when (DatabaseType.INSTANCE) {

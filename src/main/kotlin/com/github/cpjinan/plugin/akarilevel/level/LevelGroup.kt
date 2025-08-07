@@ -8,8 +8,10 @@ import java.util.concurrent.ConcurrentHashMap
  * AkariLevel
  * com.github.cpjinan.plugin.akarilevel.level
  *
+ * 等级组接口。
+ *
  * @author 季楠
- * @since 2025/7/28 19:36
+ * @since 2025/8/7 23:15
  */
 interface LevelGroup {
     companion object {

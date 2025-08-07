@@ -7,10 +7,12 @@ import taboolib.module.database.Table
 
 /**
  * AkariLevel
- * com.github.cpjinan.plugin.akarilevel.database
+ * com.github.cpjinan.plugin.akarilevel.data
+ *
+ * [Database] 接口的 MySQL 实现。
  *
  * @author 季楠
- * @since 2025/7/27 18:29
+ * @since 2025/8/7 23:08
  */
 class DatabaseMySQL() : Database {
     override val type: DatabaseType = DatabaseType.MYSQL
@@ -18,12 +20,12 @@ class DatabaseMySQL() : Database {
     override val dataSource by lazy { DatabaseConfig.hostSQL.createDataSource() }
 
     override val table = Table(DatabaseConfig.table, DatabaseConfig.hostSQL) {
-        add("key") {
+        add("player") {
             type(ColumnTypeSQL.TEXT) {
                 options(ColumnOptionSQL.PRIMARY_KEY)
             }
         }
-        add("value") {
+        add("data") {
             type(ColumnTypeSQL.TEXT)
         }
     }
@@ -34,17 +36,17 @@ class DatabaseMySQL() : Database {
 
     override fun getKeys(): Set<String> {
         return table.select(dataSource) {
-            rows("key")
+            rows("player")
         }.map {
-            getString("key")
+            getString("player")
         }.toSet()
     }
 
     override fun getValues(): Map<String, String?> {
         return table.select(dataSource) {
-            rows("key", "value")
+            rows("player", "data")
         }.map {
-            getString("key") to getString("value")
+            getString("player") to getString("data")
         }.toMap()
     }
 
@@ -54,8 +56,8 @@ class DatabaseMySQL() : Database {
 
     override operator fun contains(path: String): Boolean {
         return table.select(dataSource) {
-            rows("key")
-            where("key" eq path)
+            rows("player")
+            where("player" eq path)
             limit(1)
         }.find()
     }
@@ -70,26 +72,26 @@ class DatabaseMySQL() : Database {
 
     override operator fun get(path: String, def: String?): String? {
         return table.select(dataSource) {
-            rows("key", "value")
-            where("key" eq path)
+            rows("player", "data")
+            where("player" eq path)
             limit(1)
         }.firstOrNull {
-            getString("value")
+            getString("data")
         } ?: def
     }
 
     override operator fun set(path: String, value: String?) {
         if (value == null) {
             table.delete(dataSource) {
-                where { "key" eq path }
+                where { "player" eq path }
             }
             return
         }
         if (contains(path)) table.update(dataSource) {
-            set("value", value)
-            where("key" eq path)
+            set("data", value)
+            where("player" eq path)
         } else {
-            table.insert(dataSource, "key", "value") {
+            table.insert(dataSource, "player", "data") {
                 value(path, value)
             }
         }

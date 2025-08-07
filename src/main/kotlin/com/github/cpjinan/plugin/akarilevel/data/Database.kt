@@ -5,10 +5,12 @@ import javax.sql.DataSource
 
 /**
  * AkariLevel
- * com.github.cpjinan.plugin.akarilevel.database
+ * com.github.cpjinan.plugin.akarilevel.data
+ *
+ * 数据库接口。
  *
  * @author TabooLib, 季楠
- * @since 2025/7/27 18:12
+ * @since 2025/8/7 23:08
  */
 interface Database {
     /** 数据库类型 **/
