@@ -1,4 +1,4 @@
-package com.github.cpjinan.plugin.akarilevel.data
+package com.github.cpjinan.plugin.akarilevel.database
 
 import com.github.cpjinan.plugin.akarilevel.config.DatabaseConfig
 import taboolib.module.database.ColumnOptionSQLite
@@ -7,7 +7,7 @@ import taboolib.module.database.Table
 
 /**
  * AkariLevel
- * com.github.cpjinan.plugin.akarilevel.data
+ * com.github.cpjinan.plugin.akarilevel.database
  *
  * [Database] 接口的 SQLite 实现。
  *

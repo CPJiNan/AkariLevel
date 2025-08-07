@@ -1,11 +1,11 @@
-package com.github.cpjinan.plugin.akarilevel.data
+package com.github.cpjinan.plugin.akarilevel.database
 
 import taboolib.module.database.Table
 import javax.sql.DataSource
 
 /**
  * AkariLevel
- * com.github.cpjinan.plugin.akarilevel.data
+ * com.github.cpjinan.plugin.akarilevel.database
  *
  * 数据库接口。
  *

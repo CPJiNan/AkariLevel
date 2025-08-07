@@ -1,9 +1,9 @@
 package com.github.cpjinan.plugin.akarilevel.manager
 
-import com.github.cpjinan.plugin.akarilevel.data.Database
-import com.github.cpjinan.plugin.akarilevel.data.DatabaseMySQL
-import com.github.cpjinan.plugin.akarilevel.data.DatabaseSQLite
-import com.github.cpjinan.plugin.akarilevel.data.DatabaseType
+import com.github.cpjinan.plugin.akarilevel.database.Database
+import com.github.cpjinan.plugin.akarilevel.database.DatabaseMySQL
+import com.github.cpjinan.plugin.akarilevel.database.DatabaseSQLite
+import com.github.cpjinan.plugin.akarilevel.database.DatabaseType
 
 /**
  * AkariLevel

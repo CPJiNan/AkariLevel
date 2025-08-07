@@ -1,10 +1,10 @@
-package com.github.cpjinan.plugin.akarilevel.data
+package com.github.cpjinan.plugin.akarilevel.database
 
 import com.github.cpjinan.plugin.akarilevel.config.DatabaseConfig
 
 /**
  * AkariLevel
- * com.github.cpjinan.plugin.akarilevel.data
+ * com.github.cpjinan.plugin.akarilevel.database
  *
  * 数据库类型。
  *
