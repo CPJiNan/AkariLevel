@@ -1,43 +1,55 @@
 package com.github.cpjinan.plugin.akarilevel
 
-import taboolib.common.LifeCycle
+import com.github.cpjinan.plugin.akarilevel.config.SettingsConfig
+import taboolib.common.platform.Platform
 import taboolib.common.platform.Plugin
-import taboolib.common.platform.function.disablePlugin
-import taboolib.common.platform.function.registerLifeCycleTask
-import taboolib.platform.BukkitPlugin
+import taboolib.common.platform.function.console
+import taboolib.module.chat.colored
+import taboolib.module.lang.sendLang
+import taboolib.module.metrics.Metrics
+import taboolib.platform.util.bukkitPlugin
 
 /**
  * AkariLevel
  * com.github.cpjinan.plugin.akarilevel
  *
+ * 插件主类。
+ *
  * @author 季楠
- * @since 2025/6/21 19:40
+ * @since 2025/8/7 22:04
  */
 object AkariLevel : Plugin() {
-    val plugin by lazy { BukkitPlugin.getInstance() }
-
-    val database by lazy { api().getDatabase().getDefault() }
-
-    private var api: AkariLevelAPI? = null
-
-    init {
-        registerLifeCycleTask(LifeCycle.INIT) {
-            try {
-                AkariLevelLoader.startup()
-            } catch (ex: Throwable) {
-                ex.printStackTrace()
-                disablePlugin()
-            }
-        }
+    /**
+     * 插件加载事件。
+     */
+    override fun onLoad() {
+        console().sendLang("Plugin-Loading", bukkitPlugin.description.version)
+        // bStats 统计。
+        if (SettingsConfig.sendMetrics) Metrics(
+            18992,
+            bukkitPlugin.description.version,
+            Platform.BUKKIT
+        )
     }
 
-    /** 获取开发者接口 **/
-    fun api(): AkariLevelAPI {
-        return api ?: error("AkariLevelAPI has not finished loading, or failed to load!")
+    /**
+     * 插件启用事件。
+     */
+    override fun onEnable() {
+        console().sendMessage("")
+        console().sendMessage("&o     _    _              _ _                   _  ".colored())
+        console().sendMessage("&o    / \\  | | ____ _ _ __(_) |    _____   _____| | ".colored())
+        console().sendMessage("&o   / _ \\ | |/ / _` | '__| | |   / _ \\ \\ / / _ \\ | ".colored())
+        console().sendMessage("&o  / ___ \\|   < (_| | |  | | |__|  __/\\ V /  __/ | ".colored())
+        console().sendMessage("&o /_/   \\_\\_|\\_\\__,_|_|  |_|_____\\___| \\_/ \\___|_| ".colored())
+        console().sendMessage("")
+        console().sendLang("Plugin-Enabled")
     }
 
-    /** 注册开发者接口 **/
-    fun register(api: AkariLevelAPI) {
-        AkariLevel.api = api
+    /**
+     * 插件卸载事件。
+     */
+    override fun onDisable() {
+        console().sendLang("Plugin-Disable")
     }
 }

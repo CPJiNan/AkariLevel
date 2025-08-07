@@ -11,28 +11,30 @@ import taboolib.module.database.getHost
  * AkariLevel
  * com.github.cpjinan.plugin.akarilevel.config
  *
+ * 数据库配置。
+ *
  * @author 季楠
- * @since 2025/7/27 19:06
+ * @since 2025/8/7 22:20
  */
 object DatabaseConfig {
     @Config("settings.yml")
-    lateinit var settings: Configuration
+    lateinit var config: Configuration
         private set
 
     val type: String by lazy {
-        settings.getString("Database.Type") ?: "SQLITE"
+        config.getString("Database.Type") ?: "SQLITE"
     }
 
     val table: String by lazy {
-        settings.getString("Database.Table") ?: "akarilevel"
+        config.getString("Database.Table") ?: "akarilevel"
     }
 
     val hostSQL: HostSQL by lazy {
-        settings.getHost("Database.MYSQL")
+        config.getHost("Database.MYSQL")
     }
 
     val file: String by lazy {
-        settings.getString("Database.SQLITE.file") ?: "database.db"
+        config.getString("Database.SQLITE.file") ?: "database.db"
     }
 
     val hostSQLite: HostSQLite by lazy {

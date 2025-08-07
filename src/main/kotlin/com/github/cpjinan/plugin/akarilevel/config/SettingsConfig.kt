@@ -8,13 +8,15 @@ import taboolib.module.configuration.Configuration
  * AkariLevel
  * com.github.cpjinan.plugin.akarilevel.config
  *
+ * 全局配置。
+ *
  * @author 季楠
- * @since 2025/6/21 19:45
+ * @since 2025/8/7 22:20
  */
 @ConfigNode(bind = "settings.yml")
 object SettingsConfig {
     @Config("settings.yml")
-    lateinit var settings: Configuration
+    lateinit var config: Configuration
         private set
 
     /** 语言 **/

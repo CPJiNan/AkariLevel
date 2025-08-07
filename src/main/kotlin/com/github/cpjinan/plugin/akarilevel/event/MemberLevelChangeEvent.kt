@@ -6,8 +6,10 @@ import taboolib.platform.type.BukkitProxyEvent
  * AkariLevel
  * com.github.cpjinan.plugin.akarilevel.event
  *
+ * 等级组成员等级变更事件。
+ *
  * @author 季楠
- * @since 2025/7/28 22:04
+ * @since 2025/8/7 22:45
  */
 class MemberLevelChangeEvent(
     var member: String,
