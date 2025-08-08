@@ -15,7 +15,7 @@ import java.util.concurrent.ConcurrentHashMap
  */
 interface LevelGroup {
     companion object {
-        private var levelGroups: ConcurrentHashMap<String, LevelGroup> = ConcurrentHashMap()
+        private var levelGroups: MutableMap<String, LevelGroup> = ConcurrentHashMap()
 
         /** 获取等级组列表 **/
         fun getLevelGroups(): Map<String, LevelGroup> {
