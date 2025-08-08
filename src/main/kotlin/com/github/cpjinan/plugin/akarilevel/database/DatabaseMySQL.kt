@@ -27,7 +27,7 @@ class DatabaseMySQL() : Database {
             }
         }
         add("data") {
-            type(ColumnTypeSQL.TEXT)
+            type(ColumnTypeSQL.JSON)
         }
     }
 
