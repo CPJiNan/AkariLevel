@@ -136,7 +136,7 @@ interface LevelGroup {
 
         memberCache.asMap().compute(member) { _, data ->
             (data ?: MemberData()).apply {
-                levelGroups.getOrPut(source) { MemberLevelData() }.level = amount
+                levelGroups.getOrPut(name) { MemberLevelData() }.level = amount
             }
         }
     }
@@ -155,7 +155,7 @@ interface LevelGroup {
 
         memberCache.asMap().compute(member) { _, data ->
             (data ?: MemberData()).apply {
-                levelGroups.getOrPut(source) { MemberLevelData() }.exp = amount
+                levelGroups.getOrPut(name) { MemberLevelData() }.exp = amount
             }
         }
     }
