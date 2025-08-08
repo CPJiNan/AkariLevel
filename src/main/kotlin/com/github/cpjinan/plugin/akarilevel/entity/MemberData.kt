@@ -6,12 +6,12 @@ import com.google.gson.annotations.SerializedName
  * AkariLevel
  * com.github.cpjinan.plugin.akarilevel.entity
  *
- * 玩家数据。
+ * 成员数据。
  *
  * @author 季楠
  * @since 2025/8/7 22:58
  */
-data class PlayerData(
+data class MemberData(
     @SerializedName("level_groups")
-    val levelGroups: MutableMap<String, PlayerLevelData> = mutableMapOf(),
+    val levelGroups: MutableMap<String, MemberLevelData> = mutableMapOf(),
 )
