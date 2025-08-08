@@ -34,7 +34,7 @@ object DatabaseConfig {
     }
 
     val file: String by lazy {
-        config.getString("Database.SQLITE.file") ?: "database.db"
+        config.getString("Database.SQLITE.file") ?: "sqlite.db"
     }
 
     val hostSQLite: HostSQLite by lazy {

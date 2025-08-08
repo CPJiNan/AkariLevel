@@ -28,4 +28,4 @@ Database:
     database: minecraft
   # SQLite 存储设置
   SQLITE:
-    file: database.db
+    file: sqlite.db
