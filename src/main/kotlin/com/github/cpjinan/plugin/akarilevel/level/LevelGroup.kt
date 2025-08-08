@@ -134,11 +134,11 @@ interface LevelGroup {
         }
         if (isCancelled) return
 
-        val memberData = memberCache.get(member) ?: MemberData()
-        val levelData = memberData.levelGroups.getOrPut(member) { MemberLevelData() }
-        levelData.level = amount
-
-        memberCache.put(member, memberData)
+        memberCache.asMap().compute(member) { _, data ->
+            (data ?: MemberData()).apply {
+                levelGroups.getOrPut(source) { MemberLevelData() }.level = amount
+            }
+        }
     }
 
     /** 设置成员经验 **/
@@ -153,11 +153,11 @@ interface LevelGroup {
         }
         if (isCancelled) return
 
-        val memberData = memberCache.get(member) ?: MemberData()
-        val levelData = memberData.levelGroups.getOrPut(member) { MemberLevelData() }
-        levelData.exp = amount
-
-        memberCache.put(member, memberData)
+        memberCache.asMap().compute(member) { _, data ->
+            (data ?: MemberData()).apply {
+                levelGroups.getOrPut(source) { MemberLevelData() }.exp = amount
+            }
+        }
     }
 
     /** 增加成员等级 **/
