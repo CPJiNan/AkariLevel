@@ -1,7 +1,9 @@
 package com.github.cpjinan.plugin.akarilevel.level
 
+import com.github.cpjinan.plugin.akarilevel.cache.memberCache
+import com.github.cpjinan.plugin.akarilevel.entity.MemberData
+import com.github.cpjinan.plugin.akarilevel.entity.MemberLevelData
 import com.github.cpjinan.plugin.akarilevel.event.*
-import com.github.cpjinan.plugin.akarilevel.manager.DatabaseManager.getDatabase
 import java.util.concurrent.ConcurrentHashMap
 
 /**
@@ -112,12 +114,12 @@ interface LevelGroup {
 
     /** 获取成员等级 **/
     fun getMemberLevel(member: String): Long {
-        return getDatabase()["LevelGroup.${name}.Member.${member}.Level"]?.toDoubleOrNull()?.toLong() ?: 0
+        return memberCache[member]?.levelGroups[name]?.level ?: 0
     }
 
     /** 获取成员经验 **/
     fun getMemberExp(member: String): Long {
-        return getDatabase()["LevelGroup.${name}.Member.${member}.Exp"]?.toDoubleOrNull()?.toLong() ?: 0
+        return memberCache[member]?.levelGroups[name]?.exp ?: 0
     }
 
     /** 设置成员等级 **/
@@ -131,7 +133,12 @@ interface LevelGroup {
             isCancelled = it
         }
         if (isCancelled) return
-        getDatabase()["LevelGroup.${name}.Member.${member}.Level"] = amount.toString()
+
+        val memberData = memberCache.get(member) ?: MemberData()
+        val levelData = memberData.levelGroups.getOrPut(member) { MemberLevelData() }
+        levelData.level = amount
+
+        memberCache.put(member, memberData)
     }
 
     /** 设置成员经验 **/
@@ -145,7 +152,12 @@ interface LevelGroup {
             isCancelled = it
         }
         if (isCancelled) return
-        getDatabase()["LevelGroup.${name}.Member.${member}.Exp"] = amount.toString()
+
+        val memberData = memberCache.get(member) ?: MemberData()
+        val levelData = memberData.levelGroups.getOrPut(member) { MemberLevelData() }
+        levelData.exp = amount
+
+        memberCache.put(member, memberData)
     }
 
     /** 增加成员等级 **/
