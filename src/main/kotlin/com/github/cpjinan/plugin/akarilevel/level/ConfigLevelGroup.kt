@@ -20,12 +20,12 @@ class ConfigLevelGroup(val config: ConfigurationSection) : LevelGroup {
     override val members: MutableList<String> = mutableListOf()
 
     override fun getLevelName(level: Long): String {
-        return getLevelConfig(level).getString("Name")?.replace("%level%" to level)?.colored() ?: "$level"
+        return getLevelConfig(level).getString("Name")?.replace("{level}" to level)?.colored() ?: "$level"
     }
 
     override fun getLevelExp(level: Long): Long {
         return Arim.fixedCalculator.evaluate(
-            getLevelConfig(level).getString("Exp").orEmpty().replace("%level%" to level)
+            getLevelConfig(level).getString("Exp").orEmpty().replace("{level}" to level)
         ).toLong()
     }
 

@@ -35,7 +35,7 @@ Example:
       # 1 级 - 49 级 等级设置
       1:
         Name: "§8Lv.§b%level%"
-        Exp: "%level% * 5 + 100"
+        Exp: "{level} * 5 + 100"
         Condition: [ ]
         Action:
           Kether:
@@ -43,7 +43,7 @@ Example:
       # 50 级 - 100 级 等级设置
       50:
         Name: "§8Lv.§b%level%"
-        Exp: "%level% * 10 + 100"
+        Exp: "{level} * 10 + 100"
         Condition: [ ]
         Action:
           Kether:
