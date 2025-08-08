@@ -90,16 +90,6 @@ interface Database {
     operator fun set(path: String, value: String?)
 
     /**
-     * 保存当前 [Database] 中的所有数据。
-     */
-    fun save()
-
-    /**
-     * 重载当前 [Database] 中的所有数据。
-     */
-    fun reload()
-
-    /**
      * 清除当前 [Database] 中的所有数据。
      */
     fun clear()

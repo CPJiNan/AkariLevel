@@ -97,10 +97,6 @@ class DatabaseMySQL() : Database {
         }
     }
 
-    override fun save() {}
-
-    override fun reload() {}
-
     override fun clear() {
         table.delete(dataSource) { }
     }
