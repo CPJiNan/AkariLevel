@@ -68,17 +68,13 @@ class DatabaseMySQL() : Database {
     }
 
     override operator fun get(path: String): String? {
-        return get(path, null)
-    }
-
-    override operator fun get(path: String, def: String?): String? {
         return table.select(dataSource) {
             rows("member", "data")
             where("member" eq path)
             limit(1)
         }.firstOrNull {
             getString("data")
-        } ?: def
+        }
     }
 
     override operator fun set(path: String, value: String?) {

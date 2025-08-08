@@ -69,17 +69,6 @@ interface Database {
     operator fun get(path: String): String?
 
     /**
-     * 通过路径获取请求的对象。
-     *
-     * 如果对象不存在但已指定默认值，则将返回默认值。
-     * 如果对象不存在且未指定默认值，则返回 null。
-     *
-     * @param path 要获取的对象的路径。
-     * @return 请求的对象。
-     */
-    operator fun get(path: String, def: String?): String?
-
-    /**
      * 将指定路径设置为给定值。
      *
      * 如果值为 null，则会删除该条目。任何现有条目都将被替换，无论新值是什么。
