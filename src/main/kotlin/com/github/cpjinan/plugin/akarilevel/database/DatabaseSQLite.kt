@@ -15,7 +15,7 @@ import taboolib.module.database.Table
  * @since 2025/8/7 23:08
  */
 class DatabaseSQLite() : Database {
-    override val type: DatabaseType = DatabaseType.SQLITE
+    override val type = DatabaseType.SQLITE
 
     override val dataSource by lazy { DatabaseConfig.hostSQLite.createDataSource() }
 

@@ -15,7 +15,7 @@ import taboolib.module.database.Table
  * @since 2025/8/7 23:08
  */
 class DatabaseMySQL() : Database {
-    override val type: DatabaseType = DatabaseType.MYSQL
+    override val type = DatabaseType.MYSQL
 
     override val dataSource by lazy { DatabaseConfig.hostSQL.createDataSource() }
 
