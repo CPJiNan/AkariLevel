@@ -27,6 +27,7 @@ taboolib {
     }
     version { taboolib = "6.2.3-ee81cb0" }
     relocate("top.maplex.arim", "com.github.cpjinan.plugin.akarilevel.arim")
+    relocate("com.github.benmanes.caffeine", "com.github.cpjinan.plugin.akarilevel.caffeine")
 }
 
 repositories {
@@ -38,6 +39,7 @@ dependencies {
     compileOnly(kotlin("stdlib"))
     compileOnly(fileTree("libs"))
     taboo("top.maplex.arim:Arim:1.2.14")
+    taboo("com.github.ben-manes.caffeine:caffeine:2.9.3")
 }
 
 java {

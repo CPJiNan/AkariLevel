@@ -4,6 +4,7 @@ import com.github.cpjinan.plugin.akarilevel.config.DatabaseConfig
 import taboolib.module.database.ColumnOptionSQL
 import taboolib.module.database.ColumnTypeSQL
 import taboolib.module.database.Table
+import java.util.concurrent.ConcurrentHashMap
 
 /**
  * AkariLevel
@@ -47,7 +48,7 @@ class DatabaseMySQL() : Database {
             rows("member", "data")
         }.map {
             getString("member") to getString("data")
-        }.toMap()
+        }.toMap(ConcurrentHashMap())
     }
 
     override fun toMap(): Map<String, String?> {
