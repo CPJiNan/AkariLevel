@@ -51,20 +51,12 @@ class DatabaseMySQL() : Database {
         }.toMap(ConcurrentHashMap())
     }
 
-    override fun toMap(): Map<String, String?> {
-        return getValues()
-    }
-
     override operator fun contains(path: String): Boolean {
         return table.select(dataSource) {
             rows("member")
             where("member" eq path)
             limit(1)
         }.find()
-    }
-
-    override fun isSet(path: String): Boolean {
-        return contains(path)
     }
 
     override operator fun get(path: String): String? {
@@ -92,9 +84,5 @@ class DatabaseMySQL() : Database {
                 value(path, value)
             }
         }
-    }
-
-    override fun clear() {
-        table.delete(dataSource) { }
     }
 }

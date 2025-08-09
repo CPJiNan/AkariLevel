@@ -37,13 +37,6 @@ interface Database {
     fun getValues(): Map<String, String?>
 
     /**
-     * 将当前 [Database] 转换为 Map。
-     *
-     * @return 包含当前 [Database] 所有键值对的 Map。
-     */
-    fun toMap(): Map<String, String?>
-
-    /**
      * 检查此 [Database] 是否包含给定路径。
      *
      * 如果请求路径的值不存在但已指定默认值，则此方法将返回 true。
@@ -52,11 +45,6 @@ interface Database {
      * @return 如果此数据库包含请求的路径（通过默认值或已设置），则返回 true。
      */
     operator fun contains(path: String): Boolean
-
-    /**
-     * 方法 [contains] 的别名。
-     */
-    fun isSet(path: String): Boolean
 
     /**
      * 通过路径获取请求的对象。
@@ -77,9 +65,4 @@ interface Database {
      * @param value 要设置的新值。
      */
     operator fun set(path: String, value: String?)
-
-    /**
-     * 清除当前 [Database] 中的所有数据。
-     */
-    fun clear()
 }
