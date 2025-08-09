@@ -24,11 +24,15 @@ val memberCache = Caffeine.newBuilder()
     .removalListener<String, MemberData> { key, value, _ ->
         submit(async = true) {
             if (key != null && value != null) {
-                DatabaseManager.getDatabase()[key] = gson.toJson(value)
+                with(DatabaseManager.getDatabase()) {
+                    set(memberTable, key, gson.toJson(value))
+                }
             }
         }
     }
     .build<String, MemberData> {
-        DatabaseManager.getDatabase()[it].takeUnless { it.isNullOrBlank() }
-            ?.let { gson.fromJson(it, MemberData::class.java) } ?: MemberData()
+        with(DatabaseManager.getDatabase()) {
+            get(memberTable, it).takeUnless { it.isNullOrBlank() }
+                ?.let { gson.fromJson(it, MemberData::class.java) } ?: MemberData()
+        }
     }
