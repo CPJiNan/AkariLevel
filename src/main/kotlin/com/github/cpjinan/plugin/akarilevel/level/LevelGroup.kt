@@ -24,13 +24,13 @@ interface LevelGroup {
             return levelGroups
         }
 
-        /** 注册等级组 **/
-        fun registerLevelGroup(name: String, levelGroup: LevelGroup) {
+        /** 新增等级组 **/
+        fun addLevelGroup(name: String, levelGroup: LevelGroup) {
             levelGroups[name] = levelGroup
         }
 
-        /** 取消注册等级组 **/
-        fun unregisterLevelGroup(name: String) {
+        /** 移除等级组 **/
+        fun removeLevelGroup(name: String) {
             levelGroups.remove(name)
         }
     }
@@ -52,30 +52,20 @@ interface LevelGroup {
 
     /** 注册等级组 **/
     fun register() {
-        GroupRegisterEvent(name).run {
-            call()
-            if (isCancelled) return
-        }
-        var isCancelled = false
-        onRegister {
-            isCancelled = it
-        }
-        if (isCancelled) return
-        registerLevelGroup(name, this)
+        val event = GroupRegisterEvent(name)
+        event.call()
+        if (event.isCancelled) return
+        addLevelGroup(event.levelGroup, this)
+        onRegister()
     }
 
     /** 取消注册等级组 **/
     fun unregister() {
-        GroupUnregisterEvent(name).run {
-            call()
-            if (isCancelled) return
-        }
-        var isCancelled = false
-        onUnregister {
-            isCancelled = it
-        }
-        if (isCancelled) return
-        unregisterLevelGroup(name)
+        val event = GroupUnregisterEvent(name)
+        event.call()
+        if (event.isCancelled) return
+        removeLevelGroup(event.levelGroup)
+        onUnregister()
     }
 
     /** 获取等级名称 **/
@@ -86,30 +76,20 @@ interface LevelGroup {
 
     /** 增加成员 **/
     fun addMember(member: String, source: String) {
-        MemberChangeEvent(member, name, MemberChangeType.JOIN, source).run {
-            call()
-            if (isCancelled) return
-        }
-        var isCancelled = false
-        onMemberChange(member, MemberChangeType.JOIN, source) {
-            isCancelled = it
-        }
-        if (isCancelled) return
-        this.members.add(member)
+        val event = MemberChangeEvent(member, name, MemberChangeType.JOIN, source)
+        event.call()
+        if (event.isCancelled) return
+        this.members.add(event.member)
+        onMemberChange(event.member, event.type, event.source)
     }
 
     /** 移除成员 **/
     fun removeMember(member: String, source: String) {
-        MemberChangeEvent(member, name, MemberChangeType.QUIT, source).run {
-            call()
-            if (isCancelled) return
-        }
-        var isCancelled = false
-        onMemberChange(member, MemberChangeType.QUIT, source) {
-            isCancelled = it
-        }
-        if (isCancelled) return
-        this.members.remove(member)
+        val event = MemberChangeEvent(member, name, MemberChangeType.QUIT, source)
+        event.call()
+        if (event.isCancelled) return
+        this.members.remove(event.member)
+        onMemberChange(event.member, event.type, event.source)
     }
 
     /** 获取成员等级 **/
@@ -124,40 +104,29 @@ interface LevelGroup {
 
     /** 设置成员等级 **/
     fun setMemberLevel(member: String, amount: Long, source: String) {
-        MemberLevelChangeEvent(member, name, getMemberLevel(member), amount, source).run {
-            call()
-            if (isCancelled) return
-        }
-        var isCancelled = false
-        onMemberLevelChange(member, getMemberLevel(member), amount, source) {
-            isCancelled = it
-        }
-        if (isCancelled) return
-
-        memberCache.asMap().compute(member) { _, data ->
+        val event = MemberLevelChangeEvent(member, name, getMemberLevel(member), amount, source)
+        event.call()
+        if (event.isCancelled) return
+        memberCache.asMap().compute(event.member) { _, data ->
             (data ?: MemberData()).apply {
-                levelGroups.getOrPut(name) { MemberLevelData() }.level = amount
+                levelGroups.getOrPut(event.levelGroup) { MemberLevelData() }.level = event.newLevel
             }
         }
+        onMemberLevelChange(event.member, event.oldLevel, event.newLevel, event.source)
     }
 
     /** 设置成员经验 **/
     fun setMemberExp(member: String, amount: Long, source: String) {
-        MemberExpChangeEvent(member, name, amount - getMemberExp(member), source).run {
-            call()
-            if (isCancelled) return
-        }
-        var isCancelled = false
-        onMemberExpChange(member, amount - getMemberExp(member), source) {
-            isCancelled = it
-        }
-        if (isCancelled) return
-
-        memberCache.asMap().compute(member) { _, data ->
+        val event = MemberExpChangeEvent(member, name, amount - getMemberExp(member), source)
+        event.call()
+        if (event.isCancelled) return
+        memberCache.asMap().compute(event.member) { _, data ->
             (data ?: MemberData()).apply {
-                levelGroups.getOrPut(name) { MemberLevelData() }.exp = amount
+                levelGroups.getOrPut(event.levelGroup) { MemberLevelData() }.exp =
+                    getMemberExp(event.member) + event.expAmount
             }
         }
+        onMemberExpChange(event.member, event.expAmount, event.source)
     }
 
     /** 增加成员等级 **/
@@ -181,24 +150,17 @@ interface LevelGroup {
     }
 
     /** 等级组注册回调 **/
-    fun onRegister(onCancel: (Boolean) -> Unit = { }) {}
+    fun onRegister() {}
 
     /** 等级组取消注册回调 **/
-    fun onUnregister(onCancel: (Boolean) -> Unit = { }) {}
+    fun onUnregister() {}
 
     /** 成员变更回调 **/
-    fun onMemberChange(member: String, type: MemberChangeType, source: String, onCancel: (Boolean) -> Unit = { }) {}
+    fun onMemberChange(member: String, type: MemberChangeType, source: String) {}
 
     /** 成员等级变更回调 **/
-    fun onMemberLevelChange(
-        member: String,
-        oldLevel: Long,
-        newLevel: Long,
-        source: String,
-        onCancel: (Boolean) -> Unit = { }
-    ) {
-    }
+    fun onMemberLevelChange(member: String, oldLevel: Long, newLevel: Long, source: String) {}
 
     /** 成员经验变更回调 **/
-    fun onMemberExpChange(member: String, expAmount: Long, source: String, onCancel: (Boolean) -> Unit = { }) {}
+    fun onMemberExpChange(member: String, expAmount: Long, source: String) {}
 }

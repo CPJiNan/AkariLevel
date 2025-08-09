@@ -24,13 +24,13 @@ class ConfigLevelGroup(val config: ConfigurationSection) : LevelGroup {
             return configLevelGroups
         }
 
-        /** 注册配置等级组 **/
-        fun registerConfigLevelGroup(name: String, configLevelGroup: ConfigLevelGroup) {
+        /** 新增配置等级组 **/
+        fun addConfigLevelGroup(name: String, configLevelGroup: ConfigLevelGroup) {
             configLevelGroups[name] = configLevelGroup
         }
 
-        /** 取消注册配置等级组 **/
-        fun unregisterConfigLevelGroup(name: String) {
+        /** 移除配置等级组 **/
+        fun removeConfigLevelGroup(name: String) {
             configLevelGroups.remove(name)
         }
     }
@@ -66,11 +66,11 @@ class ConfigLevelGroup(val config: ConfigurationSection) : LevelGroup {
             ).toSortedMap()
     }
 
-    override fun onRegister(onCancel: (Boolean) -> Unit) {
-        registerConfigLevelGroup(name, this)
+    override fun onRegister() {
+        addConfigLevelGroup(name, this)
     }
 
-    override fun onUnregister(onCancel: (Boolean) -> Unit) {
-        unregisterConfigLevelGroup(name)
+    override fun onUnregister() {
+        removeConfigLevelGroup(name)
     }
 }
