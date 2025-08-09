@@ -20,7 +20,18 @@ class DatabaseSQLite() : Database {
 
     override val dataSource by lazy { DatabaseConfig.hostSQLite.createDataSource() }
 
-    override val table = Table(DatabaseConfig.table, DatabaseConfig.hostSQLite) {
+    override val memberTable = Table("${DatabaseConfig.table}_Member", DatabaseConfig.hostSQLite) {
+        add("key") {
+            type(ColumnTypeSQLite.TEXT) {
+                options(ColumnOptionSQLite.PRIMARY_KEY)
+            }
+        }
+        add("value") {
+            type(ColumnTypeSQLite.TEXT)
+        }
+    }
+
+    override val levelGroupTable = Table("${DatabaseConfig.table}_LevelGroup", DatabaseConfig.hostSQLite) {
         add("key") {
             type(ColumnTypeSQLite.TEXT) {
                 options(ColumnOptionSQLite.PRIMARY_KEY)
@@ -32,10 +43,11 @@ class DatabaseSQLite() : Database {
     }
 
     init {
-        table.createTable(dataSource)
+        memberTable.createTable(dataSource)
+        levelGroupTable.createTable(dataSource)
     }
 
-    override fun getKeys(): Set<String> {
+    override fun getKeys(table: Table<*, *>): Set<String> {
         return table.select(dataSource) {
             rows("key")
         }.map {
@@ -43,7 +55,7 @@ class DatabaseSQLite() : Database {
         }.toSet()
     }
 
-    override fun getValues(): Map<String, String?> {
+    override fun getValues(table: Table<*, *>): Map<String, String?> {
         return table.select(dataSource) {
             rows("key", "value")
         }.map {
@@ -51,7 +63,7 @@ class DatabaseSQLite() : Database {
         }.toMap(ConcurrentHashMap())
     }
 
-    override operator fun contains(path: String): Boolean {
+    override fun contains(table: Table<*, *>, path: String): Boolean {
         return table.select(dataSource) {
             rows("key")
             where("key" eq path)
@@ -59,7 +71,7 @@ class DatabaseSQLite() : Database {
         }.find()
     }
 
-    override operator fun get(path: String): String? {
+    override fun get(table: Table<*, *>, path: String): String? {
         return table.select(dataSource) {
             rows("key", "value")
             where("key" eq path)
@@ -69,14 +81,14 @@ class DatabaseSQLite() : Database {
         }
     }
 
-    override operator fun set(path: String, value: String?) {
+    override fun set(table: Table<*, *>, path: String, value: String?) {
         if (value == null) {
             table.delete(dataSource) {
                 where { "key" eq path }
             }
             return
         }
-        if (contains(path)) table.update(dataSource) {
+        if (contains(table, path)) table.update(dataSource) {
             set("value", value)
             where("key" eq path)
         } else {

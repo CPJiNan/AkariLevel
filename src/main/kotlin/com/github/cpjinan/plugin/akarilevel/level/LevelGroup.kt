@@ -52,7 +52,7 @@ interface LevelGroup {
 
     /** 注册等级组 **/
     fun register() {
-        val event = GroupRegisterEvent(name)
+        val event = LevelGroupRegisterEvent(name)
         event.call()
         if (event.isCancelled) return
         addLevelGroup(event.levelGroup, this)
@@ -61,7 +61,7 @@ interface LevelGroup {
 
     /** 取消注册等级组 **/
     fun unregister() {
-        val event = GroupUnregisterEvent(name)
+        val event = LevelGroupUnregisterEvent(name)
         event.call()
         if (event.isCancelled) return
         removeLevelGroup(event.levelGroup)
