@@ -1,6 +1,7 @@
 package com.github.cpjinan.plugin.akarilevel.level
 
 import com.github.cpjinan.plugin.akarilevel.cache.memberCache
+import com.github.cpjinan.plugin.akarilevel.entity.MemberData
 import com.github.cpjinan.plugin.akarilevel.entity.MemberLevelData
 import com.github.cpjinan.plugin.akarilevel.event.*
 import java.util.concurrent.ConcurrentHashMap
@@ -134,8 +135,8 @@ interface LevelGroup {
         if (isCancelled) return
 
         memberCache.asMap().compute(member) { _, data ->
-            data.apply {
-                this!!.levelGroups.getOrPut(name) { MemberLevelData() }.level = amount
+            (data ?: MemberData()).apply {
+                levelGroups.getOrPut(name) { MemberLevelData() }.level = amount
             }
         }
     }
@@ -153,8 +154,8 @@ interface LevelGroup {
         if (isCancelled) return
 
         memberCache.asMap().compute(member) { _, data ->
-            data.apply {
-                this!!.levelGroups.getOrPut(name) { MemberLevelData() }.exp = amount
+            (data ?: MemberData()).apply {
+                levelGroups.getOrPut(name) { MemberLevelData() }.exp = amount
             }
         }
     }
