@@ -21,12 +21,12 @@ class DatabaseSQLite() : Database {
     override val dataSource by lazy { DatabaseConfig.hostSQLite.createDataSource() }
 
     override val table = Table(DatabaseConfig.table, DatabaseConfig.hostSQLite) {
-        add("member") {
+        add("key") {
             type(ColumnTypeSQLite.TEXT) {
                 options(ColumnOptionSQLite.PRIMARY_KEY)
             }
         }
-        add("data") {
+        add("value") {
             type(ColumnTypeSQLite.TEXT)
         }
     }
@@ -37,50 +37,50 @@ class DatabaseSQLite() : Database {
 
     override fun getKeys(): Set<String> {
         return table.select(dataSource) {
-            rows("member")
+            rows("key")
         }.map {
-            getString("member")
+            getString("key")
         }.toSet()
     }
 
     override fun getValues(): Map<String, String?> {
         return table.select(dataSource) {
-            rows("member", "data")
+            rows("key", "value")
         }.map {
-            getString("member") to getString("data")
+            getString("key") to getString("value")
         }.toMap(ConcurrentHashMap())
     }
 
     override operator fun contains(path: String): Boolean {
         return table.select(dataSource) {
-            rows("member")
-            where("member" eq path)
+            rows("key")
+            where("key" eq path)
             limit(1)
         }.find()
     }
 
     override operator fun get(path: String): String? {
         return table.select(dataSource) {
-            rows("member", "data")
-            where("member" eq path)
+            rows("key", "value")
+            where("key" eq path)
             limit(1)
         }.firstOrNull {
-            getString("data")
+            getString("value")
         }
     }
 
     override operator fun set(path: String, value: String?) {
         if (value == null) {
             table.delete(dataSource) {
-                where { "member" eq path }
+                where { "key" eq path }
             }
             return
         }
         if (contains(path)) table.update(dataSource) {
-            set("data", value)
-            where("member" eq path)
+            set("value", value)
+            where("key" eq path)
         } else {
-            table.insert(dataSource, "member", "data") {
+            table.insert(dataSource, "key", "value") {
                 value(path, value)
             }
         }
