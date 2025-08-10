@@ -16,6 +16,7 @@ enum class DatabaseType {
     MYSQL;
 
     companion object {
+        @JvmStatic
         val INSTANCE by lazy {
             try {
                 valueOf(DatabaseConfig.type.uppercase())

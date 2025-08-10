@@ -14,6 +14,7 @@ import javax.sql.DataSource
  */
 interface Database {
     companion object {
+        @JvmStatic
         val INSTANCE by lazy {
             when (DatabaseType.INSTANCE) {
                 DatabaseType.SQLITE -> DatabaseSQLite()
