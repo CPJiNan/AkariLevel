@@ -42,6 +42,9 @@ class ConfigLevelGroup(val config: ConfigurationSection) : LevelGroup {
         /** 重载配置等级组 **/
         @JvmStatic
         fun reloadConfigLevelGroups() {
+            configLevelGroups.forEach { _, levelGroup ->
+                levelGroup.unregister()
+            }
             releaseResourceFolderAndRead("level") {
                 setReadType(Type.YAML, Type.JSON)
                 walk {
