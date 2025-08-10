@@ -11,4 +11,4 @@ import taboolib.platform.type.BukkitProxyEvent
  * @author 季楠
  * @since 2025/8/7 22:45
  */
-class LevelGroupUnregisterEvent(var levelGroup: String) : BukkitProxyEvent()
+class LevelGroupUnregisterEvent(val levelGroup: String) : BukkitProxyEvent()

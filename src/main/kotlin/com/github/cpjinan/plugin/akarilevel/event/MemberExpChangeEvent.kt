@@ -12,8 +12,8 @@ import taboolib.platform.type.BukkitProxyEvent
  * @since 2025/8/7 22:45
  */
 class MemberExpChangeEvent(
-    var member: String,
-    var levelGroup: String,
+    val member: String,
+    val levelGroup: String,
     var expAmount: Long,
     var source: String
 ) : BukkitProxyEvent()

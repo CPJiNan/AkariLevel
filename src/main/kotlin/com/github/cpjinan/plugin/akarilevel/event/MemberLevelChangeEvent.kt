@@ -12,9 +12,9 @@ import taboolib.platform.type.BukkitProxyEvent
  * @since 2025/8/7 22:45
  */
 class MemberLevelChangeEvent(
-    var member: String,
-    var levelGroup: String,
-    var oldLevel: Long,
+    val member: String,
+    val levelGroup: String,
+    val oldLevel: Long,
     var newLevel: Long,
     var source: String
 ) : BukkitProxyEvent()
