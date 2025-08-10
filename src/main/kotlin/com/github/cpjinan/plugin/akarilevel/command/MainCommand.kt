@@ -38,7 +38,7 @@ object MainCommand {
             PluginReloadEvent.Pre().call()
 
             // 重载配置文件。
-            SettingsConfig.config.reload()
+            SettingsConfig.settings.reload()
 
             // 重载配置等级组。
             ConfigLevelGroup.reloadConfigLevelGroups()
