@@ -24,14 +24,14 @@ val levelGroupCache = Caffeine.newBuilder()
     .removalListener<String, LevelGroupData> { key, value, _ ->
         submit(async = true) {
             if (key != null && value != null) {
-                with(Database.getDatabase()) {
+                with(Database.INSTANCE) {
                     set(levelGroupTable, key, gson.toJson(value))
                 }
             }
         }
     }
     .build<String, LevelGroupData> {
-        with(Database.getDatabase()) {
+        with(Database.INSTANCE) {
             get(levelGroupTable, it).takeUnless { it.isNullOrBlank() }
                 ?.let { gson.fromJson(it, LevelGroupData::class.java) } ?: LevelGroupData()
         }
