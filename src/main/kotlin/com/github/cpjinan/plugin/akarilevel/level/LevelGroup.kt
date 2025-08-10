@@ -76,6 +76,16 @@ interface LevelGroup {
     /** 获取等级经验 **/
     fun getLevelExp(level: Long): Long
 
+    /** 获取等级名称 **/
+    fun getLevelName(member: String, level: Long): String {
+        return getLevelName(level)
+    }
+
+    /** 获取等级经验 **/
+    fun getLevelExp(member: String, level: Long): Long {
+        return getLevelExp(level)
+    }
+
     /** 获取成员列表 **/
     fun getMembers(): List<String> {
         return levelGroupCache[name]?.members ?: emptyList()
