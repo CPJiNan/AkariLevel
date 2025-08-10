@@ -19,7 +19,7 @@ taboolib {
             Bukkit,
             BukkitUI,
             BukkitHook,
-            BukkitUtil,
+            BukkitUtil
         )
     }
     description {
