@@ -4,11 +4,9 @@ package com.github.cpjinan.plugin.akarilevel.entity
  * AkariLevel
  * com.github.cpjinan.plugin.akarilevel.entity
  *
- * 成员数据。
- *
  * @author 季楠
- * @since 2025/8/7 22:58
+ * @since 2025/8/10 11:16
  */
-data class MemberData(
-    val levelGroups: MutableMap<String, MemberLevelData> = mutableMapOf()
+data class LevelGroupData(
+    val members: MutableList<String> = mutableListOf()
 )

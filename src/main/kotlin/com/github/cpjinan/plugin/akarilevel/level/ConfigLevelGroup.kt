@@ -37,7 +37,6 @@ class ConfigLevelGroup(val config: ConfigurationSection) : LevelGroup {
 
     override val name: String = config.name
     override val display: String = config.getString("General.Display", name)!!
-    override val members: MutableList<String> = mutableListOf()
 
     override fun getLevelName(level: Long): String {
         return getLevelConfig(level).getString("Name")?.replace("{level}" to level)?.colored() ?: "$level"

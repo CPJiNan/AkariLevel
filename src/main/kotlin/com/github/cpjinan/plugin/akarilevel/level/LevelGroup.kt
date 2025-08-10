@@ -1,6 +1,8 @@
 package com.github.cpjinan.plugin.akarilevel.level
 
+import com.github.cpjinan.plugin.akarilevel.cache.levelGroupCache
 import com.github.cpjinan.plugin.akarilevel.cache.memberCache
+import com.github.cpjinan.plugin.akarilevel.entity.LevelGroupData
 import com.github.cpjinan.plugin.akarilevel.entity.MemberData
 import com.github.cpjinan.plugin.akarilevel.entity.MemberLevelData
 import com.github.cpjinan.plugin.akarilevel.event.*
@@ -47,9 +49,6 @@ interface LevelGroup {
     /** 展示名 **/
     val display: String
 
-    /** 成员 **/
-    val members: MutableList<String>
-
     /** 注册等级组 **/
     fun register() {
         val event = LevelGroupRegisterEvent(name)
@@ -74,12 +73,21 @@ interface LevelGroup {
     /** 获取等级经验 **/
     fun getLevelExp(level: Long): Long
 
+    /** 获取成员列表 **/
+    fun getMembers(): List<String> {
+        return levelGroupCache[name]?.members ?: emptyList()
+    }
+
     /** 增加成员 **/
     fun addMember(member: String, source: String) {
         val event = MemberChangeEvent(member, name, MemberChangeType.JOIN, source)
         event.call()
         if (event.isCancelled) return
-        this.members.add(event.member)
+        levelGroupCache.asMap().compute(event.levelGroup) { _, data ->
+            (data ?: LevelGroupData()).apply {
+                members.add(event.member)
+            }
+        }
         onMemberChange(event.member, event.type, event.source)
     }
 
@@ -88,7 +96,11 @@ interface LevelGroup {
         val event = MemberChangeEvent(member, name, MemberChangeType.QUIT, source)
         event.call()
         if (event.isCancelled) return
-        this.members.remove(event.member)
+        levelGroupCache.asMap().compute(event.levelGroup) { _, data ->
+            (data ?: LevelGroupData()).apply {
+                members.remove(event.member)
+            }
+        }
         onMemberChange(event.member, event.type, event.source)
     }
 

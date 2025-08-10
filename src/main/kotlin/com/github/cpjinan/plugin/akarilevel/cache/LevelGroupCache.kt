@@ -1,0 +1,38 @@
+package com.github.cpjinan.plugin.akarilevel.cache
+
+import com.github.benmanes.caffeine.cache.Caffeine
+import com.github.cpjinan.plugin.akarilevel.entity.LevelGroupData
+import com.github.cpjinan.plugin.akarilevel.manager.DatabaseManager
+import com.google.gson.Gson
+import taboolib.common.platform.function.submit
+import java.util.concurrent.TimeUnit
+
+/**
+ * AkariLevel
+ * com.github.cpjinan.plugin.akarilevel.cache
+ *
+ * 等级组数据缓存。
+ *
+ * @author 季楠
+ * @since 2025/8/10 11:17
+ */
+private val gson: Gson = Gson()
+
+val levelGroupCache = Caffeine.newBuilder()
+    .maximumSize(100)
+    .refreshAfterWrite(5, TimeUnit.MINUTES)
+    .removalListener<String, LevelGroupData> { key, value, _ ->
+        submit(async = true) {
+            if (key != null && value != null) {
+                with(DatabaseManager.getDatabase()) {
+                    set(levelGroupTable, key, gson.toJson(value))
+                }
+            }
+        }
+    }
+    .build<String, LevelGroupData> {
+        with(DatabaseManager.getDatabase()) {
+            get(levelGroupTable, it).takeUnless { it.isNullOrBlank() }
+                ?.let { gson.fromJson(it, LevelGroupData::class.java) } ?: LevelGroupData()
+        }
+    }
