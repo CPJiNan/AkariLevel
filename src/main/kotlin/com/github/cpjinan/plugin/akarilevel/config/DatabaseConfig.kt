@@ -21,7 +21,7 @@ object DatabaseConfig {
     }
 
     val table: String by lazy {
-        settings.getString("Database.Table") ?: "akarilevel"
+        settings.getString("Database.Table") ?: "AkariLevel"
     }
 
     val hostSQL: HostSQL by lazy {

@@ -18,7 +18,7 @@ Database:
   # 存储方式 (MYSQL, SQLITE)
   Type: SQLITE
   # 数据表名
-  Table: "akarilevel"
+  Table: "AkariLevel"
   # MySQL 存储设置
   MYSQL:
     host: localhost
