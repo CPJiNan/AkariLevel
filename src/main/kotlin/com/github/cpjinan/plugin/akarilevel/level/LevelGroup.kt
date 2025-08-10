@@ -142,14 +142,12 @@ interface LevelGroup {
 
     /** 设置成员经验 **/
     fun setMemberExp(member: String, amount: Long, source: String) {
-        val exp = getMemberExp(member)
-        val event = MemberExpChangeEvent(member, name, amount - exp, source)
+        val event = MemberExpChangeEvent(member, name, amount - getMemberExp(member), source)
         event.call()
         if (event.isCancelled) return
         memberCache.asMap().compute(event.member) { _, data ->
             (data ?: MemberData()).apply {
-                levelGroups.getOrPut(event.levelGroup) { MemberLevelData() }.exp =
-                    exp + event.expAmount
+                levelGroups.getOrPut(event.levelGroup) { MemberLevelData() }.exp += event.expAmount
             }
         }
         onMemberExpChange(event.member, event.expAmount, event.source)
