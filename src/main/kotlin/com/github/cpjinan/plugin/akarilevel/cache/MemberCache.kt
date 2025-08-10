@@ -5,7 +5,6 @@ import com.github.cpjinan.plugin.akarilevel.database.Database
 import com.github.cpjinan.plugin.akarilevel.entity.MemberData
 import com.google.gson.Gson
 import taboolib.common.platform.function.submit
-import taboolib.platform.util.bukkitPlugin
 import java.util.concurrent.TimeUnit
 
 /**
@@ -17,20 +16,14 @@ import java.util.concurrent.TimeUnit
  * @author 季楠
  * @since 2025/8/8 19:15
  */
-private val gson: Gson = Gson()
+private val gson = Gson()
 
 val memberCache = Caffeine.newBuilder()
     .maximumSize(100)
     .refreshAfterWrite(5, TimeUnit.MINUTES)
     .removalListener<String, MemberData> { key, value, _ ->
         if (key != null && value != null) {
-            if (bukkitPlugin.isEnabled) {
-                submit(async = true) {
-                    with(Database.INSTANCE) {
-                        set(memberTable, key, gson.toJson(value))
-                    }
-                }
-            } else {
+            submit(async = true) {
                 with(Database.INSTANCE) {
                     set(memberTable, key, gson.toJson(value))
                 }

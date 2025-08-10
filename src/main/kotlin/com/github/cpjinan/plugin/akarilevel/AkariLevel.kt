@@ -3,7 +3,9 @@ package com.github.cpjinan.plugin.akarilevel
 import com.github.cpjinan.plugin.akarilevel.cache.levelGroupCache
 import com.github.cpjinan.plugin.akarilevel.cache.memberCache
 import com.github.cpjinan.plugin.akarilevel.config.SettingsConfig
+import com.github.cpjinan.plugin.akarilevel.database.Database
 import com.github.cpjinan.plugin.akarilevel.level.ConfigLevelGroup
+import com.google.gson.Gson
 import taboolib.common.platform.Platform
 import taboolib.common.platform.Plugin
 import taboolib.common.platform.function.console
@@ -55,10 +57,19 @@ object AkariLevel : Plugin() {
      * 插件卸载事件。
      */
     override fun onDisable() {
-        // 清空成员数据缓存。
-        memberCache.invalidateAll()
-        // 清空等级组数据缓存。
-        levelGroupCache.invalidateAll()
+        val gson = Gson()
+        // 保存成员数据。
+        memberCache.asMap().forEach { key, value ->
+            with(Database.INSTANCE) {
+                set(memberTable, key, gson.toJson(value))
+            }
+        }
+        // 保存等级组数据。
+        levelGroupCache.asMap().forEach { key, value ->
+            with(Database.INSTANCE) {
+                set(levelGroupTable, key, gson.toJson(value))
+            }
+        }
         console().sendLang("Plugin-Disable")
     }
 }
