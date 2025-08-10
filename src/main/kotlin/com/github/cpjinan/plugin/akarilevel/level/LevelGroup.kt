@@ -21,20 +21,20 @@ interface LevelGroup {
     companion object {
         private var levelGroups: MutableMap<String, LevelGroup> = ConcurrentHashMap()
 
+        /** 获取等级组列表 **/
         @JvmStatic
-                /** 获取等级组列表 **/
         fun getLevelGroups(): Map<String, LevelGroup> {
             return levelGroups
         }
 
+        /** 新增等级组 **/
         @JvmStatic
-                /** 新增等级组 **/
         fun addLevelGroup(name: String, levelGroup: LevelGroup) {
             levelGroups[name] = levelGroup
         }
 
+        /** 移除等级组 **/
         @JvmStatic
-                /** 移除等级组 **/
         fun removeLevelGroup(name: String) {
             levelGroups.remove(name)
         }

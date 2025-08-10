@@ -3,7 +3,9 @@ package com.github.cpjinan.plugin.akarilevel.level
 import taboolib.common5.util.replace
 import taboolib.library.configuration.ConfigurationSection
 import taboolib.module.chat.colored
+import taboolib.module.configuration.Type
 import top.maplex.arim.Arim
+import top.maplex.arim.tools.folderreader.releaseResourceFolderAndRead
 import java.util.concurrent.ConcurrentHashMap
 
 /**
@@ -20,18 +22,34 @@ class ConfigLevelGroup(val config: ConfigurationSection) : LevelGroup {
         private var configLevelGroups: MutableMap<String, ConfigLevelGroup> = ConcurrentHashMap()
 
         /** 获取配置等级组列表 **/
+        @JvmStatic
         fun getConfigLevelGroups(): Map<String, ConfigLevelGroup> {
             return configLevelGroups
         }
 
         /** 新增配置等级组 **/
+        @JvmStatic
         fun addConfigLevelGroup(name: String, configLevelGroup: ConfigLevelGroup) {
             configLevelGroups[name] = configLevelGroup
         }
 
         /** 移除配置等级组 **/
+        @JvmStatic
         fun removeConfigLevelGroup(name: String) {
             configLevelGroups.remove(name)
+        }
+
+        /** 重载配置等级组 **/
+        @JvmStatic
+        fun reloadConfigLevelGroups() {
+            releaseResourceFolderAndRead("level") {
+                setReadType(Type.YAML, Type.JSON)
+                walk {
+                    getKeys(false).forEach {
+                        ConfigLevelGroup(getConfigurationSection(it)!!).register()
+                    }
+                }
+            }
         }
     }
 

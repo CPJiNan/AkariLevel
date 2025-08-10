@@ -2,6 +2,7 @@ package com.github.cpjinan.plugin.akarilevel.command
 
 import com.github.cpjinan.plugin.akarilevel.config.SettingsConfig
 import com.github.cpjinan.plugin.akarilevel.event.PluginReloadEvent
+import com.github.cpjinan.plugin.akarilevel.level.ConfigLevelGroup
 import taboolib.common.platform.ProxyCommandSender
 import taboolib.common.platform.command.*
 import taboolib.expansion.createHelper
@@ -38,6 +39,9 @@ object MainCommand {
 
             // 重载配置文件。
             SettingsConfig.config.reload()
+
+            // 重载配置等级组。
+            ConfigLevelGroup.reloadConfigLevelGroups()
 
             // 重载语言文件。
             Language.reload()

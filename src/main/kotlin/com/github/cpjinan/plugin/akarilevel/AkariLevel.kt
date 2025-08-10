@@ -3,6 +3,7 @@ package com.github.cpjinan.plugin.akarilevel
 import com.github.cpjinan.plugin.akarilevel.cache.levelGroupCache
 import com.github.cpjinan.plugin.akarilevel.cache.memberCache
 import com.github.cpjinan.plugin.akarilevel.config.SettingsConfig
+import com.github.cpjinan.plugin.akarilevel.level.ConfigLevelGroup
 import taboolib.common.platform.Platform
 import taboolib.common.platform.Plugin
 import taboolib.common.platform.function.console
@@ -45,6 +46,8 @@ object AkariLevel : Plugin() {
         console().sendMessage("&o  / ___ \\|   < (_| | |  | | |__|  __/\\ V /  __/ | ".colored())
         console().sendMessage("&o /_/   \\_\\_|\\_\\__,_|_|  |_|_____\\___| \\_/ \\___|_| ".colored())
         console().sendMessage("")
+        // 从配置文件加载等级组。
+        ConfigLevelGroup.reloadConfigLevelGroups()
         console().sendLang("Plugin-Enabled")
     }
 
