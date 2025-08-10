@@ -16,18 +16,6 @@ object FileUtils {
     /**
      * 通过路径获取指定文件。
      *
-     * 如果文件不存在，则返回 null 。
-     *
-     * @param path 要获取的文件路径。
-     * @return 指定文件。
-     */
-    fun getFileOrNull(path: String): File? {
-        return File(bukkitPlugin.dataFolder, path).takeIf { it.exists() }
-    }
-
-    /**
-     * 通过路径获取指定文件。
-     *
      * 如果文件不存在，则创建该文件。
      *
      * @param path 要获取的文件路径。

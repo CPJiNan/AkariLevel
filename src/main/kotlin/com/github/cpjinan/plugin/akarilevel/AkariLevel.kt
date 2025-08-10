@@ -1,7 +1,8 @@
 package com.github.cpjinan.plugin.akarilevel
 
+import com.github.cpjinan.plugin.akarilevel.cache.levelGroupCache
+import com.github.cpjinan.plugin.akarilevel.cache.memberCache
 import com.github.cpjinan.plugin.akarilevel.config.SettingsConfig
-import com.github.cpjinan.plugin.akarilevel.manager.CacheManager
 import taboolib.common.platform.Platform
 import taboolib.common.platform.Plugin
 import taboolib.common.platform.function.console
@@ -51,8 +52,10 @@ object AkariLevel : Plugin() {
      * 插件卸载事件。
      */
     override fun onDisable() {
-        // 清空数据缓存。
-        CacheManager.invalidateAll()
+        // 清空成员数据缓存。
+        memberCache.invalidateAll()
+        // 清空等级组数据缓存。
+        levelGroupCache.invalidateAll()
         console().sendLang("Plugin-Disable")
     }
 }

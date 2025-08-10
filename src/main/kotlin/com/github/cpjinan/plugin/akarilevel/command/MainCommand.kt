@@ -1,11 +1,11 @@
 package com.github.cpjinan.plugin.akarilevel.command
 
+import com.github.cpjinan.plugin.akarilevel.config.SettingsConfig
 import com.github.cpjinan.plugin.akarilevel.event.PluginReloadEvent
-import com.github.cpjinan.plugin.akarilevel.manager.ConfigManager
-import com.github.cpjinan.plugin.akarilevel.manager.LanguageManager
 import taboolib.common.platform.ProxyCommandSender
 import taboolib.common.platform.command.*
 import taboolib.expansion.createHelper
+import taboolib.module.lang.Language
 import taboolib.module.lang.sendLang
 
 /**
@@ -37,10 +37,10 @@ object MainCommand {
             PluginReloadEvent.Pre().call()
 
             // 重载配置文件。
-            ConfigManager.reload()
+            SettingsConfig.config.reload()
 
             // 重载语言文件。
-            LanguageManager.reload()
+            Language.reload()
 
             PluginReloadEvent.Post().call()
             sender.sendLang("Plugin-Reloaded")

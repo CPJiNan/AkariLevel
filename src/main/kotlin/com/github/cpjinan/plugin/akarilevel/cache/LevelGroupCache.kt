@@ -1,8 +1,8 @@
 package com.github.cpjinan.plugin.akarilevel.cache
 
 import com.github.benmanes.caffeine.cache.Caffeine
+import com.github.cpjinan.plugin.akarilevel.database.Database
 import com.github.cpjinan.plugin.akarilevel.entity.LevelGroupData
-import com.github.cpjinan.plugin.akarilevel.manager.DatabaseManager
 import com.google.gson.Gson
 import taboolib.common.platform.function.submit
 import java.util.concurrent.TimeUnit
@@ -24,14 +24,14 @@ val levelGroupCache = Caffeine.newBuilder()
     .removalListener<String, LevelGroupData> { key, value, _ ->
         submit(async = true) {
             if (key != null && value != null) {
-                with(DatabaseManager.getDatabase()) {
+                with(Database.getDatabase()) {
                     set(levelGroupTable, key, gson.toJson(value))
                 }
             }
         }
     }
     .build<String, LevelGroupData> {
-        with(DatabaseManager.getDatabase()) {
+        with(Database.getDatabase()) {
             get(levelGroupTable, it).takeUnless { it.isNullOrBlank() }
                 ?.let { gson.fromJson(it, LevelGroupData::class.java) } ?: LevelGroupData()
         }

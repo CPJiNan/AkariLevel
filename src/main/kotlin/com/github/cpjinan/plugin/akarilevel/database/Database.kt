@@ -13,6 +13,20 @@ import javax.sql.DataSource
  * @since 2025/8/7 23:08
  */
 interface Database {
+    companion object {
+        /**
+         * 获取数据库实例。
+         *
+         * @return [Database] 实例。
+         */
+        fun getDatabase(): Database {
+            return when (DatabaseType.INSTANCE) {
+                DatabaseType.SQLITE -> DatabaseSQLite()
+                DatabaseType.MYSQL -> DatabaseMySQL()
+            }
+        }
+    }
+
     /** 数据库类型 **/
     val type: DatabaseType
 
