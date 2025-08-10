@@ -8,8 +8,8 @@ Example:
   Source:
     # 经验来源订阅
     Subscribe:
-      - "MYTHICMOBS_DROP_EXP"
-      - "TEAM_SHARE_EXP"
+      "MYTHICMOBS_DROP_EXP": 1.0
+      "TEAM_SHARE_EXP": 1.0
   # 等级设置
   Level:
     # 最低等级
