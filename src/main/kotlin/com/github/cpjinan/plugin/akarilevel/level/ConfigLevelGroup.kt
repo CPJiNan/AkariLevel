@@ -71,14 +71,14 @@ class ConfigLevelGroup(val config: ConfigurationSection) : LevelGroup {
 
     /** 获取等级配置 **/
     fun getLevelConfig(level: Long): ConfigurationSection {
-        return getKeyLevelConfig()
+        return getKeyLevelConfigs()
             .filter { level >= it.key }
             .maxByOrNull { it.key }
             ?.value ?: throw IllegalArgumentException()
     }
 
-    /** 获取关键等级配置 **/
-    fun getKeyLevelConfig(): Map<Long, ConfigurationSection> {
+    /** 获取关键等级配置列表 **/
+    fun getKeyLevelConfigs(): Map<Long, ConfigurationSection> {
         return config.getConfigurationSection("Level.Key")!!.getKeys(false)
             .associateBy(
                 { it.toDoubleOrNull()?.toLong()!! },
