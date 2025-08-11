@@ -6,7 +6,6 @@ import com.github.benmanes.caffeine.cache.RemovalCause.SIZE
 import com.github.cpjinan.plugin.akarilevel.database.Database
 import com.github.cpjinan.plugin.akarilevel.entity.MemberData
 import com.google.gson.Gson
-import taboolib.common.platform.function.submit
 import java.util.concurrent.TimeUnit
 
 /**
@@ -27,10 +26,8 @@ val memberCache = Caffeine.newBuilder()
         if (key != null && value != null) {
             when (cause) {
                 EXPIRED, SIZE -> {
-                    submit(async = true) {
-                        with(Database.INSTANCE) {
-                            set(memberTable, key, gson.toJson(value))
-                        }
+                    with(Database.INSTANCE) {
+                        set(memberTable, key, gson.toJson(value))
                     }
                 }
 
