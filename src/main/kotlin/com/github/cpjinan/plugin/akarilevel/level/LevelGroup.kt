@@ -128,6 +128,7 @@ interface LevelGroup {
 
     /** 设置成员等级 **/
     fun setMemberLevel(member: String, amount: Long, source: String) {
+        if (!hasMember(member)) return
         val event = MemberLevelChangeEvent(member, name, getMemberLevel(member), amount, source)
         event.call()
         if (event.isCancelled) return
@@ -141,6 +142,7 @@ interface LevelGroup {
 
     /** 设置成员经验 **/
     fun setMemberExp(member: String, amount: Long, source: String) {
+        if (!hasMember(member)) return
         val event = MemberExpChangeEvent(member, name, amount - getMemberExp(member), source)
         event.call()
         if (event.isCancelled) return
