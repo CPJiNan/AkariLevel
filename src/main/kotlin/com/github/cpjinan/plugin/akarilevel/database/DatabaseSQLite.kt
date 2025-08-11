@@ -31,20 +31,8 @@ class DatabaseSQLite() : Database {
         }
     }
 
-    override val levelGroupTable = Table("${DatabaseConfig.table}_LevelGroup", DatabaseConfig.hostSQLite) {
-        add("key") {
-            type(ColumnTypeSQLite.TEXT) {
-                options(ColumnOptionSQLite.PRIMARY_KEY)
-            }
-        }
-        add("value") {
-            type(ColumnTypeSQLite.TEXT)
-        }
-    }
-
     init {
         memberTable.createTable(dataSource)
-        levelGroupTable.createTable(dataSource)
     }
 
     override fun getKeys(table: Table<*, *>): Set<String> {

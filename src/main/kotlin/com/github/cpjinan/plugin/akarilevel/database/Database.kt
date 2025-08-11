@@ -32,9 +32,6 @@ interface Database {
     /** 成员数据表 **/
     val memberTable: Table<*, *>
 
-    /** 等级组数据表 **/
-    val levelGroupTable: Table<*, *>
-
     /**
      * 获取此数据库中所有键的集合。
      *

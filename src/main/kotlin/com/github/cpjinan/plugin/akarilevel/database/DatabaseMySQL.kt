@@ -31,20 +31,8 @@ class DatabaseMySQL() : Database {
         }
     }
 
-    override val levelGroupTable = Table("${DatabaseConfig.table}_LevelGroup", DatabaseConfig.hostSQL) {
-        add("key") {
-            type(ColumnTypeSQL.TEXT) {
-                options(ColumnOptionSQL.PRIMARY_KEY)
-            }
-        }
-        add("value") {
-            type(ColumnTypeSQL.JSON)
-        }
-    }
-
     init {
         memberTable.createTable(dataSource)
-        levelGroupTable.createTable(dataSource)
     }
 
     override fun getKeys(table: Table<*, *>): Set<String> {
