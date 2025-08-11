@@ -90,6 +90,7 @@ interface LevelGroup {
 
     /** 增加成员 **/
     fun addMember(member: String, source: String) {
+        if (hasMember(member)) return
         val event = MemberChangeEvent(member, name, MemberChangeType.JOIN, source)
         event.call()
         if (event.isCancelled) return
@@ -103,6 +104,7 @@ interface LevelGroup {
 
     /** 移除成员 **/
     fun removeMember(member: String, source: String) {
+        if (!hasMember(member)) return
         val event = MemberChangeEvent(member, name, MemberChangeType.QUIT, source)
         event.call()
         if (event.isCancelled) return
