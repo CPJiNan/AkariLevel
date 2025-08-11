@@ -1,6 +1,5 @@
 package com.github.cpjinan.plugin.akarilevel
 
-import com.github.cpjinan.plugin.akarilevel.cache.levelGroupCache
 import com.github.cpjinan.plugin.akarilevel.cache.memberCache
 import com.github.cpjinan.plugin.akarilevel.config.SettingsConfig
 import com.github.cpjinan.plugin.akarilevel.database.Database
@@ -64,13 +63,6 @@ object AkariLevel : Plugin() {
                 set(memberTable, key, gson.toJson(value))
             }
             memberCache.invalidate(key)
-        }
-        // 保存等级组数据。
-        levelGroupCache.asMap().forEach { key, value ->
-            with(Database.INSTANCE) {
-                set(levelGroupTable, key, gson.toJson(value))
-            }
-            levelGroupCache.invalidate(key)
         }
         console().sendLang("Plugin-Disable")
     }
