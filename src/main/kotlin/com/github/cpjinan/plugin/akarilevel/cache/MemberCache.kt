@@ -1,7 +1,8 @@
 package com.github.cpjinan.plugin.akarilevel.cache
 
 import com.github.benmanes.caffeine.cache.Caffeine
-import com.github.benmanes.caffeine.cache.RemovalCause
+import com.github.benmanes.caffeine.cache.RemovalCause.EXPIRED
+import com.github.benmanes.caffeine.cache.RemovalCause.SIZE
 import com.github.cpjinan.plugin.akarilevel.database.Database
 import com.github.cpjinan.plugin.akarilevel.entity.MemberData
 import com.google.gson.Gson
@@ -23,11 +24,17 @@ val memberCache = Caffeine.newBuilder()
     .maximumSize(100)
     .expireAfterWrite(5, TimeUnit.MINUTES)
     .removalListener<String, MemberData> { key, value, cause ->
-        if (key != null && value != null && cause == RemovalCause.EXPIRED) {
-            submit(async = true) {
-                with(Database.INSTANCE) {
-                    set(memberTable, key, gson.toJson(value))
+        if (key != null && value != null) {
+            when (cause) {
+                EXPIRED, SIZE -> {
+                    submit(async = true) {
+                        with(Database.INSTANCE) {
+                            set(memberTable, key, gson.toJson(value))
+                        }
+                    }
                 }
+
+                else -> {}
             }
         }
     }

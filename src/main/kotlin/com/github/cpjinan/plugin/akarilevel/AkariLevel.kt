@@ -63,12 +63,14 @@ object AkariLevel : Plugin() {
             with(Database.INSTANCE) {
                 set(memberTable, key, gson.toJson(value))
             }
+            memberCache.invalidate(key)
         }
         // 保存等级组数据。
         levelGroupCache.asMap().forEach { key, value ->
             with(Database.INSTANCE) {
                 set(levelGroupTable, key, gson.toJson(value))
             }
+            levelGroupCache.invalidate(key)
         }
         console().sendLang("Plugin-Disable")
     }
