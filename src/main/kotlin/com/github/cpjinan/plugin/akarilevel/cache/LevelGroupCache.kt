@@ -1,6 +1,7 @@
 package com.github.cpjinan.plugin.akarilevel.cache
 
 import com.github.benmanes.caffeine.cache.Caffeine
+import com.github.benmanes.caffeine.cache.RemovalCause
 import com.github.cpjinan.plugin.akarilevel.database.Database
 import com.github.cpjinan.plugin.akarilevel.entity.LevelGroupData
 import com.google.gson.Gson
@@ -20,9 +21,9 @@ private val gson = Gson()
 
 val levelGroupCache = Caffeine.newBuilder()
     .maximumSize(100)
-    .refreshAfterWrite(5, TimeUnit.MINUTES)
-    .removalListener<String, LevelGroupData> { key, value, _ ->
-        if (key != null && value != null) {
+    .expireAfterWrite(5, TimeUnit.MINUTES)
+    .removalListener<String, LevelGroupData> { key, value, cause ->
+        if (key != null && value != null && cause == RemovalCause.EXPIRED) {
             submit(async = true) {
                 with(Database.INSTANCE) {
                     set(levelGroupTable, key, gson.toJson(value))
