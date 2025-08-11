@@ -12,6 +12,7 @@ plugins {
 taboolib {
     env {
         install(
+            Basic,
             Metrics,
             Database,
             CommandHelper,
