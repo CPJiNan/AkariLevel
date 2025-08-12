@@ -25,16 +25,16 @@ val memberCache = Caffeine.newBuilder()
     .expireAfterWrite(5, TimeUnit.MINUTES)
     .removalListener<String, MemberData> { key, value, cause ->
         if (key != null && value != null) {
-            submit(async = true) {
-                when (cause) {
-                    EXPIRED, SIZE -> {
+            when (cause) {
+                EXPIRED, SIZE -> {
+                    submit(async = true) {
                         with(Database.INSTANCE) {
                             set(memberTable, key, gson.toJson(value))
                         }
                     }
-
-                    else -> {}
                 }
+
+                else -> {}
             }
         }
     }
