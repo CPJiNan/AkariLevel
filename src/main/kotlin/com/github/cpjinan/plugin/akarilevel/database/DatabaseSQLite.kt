@@ -21,7 +21,7 @@ class DatabaseSQLite() : Database {
     override val dataSource by lazy { DatabaseConfig.hostSQLite.createDataSource() }
 
     override val memberTable = Table("${DatabaseConfig.table}_Member", DatabaseConfig.hostSQLite) {
-        add("path") {
+        add("key") {
             type(ColumnTypeSQLite.TEXT) {
                 options(ColumnOptionSQLite.PRIMARY_KEY)
             }
@@ -37,32 +37,32 @@ class DatabaseSQLite() : Database {
 
     override fun getKeys(table: Table<*, *>): Set<String> {
         return table.select(dataSource) {
-            rows("path")
+            rows("key")
         }.map {
-            getString("path")
+            getString("key")
         }.toSet()
     }
 
     override fun getValues(table: Table<*, *>): Map<String, String?> {
         return table.select(dataSource) {
-            rows("path", "value")
+            rows("key", "value")
         }.map {
-            getString("path") to getString("value")
+            getString("key") to getString("value")
         }.toMap(ConcurrentHashMap())
     }
 
     override fun contains(table: Table<*, *>, path: String): Boolean {
         return table.select(dataSource) {
-            rows("path")
-            where("path" eq path)
+            rows("key")
+            where("key" eq path)
             limit(1)
         }.find()
     }
 
     override fun get(table: Table<*, *>, path: String): String? {
         return table.select(dataSource) {
-            rows("path", "value")
-            where("path" eq path)
+            rows("key", "value")
+            where("key" eq path)
             limit(1)
         }.firstOrNull {
             getString("value")
@@ -72,15 +72,15 @@ class DatabaseSQLite() : Database {
     override fun set(table: Table<*, *>, path: String, value: String?) {
         if (value == null) {
             table.delete(dataSource) {
-                where { "path" eq path }
+                where { "key" eq path }
             }
             return
         }
         if (contains(table, path)) table.update(dataSource) {
             set("value", value)
-            where("path" eq path)
+            where("key" eq path)
         } else {
-            table.insert(dataSource, "path", "value") {
+            table.insert(dataSource, "key", "value") {
                 value(path, value)
             }
         }

@@ -29,8 +29,8 @@ class DatabaseMySQL() : Database {
     private var enableDistributedLock = false
 
     override val memberTable = Table("${DatabaseConfig.table}_Member", DatabaseConfig.hostSQL) {
-        add("path") {
-            type(ColumnTypeSQL.VARCHAR) {
+        add("key") {
+            type(ColumnTypeSQL.VARCHAR, 64) {
                 options(ColumnOptionSQL.PRIMARY_KEY)
             }
         }
@@ -71,24 +71,24 @@ class DatabaseMySQL() : Database {
 
     override fun getKeys(table: Table<*, *>): Set<String> {
         return table.select(dataSource) {
-            rows("path")
+            rows("key")
         }.map {
-            getString("path")
+            getString("key")
         }.toSet()
     }
 
     override fun getValues(table: Table<*, *>): Map<String, String?> {
         return table.select(dataSource) {
-            rows("path", "value")
+            rows("key", "value")
         }.map {
-            getString("path") to getString("value")
+            getString("key") to getString("value")
         }.toMap(ConcurrentHashMap())
     }
 
     override fun contains(table: Table<*, *>, path: String): Boolean {
         return table.select(dataSource) {
-            rows("path")
-            where("path" eq path)
+            rows("key")
+            where("key" eq path)
             limit(1)
         }.find()
     }
@@ -117,8 +117,8 @@ class DatabaseMySQL() : Database {
 
     private fun getFromDatabase(table: Table<*, *>, path: String): String? {
         return table.select(dataSource) {
-            rows("path", "value")
-            where("path" eq path)
+            rows("key", "value")
+            where("key" eq path)
             limit(1)
         }.firstOrNull {
             getString("value")
@@ -128,17 +128,17 @@ class DatabaseMySQL() : Database {
     private fun setToDatabase(table: Table<*, *>, path: String, value: String?) {
         if (value == null) {
             table.delete(dataSource) {
-                where { "path" eq path }
+                where { "key" eq path }
             }
             return
         }
         if (contains(table, path)) {
             table.update(dataSource) {
                 set("value", value)
-                where("path" eq path)
+                where("key" eq path)
             }
         } else {
-            table.insert(dataSource, "path", "value") {
+            table.insert(dataSource, "key", "value") {
                 value(path, value)
             }
         }
@@ -167,10 +167,10 @@ class DatabaseMySQL() : Database {
 
     private fun warmUpMemberCache() {
         val warmUpData = memberTable.select(dataSource) {
-            rows("path", "value")
+            rows("key", "value")
             limit(1000)
         }.map {
-            getString("path") to (getString("value") ?: "")
+            getString("key") to (getString("value") ?: "")
         }.toMap()
 
         memberCache.setAll(warmUpData)
