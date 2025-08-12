@@ -1,9 +1,14 @@
 package com.github.cpjinan.plugin.akarilevel.database
 
 import com.github.cpjinan.plugin.akarilevel.config.DatabaseConfig
+import com.github.cpjinan.plugin.akarilevel.database.lock.CircuitBreakerConfig
+import com.github.cpjinan.plugin.akarilevel.database.lock.EasyCache
+import com.github.cpjinan.plugin.akarilevel.database.lock.LockManager
+import taboolib.common.platform.function.warning
 import taboolib.module.database.ColumnOptionSQL
 import taboolib.module.database.ColumnTypeSQL
 import taboolib.module.database.Table
+import java.time.Duration
 import java.util.concurrent.ConcurrentHashMap
 
 /**
@@ -12,7 +17,7 @@ import java.util.concurrent.ConcurrentHashMap
  *
  * [Database] 接口的 MySQL 实现。
  *
- * @author 季楠
+ * @author 季楠 & QwQ-dev
  * @since 2025/8/7 23:08
  */
 class DatabaseMySQL() : Database {
@@ -31,8 +36,42 @@ class DatabaseMySQL() : Database {
         }
     }
 
+    private val easyCache by lazy {
+        EasyCache.builder<String, String>()
+            .maximumSize(10_000)
+            .expireAfterWrite(Duration.ofMinutes(5))
+            .expireAfterAccess(Duration.ofMinutes(10))
+            .recordStats(true)
+            .circuitBreaker(
+                CircuitBreakerConfig(
+                    failureThreshold = 10,
+                    timeoutMs = 30_000,
+                    sampleSize = 20
+                )
+            )
+            .loader { key ->
+                getFromDatabase(memberTable, key)
+            }
+            .build()
+    }
+
+    private var enableDistributedLock = false
+
     init {
         memberTable.createTable(dataSource)
+        initializeEasyFeatures()
+    }
+
+    private fun initializeEasyFeatures() {
+        try {
+            LockManager.initialize(dataSource)
+            enableDistributedLock = true
+
+            warmUpCache()
+        } catch (e: Exception) {
+            warning("Failed to initialize Easy features", e)
+            enableDistributedLock = false
+        }
     }
 
     override fun getKeys(table: Table<*, *>): Set<String> {
@@ -60,6 +99,34 @@ class DatabaseMySQL() : Database {
     }
 
     override fun get(table: Table<*, *>, path: String): String? {
+        if (table == memberTable) {
+            return if (enableDistributedLock) {
+                LockManager.withMemberDataLock(path) {
+                    easyCache[path]
+                }
+            } else {
+                easyCache[path]
+            }
+        }
+
+        return getFromDatabase(table, path)
+    }
+
+    override fun set(table: Table<*, *>, path: String, value: String?) {
+        if (table == memberTable) {
+            if (enableDistributedLock) {
+                LockManager.withMemberDataLock(path) {
+                    setMemberData(path, value)
+                }
+            } else {
+                setMemberData(path, value)
+            }
+        } else {
+            setToDatabase(table, path, value)
+        }
+    }
+
+    private fun getFromDatabase(table: Table<*, *>, path: String): String? {
         return table.select(dataSource) {
             rows("key", "value")
             where("key" eq path)
@@ -69,20 +136,70 @@ class DatabaseMySQL() : Database {
         }
     }
 
-    override fun set(table: Table<*, *>, path: String, value: String?) {
+    private fun setMemberData(path: String, value: String?) {
+        if (value == null) {
+            setToDatabase(memberTable, path, null)
+            easyCache.invalidate(path)
+        } else {
+            setToDatabase(memberTable, path, value)
+            easyCache.put(path, value)
+        }
+    }
+
+    private fun setToDatabase(table: Table<*, *>, path: String, value: String?) {
         if (value == null) {
             table.delete(dataSource) {
                 where { "key" eq path }
             }
             return
         }
-        if (contains(table, path)) table.update(dataSource) {
-            set("value", value)
-            where("key" eq path)
+        if (contains(table, path)) {
+            table.update(dataSource) {
+                set("value", value)
+                where("key" eq path)
+            }
         } else {
             table.insert(dataSource, "key", "value") {
                 value(path, value)
             }
+        }
+    }
+
+    private fun warmUpCache() {
+        try {
+            easyCache.warmUp {
+                memberTable.select(dataSource) {
+                    rows("key", "value")
+                    limit(1000)
+                }.map {
+                    getString("key") to (getString("value") ?: "")
+                }.toMap()
+            }
+        } catch (e: Exception) {
+            warning("Cache warm-up failed", e)
+        }
+    }
+
+    fun getCacheStats(): String {
+        return easyCache.stats().format()
+    }
+
+    fun exportMetricsForMonitoring(): Map<String, Any> {
+        return easyCache.exportForMonitoring()
+    }
+
+    fun performCacheCleanup() {
+        easyCache.cleanUp()
+    }
+
+    fun shutdown() {
+        try {
+            easyCache.close()
+            if (enableDistributedLock) {
+                LockManager.shutdown()
+            }
+        } catch (e: Exception) {
+            warning("Error during database shutdown", e)
         }
     }
 }
