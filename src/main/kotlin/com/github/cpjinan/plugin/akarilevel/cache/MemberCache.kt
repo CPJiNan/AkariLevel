@@ -1,7 +1,5 @@
 package com.github.cpjinan.plugin.akarilevel.cache
 
-import com.github.benmanes.caffeine.cache.RemovalCause.EXPIRED
-import com.github.benmanes.caffeine.cache.RemovalCause.SIZE
 import com.github.cpjinan.plugin.akarilevel.database.Database
 import com.github.cpjinan.plugin.akarilevel.database.DatabaseMySQL
 import com.github.cpjinan.plugin.akarilevel.database.lock.CircuitBreakerConfig
@@ -18,10 +16,10 @@ import java.time.Duration
  *
  * 成员数据缓存。
  *
- * @author 季楠, QwQ-dev
+ * @author 季楠 & QwQ-dev
  * @since 2025/8/12 04:43
  */
-private val gson = Gson()
+val gson = Gson()
 
 val memberCache = EasyCache.builder<String, MemberData>()
     .maximumSize(500)
@@ -37,8 +35,8 @@ val memberCache = EasyCache.builder<String, MemberData>()
     )
     .removalListener { key, value, cause ->
         if (key != null && value != null) {
-            when (cause) {
-                EXPIRED, SIZE -> {
+            when (cause.name) {
+                "EXPIRED", "SIZE" -> {
                     submit(async = true) {
                         try {
                             with(Database.INSTANCE) {
@@ -57,12 +55,22 @@ val memberCache = EasyCache.builder<String, MemberData>()
     .loader { key ->
         try {
             with(Database.INSTANCE) {
-                get(memberTable, key).takeUnless { it.isNullOrBlank() }
-                    ?.let { gson.fromJson(it, MemberData::class.java) } ?: MemberData()
+                val dbValue = get(memberTable, key)
+
+                dbValue?.takeUnless { it.isBlank() }
+                    ?.let { json ->
+                        try {
+                            val memberData = gson.fromJson(json, MemberData::class.java)
+                            memberData
+                        } catch (e: Exception) {
+                            warning("Failed to parse member data JSON for $key: $json", e)
+                            null
+                        }
+                    }
             }
         } catch (e: Exception) {
             warning("Failed to load member data: $key", e)
-            MemberData()
+            null
         }
     }
     .build()
@@ -104,4 +112,20 @@ fun getEasyDatabaseStats(): String? {
     } else {
         null
     }
+}
+
+fun safeInvalidateAllMemberCache() {
+    SmartPersistenceManager.safeInvalidateAll()
+}
+
+fun forcePersistPlayer(player: String): Boolean {
+    return SmartPersistenceManager.forcePersist(player)
+}
+
+fun forcePersistAllPlayers(): Int {
+    return SmartPersistenceManager.forcePersistAll()
+}
+
+fun getPersistenceStats(): String {
+    return SmartPersistenceManager.getStats()
 }

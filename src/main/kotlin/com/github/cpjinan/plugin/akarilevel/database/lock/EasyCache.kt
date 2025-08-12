@@ -257,6 +257,25 @@ class EasyCache<K : Any, V : Any> internal constructor(
         return metrics.exportForMonitoring(caffeineCache.stats())
     }
 
+    fun getWithBuiltInLoader(key: K): V? {
+        if (circuitBreaker?.canExecute() == false) {
+            metrics.recordCircuitBreakerReject()
+            return null
+        }
+
+        return try {
+            val result = loadingCache?.get(key)
+            if (result != null) {
+                circuitBreaker?.recordSuccess()
+            }
+            result
+        } catch (e: Exception) {
+            metrics.recordError("GET_WITH_BUILT_IN_LOADER", e)
+            circuitBreaker?.recordFailure()
+            null
+        }
+    }
+
     override fun close() {
         try {
             cleanUp()
