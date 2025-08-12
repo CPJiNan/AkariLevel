@@ -1,9 +1,9 @@
 package com.github.cpjinan.plugin.akarilevel.cache
 
+import com.github.cpjinan.plugin.akarilevel.cache.core.EasyCache
+import com.github.cpjinan.plugin.akarilevel.cache.reliability.CircuitBreakerConfig
 import com.github.cpjinan.plugin.akarilevel.database.Database
 import com.github.cpjinan.plugin.akarilevel.database.DatabaseMySQL
-import com.github.cpjinan.plugin.akarilevel.database.lock.CircuitBreakerConfig
-import com.github.cpjinan.plugin.akarilevel.database.lock.EasyCache
 import com.github.cpjinan.plugin.akarilevel.entity.MemberData
 import com.google.gson.Gson
 import taboolib.common.platform.function.submit
@@ -34,22 +34,19 @@ val memberCache = EasyCache.builder<String, MemberData>()
         )
     )
     .removalListener { key, value, cause ->
-        if (key != null && value != null) {
-            when (cause.name) {
-                "EXPIRED", "SIZE" -> {
-                    submit(async = true) {
-                        try {
-                            with(Database.INSTANCE) {
-                                set(memberTable, key, gson.toJson(value))
-                            }
-                        } catch (e: Exception) {
-                            warning("Failed to persist member data during eviction: $key", e)
+        when (cause) {
+            "EXPIRED", "SIZE" -> {
+                submit(async = true) {
+                    try {
+                        with(Database.INSTANCE) {
+                            set(memberTable, key, gson.toJson(value))
                         }
+                    } catch (e: Exception) {
+                        warning("Failed to persist member data during eviction: $key", e)
                     }
                 }
-
-                else -> {}
             }
+            else -> {}
         }
     }
     .loader { key ->
@@ -76,33 +73,34 @@ val memberCache = EasyCache.builder<String, MemberData>()
     .build()
 
 fun getMemberCacheStats(): String {
-    return memberCache.stats().format()
+    val stats = memberCache.stats()
+    return "Cache Stats: hits=${stats.hitCount}, misses=${stats.missCount}, hit_rate=${stats.hitRate}"
 }
 
 fun exportMemberCacheMetrics(): Map<String, Any> {
-    return memberCache.exportForMonitoring()
+    return memberCache.getMetrics()?.exportForMonitoring() ?: emptyMap()
 }
 
 fun cleanupMemberCache() {
-    memberCache.cleanUp()
+    memberCache.cleanup()
 }
 
 fun warmUpMemberCache(memberKeys: List<String>) {
     if (memberKeys.isNotEmpty()) {
-        memberCache.warmUp {
-            memberKeys.mapNotNull { key ->
-                try {
-                    with(Database.INSTANCE) {
-                        get(memberTable, key)?.let { json ->
-                            key to gson.fromJson(json, MemberData::class.java)
-                        }
+        val warmUpData = memberKeys.mapNotNull { key ->
+            try {
+                with(Database.INSTANCE) {
+                    get(memberTable, key)?.let { json ->
+                        key to gson.fromJson(json, MemberData::class.java)
                     }
-                } catch (e: Exception) {
-                    warning("Failed to warm up member data: $key", e)
-                    null
                 }
-            }.toMap()
-        }
+            } catch (e: Exception) {
+                warning("Failed to warm up member data: $key", e)
+                null
+            }
+        }.toMap()
+        
+        memberCache.setAll(warmUpData)
     }
 }
 

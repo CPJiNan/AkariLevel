@@ -1,9 +1,9 @@
 package com.github.cpjinan.plugin.akarilevel.database
 
+import com.github.cpjinan.plugin.akarilevel.cache.core.EasyCache
+import com.github.cpjinan.plugin.akarilevel.cache.distributed.MySQLDistributedLock
+import com.github.cpjinan.plugin.akarilevel.cache.reliability.CircuitBreakerConfig
 import com.github.cpjinan.plugin.akarilevel.config.DatabaseConfig
-import com.github.cpjinan.plugin.akarilevel.database.lock.CircuitBreakerConfig
-import com.github.cpjinan.plugin.akarilevel.database.lock.EasyCache
-import com.github.cpjinan.plugin.akarilevel.database.lock.LockManager
 import taboolib.common.platform.function.warning
 import taboolib.module.database.ColumnOptionSQL
 import taboolib.module.database.ColumnTypeSQL
@@ -55,6 +55,10 @@ class DatabaseMySQL() : Database {
             .build()
     }
 
+    private val distributedLock by lazy {
+        MySQLDistributedLock(dataSource)
+    }
+
     private var enableDistributedLock = false
 
     init {
@@ -64,8 +68,11 @@ class DatabaseMySQL() : Database {
 
     private fun initializeEasyFeatures() {
         try {
-            LockManager.initialize(dataSource)
-            enableDistributedLock = true
+            // 简单测试分布式锁是否可用
+            enableDistributedLock = distributedLock.tryLock("test_lock", 1)
+            if (enableDistributedLock) {
+                distributedLock.unlock("test_lock")
+            }
 
             warmUpCache()
         } catch (e: Exception) {
@@ -101,7 +108,7 @@ class DatabaseMySQL() : Database {
     override fun get(table: Table<*, *>, path: String): String? {
         if (table == memberTable) {
             return if (enableDistributedLock) {
-                LockManager.withMemberDataLock(path) {
+                withMemberDataLock(path) {
                     easyCache[path]
                 }
             } else {
@@ -115,7 +122,7 @@ class DatabaseMySQL() : Database {
     override fun set(table: Table<*, *>, path: String, value: String?) {
         if (table == memberTable) {
             if (enableDistributedLock) {
-                LockManager.withMemberDataLock(path) {
+                withMemberDataLock(path) {
                     setMemberData(path, value)
                 }
             } else {
@@ -123,6 +130,19 @@ class DatabaseMySQL() : Database {
             }
         } else {
             setToDatabase(table, path, value)
+        }
+    }
+
+    private fun <T> withMemberDataLock(memberKey: String, operation: () -> T): T? {
+        val lockKey = "member_data:$memberKey"
+        return if (distributedLock.tryLock(lockKey, 5)) {
+            try {
+                operation()
+            } finally {
+                distributedLock.unlock(lockKey)
+            }
+        } else {
+            null
         }
     }
 
@@ -142,7 +162,7 @@ class DatabaseMySQL() : Database {
             easyCache.invalidate(path)
         } else {
             setToDatabase(memberTable, path, value)
-            easyCache.put(path, value)
+            easyCache[path] = value
         }
     }
 
@@ -167,14 +187,14 @@ class DatabaseMySQL() : Database {
 
     private fun warmUpCache() {
         try {
-            easyCache.warmUp {
-                memberTable.select(dataSource) {
-                    rows("key", "value")
-                    limit(1000)
-                }.map {
-                    getString("key") to (getString("value") ?: "")
-                }.toMap()
-            }
+            val warmUpData = memberTable.select(dataSource) {
+                rows("key", "value")
+                limit(1000)
+            }.map {
+                getString("key") to (getString("value") ?: "")
+            }.toMap()
+            
+            easyCache.setAll(warmUpData)
         } catch (e: Exception) {
             warning("Cache warm-up failed", e)
         }
@@ -185,19 +205,19 @@ class DatabaseMySQL() : Database {
     }
 
     fun exportMetricsForMonitoring(): Map<String, Any> {
-        return easyCache.exportForMonitoring()
+        return easyCache.getMetrics()?.exportForMonitoring() ?: emptyMap()
     }
 
     fun performCacheCleanup() {
-        easyCache.cleanUp()
+        easyCache.cleanup()
     }
 
     fun shutdown() {
         try {
-            easyCache.close()
-            if (enableDistributedLock) {
-                LockManager.shutdown()
-            }
+            // 关闭缓存资源
+            easyCache.cleanup()
+            
+            // 不需要特殊关闭分布式锁，它使用连接池资源
         } catch (e: Exception) {
             warning("Error during database shutdown", e)
         }

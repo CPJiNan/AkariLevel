@@ -60,7 +60,7 @@ object AkariLevel : Plugin() {
             println(it.getMemberLevel("Test"))
             it.addMember("Test", "")
             println(it.getMemberLevel("Test"))
-            it.setMemberLevel("Test", 10, "")
+            it.setMemberLevel("Test", it.getMemberLevel("Test") + 10, "")
             println(it.getMemberLevel("Test"))
             safeInvalidateAllMemberCache()  // 使用安全的缓存清空
             println(it.getMemberLevel("Test"))
