@@ -4,7 +4,6 @@ import com.github.benmanes.caffeine.cache.RemovalCause.EXPIRED
 import com.github.benmanes.caffeine.cache.RemovalCause.SIZE
 import com.github.cpjinan.plugin.akarilevel.database.Database
 import com.github.cpjinan.plugin.akarilevel.entity.MemberData
-import com.github.cpjinan.plugin.akarilevel.manager.PersistenceManager
 import com.google.gson.Gson
 import taboolib.common.platform.function.submit
 import java.time.Duration
@@ -66,10 +65,6 @@ object MemberCache {
         }
         .build()
 
-    fun cleanupMemberCache() {
-        memberCache.cleanup()
-    }
-
     fun warmUpMemberCache(members: List<String>) {
         if (members.isNotEmpty()) {
             val warmUpData = members.mapNotNull {
@@ -86,17 +81,5 @@ object MemberCache {
 
             memberCache.setAll(warmUpData)
         }
-    }
-
-    fun invalidateAllSafely() {
-        PersistenceManager.invalidateAllSafely()
-    }
-
-    fun forcePersistMember(member: String): Boolean {
-        return PersistenceManager.forcePersist(member)
-    }
-
-    fun forcePersistAllMembers() {
-        PersistenceManager.forcePersistAll()
     }
 }
