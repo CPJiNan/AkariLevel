@@ -1,11 +1,9 @@
 package com.github.cpjinan.plugin.akarilevel.cache
 
-import com.github.benmanes.caffeine.cache.RemovalCause.EXPIRED
-import com.github.benmanes.caffeine.cache.RemovalCause.SIZE
+import com.github.cpjinan.plugin.akarilevel.cache.core.EasyCache
+import com.github.cpjinan.plugin.akarilevel.cache.reliability.CircuitBreakerConfig
 import com.github.cpjinan.plugin.akarilevel.database.Database
 import com.github.cpjinan.plugin.akarilevel.database.DatabaseMySQL
-import com.github.cpjinan.plugin.akarilevel.database.lock.CircuitBreakerConfig
-import com.github.cpjinan.plugin.akarilevel.database.lock.EasyCache
 import com.github.cpjinan.plugin.akarilevel.entity.MemberData
 import com.google.gson.Gson
 import taboolib.common.platform.function.submit
@@ -18,10 +16,10 @@ import java.time.Duration
  *
  * 成员数据缓存。
  *
- * @author 季楠, QwQ-dev
+ * @author 季楠 & QwQ-dev
  * @since 2025/8/12 04:43
  */
-private val gson = Gson()
+val gson = Gson()
 
 val memberCache = EasyCache.builder<String, MemberData>()
     .maximumSize(500)
@@ -36,65 +34,73 @@ val memberCache = EasyCache.builder<String, MemberData>()
         )
     )
     .removalListener { key, value, cause ->
-        if (key != null && value != null) {
-            when (cause) {
-                EXPIRED, SIZE -> {
-                    submit(async = true) {
-                        try {
-                            with(Database.INSTANCE) {
-                                set(memberTable, key, gson.toJson(value))
-                            }
-                        } catch (e: Exception) {
-                            warning("Failed to persist member data during eviction: $key", e)
+        when (cause) {
+            "EXPIRED", "SIZE" -> {
+                submit(async = true) {
+                    try {
+                        with(Database.INSTANCE) {
+                            set(memberTable, key, gson.toJson(value))
                         }
+                    } catch (e: Exception) {
+                        warning("Failed to persist member data during eviction: $key", e)
                     }
                 }
-
-                else -> {}
             }
+            else -> {}
         }
     }
     .loader { key ->
         try {
             with(Database.INSTANCE) {
-                get(memberTable, key).takeUnless { it.isNullOrBlank() }
-                    ?.let { gson.fromJson(it, MemberData::class.java) } ?: MemberData()
+                val dbValue = get(memberTable, key)
+
+                dbValue?.takeUnless { it.isBlank() }
+                    ?.let { json ->
+                        try {
+                            val memberData = gson.fromJson(json, MemberData::class.java)
+                            memberData
+                        } catch (e: Exception) {
+                            warning("Failed to parse member data JSON for $key: $json", e)
+                            null
+                        }
+                    }
             }
         } catch (e: Exception) {
             warning("Failed to load member data: $key", e)
-            MemberData()
+            null
         }
     }
     .build()
 
 fun getMemberCacheStats(): String {
-    return memberCache.stats().format()
+    val stats = memberCache.stats()
+    return "Cache Stats: hits=${stats.hitCount}, misses=${stats.missCount}, hit_rate=${stats.hitRate}"
 }
 
 fun exportMemberCacheMetrics(): Map<String, Any> {
-    return memberCache.exportForMonitoring()
+    return memberCache.getMetrics()?.exportForMonitoring() ?: emptyMap()
 }
 
 fun cleanupMemberCache() {
-    memberCache.cleanUp()
+    memberCache.cleanup()
 }
 
 fun warmUpMemberCache(memberKeys: List<String>) {
     if (memberKeys.isNotEmpty()) {
-        memberCache.warmUp {
-            memberKeys.mapNotNull { key ->
-                try {
-                    with(Database.INSTANCE) {
-                        get(memberTable, key)?.let { json ->
-                            key to gson.fromJson(json, MemberData::class.java)
-                        }
+        val warmUpData = memberKeys.mapNotNull { key ->
+            try {
+                with(Database.INSTANCE) {
+                    get(memberTable, key)?.let { json ->
+                        key to gson.fromJson(json, MemberData::class.java)
                     }
-                } catch (e: Exception) {
-                    warning("Failed to warm up member data: $key", e)
-                    null
                 }
-            }.toMap()
-        }
+            } catch (e: Exception) {
+                warning("Failed to warm up member data: $key", e)
+                null
+            }
+        }.toMap()
+        
+        memberCache.setAll(warmUpData)
     }
 }
 
@@ -104,4 +110,20 @@ fun getEasyDatabaseStats(): String? {
     } else {
         null
     }
+}
+
+fun safeInvalidateAllMemberCache() {
+    SmartPersistenceManager.safeInvalidateAll()
+}
+
+fun forcePersistPlayer(player: String): Boolean {
+    return SmartPersistenceManager.forcePersist(player)
+}
+
+fun forcePersistAllPlayers(): Int {
+    return SmartPersistenceManager.forcePersistAll()
+}
+
+fun getPersistenceStats(): String {
+    return SmartPersistenceManager.getStats()
 }

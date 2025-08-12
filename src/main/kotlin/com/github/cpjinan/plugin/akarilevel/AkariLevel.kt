@@ -1,10 +1,8 @@
 package com.github.cpjinan.plugin.akarilevel
 
-import com.github.cpjinan.plugin.akarilevel.cache.memberCache
 import com.github.cpjinan.plugin.akarilevel.config.SettingsConfig
-import com.github.cpjinan.plugin.akarilevel.database.Database
 import com.github.cpjinan.plugin.akarilevel.level.ConfigLevelGroup
-import com.google.gson.Gson
+import com.github.cpjinan.plugin.akarilevel.listener.PersistenceEventListener
 import taboolib.common.platform.Platform
 import taboolib.common.platform.Plugin
 import taboolib.common.platform.function.console
@@ -47,8 +45,13 @@ object AkariLevel : Plugin() {
         console().sendMessage("&o  / ___ \\|   < (_| | |  | | |__|  __/\\ V /  __/ | ".colored())
         console().sendMessage("&o /_/   \\_\\_|\\_\\__,_|_|  |_|_____\\___| \\_/ \\___|_| ".colored())
         console().sendMessage("")
+
         // 从配置文件加载等级组。
         ConfigLevelGroup.reloadConfigLevelGroups()
+
+        // 初始化持久化系统
+        PersistenceEventListener.initialize()
+
         console().sendLang("Plugin-Enabled")
     }
 
@@ -56,14 +59,9 @@ object AkariLevel : Plugin() {
      * 插件卸载事件。
      */
     override fun onDisable() {
-        val gson = Gson()
-        // 保存成员数据。
-        memberCache.asMap().forEach { key, value ->
-            with(Database.INSTANCE) {
-                set(memberTable, key, gson.toJson(value))
-            }
-            memberCache.invalidate(key)
-        }
+        // 关闭顺手保存所有数据
+        PersistenceEventListener.shutdown()
+
         console().sendLang("Plugin-Disable")
     }
 }
