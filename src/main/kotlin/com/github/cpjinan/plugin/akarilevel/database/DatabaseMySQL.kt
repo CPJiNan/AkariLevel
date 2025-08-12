@@ -1,8 +1,8 @@
 package com.github.cpjinan.plugin.akarilevel.database
 
-import com.github.cpjinan.plugin.akarilevel.cache.core.EasyCache
-import com.github.cpjinan.plugin.akarilevel.cache.distributed.MySQLDistributedLock
-import com.github.cpjinan.plugin.akarilevel.cache.reliability.CircuitBreakerConfig
+import com.github.cpjinan.plugin.akarilevel.cache.CircuitBreakerConfig
+import com.github.cpjinan.plugin.akarilevel.cache.EasyCache
+import com.github.cpjinan.plugin.akarilevel.cache.MySQLDistributedLock
 import com.github.cpjinan.plugin.akarilevel.config.DatabaseConfig
 import taboolib.common.platform.function.warning
 import taboolib.module.database.ColumnOptionSQL
@@ -193,7 +193,7 @@ class DatabaseMySQL() : Database {
             }.map {
                 getString("key") to (getString("value") ?: "")
             }.toMap()
-            
+
             easyCache.setAll(warmUpData)
         } catch (e: Exception) {
             warning("Cache warm-up failed", e)
@@ -214,10 +214,8 @@ class DatabaseMySQL() : Database {
 
     fun shutdown() {
         try {
-            // 关闭缓存资源
+            // 关闭缓存资源。
             easyCache.cleanup()
-            
-            // 不需要特殊关闭分布式锁，它使用连接池资源
         } catch (e: Exception) {
             warning("Error during database shutdown", e)
         }

@@ -1,27 +1,23 @@
-package com.github.cpjinan.plugin.akarilevel.cache.core
+package com.github.cpjinan.plugin.akarilevel.cache
 
+import com.github.benmanes.caffeine.cache.Cache
 import com.github.benmanes.caffeine.cache.Caffeine
 import com.github.benmanes.caffeine.cache.LoadingCache
-import com.github.cpjinan.plugin.akarilevel.cache.monitoring.CacheMetrics
-import com.github.cpjinan.plugin.akarilevel.cache.monitoring.FastCacheMetrics
-import com.github.cpjinan.plugin.akarilevel.cache.reliability.CircuitBreaker
-import com.github.cpjinan.plugin.akarilevel.cache.reliability.CircuitBreakerConfig
-import com.github.cpjinan.plugin.akarilevel.cache.reliability.FastCircuitBreaker
 import java.time.Duration
 
 /**
  * AkariLevel
- * com.github.cpjinan.plugin.akarilevel.cache.core
+ * com.github.cpjinan.plugin.akarilevel.cache
  *
- * @author QwQ-dev  
+ * @author QwQ-dev
  * @since 2025/8/12 17:45
  */
 class EasyCache<K : Any, V : Any> private constructor(
-    private val caffeineCache: com.github.benmanes.caffeine.cache.Cache<K, V>,
+    private val caffeineCache: Cache<K, V>,
     private val loadingCache: LoadingCache<K, V>?,
     private val circuitBreaker: CircuitBreaker?,
     private val metrics: CacheMetrics?
-) : Cache<K, V> {
+) : com.github.cpjinan.plugin.akarilevel.cache.Cache<K, V> {
     override fun get(key: K): V? {
         if (circuitBreaker?.canExecute() == false) {
             metrics?.recordCircuitBreakerReject()
@@ -69,7 +65,7 @@ class EasyCache<K : Any, V : Any> private constructor(
             val startTime = System.nanoTime()
             val result = caffeineCache.get(key) { loader(it) }
             val loadTime = (System.nanoTime() - startTime) / 1_000_000
-            
+
             metrics?.recordLoad(loadTime)
             circuitBreaker?.recordSuccess()
             result
@@ -229,7 +225,7 @@ class EasyCache<K : Any, V : Any> private constructor(
             expireAfterWrite?.let { caffeineBuilder.expireAfterWrite(it) }
             expireAfterAccess?.let { caffeineBuilder.expireAfterAccess(it) }
             refreshAfterWrite?.let { caffeineBuilder.refreshAfterWrite(it) }
-            
+
             removalListener?.let { listener ->
                 caffeineBuilder.removalListener<K, V> { key, value, cause ->
                     if (key != null && value != null) {
@@ -238,7 +234,7 @@ class EasyCache<K : Any, V : Any> private constructor(
                 }
             }
 
-            val cache: com.github.benmanes.caffeine.cache.Cache<K, V>
+            val cache: Cache<K, V>
             val loadingCache: LoadingCache<K, V>?
 
             if (loader != null) {

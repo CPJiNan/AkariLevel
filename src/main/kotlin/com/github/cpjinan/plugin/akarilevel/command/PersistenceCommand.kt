@@ -1,9 +1,9 @@
 package com.github.cpjinan.plugin.akarilevel.command
 
-import com.github.cpjinan.plugin.akarilevel.cache.SmartPersistenceManager
 import com.github.cpjinan.plugin.akarilevel.cache.forcePersistAllPlayers
 import com.github.cpjinan.plugin.akarilevel.cache.forcePersistPlayer
 import com.github.cpjinan.plugin.akarilevel.cache.getPersistenceStats
+import com.github.cpjinan.plugin.akarilevel.manager.SmartPersistenceManager
 import org.bukkit.command.CommandSender
 import taboolib.common.platform.command.CommandBody
 import taboolib.common.platform.command.CommandHeader

@@ -1,6 +1,6 @@
 package com.github.cpjinan.plugin.akarilevel.listener
 
-import com.github.cpjinan.plugin.akarilevel.cache.SmartPersistenceManager
+import com.github.cpjinan.plugin.akarilevel.manager.SmartPersistenceManager
 import org.bukkit.event.player.PlayerQuitEvent
 import taboolib.common.platform.event.SubscribeEvent
 import taboolib.common.platform.function.submitAsync

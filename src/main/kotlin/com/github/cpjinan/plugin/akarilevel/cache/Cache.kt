@@ -1,8 +1,8 @@
-package com.github.cpjinan.plugin.akarilevel.cache.core
+package com.github.cpjinan.plugin.akarilevel.cache
 
 /**
  * AkariLevel
- * com.github.cpjinan.plugin.akarilevel.cache.core
+ * com.github.cpjinan.plugin.akarilevel.cache
  *
  * @author QwQ-dev
  * @since 2025/8/12 17:30
@@ -43,8 +43,13 @@ data class CacheStats(
     val missRate: Double get() = if (requestCount == 0L) 0.0 else missCount.toDouble() / requestCount
     val requestCount: Long get() = hitCount + missCount
     val averageLoadPenalty: Double get() = if (loadCount == 0L) 0.0 else totalLoadTime.toDouble() / loadCount
-    
+
     fun format(): String {
-        return "CacheStats[hits=$hitCount, misses=$missCount, hitRate=${String.format("%.2f", hitRate * 100)}%, loads=$loadCount, evictions=$evictionCount]"
+        return "CacheStats[hits=$hitCount, misses=$missCount, hitRate=${
+            String.format(
+                "%.2f",
+                hitRate * 100
+            )
+        }%, loads=$loadCount, evictions=$evictionCount]"
     }
 }

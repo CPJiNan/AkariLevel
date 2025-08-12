@@ -1,10 +1,10 @@
-package com.github.cpjinan.plugin.akarilevel.cache.distributed
+package com.github.cpjinan.plugin.akarilevel.cache
 
 import javax.sql.DataSource
 
 /**
  * AkariLevel
- * com.github.cpjinan.plugin.akarilevel.cache.distributed
+ * com.github.cpjinan.plugin.akarilevel.cache
  *
  * @author QwQ-dev
  * @since 2025/8/12 17:50
@@ -29,7 +29,7 @@ class MySQLDistributedLock(
 ) : DistributedLock {
     override fun tryLock(lockKey: String, timeoutSeconds: Int): Boolean {
         val actualTimeout = timeoutSeconds.coerceIn(1, config.maxTimeoutSeconds)
-        
+
         repeat(config.maxRetries) { attempt ->
             try {
                 dataSource.connection.use { connection ->
@@ -60,7 +60,7 @@ class MySQLDistributedLock(
                 @Suppress("SqlNoDataSourceInspection")
                 connection.prepareStatement("SELECT RELEASE_LOCK(?)").use { stmt ->
                     stmt.setString(1, lockKey)
-                    
+
                     val result = stmt.executeQuery()
                     if (result.next()) {
                         result.getInt(1) == 1
@@ -78,7 +78,7 @@ class MySQLDistributedLock(
                 @Suppress("SqlNoDataSourceInspection")
                 connection.prepareStatement("SELECT IS_USED_LOCK(?)").use { stmt ->
                     stmt.setString(1, lockKey)
-                    
+
                     val result = stmt.executeQuery()
                     if (result.next()) {
                         result.getLong(1) > 0

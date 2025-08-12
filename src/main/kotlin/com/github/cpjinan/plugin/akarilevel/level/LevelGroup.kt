@@ -1,9 +1,9 @@
 package com.github.cpjinan.plugin.akarilevel.level
 
-import com.github.cpjinan.plugin.akarilevel.cache.SmartPersistenceManager
 import com.github.cpjinan.plugin.akarilevel.cache.memberCache
 import com.github.cpjinan.plugin.akarilevel.entity.MemberLevelData
 import com.github.cpjinan.plugin.akarilevel.event.*
+import com.github.cpjinan.plugin.akarilevel.manager.SmartPersistenceManager
 import java.util.concurrent.ConcurrentHashMap
 
 /**

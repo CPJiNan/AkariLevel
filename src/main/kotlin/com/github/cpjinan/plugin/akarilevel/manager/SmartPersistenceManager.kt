@@ -1,5 +1,7 @@
-package com.github.cpjinan.plugin.akarilevel.cache
+package com.github.cpjinan.plugin.akarilevel.manager
 
+import com.github.cpjinan.plugin.akarilevel.cache.gson
+import com.github.cpjinan.plugin.akarilevel.cache.memberCache
 import com.github.cpjinan.plugin.akarilevel.database.Database
 import taboolib.common.platform.function.info
 import taboolib.common.platform.function.submit
@@ -9,27 +11,30 @@ import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.atomic.AtomicLong
 
 /**
+ * AkariLevel
+ * com.github.cpjinan.plugin.akarilevel.manager
+ *
  * @author QwQ-dev
  * @since 2025/8/12 16:50
  */
 object SmartPersistenceManager {
-    private val dirtyPlayers = ConcurrentHashMap<String, Long>() // 玩家 -> 最后修改时间
+    private val dirtyMembers = ConcurrentHashMap<String, Long>() // 成员 -> 最后修改时间
     private val persistedCount = AtomicLong(0)
     private val errorCount = AtomicLong(0)
 
     private val checkpointInterval = Duration.ofMinutes(5).toMillis()
 
-    fun markDirty(player: String) {
+    fun markDirty(member: String) {
         val currentTime = System.currentTimeMillis()
-        dirtyPlayers[player] = currentTime
+        dirtyMembers[member] = currentTime
     }
 
-    fun isDirty(player: String): Boolean {
-        return dirtyPlayers.containsKey(player)
+    fun isDirty(member: String): Boolean {
+        return dirtyMembers.containsKey(member)
     }
 
-    fun getDirtyPlayersCount(): Int {
-        return dirtyPlayers.size
+    fun getDirtyMembersCount(): Int {
+        return dirtyMembers.size
     }
 
     fun onPlayerQuit(player: String) {
@@ -37,7 +42,7 @@ object SmartPersistenceManager {
             submit(async = true) {
                 try {
                     persistPlayerData(player, "PLAYER_QUIT")
-                    dirtyPlayers.remove(player)
+                    dirtyMembers.remove(player)
                     info("Persisted data for player $player on quit")
                 } catch (e: Exception) {
                     warning("Failed to persist data for player $player on quit", e)
@@ -48,13 +53,13 @@ object SmartPersistenceManager {
     }
 
     fun createCheckpoint() {
-        if (dirtyPlayers.isEmpty()) return
+        if (dirtyMembers.isEmpty()) return
 
         submit(async = true) {
             val cutoffTime = System.currentTimeMillis() - checkpointInterval
             val playersToSave = mutableListOf<String>()
 
-            dirtyPlayers.entries.removeIf { (player, lastModified) ->
+            dirtyMembers.entries.removeIf { (player, lastModified) ->
                 if (lastModified < cutoffTime) {
                     playersToSave.add(player)
                     true
@@ -82,16 +87,16 @@ object SmartPersistenceManager {
     }
 
     fun onServerShutdown() {
-        if (dirtyPlayers.isEmpty()) {
+        if (dirtyMembers.isEmpty()) {
             info("No dirty data to persist on server shutdown")
             return
         }
 
-        info("Server shutdown: persisting data for ${dirtyPlayers.size} players...")
+        info("Server shutdown: persisting data for ${dirtyMembers.size} players...")
         var savedCount = 0
         var failedCount = 0
 
-        dirtyPlayers.keys.forEach { player ->
+        dirtyMembers.keys.forEach { player ->
             try {
                 persistPlayerData(player, "SERVER_SHUTDOWN")
                 savedCount++
@@ -102,13 +107,13 @@ object SmartPersistenceManager {
         }
 
         info("Server shutdown persistence completed: $savedCount saved, $failedCount failed")
-        dirtyPlayers.clear()
+        dirtyMembers.clear()
     }
 
     fun forcePersist(player: String): Boolean {
         return try {
             persistPlayerData(player, "MANUAL")
-            dirtyPlayers.remove(player)
+            dirtyMembers.remove(player)
             info("Manually persisted data for player $player")
             true
         } catch (e: Exception) {
@@ -119,9 +124,9 @@ object SmartPersistenceManager {
     }
 
     fun forcePersistAll(): Int {
-        if (dirtyPlayers.isEmpty()) return 0
+        if (dirtyMembers.isEmpty()) return 0
 
-        val players = dirtyPlayers.keys.toList()
+        val players = dirtyMembers.keys.toList()
         var savedCount = 0
 
         players.forEach { player ->
@@ -135,7 +140,7 @@ object SmartPersistenceManager {
     }
 
     fun safeInvalidateAll() {
-        info("Safe invalidate: persisting ${dirtyPlayers.size} dirty players...")
+        info("Safe invalidate: persisting ${dirtyMembers.size} dirty players...")
 
         forcePersistAll()
 
@@ -148,8 +153,8 @@ object SmartPersistenceManager {
         if (memberData != null) {
             try {
                 val json = gson.toJson(memberData)
-                Database.INSTANCE.set(
-                    Database.INSTANCE.memberTable,
+                Database.Companion.INSTANCE.set(
+                    Database.Companion.INSTANCE.memberTable,
                     player,
                     json
                 )
@@ -166,13 +171,13 @@ object SmartPersistenceManager {
     fun getStats(): String {
         return buildString {
             appendLine("=== Smart Persistence Manager Stats ===")
-            appendLine("Dirty Players: ${dirtyPlayers.size}")
+            appendLine("Dirty Players: ${dirtyMembers.size}")
             appendLine("Total Persisted: ${persistedCount.get()}")
             appendLine("Total Errors: ${errorCount.get()}")
             appendLine("Checkpoint Interval: ${checkpointInterval / 1000}s")
 
-            if (dirtyPlayers.isNotEmpty()) {
-                appendLine("Oldest Dirty Data: ${System.currentTimeMillis() - dirtyPlayers.values.minOrNull()!!}ms ago")
+            if (dirtyMembers.isNotEmpty()) {
+                appendLine("Oldest Dirty Data: ${System.currentTimeMillis() - dirtyMembers.values.minOrNull()!!}ms ago")
             }
         }
     }

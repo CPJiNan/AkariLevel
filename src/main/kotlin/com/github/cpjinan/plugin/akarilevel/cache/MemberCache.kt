@@ -1,10 +1,9 @@
 package com.github.cpjinan.plugin.akarilevel.cache
 
-import com.github.cpjinan.plugin.akarilevel.cache.core.EasyCache
-import com.github.cpjinan.plugin.akarilevel.cache.reliability.CircuitBreakerConfig
 import com.github.cpjinan.plugin.akarilevel.database.Database
 import com.github.cpjinan.plugin.akarilevel.database.DatabaseMySQL
 import com.github.cpjinan.plugin.akarilevel.entity.MemberData
+import com.github.cpjinan.plugin.akarilevel.manager.SmartPersistenceManager
 import com.google.gson.Gson
 import taboolib.common.platform.function.submit
 import taboolib.common.platform.function.warning
@@ -16,7 +15,7 @@ import java.time.Duration
  *
  * 成员数据缓存。
  *
- * @author 季楠 & QwQ-dev
+ * @author 季楠, QwQ-dev
  * @since 2025/8/12 04:43
  */
 val gson = Gson()
@@ -46,6 +45,7 @@ val memberCache = EasyCache.builder<String, MemberData>()
                     }
                 }
             }
+
             else -> {}
         }
     }
@@ -99,7 +99,7 @@ fun warmUpMemberCache(memberKeys: List<String>) {
                 null
             }
         }.toMap()
-        
+
         memberCache.setAll(warmUpData)
     }
 }

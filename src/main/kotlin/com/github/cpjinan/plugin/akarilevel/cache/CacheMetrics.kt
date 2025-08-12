@@ -1,23 +1,24 @@
-package com.github.cpjinan.plugin.akarilevel.cache.monitoring
+package com.github.cpjinan.plugin.akarilevel.cache
 
+import com.github.benmanes.caffeine.cache.stats.CacheStats
 import java.util.concurrent.atomic.AtomicLong
 
 /**
  * AkariLevel
- * com.github.cpjinan.plugin.akarilevel.cache.monitoring
+ * com.github.cpjinan.plugin.akarilevel.cache
  *
  * @author QwQ-dev
  * @since 2025/8/12 17:40
  */
 interface CacheMetrics {
     fun recordHit()
-    fun recordMiss() 
+    fun recordMiss()
     fun recordLoad(loadTime: Long)
     fun recordLoadException()
     fun recordEviction()
     fun recordError(operation: String, exception: Exception)
     fun recordCircuitBreakerReject()
-    
+
     fun getSnapshot(): MetricsSnapshot
     fun exportForMonitoring(): Map<String, Any>
     fun reset()
@@ -48,37 +49,37 @@ class FastCacheMetrics : CacheMetrics {
     private val evictionCount = AtomicLong(0)
     private val errorCount = AtomicLong(0)
     private val circuitBreakerRejects = AtomicLong(0)
-    
+
     override fun recordHit() {
         hitCount.incrementAndGet()
     }
-    
+
     override fun recordMiss() {
         missCount.incrementAndGet()
     }
-    
+
     override fun recordLoad(loadTime: Long) {
         loadCount.incrementAndGet()
         totalLoadTime.addAndGet(loadTime)
     }
-    
+
     override fun recordLoadException() {
         loadExceptionCount.incrementAndGet()
     }
-    
+
     override fun recordEviction() {
         evictionCount.incrementAndGet()
     }
-    
+
     override fun recordError(operation: String, exception: Exception) {
         errorCount.incrementAndGet()
         // more logs?
     }
-    
+
     override fun recordCircuitBreakerReject() {
         circuitBreakerRejects.incrementAndGet()
     }
-    
+
     override fun getSnapshot(): MetricsSnapshot {
         return MetricsSnapshot(
             hitCount = hitCount.get(),
@@ -91,7 +92,7 @@ class FastCacheMetrics : CacheMetrics {
             circuitBreakerRejects = circuitBreakerRejects.get()
         )
     }
-    
+
     override fun exportForMonitoring(): Map<String, Any> {
         val snapshot = getSnapshot()
         return mapOf(
@@ -108,7 +109,7 @@ class FastCacheMetrics : CacheMetrics {
             "timestamp" to snapshot.timestamp
         )
     }
-    
+
     override fun reset() {
         hitCount.set(0)
         missCount.set(0)
@@ -120,7 +121,7 @@ class FastCacheMetrics : CacheMetrics {
         circuitBreakerRejects.set(0)
     }
 
-    fun enhanceWithCaffeineStats(caffeineStats: com.github.benmanes.caffeine.cache.stats.CacheStats): MetricsSnapshot {
+    fun enhanceWithCaffeineStats(caffeineStats: CacheStats): MetricsSnapshot {
         return MetricsSnapshot(
             hitCount = caffeineStats.hitCount(),
             missCount = caffeineStats.missCount(),
