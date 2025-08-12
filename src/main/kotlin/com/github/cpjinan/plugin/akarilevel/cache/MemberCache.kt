@@ -1,12 +1,10 @@
 package com.github.cpjinan.plugin.akarilevel.cache
 
 import com.github.cpjinan.plugin.akarilevel.database.Database
-import com.github.cpjinan.plugin.akarilevel.database.DatabaseMySQL
 import com.github.cpjinan.plugin.akarilevel.entity.MemberData
-import com.github.cpjinan.plugin.akarilevel.manager.SmartPersistenceManager
+import com.github.cpjinan.plugin.akarilevel.manager.PersistenceManager
 import com.google.gson.Gson
 import taboolib.common.platform.function.submit
-import taboolib.common.platform.function.warning
 import java.time.Duration
 
 /**
@@ -18,112 +16,85 @@ import java.time.Duration
  * @author 季楠, QwQ-dev
  * @since 2025/8/12 04:43
  */
-val gson = Gson()
+object MemberCache {
+    val gson = Gson()
 
-val memberCache = EasyCache.builder<String, MemberData>()
-    .maximumSize(500)
-    .expireAfterWrite(Duration.ofMinutes(10))
-    .expireAfterAccess(Duration.ofMinutes(30))
-    .recordStats(true)
-    .circuitBreaker(
-        CircuitBreakerConfig(
-            failureThreshold = 15,  // 15% 失败率阈值
-            timeoutMs = 60_000,     // 60 秒熔断时间
-            sampleSize = 30         // 30 个样本窗口
+    val memberCache = EasyCache.builder<String, MemberData>()
+        .maximumSize(500)
+        .expireAfterWrite(Duration.ofMinutes(10))
+        .expireAfterAccess(Duration.ofMinutes(30))
+        .circuitBreaker(
+            CircuitBreakerConfig(
+                failureThreshold = 15,  // 15% 失败率阈值
+                timeoutMs = 60_000,     // 60 秒熔断时间
+                sampleSize = 30         // 30 个样本窗口
+            )
         )
-    )
-    .removalListener { key, value, cause ->
-        when (cause) {
-            "EXPIRED", "SIZE" -> {
-                submit(async = true) {
-                    try {
+        .removalListener { key, value, cause ->
+            when (cause) {
+                "EXPIRED", "SIZE" -> {
+                    submit(async = true) {
                         with(Database.INSTANCE) {
                             set(memberTable, key, gson.toJson(value))
                         }
-                    } catch (e: Exception) {
-                        warning("Failed to persist member data during eviction: $key", e)
                     }
                 }
+
+                else -> {}
             }
-
-            else -> {}
         }
-    }
-    .loader { key ->
-        try {
-            with(Database.INSTANCE) {
-                val dbValue = get(memberTable, key)
-
-                dbValue?.takeUnless { it.isBlank() }
-                    ?.let { json ->
-                        try {
-                            val memberData = gson.fromJson(json, MemberData::class.java)
-                            memberData
-                        } catch (e: Exception) {
-                            warning("Failed to parse member data JSON for $key: $json", e)
-                            null
-                        }
-                    }
-            }
-        } catch (e: Exception) {
-            warning("Failed to load member data: $key", e)
-            null
-        }
-    }
-    .build()
-
-fun getMemberCacheStats(): String {
-    val stats = memberCache.stats()
-    return "Cache Stats: hits=${stats.hitCount}, misses=${stats.missCount}, hit_rate=${stats.hitRate}"
-}
-
-fun exportMemberCacheMetrics(): Map<String, Any> {
-    return memberCache.getMetrics()?.exportForMonitoring() ?: emptyMap()
-}
-
-fun cleanupMemberCache() {
-    memberCache.cleanup()
-}
-
-fun warmUpMemberCache(memberKeys: List<String>) {
-    if (memberKeys.isNotEmpty()) {
-        val warmUpData = memberKeys.mapNotNull { key ->
+        .loader { key ->
             try {
                 with(Database.INSTANCE) {
-                    get(memberTable, key)?.let { json ->
-                        key to gson.fromJson(json, MemberData::class.java)
-                    }
+                    val dbValue = get(memberTable, key)
+
+                    dbValue?.takeUnless { it.isBlank() }
+                        ?.let { json ->
+                            try {
+                                val memberData = gson.fromJson(json, MemberData::class.java)
+                                memberData
+                            } catch (_: Exception) {
+                                null
+                            }
+                        }
                 }
-            } catch (e: Exception) {
-                warning("Failed to warm up member data: $key", e)
+            } catch (_: Exception) {
                 null
             }
-        }.toMap()
+        }
+        .build()
 
-        memberCache.setAll(warmUpData)
+    fun cleanupMemberCache() {
+        memberCache.cleanup()
     }
-}
 
-fun getEasyDatabaseStats(): String? {
-    return if (Database.INSTANCE is DatabaseMySQL) {
-        (Database.INSTANCE as DatabaseMySQL).getCacheStats()
-    } else {
-        null
+    fun warmUpMemberCache(members: List<String>) {
+        if (members.isNotEmpty()) {
+            val warmUpData = members.mapNotNull {
+                try {
+                    with(Database.INSTANCE) {
+                        get(memberTable, it)?.let { json ->
+                            it to gson.fromJson(json, MemberData::class.java)
+                        }
+                    }
+                } catch (_: Exception) {
+                    null
+                }
+            }.toMap()
+
+            memberCache.setAll(warmUpData)
+        }
     }
-}
 
-fun safeInvalidateAllMemberCache() {
-    SmartPersistenceManager.safeInvalidateAll()
-}
+    fun invalidateAllSafely() {
+        PersistenceManager.invalidateAllSafely()
+    }
 
-fun forcePersistPlayer(player: String): Boolean {
-    return SmartPersistenceManager.forcePersist(player)
-}
+    fun forcePersistMember(member: String): Boolean {
+        return PersistenceManager.forcePersist(member)
+    }
 
-fun forcePersistAllPlayers(): Int {
-    return SmartPersistenceManager.forcePersistAll()
-}
-
-fun getPersistenceStats(): String {
-    return SmartPersistenceManager.getStats()
+    fun forcePersistAllMembers() {
+        PersistenceManager.forcePersistAll()
+    }
 }

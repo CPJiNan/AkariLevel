@@ -15,7 +15,6 @@ interface CircuitBreaker {
     fun recordSuccess()
     fun recordFailure()
     fun getState(): CircuitBreakerState
-    fun getStats(): CircuitBreakerStats
 }
 
 enum class CircuitBreakerState {
@@ -23,14 +22,6 @@ enum class CircuitBreakerState {
     OPEN,      // 熔断状态
     HALF_OPEN  // 半开状态
 }
-
-data class CircuitBreakerStats(
-    val state: CircuitBreakerState,
-    val failureCount: Int,
-    val successCount: Int,
-    val rejectCount: Long,
-    val lastFailureTime: Long
-)
 
 data class CircuitBreakerConfig(
     val failureThreshold: Int = 15,        // 失败率阈值(%)
@@ -115,16 +106,6 @@ class FastCircuitBreaker(private val config: CircuitBreakerConfig) : CircuitBrea
     }
 
     override fun getState(): CircuitBreakerState = state
-
-    override fun getStats(): CircuitBreakerStats {
-        return CircuitBreakerStats(
-            state = state,
-            failureCount = failureCount.get(),
-            successCount = successCount.get(),
-            rejectCount = rejectCount.get(),
-            lastFailureTime = lastFailureTime.get()
-        )
-    }
 
     private fun shouldAttemptReset(): Boolean {
         val timeSinceFailure = System.currentTimeMillis() - lastFailureTime.get()

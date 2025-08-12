@@ -44,10 +44,7 @@ class MySQLDistributedLock(
                         }
                     }
                 }
-            } catch (e: Exception) {
-                if (attempt == config.maxRetries - 1) {
-                    throw e
-                }
+            } catch (_: Exception) {
                 Thread.sleep(config.retryDelayMs * (attempt + 1))
             }
         }

@@ -2,7 +2,7 @@ package com.github.cpjinan.plugin.akarilevel
 
 import com.github.cpjinan.plugin.akarilevel.config.SettingsConfig
 import com.github.cpjinan.plugin.akarilevel.level.ConfigLevelGroup
-import com.github.cpjinan.plugin.akarilevel.listener.PersistenceEventListener
+import com.github.cpjinan.plugin.akarilevel.listener.PersistenceListener
 import taboolib.common.platform.Platform
 import taboolib.common.platform.Plugin
 import taboolib.common.platform.function.console
@@ -49,8 +49,8 @@ object AkariLevel : Plugin() {
         // 从配置文件加载等级组。
         ConfigLevelGroup.reloadConfigLevelGroups()
 
-        // 初始化持久化系统
-        PersistenceEventListener.initialize()
+        // 初始化持久化系统。
+        PersistenceListener.initialize()
 
         console().sendLang("Plugin-Enabled")
     }
@@ -59,8 +59,8 @@ object AkariLevel : Plugin() {
      * 插件卸载事件。
      */
     override fun onDisable() {
-        // 关闭顺手保存所有数据
-        PersistenceEventListener.shutdown()
+        // 关闭并保存所有数据。
+        PersistenceListener.shutdown()
 
         console().sendLang("Plugin-Disable")
     }

@@ -1,9 +1,10 @@
 package com.github.cpjinan.plugin.akarilevel.level
 
-import com.github.cpjinan.plugin.akarilevel.cache.memberCache
+import com.github.cpjinan.plugin.akarilevel.cache.MemberCache.memberCache
+import com.github.cpjinan.plugin.akarilevel.entity.MemberData
 import com.github.cpjinan.plugin.akarilevel.entity.MemberLevelData
 import com.github.cpjinan.plugin.akarilevel.event.*
-import com.github.cpjinan.plugin.akarilevel.manager.SmartPersistenceManager
+import com.github.cpjinan.plugin.akarilevel.manager.PersistenceManager
 import java.util.concurrent.ConcurrentHashMap
 
 /**
@@ -87,10 +88,9 @@ interface LevelGroup {
     /** 是否包含成员 **/
     fun hasMember(member: String): Boolean {
         return try {
-            // 使用内置loader触发加载器
             val memberData = memberCache.getWithBuiltInLoader(member)
             memberData?.levelGroups?.keys?.contains(name) ?: false
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             false
         }
     }
@@ -102,16 +102,13 @@ interface LevelGroup {
         event.call()
         if (event.isCancelled) return
         memberCache.asMap()
-            .compute(event.member) { _: String, memberData: com.github.cpjinan.plugin.akarilevel.entity.MemberData? ->
-                val data = memberData ?: com.github.cpjinan.plugin.akarilevel.entity.MemberData()
-                data.apply {
+            .compute(event.member) { _, memberData ->
+                (memberData ?: MemberData()).apply {
                     levelGroups.putIfAbsent(event.levelGroup, MemberLevelData())
                 }
-                data
             }
 
-        // 标记玩家数据为脏数据，需要持久化
-        SmartPersistenceManager.markDirty(event.member)
+        PersistenceManager.markDirty(event.member)
         onMemberChange(event.member, event.type, event.source)
     }
 
@@ -122,7 +119,7 @@ interface LevelGroup {
         event.call()
         if (event.isCancelled) return
         memberCache.asMap()
-            .compute(event.member) { _: String, memberData: com.github.cpjinan.plugin.akarilevel.entity.MemberData? ->
+            .compute(event.member) { _, memberData ->
                 memberData?.apply {
                     levelGroups.remove(name)
                 }
@@ -133,10 +130,9 @@ interface LevelGroup {
     /** 获取成员等级 **/
     fun getMemberLevel(member: String): Long {
         return try {
-            // 使用内置loader触发加载器
             val memberData = memberCache.getWithBuiltInLoader(member)
             memberData?.levelGroups[name]?.level ?: 0
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             0
         }
     }
@@ -144,10 +140,9 @@ interface LevelGroup {
     /** 获取成员经验 **/
     fun getMemberExp(member: String): Long {
         return try {
-            // 使用内置loader触发加载器
             val memberData = memberCache.getWithBuiltInLoader(member)
             memberData?.levelGroups[name]?.exp ?: 0
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             0
         }
     }
@@ -159,16 +154,13 @@ interface LevelGroup {
         event.call()
         if (event.isCancelled) return
         memberCache.asMap()
-            .compute(event.member) { _: String, memberData: com.github.cpjinan.plugin.akarilevel.entity.MemberData? ->
-                val data = memberData ?: com.github.cpjinan.plugin.akarilevel.entity.MemberData()
-                data.apply {
+            .compute(event.member) { _, memberData ->
+                (memberData ?: MemberData()).apply {
                     levelGroups.getOrPut(event.levelGroup) { MemberLevelData() }.level = event.newLevel
                 }
-                data  // 🔧 显式返回data对象
             }
 
-        // 标记玩家数据为脏数据，需要持久化
-        SmartPersistenceManager.markDirty(event.member)
+        PersistenceManager.markDirty(event.member)
         onMemberLevelChange(event.member, event.oldLevel, event.newLevel, event.source)
     }
 
@@ -179,16 +171,13 @@ interface LevelGroup {
         event.call()
         if (event.isCancelled) return
         memberCache.asMap()
-            .compute(event.member) { _: String, memberData: com.github.cpjinan.plugin.akarilevel.entity.MemberData? ->
-                val data = memberData ?: com.github.cpjinan.plugin.akarilevel.entity.MemberData()
-                data.apply {
+            .compute(event.member) { _, memberData ->
+                (memberData ?: MemberData()).apply {
                     levelGroups.getOrPut(event.levelGroup) { MemberLevelData() }.exp += event.expAmount
                 }
-                data  // 🔧 显式返回data对象
             }
 
-        // 标记玩家数据为脏数据，需要持久化
-        SmartPersistenceManager.markDirty(event.member)
+        PersistenceManager.markDirty(event.member)
         onMemberExpChange(event.member, event.expAmount, event.source)
     }
 

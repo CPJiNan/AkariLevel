@@ -4,7 +4,6 @@ import com.github.cpjinan.plugin.akarilevel.cache.CircuitBreakerConfig
 import com.github.cpjinan.plugin.akarilevel.cache.EasyCache
 import com.github.cpjinan.plugin.akarilevel.cache.MySQLDistributedLock
 import com.github.cpjinan.plugin.akarilevel.config.DatabaseConfig
-import taboolib.common.platform.function.warning
 import taboolib.module.database.ColumnOptionSQL
 import taboolib.module.database.ColumnTypeSQL
 import taboolib.module.database.Table
@@ -17,7 +16,7 @@ import java.util.concurrent.ConcurrentHashMap
  *
  * [Database] 接口的 MySQL 实现。
  *
- * @author 季楠 & QwQ-dev
+ * @author 季楠, QwQ-dev
  * @since 2025/8/7 23:08
  */
 class DatabaseMySQL() : Database {
@@ -41,7 +40,6 @@ class DatabaseMySQL() : Database {
             .maximumSize(10_000)
             .expireAfterWrite(Duration.ofMinutes(5))
             .expireAfterAccess(Duration.ofMinutes(10))
-            .recordStats(true)
             .circuitBreaker(
                 CircuitBreakerConfig(
                     failureThreshold = 10,
@@ -68,15 +66,13 @@ class DatabaseMySQL() : Database {
 
     private fun initializeEasyFeatures() {
         try {
-            // 简单测试分布式锁是否可用
             enableDistributedLock = distributedLock.tryLock("test_lock", 1)
             if (enableDistributedLock) {
                 distributedLock.unlock("test_lock")
             }
 
             warmUpCache()
-        } catch (e: Exception) {
-            warning("Failed to initialize Easy features", e)
+        } catch (_: Exception) {
             enableDistributedLock = false
         }
     }
@@ -186,26 +182,14 @@ class DatabaseMySQL() : Database {
     }
 
     private fun warmUpCache() {
-        try {
-            val warmUpData = memberTable.select(dataSource) {
-                rows("key", "value")
-                limit(1000)
-            }.map {
-                getString("key") to (getString("value") ?: "")
-            }.toMap()
+        val warmUpData = memberTable.select(dataSource) {
+            rows("key", "value")
+            limit(1000)
+        }.map {
+            getString("key") to (getString("value") ?: "")
+        }.toMap()
 
-            easyCache.setAll(warmUpData)
-        } catch (e: Exception) {
-            warning("Cache warm-up failed", e)
-        }
-    }
-
-    fun getCacheStats(): String {
-        return easyCache.stats().format()
-    }
-
-    fun exportMetricsForMonitoring(): Map<String, Any> {
-        return easyCache.getMetrics()?.exportForMonitoring() ?: emptyMap()
+        easyCache.setAll(warmUpData)
     }
 
     fun performCacheCleanup() {
@@ -213,11 +197,7 @@ class DatabaseMySQL() : Database {
     }
 
     fun shutdown() {
-        try {
-            // 关闭缓存资源。
-            easyCache.cleanup()
-        } catch (e: Exception) {
-            warning("Error during database shutdown", e)
-        }
+        // 关闭缓存资源。
+        easyCache.cleanup()
     }
 }
