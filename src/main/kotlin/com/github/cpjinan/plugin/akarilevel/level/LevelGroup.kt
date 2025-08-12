@@ -1,7 +1,6 @@
 package com.github.cpjinan.plugin.akarilevel.level
 
 import com.github.cpjinan.plugin.akarilevel.cache.memberCache
-import com.github.cpjinan.plugin.akarilevel.entity.MemberData
 import com.github.cpjinan.plugin.akarilevel.entity.MemberLevelData
 import com.github.cpjinan.plugin.akarilevel.event.*
 import java.util.concurrent.ConcurrentHashMap
@@ -96,7 +95,7 @@ interface LevelGroup {
         event.call()
         if (event.isCancelled) return
         memberCache.asMap()
-            .compute(event.member) { _: String, memberData: MemberData? ->
+            .compute(event.member) { _, memberData ->
                 memberData!!.apply {
                     levelGroups.putIfAbsent(event.levelGroup, MemberLevelData())
                 }
@@ -111,7 +110,7 @@ interface LevelGroup {
         event.call()
         if (event.isCancelled) return
         memberCache.asMap()
-            .compute(event.member) { _: String, memberData: MemberData? ->
+            .compute(event.member) { _, memberData ->
                 memberData!!.apply {
                     levelGroups.remove(name)
                 }
@@ -136,7 +135,7 @@ interface LevelGroup {
         event.call()
         if (event.isCancelled) return
         memberCache.asMap()
-            .compute(event.member) { _: String, memberData: MemberData? ->
+            .compute(event.member) { _, memberData ->
                 memberData!!.apply {
                     levelGroups.getOrPut(event.levelGroup) { MemberLevelData() }.level = event.newLevel
                 }
@@ -151,7 +150,7 @@ interface LevelGroup {
         event.call()
         if (event.isCancelled) return
         memberCache.asMap()
-            .compute(event.member) { _: String, memberData: MemberData? ->
+            .compute(event.member) { _, memberData ->
                 memberData!!.apply {
                     levelGroups.getOrPut(event.levelGroup) { MemberLevelData() }.exp += event.expAmount
                 }
