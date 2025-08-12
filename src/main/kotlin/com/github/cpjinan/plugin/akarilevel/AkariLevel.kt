@@ -49,7 +49,7 @@ object AkariLevel : Plugin() {
         // 从配置文件加载等级组。
         ConfigLevelGroup.reloadConfigLevelGroups()
 
-        // 初始化持久化系统。
+        // 初始化持久化管理器。
         PersistenceListener.initialize()
 
         console().sendLang("Plugin-Enabled")

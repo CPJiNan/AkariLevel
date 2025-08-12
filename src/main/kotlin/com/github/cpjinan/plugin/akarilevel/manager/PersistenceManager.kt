@@ -12,6 +12,8 @@ import java.util.concurrent.atomic.AtomicLong
  * AkariLevel
  * com.github.cpjinan.plugin.akarilevel.manager
  *
+ * 持久化管理器。
+ *
  * @author QwQ-dev
  * @since 2025/8/12 16:50
  */
@@ -29,10 +31,6 @@ object PersistenceManager {
 
     fun isDirty(member: String): Boolean {
         return dirtyMembers.containsKey(member)
-    }
-
-    fun getDirtyMembersCount(): Int {
-        return dirtyMembers.size
     }
 
     fun createCheckpoint() {
