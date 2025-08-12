@@ -1,5 +1,7 @@
 package com.github.cpjinan.plugin.akarilevel.cache
 
+import com.github.benmanes.caffeine.cache.RemovalCause.EXPIRED
+import com.github.benmanes.caffeine.cache.RemovalCause.SIZE
 import com.github.cpjinan.plugin.akarilevel.database.Database
 import com.github.cpjinan.plugin.akarilevel.entity.MemberData
 import com.github.cpjinan.plugin.akarilevel.manager.PersistenceManager
@@ -32,7 +34,7 @@ object MemberCache {
         )
         .removalListener { key, value, cause ->
             when (cause) {
-                "EXPIRED", "SIZE" -> {
+                EXPIRED, SIZE -> {
                     submit(async = true) {
                         with(Database.INSTANCE) {
                             set(memberTable, key, gson.toJson(value))

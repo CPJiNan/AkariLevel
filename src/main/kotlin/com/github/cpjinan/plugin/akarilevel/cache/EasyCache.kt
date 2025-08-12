@@ -3,6 +3,7 @@ package com.github.cpjinan.plugin.akarilevel.cache
 import com.github.benmanes.caffeine.cache.Cache
 import com.github.benmanes.caffeine.cache.Caffeine
 import com.github.benmanes.caffeine.cache.LoadingCache
+import com.github.benmanes.caffeine.cache.RemovalCause
 import java.time.Duration
 
 /**
@@ -134,7 +135,7 @@ class EasyCache<K : Any, V : Any> private constructor(
         private var expireAfterAccess: Duration? = null
         private var refreshAfterWrite: Duration? = null
         private var circuitBreakerConfig: CircuitBreakerConfig? = null
-        private var removalListener: ((K, V, String) -> Unit)? = null
+        private var removalListener: ((K, V, RemovalCause) -> Unit)? = null
         private var loader: ((K) -> V?)? = null
 
         fun maximumSize(size: Long) = apply { this.maximumSize = size }
@@ -142,7 +143,7 @@ class EasyCache<K : Any, V : Any> private constructor(
         fun expireAfterAccess(duration: Duration) = apply { this.expireAfterAccess = duration }
         fun refreshAfterWrite(duration: Duration) = apply { this.refreshAfterWrite = duration }
         fun circuitBreaker(config: CircuitBreakerConfig) = apply { this.circuitBreakerConfig = config }
-        fun removalListener(listener: (K, V, String) -> Unit) = apply { this.removalListener = listener }
+        fun removalListener(listener: (K, V, RemovalCause) -> Unit) = apply { this.removalListener = listener }
         fun loader(loader: (K) -> V?) = apply { this.loader = loader }
 
         fun build(): EasyCache<K, V> {
@@ -155,7 +156,7 @@ class EasyCache<K : Any, V : Any> private constructor(
             removalListener?.let { listener ->
                 caffeineBuilder.removalListener<K, V> { key, value, cause ->
                     if (key != null && value != null) {
-                        listener(key, value, cause.name)
+                        listener(key, value, cause)
                     }
                 }
             }

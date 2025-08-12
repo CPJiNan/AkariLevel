@@ -24,7 +24,10 @@ taboolib {
         )
     }
     description {
-        contributors { name("CPJiNan") }
+        contributors {
+            name("CPJiNan")
+            name("QwQ-dev")
+        }
     }
     version { taboolib = "6.2.3-ee81cb0" }
     relocate("top.maplex.arim", "com.github.cpjinan.plugin.akarilevel.arim")
