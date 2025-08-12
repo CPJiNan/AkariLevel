@@ -30,7 +30,7 @@ class DatabaseMySQL() : Database {
 
     override val memberTable = Table("${DatabaseConfig.table}_Member", DatabaseConfig.hostSQL) {
         add("key") {
-            type(ColumnTypeSQL.TEXT) {
+            type(ColumnTypeSQL.VARCHAR) {
                 options(ColumnOptionSQL.PRIMARY_KEY)
             }
         }
