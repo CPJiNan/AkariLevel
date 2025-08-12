@@ -17,7 +17,7 @@ import java.util.concurrent.ConcurrentHashMap
  *
  * [Database] 接口的 MySQL 实现。
  *
- * @author 季楠 & QwQ-dev
+ * @author 季楠, QwQ-dev
  * @since 2025/8/7 23:08
  */
 class DatabaseMySQL() : Database {

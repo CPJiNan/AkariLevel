@@ -10,6 +10,9 @@ import java.util.concurrent.atomic.AtomicLong
 import javax.sql.DataSource
 
 /**
+ * AkariLevel
+ * com.github.cpjinan.plugin.akarilevel.database.lock
+ *
  * @author QwQ-dev
  * @since 2025/8/12 04:43
  */

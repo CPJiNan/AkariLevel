@@ -7,6 +7,9 @@ import java.util.concurrent.atomic.AtomicLong
 import java.util.concurrent.atomic.AtomicReference
 
 /**
+ * AkariLevel
+ * com.github.cpjinan.plugin.akarilevel.database.lock
+ *
  * @author QwQ-dev
  * @since 2025/8/12 04:43
  */

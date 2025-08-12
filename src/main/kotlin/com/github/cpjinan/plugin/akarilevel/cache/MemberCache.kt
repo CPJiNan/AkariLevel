@@ -16,7 +16,7 @@ import java.time.Duration
  *
  * 成员数据缓存。
  *
- * @author 季楠 & QwQ-dev
+ * @author 季楠, QwQ-dev
  * @since 2025/8/12 04:43
  */
 private val gson = Gson()
