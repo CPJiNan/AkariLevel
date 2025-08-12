@@ -35,7 +35,7 @@ class DatabaseMySQL() : Database {
             }
         }
         add("value") {
-            type(ColumnTypeSQL.JSON)
+            type(ColumnTypeSQL.TEXT)
         }
     }
 
