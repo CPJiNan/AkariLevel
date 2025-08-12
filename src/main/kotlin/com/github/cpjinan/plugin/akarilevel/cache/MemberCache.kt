@@ -1,5 +1,7 @@
 package com.github.cpjinan.plugin.akarilevel.cache
 
+import com.github.benmanes.caffeine.cache.RemovalCause.EXPIRED
+import com.github.benmanes.caffeine.cache.RemovalCause.SIZE
 import com.github.cpjinan.plugin.akarilevel.database.Database
 import com.github.cpjinan.plugin.akarilevel.database.DatabaseMySQL
 import com.github.cpjinan.plugin.akarilevel.database.lock.CircuitBreakerConfig
@@ -35,8 +37,8 @@ val memberCache = EasyCache.builder<String, MemberData>()
     )
     .removalListener { key, value, cause ->
         if (key != null && value != null) {
-            when (cause.name) {
-                "EXPIRED", "SIZE" -> {
+            when (cause) {
+                EXPIRED, SIZE -> {
                     submit(async = true) {
                         try {
                             with(Database.INSTANCE) {
