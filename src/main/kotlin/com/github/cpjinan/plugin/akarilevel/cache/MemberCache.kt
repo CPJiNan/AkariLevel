@@ -64,22 +64,4 @@ object MemberCache {
             }
         }
         .build()
-
-    fun warmUpMemberCache(members: List<String>) {
-        if (members.isNotEmpty()) {
-            val warmUpData = members.mapNotNull {
-                try {
-                    with(Database.INSTANCE) {
-                        get(memberTable, it)?.let { json ->
-                            it to gson.fromJson(json, MemberData::class.java)
-                        }
-                    }
-                } catch (_: Exception) {
-                    null
-                }
-            }.toMap()
-
-            memberCache.setAll(warmUpData)
-        }
-    }
 }
