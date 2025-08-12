@@ -2,7 +2,7 @@ package com.github.cpjinan.plugin.akarilevel
 
 import com.github.cpjinan.plugin.akarilevel.config.SettingsConfig
 import com.github.cpjinan.plugin.akarilevel.level.ConfigLevelGroup
-import com.github.cpjinan.plugin.akarilevel.listener.PersistenceListener
+import com.github.cpjinan.plugin.akarilevel.manager.PersistenceManager
 import taboolib.common.platform.Platform
 import taboolib.common.platform.Plugin
 import taboolib.common.platform.function.console
@@ -50,7 +50,7 @@ object AkariLevel : Plugin() {
         ConfigLevelGroup.reloadConfigLevelGroups()
 
         // 初始化持久化管理器。
-        PersistenceListener.initialize()
+        PersistenceManager.initialize()
 
         console().sendLang("Plugin-Enabled")
     }
@@ -60,7 +60,7 @@ object AkariLevel : Plugin() {
      */
     override fun onDisable() {
         // 关闭并保存所有数据。
-        PersistenceListener.shutdown()
+        PersistenceManager.shutdown()
 
         console().sendLang("Plugin-Disable")
     }

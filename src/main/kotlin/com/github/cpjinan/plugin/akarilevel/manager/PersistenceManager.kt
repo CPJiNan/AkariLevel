@@ -6,7 +6,6 @@ import com.github.cpjinan.plugin.akarilevel.database.Database
 import taboolib.common.platform.function.submit
 import java.time.Duration
 import java.util.concurrent.ConcurrentHashMap
-import java.util.concurrent.atomic.AtomicLong
 
 /**
  * AkariLevel
@@ -19,25 +18,12 @@ import java.util.concurrent.atomic.AtomicLong
  */
 object PersistenceManager {
     private val dirtyMembers = ConcurrentHashMap<String, Long>()
-    private val persistedCount = AtomicLong(0)
-    private val errorCount = AtomicLong(0)
 
-    private val checkpointInterval = Duration.ofMinutes(5).toMillis()
+    fun initialize() {
+        submit(async = true, period = 20 * 60 * 5) {  // 20 ticks * 60 * 5 = 5 min
+            if (dirtyMembers.isEmpty()) return@submit
 
-    fun markDirty(member: String) {
-        val currentTime = System.currentTimeMillis()
-        dirtyMembers[member] = currentTime
-    }
-
-    fun isDirty(member: String): Boolean {
-        return dirtyMembers.containsKey(member)
-    }
-
-    fun createCheckpoint() {
-        if (dirtyMembers.isEmpty()) return
-
-        submit(async = true) {
-            val cutoffTime = System.currentTimeMillis() - checkpointInterval
+            val cutoffTime = System.currentTimeMillis() - Duration.ofMinutes(5).toMillis()
             val membersToSave = mutableListOf<String>()
 
             dirtyMembers.entries.removeIf { (member, lastModified) ->
@@ -54,7 +40,6 @@ object PersistenceManager {
                         persistMemberData(it)
                         savedCount++
                     } catch (_: Exception) {
-                        errorCount.incrementAndGet()
                         markDirty(it)
                     }
                 }
@@ -62,15 +47,28 @@ object PersistenceManager {
         }
     }
 
-    fun forcePersist(member: String): Boolean {
-        return try {
-            persistMemberData(member)
-            dirtyMembers.remove(member)
-            true
-        } catch (_: Exception) {
-            errorCount.incrementAndGet()
-            false
+    fun shutdown() {
+        if (dirtyMembers.isEmpty()) return
+
+        dirtyMembers.keys.forEach {
+            persistMemberData(it)
         }
+
+        dirtyMembers.clear()
+    }
+
+    fun markDirty(member: String) {
+        val currentTime = System.currentTimeMillis()
+        dirtyMembers[member] = currentTime
+    }
+
+    fun isDirty(member: String): Boolean {
+        return dirtyMembers.containsKey(member)
+    }
+
+    fun forcePersist(member: String) {
+        persistMemberData(member)
+        dirtyMembers.remove(member)
     }
 
     fun forcePersistAll() {
@@ -83,44 +81,22 @@ object PersistenceManager {
         }
     }
 
+    fun invalidateSafely(member: String) {
+        forcePersist(member)
+        memberCache.invalidate(member)
+    }
+
     fun invalidateAllSafely() {
         forcePersistAll()
         memberCache.invalidateAll()
-    }
-
-    fun onServerShutdown() {
-        if (dirtyMembers.isEmpty()) return
-
-        dirtyMembers.keys.forEach {
-            persistMemberData(it)
-        }
-
-        dirtyMembers.clear()
-    }
-
-    fun onPlayerQuit(member: String) {
-        if (isDirty(member)) {
-            submit(async = true) {
-                try {
-                    persistMemberData(member)
-                    dirtyMembers.remove(member)
-                } catch (_: Exception) {
-                    errorCount.incrementAndGet()
-                }
-            }
-        }
     }
 
     private fun persistMemberData(member: String) {
         val memberData = memberCache[member]
         if (memberData == null) throw NullPointerException()
 
-        val json = gson.toJson(memberData)
-        Database.Companion.INSTANCE.set(
-            Database.Companion.INSTANCE.memberTable,
-            member,
-            json
-        )
-        persistedCount.incrementAndGet()
+        with(Database.INSTANCE) {
+            set(memberTable, member, gson.toJson(memberData))
+        }
     }
 }
