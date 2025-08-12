@@ -1,6 +1,5 @@
 package com.github.cpjinan.plugin.akarilevel
 
-import com.github.cpjinan.plugin.akarilevel.cache.safeInvalidateAllMemberCache
 import com.github.cpjinan.plugin.akarilevel.config.SettingsConfig
 import com.github.cpjinan.plugin.akarilevel.level.ConfigLevelGroup
 import com.github.cpjinan.plugin.akarilevel.listener.PersistenceEventListener
@@ -54,17 +53,6 @@ object AkariLevel : Plugin() {
         PersistenceEventListener.initialize()
 
         console().sendLang("Plugin-Enabled")
-
-        // DEBUG
-        ConfigLevelGroup.getConfigLevelGroups().values.forEach {
-            println(it.getMemberLevel("Test"))
-            it.addMember("Test", "")
-            println(it.getMemberLevel("Test"))
-            it.setMemberLevel("Test", it.getMemberLevel("Test") + 10, "")
-            println(it.getMemberLevel("Test"))
-            safeInvalidateAllMemberCache()  // 使用安全的缓存清空
-            println(it.getMemberLevel("Test"))
-        }
     }
 
     /**
