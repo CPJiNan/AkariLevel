@@ -17,10 +17,15 @@ import java.util.concurrent.ConcurrentHashMap
  * @since 2025/8/12 16:50
  */
 object CacheManager {
-    private val dirtyMembers = ConcurrentHashMap<String, Long>()
+    private val dirtyMembers = ConcurrentHashMap<String, Long>() // 成员 -> 最后修改时间
 
+    /**
+     * 初始化缓存管理器。
+     *
+     * @throws NullPointerException 如果成员数据为 null。
+     */
     fun initialize() {
-        submit(async = true, period = 20 * 60 * 5) {  // 20 ticks * 60 * 5 = 5 min
+        submit(async = true, period = 20 * 60 * 5) { // 20 ticks * 60 * 5 = 5 min
             if (dirtyMembers.isEmpty()) return@submit
 
             val cutoffTime = System.currentTimeMillis() - Duration.ofMinutes(5).toMillis()
@@ -47,6 +52,11 @@ object CacheManager {
         }
     }
 
+    /**
+     * 关闭缓存管理器并保存所有数据。
+     *
+     * @throws NullPointerException 如果成员数据为 null。
+     */
     fun shutdown() {
         if (dirtyMembers.isEmpty()) return
 
@@ -59,15 +69,32 @@ object CacheManager {
         dirtyMembers.clear()
     }
 
+    /**
+     * 标记成员数据为脏数据。
+     *
+     * @param member 要标记的成员。
+     */
     fun markDirty(member: String) {
         val currentTime = System.currentTimeMillis()
         dirtyMembers[member] = currentTime
     }
 
+    /**
+     * 检查成员数据是否为脏数据。
+     *
+     * @param member 要检查的成员。
+     * @return 如果成员数据为脏数据，则返回 true。
+     */
     fun isDirty(member: String): Boolean {
         return dirtyMembers.containsKey(member)
     }
 
+    /**
+     * 强制持久化成员数据。
+     *
+     * @param member 要持久化数据的成员。
+     * @throws NullPointerException 如果成员数据为 null。
+     */
     fun forcePersist(member: String) {
         with(Database.INSTANCE) {
             set(memberTable, member, gson.toJson(memberCache[member] ?: throw NullPointerException()))
@@ -75,6 +102,9 @@ object CacheManager {
         dirtyMembers.remove(member)
     }
 
+    /**
+     * 强制持久化所有成员数据。
+     */
     fun forcePersistAll() {
         if (dirtyMembers.isEmpty()) return
 
@@ -85,11 +115,19 @@ object CacheManager {
         }
     }
 
+    /**
+     * 持久化成员数据并使缓存失效。
+     *
+     * @param member 要持久化数据的成员。
+     */
     fun invalidateSafely(member: String) {
         forcePersist(member)
         memberCache.invalidate(member)
     }
 
+    /**
+     * 持久化所有成员数据并使缓存失效。
+     */
     fun invalidateAllSafely() {
         forcePersistAll()
         memberCache.invalidateAll()
