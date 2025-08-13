@@ -4,7 +4,7 @@ import com.github.cpjinan.plugin.akarilevel.cache.MemberCache.memberCache
 import com.github.cpjinan.plugin.akarilevel.entity.MemberData
 import com.github.cpjinan.plugin.akarilevel.entity.MemberLevelData
 import com.github.cpjinan.plugin.akarilevel.event.*
-import com.github.cpjinan.plugin.akarilevel.manager.PersistenceManager
+import com.github.cpjinan.plugin.akarilevel.manager.CacheManager
 import java.util.concurrent.ConcurrentHashMap
 
 /**
@@ -108,7 +108,7 @@ interface LevelGroup {
                 }
             }
 
-        PersistenceManager.markDirty(event.member)
+        CacheManager.markDirty(event.member)
         onMemberChange(event.member, event.type, event.source)
     }
 
@@ -160,7 +160,7 @@ interface LevelGroup {
                 }
             }
 
-        PersistenceManager.markDirty(event.member)
+        CacheManager.markDirty(event.member)
         onMemberLevelChange(event.member, event.oldLevel, event.newLevel, event.source)
     }
 
@@ -177,7 +177,7 @@ interface LevelGroup {
                 }
             }
 
-        PersistenceManager.markDirty(event.member)
+        CacheManager.markDirty(event.member)
         onMemberExpChange(event.member, event.expAmount, event.source)
     }
 

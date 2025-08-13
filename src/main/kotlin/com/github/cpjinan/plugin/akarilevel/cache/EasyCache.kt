@@ -1,23 +1,25 @@
 package com.github.cpjinan.plugin.akarilevel.cache
 
-import com.github.benmanes.caffeine.cache.Cache
 import com.github.benmanes.caffeine.cache.Caffeine
 import com.github.benmanes.caffeine.cache.LoadingCache
 import com.github.benmanes.caffeine.cache.RemovalCause
 import java.time.Duration
+import com.github.benmanes.caffeine.cache.Cache as CaffeineCache
 
 /**
  * AkariLevel
  * com.github.cpjinan.plugin.akarilevel.cache
  *
+ * [Cache] 接口的实现。
+ *
  * @author QwQ-dev
  * @since 2025/8/12 17:45
  */
 class EasyCache<K : Any, V : Any> private constructor(
-    private val caffeineCache: Cache<K, V>,
+    private val caffeineCache: CaffeineCache<K, V>,
     private val loadingCache: LoadingCache<K, V>?,
     private val circuitBreaker: CircuitBreaker?,
-) : com.github.cpjinan.plugin.akarilevel.cache.Cache<K, V> {
+) : Cache<K, V> {
     override fun get(key: K): V? {
         if (circuitBreaker?.canExecute() == false) return null
 
@@ -161,7 +163,7 @@ class EasyCache<K : Any, V : Any> private constructor(
                 }
             }
 
-            val cache: Cache<K, V>
+            val cache: CaffeineCache<K, V>
             val loadingCache: LoadingCache<K, V>?
 
             if (loader != null) {

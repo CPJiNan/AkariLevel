@@ -6,6 +6,8 @@ import javax.sql.DataSource
  * AkariLevel
  * com.github.cpjinan.plugin.akarilevel.cache
  *
+ * 分布式锁接口。
+ *
  * @author QwQ-dev
  * @since 2025/8/12 17:50
  */
@@ -16,6 +18,9 @@ interface DistributedLock {
     fun extendLock(lockKey: String, extensionSeconds: Int): Boolean
 }
 
+/**
+ * 分布式锁配置。
+ */
 data class LockConfig(
     val maxRetries: Int = 3,
     val retryDelayMs: Long = 50,
@@ -23,6 +28,9 @@ data class LockConfig(
     val maxTimeoutSeconds: Int = 300
 )
 
+/**
+ * [DistributedLock] 接口的 MySQL 实现。
+ */
 class MySQLDistributedLock(
     private val dataSource: DataSource,
     private val config: LockConfig = LockConfig()

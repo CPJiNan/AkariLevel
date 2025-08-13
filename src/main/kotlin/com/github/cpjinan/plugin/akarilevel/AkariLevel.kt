@@ -2,7 +2,7 @@ package com.github.cpjinan.plugin.akarilevel
 
 import com.github.cpjinan.plugin.akarilevel.config.SettingsConfig
 import com.github.cpjinan.plugin.akarilevel.level.ConfigLevelGroup
-import com.github.cpjinan.plugin.akarilevel.manager.PersistenceManager
+import com.github.cpjinan.plugin.akarilevel.manager.CacheManager
 import taboolib.common.platform.Platform
 import taboolib.common.platform.Plugin
 import taboolib.common.platform.function.console
@@ -49,8 +49,8 @@ object AkariLevel : Plugin() {
         // 从配置文件加载等级组。
         ConfigLevelGroup.reloadConfigLevelGroups()
 
-        // 初始化持久化管理器。
-        PersistenceManager.initialize()
+        // 初始化缓存管理器。
+        CacheManager.initialize()
 
         console().sendLang("Plugin-Enabled")
     }
@@ -59,8 +59,8 @@ object AkariLevel : Plugin() {
      * 插件卸载事件。
      */
     override fun onDisable() {
-        // 关闭并保存所有数据。
-        PersistenceManager.shutdown()
+        // 关闭缓存管理器并保存所有数据。
+        CacheManager.shutdown()
 
         console().sendLang("Plugin-Disable")
     }

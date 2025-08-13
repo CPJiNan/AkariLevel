@@ -7,6 +7,8 @@ import java.util.concurrent.atomic.AtomicLong
  * AkariLevel
  * com.github.cpjinan.plugin.akarilevel.cache
  *
+ * 熔断器接口。
+ *
  * @author QwQ-dev
  * @since 2025/8/12 17:35
  */
@@ -17,12 +19,18 @@ interface CircuitBreaker {
     fun getState(): CircuitBreakerState
 }
 
+/**
+ * 熔断器状态。
+ */
 enum class CircuitBreakerState {
     CLOSED,    // 正常状态
     OPEN,      // 熔断状态
     HALF_OPEN  // 半开状态
 }
 
+/**
+ * 熔断器配置。
+ */
 data class CircuitBreakerConfig(
     val failureThreshold: Int = 15,        // 失败率阈值(%)
     val timeoutMs: Long = 60_000,          // 熔断超时时间
@@ -30,6 +38,9 @@ data class CircuitBreakerConfig(
     val halfOpenMaxTests: Int = 5          // 半开状态最大测试数
 )
 
+/**
+ * [CircuitBreaker] 接口的实现。
+ */
 class FastCircuitBreaker(private val config: CircuitBreakerConfig) : CircuitBreaker {
     @Volatile
     private var state = CircuitBreakerState.CLOSED

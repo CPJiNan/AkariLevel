@@ -11,12 +11,12 @@ import java.util.concurrent.ConcurrentHashMap
  * AkariLevel
  * com.github.cpjinan.plugin.akarilevel.manager
  *
- * 持久化管理器。
+ * 缓存管理器。
  *
  * @author QwQ-dev
  * @since 2025/8/12 16:50
  */
-object PersistenceManager {
+object CacheManager {
     private val dirtyMembers = ConcurrentHashMap<String, Long>()
 
     fun initialize() {

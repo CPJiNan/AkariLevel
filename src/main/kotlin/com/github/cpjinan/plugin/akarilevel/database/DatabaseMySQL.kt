@@ -143,12 +143,12 @@ class DatabaseMySQL() : Database {
         }
     }
 
-    private fun <T> withLock(key: String, block: () -> T): T? {
-        return if (distributedLock.tryLock(key, 5)) {
+    private fun <T> withLock(lockKey: String, block: () -> T): T? {
+        return if (distributedLock.tryLock(lockKey, 5)) {
             try {
                 block()
             } finally {
-                distributedLock.unlock(key)
+                distributedLock.unlock(lockKey)
             }
         } else null
     }
