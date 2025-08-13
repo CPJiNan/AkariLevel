@@ -34,11 +34,11 @@ object PersistenceManager {
             }
 
             if (membersToSave.isNotEmpty()) {
-                var savedCount = 0
                 membersToSave.forEach {
                     try {
-                        persistMemberData(it)
-                        savedCount++
+                        with(Database.INSTANCE) {
+                            set(memberTable, it, gson.toJson(memberCache[it] ?: throw NullPointerException()))
+                        }
                     } catch (_: Exception) {
                         markDirty(it)
                     }
@@ -51,7 +51,9 @@ object PersistenceManager {
         if (dirtyMembers.isEmpty()) return
 
         dirtyMembers.keys.forEach {
-            persistMemberData(it)
+            with(Database.INSTANCE) {
+                set(memberTable, it, gson.toJson(memberCache[it] ?: throw NullPointerException()))
+            }
         }
 
         dirtyMembers.clear()
@@ -67,7 +69,9 @@ object PersistenceManager {
     }
 
     fun forcePersist(member: String) {
-        persistMemberData(member)
+        with(Database.INSTANCE) {
+            set(memberTable, member, gson.toJson(memberCache[member] ?: throw NullPointerException()))
+        }
         dirtyMembers.remove(member)
     }
 
@@ -89,14 +93,5 @@ object PersistenceManager {
     fun invalidateAllSafely() {
         forcePersistAll()
         memberCache.invalidateAll()
-    }
-
-    private fun persistMemberData(member: String) {
-        val memberData = memberCache[member]
-        if (memberData == null) throw NullPointerException()
-
-        with(Database.INSTANCE) {
-            set(memberTable, member, gson.toJson(memberData))
-        }
     }
 }
