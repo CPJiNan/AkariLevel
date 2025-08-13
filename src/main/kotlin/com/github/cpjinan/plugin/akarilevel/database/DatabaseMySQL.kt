@@ -63,26 +63,18 @@ class DatabaseMySQL() : Database {
         try {
             enableDistributedLock = distributedLock.tryLock("test", 1)
             if (enableDistributedLock) distributedLock.unlock("test")
-            warmUpMemberCache()
+
+            memberCache.setAll(
+                memberTable.select(dataSource) {
+                    rows("key", "value")
+                    limit(1000)
+                }.map {
+                    getString("key") to getString("value").orEmpty()
+                }.toMap(ConcurrentHashMap())
+            )
         } catch (_: Exception) {
             enableDistributedLock = false
         }
-    }
-
-    override fun getKeys(table: Table<*, *>): Set<String> {
-        return table.select(dataSource) {
-            rows("key")
-        }.map {
-            getString("key")
-        }.toSet()
-    }
-
-    override fun getValues(table: Table<*, *>): Map<String, String?> {
-        return table.select(dataSource) {
-            rows("key", "value")
-        }.map {
-            getString("key") to getString("value")
-        }.toMap(ConcurrentHashMap())
     }
 
     override fun contains(table: Table<*, *>, path: String): Boolean {
@@ -96,7 +88,7 @@ class DatabaseMySQL() : Database {
     override fun get(table: Table<*, *>, path: String): String? {
         return when (table) {
             memberTable -> {
-                if (enableDistributedLock) withMemberDataLock(path) { memberCache[path] }
+                if (enableDistributedLock) withLock("member:$path") { memberCache[path] }
                 else memberCache[path]
             }
 
@@ -107,8 +99,15 @@ class DatabaseMySQL() : Database {
     override fun set(table: Table<*, *>, path: String, value: String?) {
         when (table) {
             memberTable -> {
-                if (enableDistributedLock) withMemberDataLock(path) { setMemberData(path, value) }
-                else setMemberData(path, value)
+                if (enableDistributedLock) withLock("member:$path") {
+                    setToDatabase(memberTable, path, value)
+                    if (value != null) memberCache[path] = value
+                    else memberCache.invalidate(path)
+                } else {
+                    setToDatabase(memberTable, path, value)
+                    if (value != null) memberCache[path] = value
+                    else memberCache.invalidate(path)
+                }
             }
 
             else -> setToDatabase(table, path, value)
@@ -144,35 +143,13 @@ class DatabaseMySQL() : Database {
         }
     }
 
-    private fun setMemberData(path: String, value: String?) {
-        if (value != null) {
-            setToDatabase(memberTable, path, value)
-            memberCache[path] = value
-        } else {
-            setToDatabase(memberTable, path, null)
-            memberCache.invalidate(path)
-        }
-    }
-
-    private fun <T> withMemberDataLock(member: String, block: () -> T): T? {
-        val lockKey = "member:$member"
-        return if (distributedLock.tryLock(lockKey, 5)) {
+    private fun <T> withLock(key: String, block: () -> T): T? {
+        return if (distributedLock.tryLock(key, 5)) {
             try {
                 block()
             } finally {
-                distributedLock.unlock(lockKey)
+                distributedLock.unlock(key)
             }
         } else null
-    }
-
-    private fun warmUpMemberCache() {
-        val warmUpData = memberTable.select(dataSource) {
-            rows("key", "value")
-            limit(1000)
-        }.map {
-            getString("key") to (getString("value") ?: "")
-        }.toMap()
-
-        memberCache.setAll(warmUpData)
     }
 }

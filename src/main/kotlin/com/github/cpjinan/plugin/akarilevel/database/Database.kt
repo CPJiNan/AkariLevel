@@ -33,22 +33,6 @@ interface Database {
     val memberTable: Table<*, *>
 
     /**
-     * 获取此数据库中所有键的集合。
-     *
-     * @param table 要操作的数据表。
-     * @return 包含在此数据库中的键集合。
-     */
-    fun getKeys(table: Table<*, *>): Set<String>
-
-    /**
-     * 获取当前数据库中的所有值。
-     *
-     * @param table 要操作的数据表。
-     * @return 包含当前数据库中所有键值对的 Map。
-     */
-    fun getValues(table: Table<*, *>): Map<String, String?>
-
-    /**
      * 检查此数据库中是否包含给定路径。
      *
      * 如果请求路径的值不存在但已指定默认值，则此方法将返回 true。

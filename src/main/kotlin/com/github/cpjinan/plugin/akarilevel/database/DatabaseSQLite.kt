@@ -4,7 +4,6 @@ import com.github.cpjinan.plugin.akarilevel.config.DatabaseConfig
 import taboolib.module.database.ColumnOptionSQLite
 import taboolib.module.database.ColumnTypeSQLite
 import taboolib.module.database.Table
-import java.util.concurrent.ConcurrentHashMap
 
 /**
  * AkariLevel
@@ -33,22 +32,6 @@ class DatabaseSQLite() : Database {
 
     init {
         memberTable.createTable(dataSource)
-    }
-
-    override fun getKeys(table: Table<*, *>): Set<String> {
-        return table.select(dataSource) {
-            rows("key")
-        }.map {
-            getString("key")
-        }.toSet()
-    }
-
-    override fun getValues(table: Table<*, *>): Map<String, String?> {
-        return table.select(dataSource) {
-            rows("key", "value")
-        }.map {
-            getString("key") to getString("value")
-        }.toMap(ConcurrentHashMap())
     }
 
     override fun contains(table: Table<*, *>, path: String): Boolean {
