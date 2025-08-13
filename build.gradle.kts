@@ -7,7 +7,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     `java-library`
     `maven-publish`
-    id("io.izzel.taboolib") version "2.0.25"
+    id("io.izzel.taboolib") version "2.0.27"
     kotlin("jvm") version "2.1.20"
 }
 
@@ -34,7 +34,7 @@ taboolib {
             name("DungeonPlus").optional(true)
         }
     }
-    version { taboolib = "6.2.3-ac49c9a" }
+    version { taboolib = "6.2.3-6bdc1c7" }
 }
 
 repositories {
@@ -51,7 +51,6 @@ dependencies {
     compileOnly("io.lumine:Mythic-Dist:5.3.5@jar")
     compileOnly(fileTree("libs"))
     compileOnly("org.openjdk.nashorn:nashorn-core:15.6")
-    compileOnly("com.google.code.gson:gson:2.12.1")
 }
 
 java {

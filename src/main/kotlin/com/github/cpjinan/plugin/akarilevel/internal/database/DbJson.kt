@@ -5,14 +5,8 @@ import com.github.cpjinan.plugin.akarilevel.common.PluginConfig
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import org.bukkit.Bukkit
-import taboolib.common.env.RuntimeDependency
 import java.io.File
 
-@RuntimeDependency(
-    value = "com.google.code.gson:gson:2.12.1",
-    test = "com.google.gson.Gson",
-    relocate = ["!com.google.gson", "!com.github.cpjinan.plugin.akarilevel.gson"]
-)
 class DbJson : Database {
     private val file: File
     private val database: HashMap<String, HashMap<String, HashMap<String, String>>>
