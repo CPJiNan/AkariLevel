@@ -1,3 +1,5 @@
+@file:Suppress("SqlNoDataSourceInspection")
+
 package com.github.cpjinan.plugin.akarilevel.cache
 
 import javax.sql.DataSource
@@ -41,7 +43,6 @@ class MySQLDistributedLock(
         repeat(config.maxRetries) { attempt ->
             try {
                 dataSource.connection.use { connection ->
-                    @Suppress("SqlNoDataSourceInspection")
                     connection.prepareStatement("SELECT GET_LOCK(?, ?)").use { stmt ->
                         stmt.setString(1, lockKey)
                         stmt.setInt(2, actualTimeout)
@@ -62,7 +63,6 @@ class MySQLDistributedLock(
     override fun unlock(lockKey: String): Boolean {
         return try {
             dataSource.connection.use { connection ->
-                @Suppress("SqlNoDataSourceInspection")
                 connection.prepareStatement("SELECT RELEASE_LOCK(?)").use { stmt ->
                     stmt.setString(1, lockKey)
 
@@ -80,7 +80,6 @@ class MySQLDistributedLock(
     override fun isLocked(lockKey: String): Boolean {
         return try {
             dataSource.connection.use { connection ->
-                @Suppress("SqlNoDataSourceInspection")
                 connection.prepareStatement("SELECT IS_USED_LOCK(?)").use { stmt ->
                     stmt.setString(1, lockKey)
 
