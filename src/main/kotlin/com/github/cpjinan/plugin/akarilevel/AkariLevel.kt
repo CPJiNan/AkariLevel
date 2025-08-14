@@ -25,7 +25,7 @@ object AkariLevel : Plugin() {
      * 插件加载事件。
      */
     override fun onLoad() {
-        console().sendLang("Plugin-Loading", bukkitPlugin.description.version)
+        console().sendLang("PluginLoading", bukkitPlugin.description.version)
         // bStats 统计。
         if (SettingsConfig.sendMetrics) Metrics(
             18992,
@@ -52,7 +52,7 @@ object AkariLevel : Plugin() {
         // 初始化缓存管理器。
         CacheManager.initialize()
 
-        console().sendLang("Plugin-Enabled")
+        console().sendLang("PluginEnabled")
     }
 
     /**
@@ -62,6 +62,6 @@ object AkariLevel : Plugin() {
         // 关闭缓存管理器并保存所有数据。
         CacheManager.shutdown()
 
-        console().sendLang("Plugin-Disable")
+        console().sendLang("PluginDisable")
     }
 }

@@ -1,5 +1,24 @@
-# 插件相关
-Plugin-Loading: '&7正在加载 &3Akari&bLevel&8&f... &8{0}'
-Plugin-Enabled: '&8[&3Akari&bLevel&8] &b信息 &8| &6插件加载完毕.'
-Plugin-Disable: '&8[&3Akari&bLevel&8] &b信息 &8| &6插件卸载完毕.'
-Plugin-Reloaded: '&8[&3Akari&bLevel&8] &b信息 &8| &6插件重载完毕.'
+PluginLoading: "&7正在加载 &3Akari&bLevel&8&f... &8{0}"
+PluginEnabled: "&8[&3Akari&bLevel&8] &b信息 &8| &6插件加载完毕。"
+PluginDisable: "&8[&3Akari&bLevel&8] &b信息 &8| &6插件卸载完毕。"
+PluginReloaded: "&8[&3Akari&bLevel&8] &b信息 &8| &6插件重载完毕。"
+LevelGroupListHeader:
+  - " "
+  - "&8[&3Akari&bLevel&8] &7已注册 &f{0} &7个等级组。"
+  - " "
+LevelGroupListFormat:
+  - type: JSON
+    text: " &8- &f[{0}] &7- &r[{1}]"
+    args:
+      - hover: "等级组编辑名: &n{0}"
+      - hover: "等级组展示名: &n{1}"
+LevelGroupListFooter:
+  - " "
+  - type: JSON
+    text: "&8<<< &7[上一页] &8| &7第 &f{0}&8/&f{1} &7页 &8| &7[下一页] &8>>>"
+    args:
+      - hover: "点击前往第 {2} 页"
+        command: "/akarilevel levelGroup list {2}"
+      - hover: "点击前往第 {3} 页"
+        command: "/akarilevel levelGroup list {3}"
+  - " "

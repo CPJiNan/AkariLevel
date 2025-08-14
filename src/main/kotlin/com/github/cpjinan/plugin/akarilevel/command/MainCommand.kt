@@ -1,5 +1,6 @@
 package com.github.cpjinan.plugin.akarilevel.command
 
+import com.github.cpjinan.plugin.akarilevel.command.subcommand.LevelGroupCommand
 import com.github.cpjinan.plugin.akarilevel.config.SettingsConfig
 import com.github.cpjinan.plugin.akarilevel.event.PluginReloadEvent
 import com.github.cpjinan.plugin.akarilevel.level.ConfigLevelGroup
@@ -30,6 +31,12 @@ object MainCommand {
     }
 
     @CommandBody(
+        permission = "AkariLevel.command.levelGroup.use",
+        permissionDefault = PermissionDefault.OP
+    )
+    val levelGroup = LevelGroupCommand.levelGroup
+
+    @CommandBody(
         permission = "AkariLevel.command.reload.use",
         permissionDefault = PermissionDefault.OP
     )
@@ -47,7 +54,7 @@ object MainCommand {
             Language.reload()
 
             PluginReloadEvent.Post().call()
-            sender.sendLang("Plugin-Reloaded")
+            sender.sendLang("PluginReloaded")
         }
     }
 }
