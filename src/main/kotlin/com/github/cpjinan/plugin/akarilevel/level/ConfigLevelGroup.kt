@@ -2,6 +2,12 @@
 
 package com.github.cpjinan.plugin.akarilevel.level
 
+import com.github.cpjinan.plugin.akarilevel.cache.MemberCache.memberCache
+import com.github.cpjinan.plugin.akarilevel.entity.MemberData
+import com.github.cpjinan.plugin.akarilevel.entity.MemberLevelData
+import com.github.cpjinan.plugin.akarilevel.event.MemberChangeEvent
+import com.github.cpjinan.plugin.akarilevel.level.LevelGroup.MemberChangeType
+import com.github.cpjinan.plugin.akarilevel.manager.CacheManager
 import org.bukkit.Bukkit.getOfflinePlayer
 import taboolib.common5.util.replace
 import taboolib.library.configuration.ConfigurationSection
@@ -25,25 +31,40 @@ class ConfigLevelGroup(val config: ConfigurationSection) : LevelGroup {
     companion object {
         private var configLevelGroups: MutableMap<String, ConfigLevelGroup> = ConcurrentHashMap()
 
-        /** 获取配置等级组列表 **/
+        /**
+         * 获取配置等级组列表。
+         *
+         * @return 包含请求的所有键值对的 Map。
+         */
         @JvmStatic
         fun getConfigLevelGroups(): Map<String, ConfigLevelGroup> {
             return configLevelGroups
         }
 
-        /** 新增配置等级组 **/
+        /**
+         * 新增配置等级组。
+         *
+         * @param name 等级组编辑名。
+         * @param configLevelGroup 配置等级组实例。
+         */
         @JvmStatic
         fun addConfigLevelGroup(name: String, configLevelGroup: ConfigLevelGroup) {
             configLevelGroups[name] = configLevelGroup
         }
 
-        /** 移除配置等级组 **/
+        /**
+         * 移除配置等级组。
+         *
+         * @param name 等级组编辑名。
+         */
         @JvmStatic
         fun removeConfigLevelGroup(name: String) {
             configLevelGroups.remove(name)
         }
 
-        /** 重载配置等级组 **/
+        /**
+         * 重载配置等级组。
+         */
         @JvmStatic
         fun reloadConfigLevelGroups() {
             configLevelGroups.forEach { _, levelGroup ->
@@ -91,7 +112,60 @@ class ConfigLevelGroup(val config: ConfigurationSection) : LevelGroup {
         ).toLong()
     }
 
-    /** 获取等级配置 **/
+    override fun addMember(member: String, source: String) {
+        if (hasMember(member)) return
+        val event = MemberChangeEvent(member, name, MemberChangeType.JOIN, source)
+        event.call()
+        if (event.isCancelled) return
+        memberCache.asMap()
+            .compute(event.member) { _, memberData ->
+                (memberData ?: MemberData()).apply {
+                    levelGroups.putIfAbsent(event.levelGroup, MemberLevelData(level = getMinLevel()))
+                }
+            }
+
+        CacheManager.markDirty(event.member)
+        onMemberChange(event.member, event.type, event.source)
+    }
+
+    override fun getMemberLevel(member: String): Long {
+        return try {
+            val memberData = memberCache.getWithBuiltInLoader(member)
+            memberData?.levelGroups[name]?.level ?: getMinLevel()
+        } catch (_: Exception) {
+            getMinLevel()
+        }
+    }
+
+    override fun setMemberLevel(member: String, amount: Long, source: String) {
+        super.setMemberLevel(member, amount.coerceIn(getMinLevel(), getMaxLevel()), source)
+    }
+
+    /**
+     * 获取最低等级。
+     *
+     * @return 等级组的最低等级。
+     */
+    fun getMinLevel(): Long {
+        return config.getLong("Level.Min")
+    }
+
+    /**
+     * 获取最高等级。
+     *
+     * @return 等级组的最高等级。
+     */
+    fun getMaxLevel(): Long {
+        return config.getLong("Level.Max")
+    }
+
+    /**
+     * 获取等级配置。
+     *
+     * @param level 等级。
+     * @return 要获取的等级配置。
+     * @throws IllegalArgumentException 如果未找到指定等级配置。
+     */
     fun getLevelConfig(level: Long): ConfigurationSection {
         return getKeyLevelConfigs()
             .filter { level >= it.key }
@@ -99,7 +173,11 @@ class ConfigLevelGroup(val config: ConfigurationSection) : LevelGroup {
             ?.value ?: throw IllegalArgumentException()
     }
 
-    /** 获取关键等级配置列表 **/
+    /**
+     * 获取关键等级配置列表。
+     *
+     * @return 包含请求的所有键值对的 Map。
+     */
     fun getKeyLevelConfigs(): Map<Long, ConfigurationSection> {
         return config.getConfigurationSection("Level.Key")!!.getKeys(false)
             .associateBy(

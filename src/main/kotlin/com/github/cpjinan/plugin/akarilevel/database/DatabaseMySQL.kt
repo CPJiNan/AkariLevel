@@ -72,8 +72,9 @@ class DatabaseMySQL() : Database {
                     getString("key") to getString("value").orEmpty()
                 }.toMap(ConcurrentHashMap())
             )
-        } catch (_: Exception) {
+        } catch (e: Exception) {
             enableDistributedLock = false
+            throw e
         }
     }
 

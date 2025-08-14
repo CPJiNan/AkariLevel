@@ -21,7 +21,7 @@ interface DistributedLock {
 }
 
 /**
- * 分布式锁配置。
+ * 分布式锁配置数据。
  */
 data class LockConfig(
     val maxRetries: Int = 3,

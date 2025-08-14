@@ -19,27 +19,39 @@ object SettingsConfig {
     lateinit var settings: Configuration
         private set
 
-    /** 语言 **/
+    /**
+     * 语言。
+     */
     @ConfigNode("Options.Language")
     var language = "zh_CN"
 
-    /** 配置文件版本 **/
+    /**
+     * 配置文件版本。
+     */
     @ConfigNode("Options.Config-Version")
     var configVersion = -1
 
-    /** 检查版本更新 **/
+    /**
+     * 检查版本更新。
+     */
     @ConfigNode("Options.Check-Update")
     var checkUpdate = true
 
-    /** OP 版本更新通知 **/
+    /**
+     * OP 版本更新通知。
+     */
     @ConfigNode("Options.OP-Notify")
     var opNotify = true
 
-    /** bStats 统计 **/
+    /**
+     * bStats 统计。
+     */
     @ConfigNode("Options.Send-Metrics")
     var sendMetrics = true
 
-    /** 调试模式 **/
+    /**
+     * 调试模式。
+     */
     @ConfigNode("Options.Debug")
     var debug = false
 }
