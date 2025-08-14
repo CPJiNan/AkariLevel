@@ -1,0 +1,31 @@
+# 全局设置
+Options:
+  # 语言
+  Language: "zh_CN"
+  # 配置文件版本
+  Config-Version: 7
+  # 检查版本更新
+  Check-Update: true
+  # OP 版本更新通知
+  OP-Notify: true
+  # 启用 bStats 统计
+  Send-Metrics: true
+  # 启用调试模式
+  Debug: false
+
+# 数据库设置
+Database:
+  # 存储方式 (MYSQL, SQLITE)
+  Type: SQLITE
+  # 数据表名
+  Table: "AkariLevel"
+  # MySQL 存储设置
+  MYSQL:
+    host: localhost
+    port: 3306
+    user: root
+    password: password
+    database: minecraft
+  # SQLite 存储设置
+  SQLITE:
+    file: sqlite.db
