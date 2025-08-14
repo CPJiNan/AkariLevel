@@ -23,13 +23,19 @@ interface Database {
         }
     }
 
-    /** 数据库类型 **/
+    /**
+     * 数据库类型。
+     */
     val type: DatabaseType
 
-    /** 数据源 **/
+    /**
+     * 数据源。
+     */
     val dataSource: DataSource
 
-    /** 成员数据表 **/
+    /**
+     * 成员数据表。
+     */
     val memberTable: Table<*, *>
 
     /**

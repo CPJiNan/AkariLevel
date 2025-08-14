@@ -6,7 +6,7 @@ import com.github.cpjinan.plugin.akarilevel.config.DatabaseConfig
  * AkariLevel
  * com.github.cpjinan.plugin.akarilevel.database
  *
- * 数据库类型。
+ * 数据库类型枚举。
  *
  * @author 季楠
  * @since 2025/8/7 23:13

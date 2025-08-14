@@ -20,7 +20,7 @@ interface CircuitBreaker {
 }
 
 /**
- * 熔断器状态。
+ * 熔断器状态枚举。
  */
 enum class CircuitBreakerState {
     CLOSED,    // 正常状态
@@ -29,7 +29,7 @@ enum class CircuitBreakerState {
 }
 
 /**
- * 熔断器配置。
+ * 熔断器配置数据。
  */
 data class CircuitBreakerConfig(
     val failureThreshold: Int = 15,        // 失败率阈值(%)
