@@ -1,9 +1,11 @@
 package com.github.cpjinan.plugin.akarilevel.level
 
+import org.bukkit.Bukkit.getOfflinePlayer
 import taboolib.common5.util.replace
 import taboolib.library.configuration.ConfigurationSection
 import taboolib.module.chat.colored
 import taboolib.module.configuration.Type
+import taboolib.platform.compat.replacePlaceholder
 import top.maplex.arim.Arim
 import top.maplex.arim.tools.folderreader.releaseResourceFolderAndRead
 import java.util.concurrent.ConcurrentHashMap
@@ -66,6 +68,26 @@ class ConfigLevelGroup(val config: ConfigurationSection) : LevelGroup {
     override fun getLevelExp(level: Long): Long {
         return Arim.fixedCalculator.evaluate(
             getLevelConfig(level).getString("Exp").orEmpty().replace("{level}" to level)
+        ).toLong()
+    }
+
+    @Suppress("DEPRECATION")
+    override fun getLevelName(member: String, level: Long): String {
+        return getLevelName(level).let {
+            if (member.startsWith("player:")) it.replacePlaceholder(getOfflinePlayer(member.substringAfter("player:")))
+            else it
+        }
+    }
+
+    @Suppress("DEPRECATION")
+    override fun getLevelExp(member: String, level: Long): Long {
+        return Arim.fixedCalculator.evaluate(
+            getLevelConfig(level).getString("Exp").orEmpty()
+                .replace("{level}" to level)
+                .let {
+                    if (member.startsWith("player:")) it.replacePlaceholder(getOfflinePlayer(member.substringAfter("player:")))
+                    else it
+                }
         ).toLong()
     }
 
