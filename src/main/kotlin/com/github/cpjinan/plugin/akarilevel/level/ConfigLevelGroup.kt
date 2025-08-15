@@ -141,6 +141,45 @@ class ConfigLevelGroup(val config: ConfigurationSection) : LevelGroup {
         super.setMemberLevel(member, amount.coerceIn(getMinLevel(), getMaxLevel()), source)
     }
 
+    override fun addMemberExp(member: String, amount: Long, source: String) {
+        // 检查等级组是否订阅经验来源。
+        val subscribeSources = config.getConfigurationSection("Source.Subscribe")?.getKeys(false) ?: return
+        if (source !in subscribeSources) return
+
+        // 检查是否可以继续获得经验。
+        if (config.getBoolean("Level.Exp-Limit") && getMemberLevel(member) >= getMaxLevel()) return
+
+        super.addMemberExp(member, (amount * config.getDouble("Source.Subscribe.$source")).toLong(), source)
+    }
+
+    /**
+     * 升级成员。
+     *
+     * @param member 成员。
+     */
+    fun levelUpMember(member: String) {
+        val currentLevel = getMemberLevel(member)
+        val currentExp = getMemberExp(member)
+
+        if (currentLevel >= getMaxLevel()) return
+
+        var targetLevel = currentLevel
+
+        when (config.getString("Level.Exp-Type", "Absolute")) {
+            "Absolute" -> {
+                while (currentExp >= getLevelExp(member, targetLevel + 1)) targetLevel++
+            }
+
+            "Relative" -> {
+                while (currentExp >= getLevelExp(member, targetLevel + 1) - getLevelExp(member, targetLevel)) {
+                    targetLevel++
+                }
+            }
+        }
+
+        if (targetLevel > currentLevel) setMemberLevel(member, targetLevel, "LEVEL_UP")
+    }
+
     /**
      * 获取最低等级。
      *
@@ -192,5 +231,9 @@ class ConfigLevelGroup(val config: ConfigurationSection) : LevelGroup {
 
     override fun onUnregister() {
         removeConfigLevelGroup(name)
+    }
+
+    override fun onMemberExpChange(member: String, expAmount: Long, source: String) {
+        if (config.getBoolean("Level.Auto-LevelUp")) levelUpMember(member)
     }
 }
