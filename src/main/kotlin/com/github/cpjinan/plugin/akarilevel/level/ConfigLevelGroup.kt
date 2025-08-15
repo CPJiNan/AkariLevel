@@ -168,16 +168,23 @@ class ConfigLevelGroup(val config: ConfigurationSection) : LevelGroup {
         when (config.getString("Level.Exp-Type", "Absolute")) {
             "Absolute" -> {
                 while (currentExp >= getLevelExp(member, targetLevel + 1)) targetLevel++
+                if (targetLevel > currentLevel) setMemberLevel(member, targetLevel, "LEVEL_UP")
             }
 
             "Relative" -> {
-                while (currentExp >= getLevelExp(member, targetLevel + 1) - getLevelExp(member, targetLevel)) {
+                while (currentExp >= (currentLevel + 1..targetLevel + 1).sumOf { getLevelExp(member, it) }) {
                     targetLevel++
+                }
+                if (targetLevel > currentLevel) {
+                    setMemberLevel(member, targetLevel, "LEVEL_UP")
+                    removeMemberExp(
+                        member,
+                        (currentLevel + 1..targetLevel).sumOf { getLevelExp(member, it) },
+                        "LEVEL_UP"
+                    )
                 }
             }
         }
-
-        if (targetLevel > currentLevel) setMemberLevel(member, targetLevel, "LEVEL_UP")
     }
 
     /**
