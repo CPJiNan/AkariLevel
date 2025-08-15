@@ -1,8 +1,10 @@
 package com.github.cpjinan.plugin.akarilevel.command.subcommand
 
+import com.github.cpjinan.plugin.akarilevel.level.ConfigLevelGroup
 import com.github.cpjinan.plugin.akarilevel.level.LevelGroup
 import taboolib.common.platform.ProxyCommandSender
 import taboolib.common.platform.command.subCommand
+import taboolib.common.platform.command.suggestUncheck
 import taboolib.module.lang.sendLang
 
 /**
@@ -16,6 +18,21 @@ import taboolib.module.lang.sendLang
  */
 object LevelGroupCommand {
     val levelGroup = subCommand {
+        // 查看等级组信息命令。
+        literal("info").dynamic("levelGroup") {
+            suggestUncheck { LevelGroup.getLevelGroups().keys.sortedBy { it } }
+            execute<ProxyCommandSender> { sender, context, _ ->
+                val group = LevelGroup.getLevelGroups()[context["levelGroup"]]
+
+                if (group == null) {
+                    sender.sendLang("LevelGroupNotFound", context["levelGroup"])
+                    return@execute
+                }
+
+                sender.sendLang("LevelGroupInfo", group.name, group.display)
+            }
+        }
+
         // 查看等级组列表命令。
         literal("list") {
             execute<ProxyCommandSender> { sender, _, content ->
@@ -39,6 +56,49 @@ object LevelGroupCommand {
                         (currentPage + 1).coerceAtMost(totalPages)
                     )
                 }
+            }
+        }
+
+        // 取消注册等级组命令。
+        literal("unregister").dynamic("levelGroup") {
+            suggestUncheck { LevelGroup.getLevelGroups().keys.sortedBy { it } }
+            execute<ProxyCommandSender> { sender, context, _ ->
+                val group = LevelGroup.getLevelGroups()[context["levelGroup"]]
+
+                if (group == null) {
+                    sender.sendLang("LevelGroupNotFound", context["levelGroup"])
+                    return@execute
+                }
+
+                group.unregister()
+
+                sender.sendLang("LevelGroupUnregister", group.name)
+            }
+        }
+
+        // 重新注册等级组命令。
+        literal("reregister").dynamic("levelGroup") {
+            suggestUncheck { LevelGroup.getLevelGroups().keys.sortedBy { it } }
+            execute<ProxyCommandSender> { sender, context, _ ->
+                val group = LevelGroup.getLevelGroups()[context["levelGroup"]]
+
+                if (group == null) {
+                    sender.sendLang("LevelGroupNotFound", context["levelGroup"])
+                    return@execute
+                }
+
+                group.unregister()
+                group.register()
+
+                sender.sendLang("LevelGroupReregister", group.name)
+            }
+        }
+
+        // 重载配置等级组命令。
+        literal("reload") {
+            execute<ProxyCommandSender> { sender, _, _ ->
+                ConfigLevelGroup.reloadConfigLevelGroups()
+                sender.sendLang("LevelGroupReload", ConfigLevelGroup.getConfigLevelGroups().size)
             }
         }
     }
