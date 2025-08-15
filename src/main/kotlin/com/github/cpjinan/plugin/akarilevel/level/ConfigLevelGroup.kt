@@ -138,7 +138,16 @@ class ConfigLevelGroup(val config: ConfigurationSection) : LevelGroup {
     }
 
     override fun setMemberLevel(member: String, amount: Long, source: String) {
-        super.setMemberLevel(member, amount.coerceIn(getMinLevel(), getMaxLevel()), source)
+        when (config.getString("Level.Exp-Type", "Absolute")) {
+            "Absolute" -> {
+                super.setMemberLevel(member, amount.coerceIn(getMinLevel(), getMaxLevel()), source)
+                setMemberExp(member, getLevelExp(member, amount), source)
+            }
+
+            "Relative" -> {
+                super.setMemberLevel(member, amount.coerceIn(getMinLevel(), getMaxLevel()), source)
+            }
+        }
     }
 
     override fun addMemberExp(member: String, amount: Long, source: String) {
