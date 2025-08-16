@@ -11,27 +11,34 @@ LevelGroupInfo:
   - " &8- &7展示名&8: &f{1}"
   - " "
   - type: JSON
-    text: " [&8<&7取消注册&8>] [&8<&7重新注册&8>] [&8<&7检查成员&8>] [&8<&7新增成员&8>] [&8<&7移除成员&8>] "
+    text: " [&8<&7检查成员&8>] [&8<&7新增成员&8>] [&8<&7移除成员&8>] [&8<&7成员信息&8>] "
+    args:
+      - hover: "点击检查等级组中是否存在成员"
+        suggest: "/akarilevel member has 成员名称 {0}"
+      - hover: "点击为等级组新增成员"
+        suggest: "/akarilevel member add 成员名称 {0}"
+      - hover: "点击从等级组移除成员"
+        suggest: "/akarilevel member remove 成员名称 {0}"
+      - hover: "点击查看成员等级信息"
+        suggest: "/akarilevel member info 成员名称 {0}"
+  - type: JSON
+    text: " [&8<&7检查玩家&8>] [&8<&7新增玩家&8>] [&8<&7移除玩家&8>] [&8<&7玩家信息&8>] "
+    args:
+      - hover: "点击检查等级组中是否存在玩家"
+        suggest: "/akarilevel player has 玩家名称 {0}"
+      - hover: "点击为等级组新增玩家"
+        suggest: "/akarilevel player add 玩家名称 {0}"
+      - hover: "点击从等级组移除玩家"
+        suggest: "/akarilevel player remove 玩家名称 {0}"
+      - hover: "点击查看玩家等级信息"
+        suggest: "/akarilevel player info 玩家名称 {0}"
+  - type: JSON
+    text: " [&8<&7取消注册&8>] [&8<&7重新注册&8>] "
     args:
       - hover: "点击取消注册等级组 &n{0}"
         command: "/akarilevel levelGroup unregister {0}"
       - hover: "点击重新注册等级组 &n{0}"
         command: "/akarilevel levelGroup reregister {0}"
-      - hover: "点击检查等级组中是否存在成员"
-        suggest: "/akarilevel member has 成员名称 等级组编辑名"
-      - hover: "点击为等级组新增成员"
-        suggest: "/akarilevel member add 成员名称 等级组编辑名"
-      - hover: "点击从等级组移除成员"
-        suggest: "/akarilevel member remove 成员名称 等级组编辑名"
-  - type: JSON
-    text: " [&8<&7检查玩家&8>] [&8<&7新增玩家&8>] [&8<&7移除玩家&8>] "
-    args:
-      - hover: "点击检查等级组中是否存在玩家"
-        suggest: "/akarilevel player has 玩家名称 等级组编辑名"
-      - hover: "点击为等级组新增玩家"
-        suggest: "/akarilevel player add 玩家名称 等级组编辑名"
-      - hover: "点击从等级组移除玩家"
-        suggest: "/akarilevel player remove 玩家名称 等级组编辑名"
   - " "
 LevelGroupListHeader:
   - " "
