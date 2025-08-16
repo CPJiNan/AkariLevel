@@ -25,9 +25,9 @@ LevelGroupInfo:
     text: " [&8<&7取消注册&8>] [&8<&7重新注册&8>] "
     args:
       - hover: "点击取消注册等级组 &n{0}"
-        command: "/akarilevel levelGroup unregister {0}"
+        suggest: "/akarilevel levelGroup unregister {0}"
       - hover: "点击重新注册等级组 &n{0}"
-        command: "/akarilevel levelGroup reregister {0}"
+        suggest: "/akarilevel levelGroup reregister {0}"
   - " "
 LevelGroupListHeader:
   - " "
