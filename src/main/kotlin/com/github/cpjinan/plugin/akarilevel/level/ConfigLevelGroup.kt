@@ -96,6 +96,11 @@ class ConfigLevelGroup(val config: ConfigurationSection) : LevelGroup {
     }
 
     override fun getLevelExp(oldLevel: Long, newLevel: Long): Long {
+        when {
+            newLevel > getMaxLevel() -> return Long.MAX_VALUE
+            oldLevel == newLevel -> return 0
+            oldLevel < getMinLevel() -> return getLevelExp(getMinLevel(), newLevel)
+        }
         return when (config.getString("Level.Exp-Type", "Absolute")) {
             "Absolute" -> getLevelExpConfig(newLevel) - getLevelExpConfig(oldLevel)
             "Relative" -> (oldLevel + 1..newLevel).sumOf { getLevelExpConfig(it) }
@@ -104,6 +109,11 @@ class ConfigLevelGroup(val config: ConfigurationSection) : LevelGroup {
     }
 
     override fun getLevelExp(member: String, oldLevel: Long, newLevel: Long): Long {
+        when {
+            newLevel > getMaxLevel() -> return Long.MAX_VALUE
+            oldLevel == newLevel -> return 0
+            oldLevel < getMinLevel() -> return getLevelExp(member, getMinLevel(), newLevel)
+        }
         return when (config.getString("Level.Exp-Type", "Absolute")) {
             "Absolute" -> getLevelExpConfig(member, newLevel) - getLevelExpConfig(member, oldLevel)
             "Relative" -> (oldLevel + 1..newLevel).sumOf { getLevelExpConfig(member, it) }
