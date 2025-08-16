@@ -98,7 +98,7 @@ class ConfigLevelGroup(val config: ConfigurationSection) : LevelGroup {
     override fun getLevelExp(oldLevel: Long, newLevel: Long): Long {
         return when (config.getString("Level.Exp-Type", "Absolute")) {
             "Absolute" -> getLevelExpConfig(newLevel) - getLevelExpConfig(oldLevel)
-            "Relative" -> (oldLevel..newLevel).sumOf { getLevelExpConfig(it) }
+            "Relative" -> (oldLevel + 1..newLevel).sumOf { getLevelExpConfig(it) }
             else -> throw IllegalArgumentException()
         }
     }
@@ -106,7 +106,7 @@ class ConfigLevelGroup(val config: ConfigurationSection) : LevelGroup {
     override fun getLevelExp(member: String, oldLevel: Long, newLevel: Long): Long {
         return when (config.getString("Level.Exp-Type", "Absolute")) {
             "Absolute" -> getLevelExpConfig(member, newLevel) - getLevelExpConfig(member, oldLevel)
-            "Relative" -> (oldLevel..newLevel).sumOf { getLevelExpConfig(member, it) }
+            "Relative" -> (oldLevel + 1..newLevel).sumOf { getLevelExpConfig(member, it) }
             else -> throw IllegalArgumentException()
         }
     }
@@ -180,7 +180,7 @@ class ConfigLevelGroup(val config: ConfigurationSection) : LevelGroup {
             }
 
             "Relative" -> {
-                while (currentExp >= getLevelExp(member, currentLevel + 1, targetLevel + 1)) targetLevel++
+                while (currentExp >= getLevelExp(member, currentLevel, targetLevel + 1)) targetLevel++
                 if (targetLevel > currentLevel) {
                     setMemberLevel(member, targetLevel, "LEVEL_UP")
                     removeMemberExp(member, getLevelExp(member, currentLevel, targetLevel), "LEVEL_UP")
