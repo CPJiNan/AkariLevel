@@ -59,6 +59,65 @@ object LevelGroupCommand {
             }
         }
 
+        // 成员命令。
+        literal("member") {
+            // 检查成员命令。
+            literal("has").dynamic("levelGroup").dynamic("member") {
+                execute<ProxyCommandSender> { sender, context, _ ->
+                    val group = LevelGroup.getLevelGroups()[context["levelGroup"]]
+
+                    if (group == null) {
+                        sender.sendLang("LevelGroupNotFound", context["levelGroup"])
+                        return@execute
+                    }
+
+                    if (group.hasMember(context["member"])) {
+                        sender.sendLang("LevelGroupMemberHas", context["levelGroup"], context["member"])
+                    } else {
+                        sender.sendLang("LevelGroupMemberNotFound", context["levelGroup"], context["member"])
+                    }
+                }
+            }
+            // 增加成员命令。
+            literal("add").dynamic("levelGroup").dynamic("member") {
+                execute<ProxyCommandSender> { sender, context, _ ->
+                    val group = LevelGroup.getLevelGroups()[context["levelGroup"]]
+
+                    if (group == null) {
+                        sender.sendLang("LevelGroupNotFound", context["levelGroup"])
+                        return@execute
+                    }
+
+                    if (group.hasMember(context["member"])) {
+                        sender.sendLang("LevelGroupMemberHas", context["levelGroup"], context["member"])
+                        return@execute
+                    }
+
+                    group.addMember(context["member"], "COMMAND_ADD_MEMBER")
+                    sender.sendLang("LevelGroupMemberAdd", context["levelGroup"], context["member"])
+                }
+            }
+            // 移除成员命令。
+            literal("remove").dynamic("levelGroup").dynamic("member") {
+                execute<ProxyCommandSender> { sender, context, _ ->
+                    val group = LevelGroup.getLevelGroups()[context["levelGroup"]]
+
+                    if (group == null) {
+                        sender.sendLang("LevelGroupNotFound", context["levelGroup"])
+                        return@execute
+                    }
+
+                    if (!group.hasMember(context["member"])) {
+                        sender.sendLang("LevelGroupMemberNotFound", context["levelGroup"], context["member"])
+                        return@execute
+                    }
+
+                    group.removeMember(context["member"], "COMMAND_REMOVE_MEMBER")
+                    sender.sendLang("LevelGroupMemberRemove", context["levelGroup"], context["member"])
+                }
+            }
+        }
+
         // 取消注册等级组命令。
         literal("unregister").dynamic("levelGroup") {
             suggestUncheck { LevelGroup.getLevelGroups().keys.sortedBy { it } }
