@@ -32,9 +32,9 @@ object PlayerCommand {
                 }
 
                 if (group.hasMember("player:${context["player"]}")) {
-                    sender.sendLang("LevelGroupPlayerHas", context["levelGroup"], context["player"])
+                    sender.sendLang("PlayerHas", context["levelGroup"], context["player"])
                 } else {
-                    sender.sendLang("LevelGroupPlayerNotFound", context["levelGroup"], context["player"])
+                    sender.sendLang("PlayerNotFound", context["levelGroup"], context["player"])
                 }
             }
         }
@@ -53,12 +53,12 @@ object PlayerCommand {
                 }
 
                 if (group.hasMember("player:${context["player"]}")) {
-                    sender.sendLang("LevelGroupPlayerHas", context["levelGroup"], context["player"])
+                    sender.sendLang("PlayerHas", context["levelGroup"], context["player"])
                     return@execute
                 }
 
                 group.addMember("player:${context["player"]}", "COMMAND_ADD_MEMBER")
-                sender.sendLang("LevelGroupPlayerAdd", context["levelGroup"], context["player"])
+                sender.sendLang("PlayerAdd", context["levelGroup"], context["player"])
             }
         }
 
@@ -76,12 +76,12 @@ object PlayerCommand {
                 }
 
                 if (!group.hasMember("player:${context["player"]}")) {
-                    sender.sendLang("LevelGroupPlayerNotFound", context["levelGroup"], context["player"])
+                    sender.sendLang("PlayerNotFound", context["levelGroup"], context["player"])
                     return@execute
                 }
 
                 group.removeMember("player:${context["player"]}", "COMMAND_REMOVE_MEMBER")
-                sender.sendLang("LevelGroupPlayerRemove", context["levelGroup"], context["player"])
+                sender.sendLang("PlayerRemove", context["levelGroup"], context["player"])
             }
         }
     }
