@@ -101,14 +101,6 @@ interface LevelGroup {
     fun getLevelName(level: Long): String
 
     /**
-     * 获取等级经验。
-     *
-     * @param level 等级。
-     * @return 要获取的等级经验。
-     */
-    fun getLevelExp(level: Long): Long
-
-    /**
      * 获取等级名称。
      *
      * @param member 成员。
@@ -120,14 +112,45 @@ interface LevelGroup {
     }
 
     /**
-     * 获取等级经验。
+     * 获取升级所需经验。
+     *
+     * @param level 等级。
+     * @return 从上一级升级到该等级所需经验。
+     */
+    fun getLevelExp(level: Long): Long {
+        return getLevelExp(level - 1, level)
+    }
+
+    /**
+     * 获取升级所需经验。
      *
      * @param member 成员。
      * @param level 等级。
-     * @return 要获取的等级经验。
+     * @return 从上一级升级到该等级所需经验。
      */
     fun getLevelExp(member: String, level: Long): Long {
         return getLevelExp(level)
+    }
+
+    /**
+     * 获取升级所需经验。
+     *
+     * @param oldLevel 旧等级。
+     * @param newLevel 新等级。
+     * @return 从旧等级升级到新等级所需经验。
+     */
+    fun getLevelExp(oldLevel: Long, newLevel: Long): Long
+
+    /**
+     * 获取升级所需经验。
+     *
+     * @param member 成员。
+     * @param oldLevel 旧等级。
+     * @param newLevel 新等级。
+     * @return 从旧等级升级到新等级所需经验。
+     */
+    fun getLevelExp(member: String, oldLevel: Long, newLevel: Long): Long {
+        return getLevelExp(oldLevel, newLevel)
     }
 
     /**

@@ -88,12 +88,6 @@ class ConfigLevelGroup(val config: ConfigurationSection) : LevelGroup {
         return getLevelConfig(level).getString("Name")?.replace("{level}" to level)?.colored() ?: "$level"
     }
 
-    override fun getLevelExp(level: Long): Long {
-        return Arim.fixedCalculator.evaluate(
-            getLevelConfig(level).getString("Exp").orEmpty().replace("{level}" to level)
-        ).toLong()
-    }
-
     override fun getLevelName(member: String, level: Long): String {
         return getLevelName(level).let {
             if (member.startsWith("player:")) it.replacePlaceholder(getOfflinePlayer(member.substringAfter("player:")))
@@ -101,15 +95,36 @@ class ConfigLevelGroup(val config: ConfigurationSection) : LevelGroup {
         }
     }
 
+    override fun getLevelExp(level: Long): Long {
+        return when (config.getString("Level.Exp-Type", "Absolute")) {
+            "Absolute" -> super.getLevelExp(level)
+            "Relative" -> getLevelExpConfig(level)
+            else -> throw IllegalArgumentException()
+        }
+    }
+
     override fun getLevelExp(member: String, level: Long): Long {
-        return Arim.fixedCalculator.evaluate(
-            getLevelConfig(level).getString("Exp").orEmpty()
-                .replace("{level}" to level)
-                .let {
-                    if (member.startsWith("player:")) it.replacePlaceholder(getOfflinePlayer(member.substringAfter("player:")))
-                    else it
-                }
-        ).toLong()
+        return when (config.getString("Level.Exp-Type", "Absolute")) {
+            "Absolute" -> super.getLevelExp(member, level)
+            "Relative" -> getLevelExpConfig(member, level)
+            else -> throw IllegalArgumentException()
+        }
+    }
+
+    override fun getLevelExp(oldLevel: Long, newLevel: Long): Long {
+        return when (config.getString("Level.Exp-Type", "Absolute")) {
+            "Absolute" -> getLevelExpConfig(newLevel) - getLevelExpConfig(oldLevel)
+            "Relative" -> (oldLevel..newLevel).sumOf { getLevelExp(it) }
+            else -> throw IllegalArgumentException()
+        }
+    }
+
+    override fun getLevelExp(member: String, oldLevel: Long, newLevel: Long): Long {
+        return when (config.getString("Level.Exp-Type", "Absolute")) {
+            "Absolute" -> getLevelExpConfig(member, newLevel) - getLevelExpConfig(member, oldLevel)
+            "Relative" -> (oldLevel..newLevel).sumOf { getLevelExp(member, it) }
+            else -> throw IllegalArgumentException()
+        }
     }
 
     override fun addMember(member: String, source: String) {
@@ -176,21 +191,15 @@ class ConfigLevelGroup(val config: ConfigurationSection) : LevelGroup {
 
         when (config.getString("Level.Exp-Type", "Absolute")) {
             "Absolute" -> {
-                while (currentExp >= getLevelExp(member, targetLevel + 1)) targetLevel++
+                while (currentExp >= getLevelExp(member, 0, targetLevel + 1)) targetLevel++
                 if (targetLevel > currentLevel) setMemberLevel(member, targetLevel, "LEVEL_UP")
             }
 
             "Relative" -> {
-                while (currentExp >= (currentLevel + 1..targetLevel + 1).sumOf { getLevelExp(member, it) }) {
-                    targetLevel++
-                }
+                while (currentExp >= getLevelExp(member, currentLevel + 1, targetLevel + 1)) targetLevel++
                 if (targetLevel > currentLevel) {
                     setMemberLevel(member, targetLevel, "LEVEL_UP")
-                    removeMemberExp(
-                        member,
-                        (currentLevel + 1..targetLevel).sumOf { getLevelExp(member, it) },
-                        "LEVEL_UP"
-                    )
+                    removeMemberExp(member, getLevelExp(member, currentLevel, targetLevel), "LEVEL_UP")
                 }
             }
         }
@@ -226,6 +235,37 @@ class ConfigLevelGroup(val config: ConfigurationSection) : LevelGroup {
             .filter { level >= it.key }
             .maxByOrNull { it.key }
             ?.value ?: throw IllegalArgumentException()
+    }
+
+    /**
+     * 获取等级经验配置。
+     *
+     * @param level 等级。
+     * @return 要获取的等级经验配置。
+     */
+    fun getLevelExpConfig(level: Long): Long {
+        return Arim.fixedCalculator.evaluate(
+            getLevelConfig(level).getString("Exp").orEmpty().replace("{level}" to level)
+        ).toLong()
+    }
+
+    /**
+     * 获取等级经验配置。
+     *
+     * @param member 成员。
+     * @param level 等级。
+     * @return 要获取的等级经验配置。
+     */
+    fun getLevelExpConfig(member: String, level: Long): Long {
+        return Arim.fixedCalculator.evaluate(
+            getLevelConfig(level).getString("Exp").orEmpty()
+                .replace("{level}" to level)
+                .let {
+                    if (member.startsWith("player:")) {
+                        it.replacePlaceholder(getOfflinePlayer(member.substringAfter("player:")))
+                    } else it
+                }
+        ).toLong()
     }
 
     /**
