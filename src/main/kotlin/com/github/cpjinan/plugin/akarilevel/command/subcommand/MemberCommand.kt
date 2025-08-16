@@ -23,17 +23,20 @@ object MemberCommand {
         }.dynamic("levelGroup") {
             suggestUncheck { LevelGroup.getLevelGroups().keys.sortedBy { it } }
             execute<ProxyCommandSender> { sender, context, _ ->
-                val group = LevelGroup.getLevelGroups()[context["levelGroup"]]
+                val groupName = context["levelGroup"]
+                val group = LevelGroup.getLevelGroups()[groupName]
 
                 if (group == null) {
-                    sender.sendLang("LevelGroupNotFound", context["levelGroup"])
+                    sender.sendLang("LevelGroupNotFound", groupName)
                     return@execute
                 }
 
-                if (group.hasMember(context["member"])) {
-                    sender.sendLang("MemberHas", context["levelGroup"], context["member"])
+                val memberName = context["member"]
+
+                if (group.hasMember(memberName)) {
+                    sender.sendLang("MemberHas", groupName, memberName)
                 } else {
-                    sender.sendLang("MemberNotFound", context["levelGroup"], context["member"])
+                    sender.sendLang("MemberNotFound", groupName, memberName)
                 }
             }
         }
@@ -44,20 +47,23 @@ object MemberCommand {
         }.dynamic("levelGroup") {
             suggestUncheck { LevelGroup.getLevelGroups().keys.sortedBy { it } }
             execute<ProxyCommandSender> { sender, context, _ ->
-                val group = LevelGroup.getLevelGroups()[context["levelGroup"]]
+                val groupName = context["levelGroup"]
+                val group = LevelGroup.getLevelGroups()[groupName]
 
                 if (group == null) {
-                    sender.sendLang("LevelGroupNotFound", context["levelGroup"])
+                    sender.sendLang("LevelGroupNotFound", groupName)
                     return@execute
                 }
 
-                if (group.hasMember(context["member"])) {
-                    sender.sendLang("MemberHas", context["levelGroup"], context["member"])
+                val memberName = context["member"]
+
+                if (group.hasMember(memberName)) {
+                    sender.sendLang("MemberHas", groupName, memberName)
                     return@execute
                 }
 
-                group.addMember(context["member"], "COMMAND_ADD_MEMBER")
-                sender.sendLang("MemberAdd", context["levelGroup"], context["member"])
+                group.addMember(memberName, "COMMAND_ADD_MEMBER")
+                sender.sendLang("MemberAdd", groupName, memberName)
             }
         }
 
@@ -67,20 +73,58 @@ object MemberCommand {
         }.dynamic("levelGroup") {
             suggestUncheck { LevelGroup.getLevelGroups().keys.sortedBy { it } }
             execute<ProxyCommandSender> { sender, context, _ ->
-                val group = LevelGroup.getLevelGroups()[context["levelGroup"]]
+                val groupName = context["levelGroup"]
+                val group = LevelGroup.getLevelGroups()[groupName]
 
                 if (group == null) {
-                    sender.sendLang("LevelGroupNotFound", context["levelGroup"])
+                    sender.sendLang("LevelGroupNotFound", groupName)
                     return@execute
                 }
 
-                if (!group.hasMember(context["member"])) {
-                    sender.sendLang("MemberNotFound", context["levelGroup"], context["member"])
+                val memberName = context["member"]
+
+                if (!group.hasMember(memberName)) {
+                    sender.sendLang("MemberNotFound", groupName, memberName)
                     return@execute
                 }
 
-                group.removeMember(context["member"], "COMMAND_REMOVE_MEMBER")
-                sender.sendLang("MemberRemove", context["levelGroup"], context["member"])
+                group.removeMember(memberName, "COMMAND_REMOVE_MEMBER")
+                sender.sendLang("MemberRemove", groupName, memberName)
+            }
+        }
+
+        // 查看成员等级信息命令。
+        literal("info").dynamic("member") {
+            suggestUncheck { listOf("player:") }
+        }.dynamic("levelGroup") {
+            suggestUncheck { LevelGroup.getLevelGroups().keys.sortedBy { it } }
+            execute<ProxyCommandSender> { sender, context, _ ->
+                val groupName = context["levelGroup"]
+                val group = LevelGroup.getLevelGroups()[groupName]
+
+                if (group == null) {
+                    sender.sendLang("LevelGroupNotFound", groupName)
+                    return@execute
+                }
+
+                val memberName = context["member"]
+
+                if (!group.hasMember(memberName)) {
+                    sender.sendLang("MemberNotFound", groupName, memberName)
+                    return@execute
+                }
+
+                val level = group.getMemberLevel(memberName)
+
+                sender.sendLang(
+                    "MemberInfo",
+                    memberName,                                                     // 0 成员名称。
+                    group.name,                                                             // 1 等级组编辑名。
+                    group.display,                                                          // 2 等级组展示名
+                    level,                                                                  // 3 当前等级。
+                    group.getLevelName(memberName, level),                                  // 4 当前等级名称。
+                    group.getMemberExp(memberName),                                         // 5 当前经验。
+                )
             }
         }
     }
