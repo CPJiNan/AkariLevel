@@ -18,7 +18,7 @@ import taboolib.platform.util.onlinePlayers
  */
 object PlayerCommand {
     val player = subCommand {
-        // 检查等级组中是否存在玩家命令。
+        // 检查玩家命令。
         literal("has").dynamic("player") {
             suggestUncheck { onlinePlayers.map { it.name } }
         }.dynamic("levelGroup") {
@@ -87,7 +87,7 @@ object PlayerCommand {
             }
         }
 
-        // 查看玩家等级信息命令。
+        // 查看玩家信息命令。
         literal("info").dynamic("player") {
             suggestUncheck { onlinePlayers.map { it.name } }
         }.dynamic("levelGroup") {
@@ -144,7 +144,7 @@ object PlayerCommand {
                     sender.sendLang("PlayerLevelSet", playerName, groupName, amount)
                 }
             }
-            // 增加成员等级命令。
+            // 增加玩家等级命令。
             literal("add").dynamic("player") {
                 suggestUncheck { onlinePlayers.map { it.name } }
             }.dynamic("levelGroup") {
@@ -168,7 +168,7 @@ object PlayerCommand {
                     sender.sendLang("PlayerLevelAdd", playerName, groupName, amount)
                 }
             }
-            // 移除成员等级命令。
+            // 移除玩家等级命令。
             literal("remove").dynamic("player") {
                 suggestUncheck { onlinePlayers.map { it.name } }
             }.dynamic("levelGroup") {
