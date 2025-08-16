@@ -70,7 +70,7 @@ PlayerInfo:
   - " &8- &7当前经验: &f{5}"
   - " "
   - type: JSON
-    text: " [&8<&7设置等级&8>] [&8<&7增加等级&8>] [&8<&7移除等级&8>] [&8<&7刷新信息&8>] "
+    text: " [&8<&7设置等级&8>] [&8<&7增加等级&8>] [&8<&7移除等级&8>] "
     args:
       - hover: "点击设置玩家等级"
         suggest: "/akarilevel player level set {0} {1} 等级"
@@ -78,9 +78,24 @@ PlayerInfo:
         suggest: "/akarilevel player level add {0} {1} 等级"
       - hover: "点击移除玩家等级"
         suggest: "/akarilevel player level remove {0} {1} 等级"
+  - type: JSON
+    text: " [&8<&7设置经验&8>] [&8<&7增加经验&8>] [&8<&7移除经验&8>] "
+    args:
+      - hover: "点击设置玩家经验"
+        suggest: "/akarilevel player exp set {0} {1} 经验"
+      - hover: "点击增加玩家经验"
+        suggest: "/akarilevel player exp add {0} {1} 经验"
+      - hover: "点击移除玩家经验"
+        suggest: "/akarilevel player exp remove {0} {1} 经验"
+  - type: JSON
+    text: " [&8<&7刷新信息&8>] "
+    args:
       - hover: "点击刷新玩家信息"
         command: "/akarilevel player info {0} {1}"
   - " "
 PlayerLevelSet: "&8[&3Akari&bLevel&8] &7已设置玩家 &f{0} &7的 &f{1} &7等级为 &f{2} &7。"
 PlayerLevelAdd: "&8[&3Akari&bLevel&8] &7已增加玩家 &f{0} &7的 &f{2} &7个 &f{1} &7等级。"
 PlayerLevelRemove: "&8[&3Akari&bLevel&8] &7已移除玩家 &f{0} &7的 &f{2} &7个 &f{1} &7等级。"
+PlayerExpSet: "&8[&3Akari&bLevel&8] &7已设置玩家 &f{0} &7的 &f{1} &7经验为 &f{2} &7。"
+PlayerExpAdd: "&8[&3Akari&bLevel&8] &7已增加玩家 &f{0} &7的 &f{2} &7个 &f{1} &7经验。"
+PlayerExpRemove: "&8[&3Akari&bLevel&8] &7已移除玩家 &f{0} &7的 &f{2} &7个 &f{1} &7经验。"

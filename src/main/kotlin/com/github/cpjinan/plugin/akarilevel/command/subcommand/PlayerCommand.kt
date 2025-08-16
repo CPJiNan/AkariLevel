@@ -193,5 +193,81 @@ object PlayerCommand {
                 }
             }
         }
+
+        // 玩家经验命令。
+        literal("exp") {
+            // 设置玩家经验命令。
+            literal("set").dynamic("player") {
+                suggestUncheck { onlinePlayers.map { it.name } }
+            }.dynamic("levelGroup") {
+                suggestUncheck { LevelGroup.getLevelGroups().keys.sortedBy { it } }
+            }.dynamic("amount") {
+                execute<ProxyCommandSender> { sender, context, _ ->
+                    val groupName = context["levelGroup"]
+                    val group = LevelGroup.getLevelGroups()[groupName]
+                    if (group == null) {
+                        sender.sendLang("LevelGroupNotFound", groupName)
+                        return@execute
+                    }
+                    val playerName = context["player"]
+                    val memberName = "player:$playerName"
+                    if (!group.hasMember(memberName)) {
+                        sender.sendLang("PlayerNotFound", groupName, playerName)
+                        return@execute
+                    }
+                    val amount = context["amount"].substringBefore(" ").toLong()
+                    group.setMemberExp(memberName, amount, "COMMAND_SET_EXP")
+                    sender.sendLang("PlayerExpSet", playerName, groupName, amount)
+                }
+            }
+            // 增加玩家经验命令。
+            literal("add").dynamic("player") {
+                suggestUncheck { onlinePlayers.map { it.name } }
+            }.dynamic("levelGroup") {
+                suggestUncheck { LevelGroup.getLevelGroups().keys.sortedBy { it } }
+            }.dynamic("amount") {
+                execute<ProxyCommandSender> { sender, context, _ ->
+                    val groupName = context["levelGroup"]
+                    val group = LevelGroup.getLevelGroups()[groupName]
+                    if (group == null) {
+                        sender.sendLang("LevelGroupNotFound", groupName)
+                        return@execute
+                    }
+                    val playerName = context["player"]
+                    val memberName = "player:$playerName"
+                    if (!group.hasMember(memberName)) {
+                        sender.sendLang("PlayerNotFound", groupName, playerName)
+                        return@execute
+                    }
+                    val amount = context["amount"].substringBefore(" ").toLong()
+                    group.addMemberExp(memberName, amount, "COMMAND_ADD_EXP")
+                    sender.sendLang("PlayerExpAdd", playerName, groupName, amount)
+                }
+            }
+            // 移除玩家经验命令。
+            literal("remove").dynamic("player") {
+                suggestUncheck { onlinePlayers.map { it.name } }
+            }.dynamic("levelGroup") {
+                suggestUncheck { LevelGroup.getLevelGroups().keys.sortedBy { it } }
+            }.dynamic("amount") {
+                execute<ProxyCommandSender> { sender, context, _ ->
+                    val groupName = context["levelGroup"]
+                    val group = LevelGroup.getLevelGroups()[groupName]
+                    if (group == null) {
+                        sender.sendLang("LevelGroupNotFound", groupName)
+                        return@execute
+                    }
+                    val playerName = context["player"]
+                    val memberName = "player:$playerName"
+                    if (!group.hasMember(memberName)) {
+                        sender.sendLang("PlayerNotFound", groupName, playerName)
+                        return@execute
+                    }
+                    val amount = context["amount"].substringBefore(" ").toLong()
+                    group.removeMemberExp(memberName, amount, "COMMAND_REMOVE_EXP")
+                    sender.sendLang("PlayerExpRemove", playerName, groupName, amount)
+                }
+            }
+        }
     }
 }

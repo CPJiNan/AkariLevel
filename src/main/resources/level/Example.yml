@@ -8,6 +8,7 @@ Example:
   Source:
     # 经验来源订阅
     Subscribe:
+      "COMMAND_ADD_EXP": 1.0
       "MYTHICMOBS_DROP_EXP": 1.0
       "TEAM_SHARE_EXP": 1.0
   # 等级设置
