@@ -39,10 +39,12 @@ LevelGroupListHeader:
   - " "
 LevelGroupListFormat:
   - type: JSON
-    text: " &8- &f[{0}] &7- &r[{1}]"
+    text: " &8- &f[{0}] &7- &r[{1}] [&8<&7ℹ&8>]"
     args:
       - hover: "等级组编辑名: &n{0}"
       - hover: "等级组展示名: &n{1}"
+      - hover: "点击查看等级组 {0} 信息"
+        command: "/akarilevel levelGroup info {0}"
 LevelGroupListFooter:
   - " "
   - type: JSON
