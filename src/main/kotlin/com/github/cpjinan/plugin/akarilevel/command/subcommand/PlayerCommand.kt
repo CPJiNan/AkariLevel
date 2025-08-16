@@ -188,7 +188,7 @@ object PlayerCommand {
                         return@execute
                     }
                     val amount = context["amount"].substringBefore(" ").toLong()
-                    group.addMemberLevel(memberName, amount, "COMMAND_REMOVE_LEVEL")
+                    group.removeMemberLevel(memberName, amount, "COMMAND_REMOVE_LEVEL")
                     sender.sendLang("PlayerLevelRemove", playerName, groupName, amount)
                 }
             }
