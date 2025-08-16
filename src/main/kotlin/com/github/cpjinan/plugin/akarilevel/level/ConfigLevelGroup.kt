@@ -95,26 +95,10 @@ class ConfigLevelGroup(val config: ConfigurationSection) : LevelGroup {
         }
     }
 
-    override fun getLevelExp(level: Long): Long {
-        return when (config.getString("Level.Exp-Type", "Absolute")) {
-            "Absolute" -> super.getLevelExp(level)
-            "Relative" -> getLevelExpConfig(level)
-            else -> throw IllegalArgumentException()
-        }
-    }
-
-    override fun getLevelExp(member: String, level: Long): Long {
-        return when (config.getString("Level.Exp-Type", "Absolute")) {
-            "Absolute" -> super.getLevelExp(member, level)
-            "Relative" -> getLevelExpConfig(member, level)
-            else -> throw IllegalArgumentException()
-        }
-    }
-
     override fun getLevelExp(oldLevel: Long, newLevel: Long): Long {
         return when (config.getString("Level.Exp-Type", "Absolute")) {
             "Absolute" -> getLevelExpConfig(newLevel) - getLevelExpConfig(oldLevel)
-            "Relative" -> (oldLevel..newLevel).sumOf { getLevelExp(it) }
+            "Relative" -> (oldLevel..newLevel).sumOf { getLevelExpConfig(it) }
             else -> throw IllegalArgumentException()
         }
     }
@@ -122,7 +106,7 @@ class ConfigLevelGroup(val config: ConfigurationSection) : LevelGroup {
     override fun getLevelExp(member: String, oldLevel: Long, newLevel: Long): Long {
         return when (config.getString("Level.Exp-Type", "Absolute")) {
             "Absolute" -> getLevelExpConfig(member, newLevel) - getLevelExpConfig(member, oldLevel)
-            "Relative" -> (oldLevel..newLevel).sumOf { getLevelExp(member, it) }
+            "Relative" -> (oldLevel..newLevel).sumOf { getLevelExpConfig(member, it) }
             else -> throw IllegalArgumentException()
         }
     }
@@ -156,7 +140,7 @@ class ConfigLevelGroup(val config: ConfigurationSection) : LevelGroup {
         when (config.getString("Level.Exp-Type", "Absolute")) {
             "Absolute" -> {
                 super.setMemberLevel(member, amount.coerceIn(getMinLevel(), getMaxLevel()), source)
-                setMemberExp(member, getLevelExp(member, amount), source)
+                setMemberExp(member, getLevelExp(member, 0, amount), source)
             }
 
             "Relative" -> {
