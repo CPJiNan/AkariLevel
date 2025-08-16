@@ -19,10 +19,10 @@ import taboolib.platform.util.onlinePlayers
 object PlayerCommand {
     val player = subCommand {
         // 检查玩家命令。
-        literal("has").dynamic("levelGroup") {
-            suggestUncheck { LevelGroup.getLevelGroups().keys.sortedBy { it } }
-        }.dynamic("player") {
+        literal("has").dynamic("player") {
             suggestUncheck { onlinePlayers.map { it.name } }
+        }.dynamic("levelGroup") {
+            suggestUncheck { LevelGroup.getLevelGroups().keys.sortedBy { it } }
             execute<ProxyCommandSender> { sender, context, _ ->
                 val group = LevelGroup.getLevelGroups()[context["levelGroup"]]
 
@@ -40,10 +40,10 @@ object PlayerCommand {
         }
 
         // 增加玩家命令。
-        literal("add").dynamic("levelGroup") {
-            suggestUncheck { LevelGroup.getLevelGroups().keys.sortedBy { it } }
-        }.dynamic("player") {
+        literal("add").dynamic("player") {
             suggestUncheck { onlinePlayers.map { it.name } }
+        }.dynamic("levelGroup") {
+            suggestUncheck { LevelGroup.getLevelGroups().keys.sortedBy { it } }
             execute<ProxyCommandSender> { sender, context, _ ->
                 val group = LevelGroup.getLevelGroups()[context["levelGroup"]]
 
@@ -63,10 +63,10 @@ object PlayerCommand {
         }
 
         // 移除玩家命令。
-        literal("remove").dynamic("levelGroup") {
-            suggestUncheck { LevelGroup.getLevelGroups().keys.sortedBy { it } }
-        }.dynamic("player") {
+        literal("remove").dynamic("player") {
             suggestUncheck { onlinePlayers.map { it.name } }
+        }.dynamic("levelGroup") {
+            suggestUncheck { LevelGroup.getLevelGroups().keys.sortedBy { it } }
             execute<ProxyCommandSender> { sender, context, _ ->
                 val group = LevelGroup.getLevelGroups()[context["levelGroup"]]
 
