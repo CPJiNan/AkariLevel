@@ -18,21 +18,16 @@ import taboolib.module.lang.sendLang
 object MemberCommand {
     val member = subCommand {
         // 检查成员命令。
-        literal("has").dynamic("member") {
-            suggestUncheck { listOf("player:") }
-        }.dynamic("levelGroup") {
+        literal("has").dynamic("member").dynamic("levelGroup") {
             suggestUncheck { LevelGroup.getLevelGroups().keys.sortedBy { it } }
             execute<ProxyCommandSender> { sender, context, _ ->
                 val groupName = context["levelGroup"]
                 val group = LevelGroup.getLevelGroups()[groupName]
-
                 if (group == null) {
                     sender.sendLang("LevelGroupNotFound", groupName)
                     return@execute
                 }
-
                 val memberName = context["member"]
-
                 if (group.hasMember(memberName)) {
                     sender.sendLang("MemberHas", groupName, memberName)
                 } else {
@@ -42,80 +37,61 @@ object MemberCommand {
         }
 
         // 增加成员命令。
-        literal("add").dynamic("member") {
-            suggestUncheck { listOf("player:") }
-        }.dynamic("levelGroup") {
+        literal("add").dynamic("member").dynamic("levelGroup") {
             suggestUncheck { LevelGroup.getLevelGroups().keys.sortedBy { it } }
             execute<ProxyCommandSender> { sender, context, _ ->
                 val groupName = context["levelGroup"]
                 val group = LevelGroup.getLevelGroups()[groupName]
-
                 if (group == null) {
                     sender.sendLang("LevelGroupNotFound", groupName)
                     return@execute
                 }
-
                 val memberName = context["member"]
-
                 if (group.hasMember(memberName)) {
                     sender.sendLang("MemberHas", groupName, memberName)
                     return@execute
                 }
-
                 group.addMember(memberName, "COMMAND_ADD_MEMBER")
                 sender.sendLang("MemberAdd", groupName, memberName)
             }
         }
 
         // 移除成员命令。
-        literal("remove").dynamic("member") {
-            suggestUncheck { listOf("player:") }
-        }.dynamic("levelGroup") {
+        literal("remove").dynamic("member").dynamic("levelGroup") {
             suggestUncheck { LevelGroup.getLevelGroups().keys.sortedBy { it } }
             execute<ProxyCommandSender> { sender, context, _ ->
                 val groupName = context["levelGroup"]
                 val group = LevelGroup.getLevelGroups()[groupName]
-
                 if (group == null) {
                     sender.sendLang("LevelGroupNotFound", groupName)
                     return@execute
                 }
-
                 val memberName = context["member"]
-
                 if (!group.hasMember(memberName)) {
                     sender.sendLang("MemberNotFound", groupName, memberName)
                     return@execute
                 }
-
                 group.removeMember(memberName, "COMMAND_REMOVE_MEMBER")
                 sender.sendLang("MemberRemove", groupName, memberName)
             }
         }
 
         // 查看成员等级信息命令。
-        literal("info").dynamic("member") {
-            suggestUncheck { listOf("player:") }
-        }.dynamic("levelGroup") {
+        literal("info").dynamic("member").dynamic("levelGroup") {
             suggestUncheck { LevelGroup.getLevelGroups().keys.sortedBy { it } }
             execute<ProxyCommandSender> { sender, context, _ ->
                 val groupName = context["levelGroup"]
                 val group = LevelGroup.getLevelGroups()[groupName]
-
                 if (group == null) {
                     sender.sendLang("LevelGroupNotFound", groupName)
                     return@execute
                 }
-
                 val memberName = context["member"]
-
                 if (!group.hasMember(memberName)) {
                     sender.sendLang("MemberNotFound", groupName, memberName)
                     return@execute
                 }
-
                 val level = group.getMemberLevel(memberName)
-
                 sender.sendLang(
                     "MemberInfo",
                     memberName,                                                     // 0 成员名称。
@@ -125,6 +101,73 @@ object MemberCommand {
                     group.getLevelName(memberName, level),                                  // 4 当前等级名称。
                     group.getMemberExp(memberName),                                         // 5 当前经验。
                 )
+            }
+        }
+
+        // 成员等级命令。
+        literal("level") {
+            // 设置成员等级命令。
+            literal("set").dynamic("member").dynamic("levelGroup") {
+                suggestUncheck { LevelGroup.getLevelGroups().keys.sortedBy { it } }
+            }.dynamic("amount") {
+                execute<ProxyCommandSender> { sender, context, _ ->
+                    val groupName = context["levelGroup"]
+                    val group = LevelGroup.getLevelGroups()[groupName]
+                    if (group == null) {
+                        sender.sendLang("LevelGroupNotFound", groupName)
+                        return@execute
+                    }
+                    val memberName = context["member"]
+                    if (!group.hasMember(memberName)) {
+                        sender.sendLang("MemberNotFound", groupName, memberName)
+                        return@execute
+                    }
+                    val amount = context["amount"].substringBefore(" ").toLong()
+                    group.setMemberLevel(memberName, amount, "COMMAND_SET_LEVEL")
+                    sender.sendLang("MemberLevelSet", memberName, groupName, amount)
+                }
+            }
+            // 增加成员等级命令。
+            literal("add").dynamic("member").dynamic("levelGroup") {
+                suggestUncheck { LevelGroup.getLevelGroups().keys.sortedBy { it } }
+            }.dynamic("amount") {
+                execute<ProxyCommandSender> { sender, context, _ ->
+                    val groupName = context["levelGroup"]
+                    val group = LevelGroup.getLevelGroups()[groupName]
+                    if (group == null) {
+                        sender.sendLang("LevelGroupNotFound", groupName)
+                        return@execute
+                    }
+                    val memberName = context["member"]
+                    if (!group.hasMember(memberName)) {
+                        sender.sendLang("MemberNotFound", groupName, memberName)
+                        return@execute
+                    }
+                    val amount = context["amount"].substringBefore(" ").toLong()
+                    group.addMemberLevel(memberName, amount, "COMMAND_ADD_LEVEL")
+                    sender.sendLang("MemberLevelAdd", memberName, groupName, amount)
+                }
+            }
+            // 移除成员等级命令。
+            literal("remove").dynamic("member").dynamic("levelGroup") {
+                suggestUncheck { LevelGroup.getLevelGroups().keys.sortedBy { it } }
+            }.dynamic("amount") {
+                execute<ProxyCommandSender> { sender, context, _ ->
+                    val groupName = context["levelGroup"]
+                    val group = LevelGroup.getLevelGroups()[groupName]
+                    if (group == null) {
+                        sender.sendLang("LevelGroupNotFound", groupName)
+                        return@execute
+                    }
+                    val memberName = context["member"]
+                    if (!group.hasMember(memberName)) {
+                        sender.sendLang("MemberNotFound", groupName, memberName)
+                        return@execute
+                    }
+                    val amount = context["amount"].substringBefore(" ").toLong()
+                    group.addMemberLevel(memberName, amount, "COMMAND_REMOVE_LEVEL")
+                    sender.sendLang("MemberLevelRemove", memberName, groupName, amount)
+                }
             }
         }
     }
