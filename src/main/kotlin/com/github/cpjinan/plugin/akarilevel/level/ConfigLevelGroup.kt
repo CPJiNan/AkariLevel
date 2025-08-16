@@ -150,7 +150,9 @@ class ConfigLevelGroup(val config: ConfigurationSection) : LevelGroup {
         when (config.getString("Level.Exp-Type", "Absolute")) {
             "Absolute" -> {
                 super.setMemberLevel(member, amount.coerceIn(getMinLevel(), getMaxLevel()), source)
-                setMemberExp(member, getLevelExp(member, 0, amount), source)
+                if (getMemberExp(member) !in getLevelExp(member, 0, amount)..getLevelExp(member, 0, amount + 1)) {
+                    setMemberExp(member, getLevelExp(member, 0, amount), source)
+                }
             }
 
             "Relative" -> {
