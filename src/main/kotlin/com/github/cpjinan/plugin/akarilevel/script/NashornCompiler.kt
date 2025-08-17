@@ -139,20 +139,27 @@ fun hasFunction(engine: ScriptEngine, function: String): Boolean {
 fun loadLib(engine: ScriptEngine) {
     engine.eval(
         """
-            var Bukkit = Packages.org.bukkit.Bukkit
-            var PluginManager = Bukkit.getPluginManager()
-            var EventPriority = Packages.org.bukkit.event.EventPriority
+            var Bukkit = Packages.org.bukkit.Bukkit;
+            var PluginManager = Bukkit.getPluginManager();
+            var EventPriority = Packages.org.bukkit.event.EventPriority;
 
-            var AkariLevel = PluginManager.getPlugin("AkariLevel")
+            var AkariLevel = PluginManager.getPlugin("AkariLevel");
 
-            var Listener = Packages.com.github.cpjinan.plugin.akarilevel.script.ScriptListener
+            var LevelGroup = Packages.com.github.cpjinan.plugin.akarilevel.level.LevelGroup;
+            var ConfigLevelGroup = Packages.com.github.cpjinan.plugin.akarilevel.level.ConfigLevelGroup;
 
-            var LevelGroupRegisterEvent = com.github.cpjinan.plugin.akarilevel.event.LevelGroupRegisterEvent
-            var LevelGroupUnregisterEvent = com.github.cpjinan.plugin.akarilevel.event.LevelGroupUnregisterEvent
-            var MemberChangeEvent = com.github.cpjinan.plugin.akarilevel.event.MemberChangeEvent
-            var MemberExpChangeEvent = com.github.cpjinan.plugin.akarilevel.event.MemberExpChangeEvent
-            var MemberLevelChangeEvent = com.github.cpjinan.plugin.akarilevel.event.MemberLevelChangeEvent
-            var PluginReloadEvent = com.github.cpjinan.plugin.akarilevel.event.PluginReloadEvent
+            var Listener = Packages.com.github.cpjinan.plugin.akarilevel.script.ScriptListener;
+
+            var PlayerJoinEvent = Packages.org.bukkit.event.player.PlayerJoinEvent;
+            var PlayerQuitEvent = Packages.org.bukkit.event.player.PlayerQuitEvent;
+            var PlayerExpChangeEvent = Packages.org.bukkit.event.player.PlayerExpChangeEvent;
+
+            var LevelGroupRegisterEvent = Packages.com.github.cpjinan.plugin.akarilevel.event.LevelGroupRegisterEvent;
+            var LevelGroupUnregisterEvent = Packages.com.github.cpjinan.plugin.akarilevel.event.LevelGroupUnregisterEvent;
+            var MemberChangeEvent = Packages.com.github.cpjinan.plugin.akarilevel.event.MemberChangeEvent;
+            var MemberExpChangeEvent = Packages.com.github.cpjinan.plugin.akarilevel.event.MemberExpChangeEvent;
+            var MemberLevelChangeEvent = Packages.com.github.cpjinan.plugin.akarilevel.event.MemberLevelChangeEvent;
+            var PluginReloadEvent = Packages.com.github.cpjinan.plugin.akarilevel.event.PluginReloadEvent;
         """.trimIndent()
     )
 }
