@@ -1,7 +1,5 @@
 package com.github.cpjinan.plugin.akarilevel.script
 
-import org.openjdk.nashorn.api.scripting.NashornScriptEngineFactory
-import org.openjdk.nashorn.api.scripting.ScriptObjectMirror
 import taboolib.platform.util.bukkitPlugin
 import javax.script.Compilable
 import javax.script.CompiledScript
@@ -24,11 +22,7 @@ import jdk.nashorn.api.scripting.ScriptObjectMirror as JDKScriptObjectMirror
  * @return Nashorn 引擎。
  */
 val scriptEngineFactory by lazy {
-    try {
-        JDKNashornScriptEngineFactory()
-    } catch (_: NoClassDefFoundError) {
-        NashornScriptEngineFactory()
-    }
+    JDKNashornScriptEngineFactory()
 }
 
 /**
@@ -37,17 +31,10 @@ val scriptEngineFactory by lazy {
  * @return 新的 Nashorn 引擎。
  */
 fun getScriptEngine(): ScriptEngine {
-    return try {
-        (scriptEngineFactory as JDKNashornScriptEngineFactory).getScriptEngine(
-            arrayOf<String>(),
-            bukkitPlugin::class.java.classLoader
-        ).also { loadLib(it) }
-    } catch (_: NoClassDefFoundError) {
-        (scriptEngineFactory as NashornScriptEngineFactory).getScriptEngine(
-            arrayOf<String>(),
-            bukkitPlugin::class.java.classLoader
-        ).also { loadLib(it) }
-    }
+    return scriptEngineFactory.getScriptEngine(
+        arrayOf<String>(),
+        bukkitPlugin::class.java.classLoader
+    ).also { loadLib(it) }
 }
 
 /**
@@ -109,13 +96,8 @@ fun run(compiledScript: CompiledScript, function: String) {
  * @return 是否存在对应函数。
  */
 fun hasFunction(engine: ScriptEngine, function: String): Boolean {
-    try {
-        val func = engine.get(function)
-        return func is JDKScriptObjectMirror && func.isFunction
-    } catch (_: NoClassDefFoundError) {
-        val func = engine.get(function)
-        return func is ScriptObjectMirror && func.isFunction
-    }
+    val func = engine.get(function)
+    return func is JDKScriptObjectMirror && func.isFunction
 }
 
 /**

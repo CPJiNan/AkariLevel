@@ -44,7 +44,6 @@ dependencies {
     compileOnly(fileTree("libs"))
     taboo("top.maplex.arim:Arim:1.2.14")
     taboo("com.github.ben-manes.caffeine:caffeine:2.9.3")
-    taboo("org.openjdk.nashorn:nashorn-core:15.6")
 }
 
 java {
