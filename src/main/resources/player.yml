@@ -1,0 +1,6 @@
+# 玩家设置
+Player:
+  # 自动加入等级组
+  Auto-Join: [ ]
+  # 取消原版经验变更事件
+  Cancel-Vanilla: true

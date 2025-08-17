@@ -2,6 +2,7 @@ package com.github.cpjinan.plugin.akarilevel.command
 
 import com.github.cpjinan.plugin.akarilevel.command.subcommand.LevelGroupCommand
 import com.github.cpjinan.plugin.akarilevel.command.subcommand.MemberCommand
+import com.github.cpjinan.plugin.akarilevel.config.PlayerConfig
 import com.github.cpjinan.plugin.akarilevel.config.SettingsConfig
 import com.github.cpjinan.plugin.akarilevel.event.PluginReloadEvent
 import com.github.cpjinan.plugin.akarilevel.level.ConfigLevelGroup
@@ -53,6 +54,7 @@ object MainCommand {
 
             // 重载配置文件。
             SettingsConfig.settings.reload()
+            PlayerConfig.player.reload()
 
             // 重载配置等级组。
             ConfigLevelGroup.reloadConfigLevelGroups()
