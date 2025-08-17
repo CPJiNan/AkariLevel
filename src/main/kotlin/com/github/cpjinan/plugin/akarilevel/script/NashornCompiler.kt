@@ -1,6 +1,17 @@
+@file:RuntimeDependencies(
+    RuntimeDependency(
+        "!org.openjdk.nashorn:nashorn-core:15.6",
+        test = "!jdk.nashorn.api.scripting.NashornScriptEngineFactory",
+        relocate = ["!org.openjdk.nashorn", "!com.github.cpjinan.plugin.akarilevel.nashorn"]
+    )
+)
+
 package com.github.cpjinan.plugin.akarilevel.script
 
-import taboolib.platform.util.bukkitPlugin
+import org.openjdk.nashorn.api.scripting.NashornScriptEngineFactory
+import org.openjdk.nashorn.api.scripting.ScriptObjectMirror
+import taboolib.common.env.RuntimeDependencies
+import taboolib.common.env.RuntimeDependency
 import javax.script.Compilable
 import javax.script.CompiledScript
 import javax.script.Invocable
@@ -17,28 +28,40 @@ import jdk.nashorn.api.scripting.ScriptObjectMirror as JDKScriptObjectMirror
  */
 
 /**
+ * 获取类加载器。
+ */
+lateinit var classLoader: ClassLoader
+
+/**
  * 获取脚本引擎工厂实例。
- *
- * @return Nashorn 引擎。
  */
 val scriptEngineFactory by lazy {
-    JDKNashornScriptEngineFactory()
+    try {
+        JDKNashornScriptEngineFactory()
+    } catch (_: NoClassDefFoundError) {
+        NashornScriptEngineFactory()
+    }
 }
 
 /**
- * 获取一个新的脚本引擎。
- *
- * @return 新的 Nashorn 引擎。
+ * 获取脚本引擎。
  */
 fun getScriptEngine(): ScriptEngine {
-    return scriptEngineFactory.getScriptEngine(
-        arrayOf<String>(),
-        bukkitPlugin::class.java.classLoader
-    ).also { loadLib(it) }
+    return try {
+        (scriptEngineFactory as JDKNashornScriptEngineFactory).getScriptEngine(
+            arrayOf<String>(),
+            classLoader
+        ).also { loadLib(it) }
+    } catch (_: NoClassDefFoundError) {
+        (scriptEngineFactory as NashornScriptEngineFactory).getScriptEngine(
+            arrayOf<String>(),
+            classLoader
+        ).also { loadLib(it) }
+    }
 }
 
 /**
- * 编译 JS 脚本。 (创建一个新的脚本引擎)
+ * 编译 JS 脚本。
  *
  * @param string 待编译脚本文本。
  * @return 已编译 JS 脚本。
@@ -48,7 +71,7 @@ fun compile(string: String): CompiledScript {
 }
 
 /**
- * 编译 JS 脚本。 (使用现有的脚本引擎)
+ * 编译 JS 脚本。
  *
  * @param engine 脚本引擎。
  * @param string 待编译脚本文本。
@@ -96,8 +119,11 @@ fun run(compiledScript: CompiledScript, function: String) {
  * @return 是否存在对应函数。
  */
 fun hasFunction(engine: ScriptEngine, function: String): Boolean {
-    val func = engine.get(function)
-    return func is JDKScriptObjectMirror && func.isFunction
+    try {
+        return engine.get(function).let { it is JDKScriptObjectMirror && it.isFunction }
+    } catch (_: NoClassDefFoundError) {
+        return engine.get(function).let { it is ScriptObjectMirror && it.isFunction }
+    }
 }
 
 /**
