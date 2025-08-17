@@ -14,13 +14,13 @@ LevelGroupInfo:
     text: " [&8<&7检查成员&8>] [&8<&7新增成员&8>] [&8<&7移除成员&8>] [&8<&7成员信息&8>] "
     args:
       - hover: "点击检查等级组中是否存在成员"
-        suggest: "/akarilevel player has 成员名称 {0}"
+        suggest: "/akarilevel member has 成员名称 {0}"
       - hover: "点击为等级组增加成员"
-        suggest: "/akarilevel player add 成员名称 {0}"
+        suggest: "/akarilevel member add 成员名称 {0}"
       - hover: "点击从等级组移除成员"
-        suggest: "/akarilevel player remove 成员名称 {0}"
+        suggest: "/akarilevel member remove 成员名称 {0}"
       - hover: "点击查看成员信息"
-        suggest: "/akarilevel player info 成员名称 {0}"
+        suggest: "/akarilevel member info 成员名称 {0}"
   - type: JSON
     text: " [&8<&7取消注册&8>] [&8<&7重新注册&8>] "
     args:
