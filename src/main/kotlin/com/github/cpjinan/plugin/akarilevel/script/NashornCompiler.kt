@@ -1,22 +1,7 @@
-@file:RuntimeDependencies(
-    RuntimeDependency(
-        "!org.openjdk.nashorn:nashorn-core:15.6",
-        test = "!jdk.nashorn.api.scripting.NashornScriptEngineFactory",
-        relocate = ["!org.openjdk.nashorn", "!com.github.cpjinan.plugin.akarilevel.nashorn"]
-    ),
-    RuntimeDependency(
-        "!org.ow2.asm:asm:9.8",
-        relocate = ["!org.ow2.asm", "!com.github.cpjinan.plugin.akarilevel.asm"]
-    )
-)
-
-
 package com.github.cpjinan.plugin.akarilevel.script
 
 import org.openjdk.nashorn.api.scripting.NashornScriptEngineFactory
 import org.openjdk.nashorn.api.scripting.ScriptObjectMirror
-import taboolib.common.env.RuntimeDependencies
-import taboolib.common.env.RuntimeDependency
 import taboolib.platform.util.bukkitPlugin
 import javax.script.Compilable
 import javax.script.CompiledScript
