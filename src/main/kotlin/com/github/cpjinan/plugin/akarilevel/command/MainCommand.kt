@@ -1,7 +1,7 @@
 package com.github.cpjinan.plugin.akarilevel.command
 
 import com.github.cpjinan.plugin.akarilevel.command.subcommand.LevelGroupCommand
-import com.github.cpjinan.plugin.akarilevel.command.subcommand.PlayerCommand
+import com.github.cpjinan.plugin.akarilevel.command.subcommand.MemberCommand
 import com.github.cpjinan.plugin.akarilevel.config.SettingsConfig
 import com.github.cpjinan.plugin.akarilevel.event.PluginReloadEvent
 import com.github.cpjinan.plugin.akarilevel.level.ConfigLevelGroup
@@ -38,10 +38,10 @@ object MainCommand {
     val levelGroup = LevelGroupCommand.levelGroup
 
     @CommandBody(
-        permission = "AkariLevel.command.player.use",
+        permission = "AkariLevel.command.member.use",
         permissionDefault = PermissionDefault.OP
     )
-    val player = PlayerCommand.player
+    val member = MemberCommand.member
 
     @CommandBody(
         permission = "AkariLevel.command.reload.use",

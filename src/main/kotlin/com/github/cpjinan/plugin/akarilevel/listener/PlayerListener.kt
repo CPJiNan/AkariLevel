@@ -18,10 +18,10 @@ import taboolib.common.platform.function.submit
 object PlayerListener {
     @SubscribeEvent
     fun onPlayerQuit(event: PlayerQuitEvent) {
-        val member = "player:${event.player.name}"
-        if (!isDirty(member)) return
+        val playerName = event.player.name
+        if (!isDirty(playerName)) return
         submit(async = true) {
-            forcePersist(member)
+            forcePersist(playerName)
         }
     }
 }

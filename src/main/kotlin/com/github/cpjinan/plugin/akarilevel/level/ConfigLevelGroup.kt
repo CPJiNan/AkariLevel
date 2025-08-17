@@ -90,7 +90,8 @@ class ConfigLevelGroup(val config: ConfigurationSection) : LevelGroup {
 
     override fun getLevelName(member: String, level: Long): String {
         return getLevelName(level).let {
-            if (member.startsWith("player:")) it.replacePlaceholder(getOfflinePlayer(member.substringAfter("player:")))
+            val offlinePlayer = getOfflinePlayer(member)
+            if (offlinePlayer.hasPlayedBefore()) it.replacePlaceholder(offlinePlayer)
             else it
         }
     }
@@ -257,9 +258,9 @@ class ConfigLevelGroup(val config: ConfigurationSection) : LevelGroup {
             getLevelConfig(level).getString("Exp").orEmpty()
                 .replace("{level}" to level)
                 .let {
-                    if (member.startsWith("player:")) {
-                        it.replacePlaceholder(getOfflinePlayer(member.substringAfter("player:")))
-                    } else it
+                    val offlinePlayer = getOfflinePlayer(member)
+                    if (offlinePlayer.hasPlayedBefore()) it.replacePlaceholder(offlinePlayer)
+                    else it
                 }
         ).toLong()
     }
