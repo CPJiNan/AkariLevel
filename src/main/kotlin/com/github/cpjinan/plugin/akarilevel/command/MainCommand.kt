@@ -6,6 +6,7 @@ import com.github.cpjinan.plugin.akarilevel.config.PlayerConfig
 import com.github.cpjinan.plugin.akarilevel.config.SettingsConfig
 import com.github.cpjinan.plugin.akarilevel.event.PluginReloadEvent
 import com.github.cpjinan.plugin.akarilevel.level.ConfigLevelGroup
+import com.github.cpjinan.plugin.akarilevel.manager.ScriptManager
 import taboolib.common.platform.ProxyCommandSender
 import taboolib.common.platform.command.*
 import taboolib.expansion.createHelper
@@ -61,6 +62,9 @@ object MainCommand {
 
             // 重载语言文件。
             Language.reload()
+
+            // 重载脚本。
+            ScriptManager.reload()
 
             PluginReloadEvent.Post().call()
             sender.sendLang("PluginReloaded")
