@@ -9,10 +9,13 @@ import com.github.cpjinan.plugin.akarilevel.event.MemberChangeEvent
 import com.github.cpjinan.plugin.akarilevel.level.LevelGroup.MemberChangeType
 import com.github.cpjinan.plugin.akarilevel.manager.CacheManager
 import org.bukkit.Bukkit.getOfflinePlayer
+import taboolib.common.platform.function.adaptPlayer
 import taboolib.common5.util.replace
 import taboolib.library.configuration.ConfigurationSection
 import taboolib.module.chat.colored
 import taboolib.module.configuration.Type
+import taboolib.module.kether.KetherShell
+import taboolib.module.kether.ScriptOptions
 import taboolib.platform.compat.replacePlaceholder
 import top.maplex.arim.Arim
 import top.maplex.arim.tools.folderreader.releaseResourceFolderAndRead
@@ -221,6 +224,22 @@ class ConfigLevelGroup(val config: ConfigurationSection) : LevelGroup {
     }
 
     /**
+     * 执行等级动作。
+     *
+     * @param member 成员。
+     * @param level 等级。
+     */
+    fun runLevelAction(member: String, level: Long) {
+        val offlinePlayer = getOfflinePlayer(member)
+        if (!offlinePlayer.isOnline) return
+        KetherShell.eval(
+            getLevelConfig(level).getStringList("Action.Kether")
+                .replace("{member}" to member, "{level}" to level),
+            ScriptOptions(sender = adaptPlayer(offlinePlayer.player))
+        )
+    }
+
+    /**
      * 获取等级配置。
      *
      * @param level 等级。
@@ -284,6 +303,10 @@ class ConfigLevelGroup(val config: ConfigurationSection) : LevelGroup {
 
     override fun onUnregister() {
         removeConfigLevelGroup(name)
+    }
+
+    override fun onMemberLevelChange(member: String, oldLevel: Long, newLevel: Long, source: String) {
+        runLevelAction(member, newLevel)
     }
 
     override fun onMemberExpChange(member: String, expAmount: Long, source: String) {
