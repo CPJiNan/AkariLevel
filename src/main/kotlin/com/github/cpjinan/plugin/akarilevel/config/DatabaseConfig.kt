@@ -1,10 +1,11 @@
 package com.github.cpjinan.plugin.akarilevel.config
 
 import com.github.cpjinan.plugin.akarilevel.config.SettingsConfig.settings
-import com.github.cpjinan.plugin.akarilevel.utils.FileUtils
+import taboolib.common.platform.function.getDataFolder
 import taboolib.module.database.HostSQL
 import taboolib.module.database.HostSQLite
 import taboolib.module.database.getHost
+import java.io.File
 
 /**
  * AkariLevel
@@ -33,6 +34,11 @@ object DatabaseConfig {
     }
 
     val hostSQLite: HostSQLite by lazy {
-        HostSQLite(FileUtils.getFileOrCreate(file))
+        HostSQLite(
+            File(getDataFolder(), file).apply {
+                parentFile?.mkdirs()
+                createNewFile()
+            }
+        )
     }
 }

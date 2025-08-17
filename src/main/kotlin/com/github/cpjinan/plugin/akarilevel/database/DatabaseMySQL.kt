@@ -60,7 +60,7 @@ class DatabaseMySQL() : Database {
     init {
         memberTable.createTable(dataSource)
 
-        try {
+        runCatching {
             enableDistributedLock = distributedLock.tryLock("test", 1)
             if (enableDistributedLock) distributedLock.unlock("test")
 
@@ -72,9 +72,9 @@ class DatabaseMySQL() : Database {
                     getString("key") to getString("value").orEmpty()
                 }.toMap(ConcurrentHashMap())
             )
-        } catch (e: Exception) {
+        }.onFailure {
             enableDistributedLock = false
-            throw e
+            it.printStackTrace()
         }
     }
 
