@@ -54,6 +54,7 @@ LevelGroupListFooter:
 LevelGroupUnregister: "&8[&3Akari&bLevel&8] &7已取消注册等级组 &f{0} &7。"
 LevelGroupReregister: "&8[&3Akari&bLevel&8] &7已重新注册等级组 &f{0} &7。"
 LevelGroupReload: "&8[&3Akari&bLevel&8] &7已从配置文件重新加载 &f{0} &7个等级组。"
+IllegalNumberFormat: "&8[&3Akari&bLevel&8] &f{0} &7不是一个合法的数字。"
 MemberHas: "&8[&3Akari&bLevel&8] &7等级组 &f{0} &7中已存在成员 &f{1} &7。"
 MemberNotFound: "&8[&3Akari&bLevel&8] &7未在等级组 &f{0} &7中找到成员 &f{1} &7。"
 MemberAdd: "&8[&3Akari&bLevel&8] &7已为等级组 &f{0} &7增加成员 &f{1} &7。"

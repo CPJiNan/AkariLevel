@@ -134,8 +134,16 @@ object MemberCommand {
                         sender.sendLang("MemberNotFound", groupName, memberName)
                         return@execute
                     }
-                    val amount = context["amount"].substringBefore(" ").toLong()
-                    group.setMemberLevel(memberName, amount, "COMMAND_SET_LEVEL")
+                    val amount = context["amount"].substringBefore(" ").toLongOrNull()
+                    if (amount == null) {
+                        sender.sendLang("IllegalNumberFormat", context["amount"])
+                        return@execute
+                    }
+                    group.setMemberLevel(
+                        memberName,
+                        amount,
+                        "COMMAND_SET_LEVEL"
+                    )
                     sender.sendLang("MemberLevelSet", memberName, groupName, amount)
                 }
             }
@@ -157,7 +165,11 @@ object MemberCommand {
                         sender.sendLang("MemberNotFound", groupName, memberName)
                         return@execute
                     }
-                    val amount = context["amount"].substringBefore(" ").toLong()
+                    val amount = context["amount"].substringBefore(" ").toLongOrNull()
+                    if (amount == null) {
+                        sender.sendLang("IllegalNumberFormat", context["amount"])
+                        return@execute
+                    }
                     group.addMemberLevel(memberName, amount, "COMMAND_ADD_LEVEL")
                     sender.sendLang("MemberLevelAdd", memberName, groupName, amount)
                 }
@@ -180,7 +192,11 @@ object MemberCommand {
                         sender.sendLang("MemberNotFound", groupName, memberName)
                         return@execute
                     }
-                    val amount = context["amount"].substringBefore(" ").toLong()
+                    val amount = context["amount"].substringBefore(" ").toLongOrNull()
+                    if (amount == null) {
+                        sender.sendLang("IllegalNumberFormat", context["amount"])
+                        return@execute
+                    }
                     group.removeMemberLevel(memberName, amount, "COMMAND_REMOVE_LEVEL")
                     sender.sendLang("MemberLevelRemove", memberName, groupName, amount)
                 }
@@ -207,7 +223,11 @@ object MemberCommand {
                         sender.sendLang("MemberNotFound", groupName, memberName)
                         return@execute
                     }
-                    val amount = context["amount"].substringBefore(" ").toLong()
+                    val amount = context["amount"].substringBefore(" ").toLongOrNull()
+                    if (amount == null) {
+                        sender.sendLang("IllegalNumberFormat", context["amount"])
+                        return@execute
+                    }
                     group.setMemberExp(memberName, amount, "COMMAND_SET_EXP")
                     sender.sendLang("MemberExpSet", memberName, groupName, amount)
                 }
@@ -230,7 +250,11 @@ object MemberCommand {
                         sender.sendLang("MemberNotFound", groupName, memberName)
                         return@execute
                     }
-                    val amount = context["amount"].substringBefore(" ").toLong()
+                    val amount = context["amount"].substringBefore(" ").toLongOrNull()
+                    if (amount == null) {
+                        sender.sendLang("IllegalNumberFormat", context["amount"])
+                        return@execute
+                    }
                     group.addMemberExp(memberName, amount, "COMMAND_ADD_EXP")
                     sender.sendLang("MemberExpAdd", memberName, groupName, amount)
                 }
@@ -253,7 +277,11 @@ object MemberCommand {
                         sender.sendLang("MemberNotFound", groupName, memberName)
                         return@execute
                     }
-                    val amount = context["amount"].substringBefore(" ").toLong()
+                    val amount = context["amount"].substringBefore(" ").toLongOrNull()
+                    if (amount == null) {
+                        sender.sendLang("IllegalNumberFormat", context["amount"])
+                        return@execute
+                    }
                     group.removeMemberExp(memberName, amount, "COMMAND_REMOVE_EXP")
                     sender.sendLang("MemberExpRemove", memberName, groupName, amount)
                 }
