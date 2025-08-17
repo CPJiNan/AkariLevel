@@ -287,6 +287,9 @@ class ConfigLevelGroup(val config: ConfigurationSection) : LevelGroup {
     }
 
     override fun onMemberExpChange(member: String, expAmount: Long, source: String) {
-        if (config.getBoolean("Level.Auto-LevelUp")) levelUpMember(member)
+        when (config.getString("Level.Exp-Type", "Absolute")) {
+            "Absolute" -> levelUpMember(member)
+            "Relative" -> if (config.getBoolean("Level.Auto-LevelUp")) levelUpMember(member)
+        }
     }
 }
