@@ -82,7 +82,7 @@ object PlaceholderAPIHook : PlaceholderExpansion {
 
             "levelexpfromto" -> {
                 val oldLevel = argsList[2].toLongOrNull() ?: return notAvailable
-                val newLevel = argsList[2].toLongOrNull() ?: return notAvailable
+                val newLevel = argsList[3].toLongOrNull() ?: return notAvailable
                 if (oldLevel > newLevel) return notAvailable
                 levelGroup.getLevelExp(oldLevel, newLevel)
             }
