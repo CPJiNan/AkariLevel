@@ -9,6 +9,7 @@ import taboolib.common.platform.Awake
 import taboolib.common.platform.event.SubscribeEvent
 import taboolib.common.platform.function.getDataFolder
 import taboolib.common.platform.function.releaseResourceFolder
+import taboolib.common.platform.function.submit
 import java.io.File
 import java.util.concurrent.ConcurrentHashMap
 import javax.script.CompiledScript
@@ -46,17 +47,19 @@ object ScriptManager {
      */
     @Awake(LifeCycle.ACTIVE)
     fun load() {
-        File(getDataFolder(), "script").run {
-            takeUnless { exists() }?.let { releaseResourceFolder("script") }
-            walk()
-                .filter { it.isFile && it.name.endsWith(".js") }
-                .forEach {
-                    runCatching {
-                        scripts[it.nameWithoutExtension] = compile(it.readText())
-                    }.onFailure {
-                        it.printStackTrace()
+        submit(async = true) {
+            File(getDataFolder(), "script").run {
+                takeUnless { exists() }?.let { releaseResourceFolder("script") }
+                walk()
+                    .filter { it.isFile && it.name.endsWith(".js") }
+                    .forEach {
+                        runCatching {
+                            scripts[it.nameWithoutExtension] = compile(it.readText())
+                        }.onFailure {
+                            it.printStackTrace()
+                        }
                     }
-                }
+            }
         }
     }
 
