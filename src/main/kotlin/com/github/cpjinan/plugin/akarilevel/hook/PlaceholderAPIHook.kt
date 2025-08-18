@@ -1,6 +1,5 @@
 package com.github.cpjinan.plugin.akarilevel.hook
 
-import com.github.cpjinan.plugin.akarilevel.level.ConfigLevelGroup
 import com.github.cpjinan.plugin.akarilevel.level.LevelGroup
 import org.bukkit.OfflinePlayer
 import taboolib.common.platform.function.console
@@ -34,12 +33,11 @@ object PlaceholderAPIHook : PlaceholderExpansion {
         val playerName = player.name
         val levelGroup = LevelGroup.getLevelGroups()[argsList[0]]
         if (levelGroup == null) return notAvailable
-        val configLevelGroup = ConfigLevelGroup.getConfigLevelGroups()[levelGroup.name]
         val currentLevel = levelGroup.getMemberLevel(playerName)
         val lastLevel = currentLevel - 1
         val nextLevel = currentLevel + 1
-        val minLevel = configLevelGroup?.getMinLevel()
-        val maxLevel = configLevelGroup?.getMaxLevel()
+        val minLevel = levelGroup.getMinLevel()
+        val maxLevel = levelGroup.getMaxLevel()
         val currentExp = levelGroup.getMemberExp(playerName)
         val nextLevelExp = levelGroup.getLevelExp(currentLevel, currentLevel + 1)
 
@@ -52,8 +50,8 @@ object PlaceholderAPIHook : PlaceholderExpansion {
             "level" -> currentLevel
             "lastlevel" -> lastLevel
             "nextlevel" -> nextLevel
-            "minlevel" -> minLevel ?: notAvailable
-            "maxlevel" -> maxLevel ?: notAvailable
+            "minlevel" -> minLevel
+            "maxlevel" -> maxLevel
 
             // 经验。
             "exp" -> currentExp
@@ -89,7 +87,6 @@ object PlaceholderAPIHook : PlaceholderExpansion {
 
             // 升级进度百分比。
             "levelprogresspercent" -> {
-                if (maxLevel == null) return notAvailable
                 (currentLevel.toDouble() / maxLevel * 100).coerceIn(0.0, 100.0).toLong()
             }
 
@@ -99,7 +96,6 @@ object PlaceholderAPIHook : PlaceholderExpansion {
 
             // 升级进度条。
             "levelprogressbar" -> {
-                if (maxLevel == null) return notAvailable
                 createBar(
                     console().asLangText("PlaceholderLevelBarEmpty").colored(),
                     console().asLangText("PlaceholderLevelBarEmpty").colored(),

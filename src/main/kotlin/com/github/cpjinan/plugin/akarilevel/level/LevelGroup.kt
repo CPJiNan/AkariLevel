@@ -133,6 +133,20 @@ interface LevelGroup {
     }
 
     /**
+     * 获取最低等级。
+     *
+     * @return 等级组的最低等级。
+     */
+    fun getMinLevel(): Long
+
+    /**
+     * 获取最高等级。
+     *
+     * @return 等级组的最高等级。
+     */
+    fun getMaxLevel(): Long
+
+    /**
      * 是否包含成员。
      *
      * @param member 成员。
