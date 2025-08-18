@@ -299,7 +299,7 @@ object MemberCommand {
                     return@execute
                 }
                 val group = ConfigLevelGroup.getConfigLevelGroups()[groupName]
-                if (group == null) {
+                if (group == null || group.config.getString("Level.Exp-Type", "Absolute") == "Absolute") {
                     sender.sendLang("MemberLevelUpNotSupport", groupName)
                     return@execute
                 }
