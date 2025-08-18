@@ -291,7 +291,7 @@ object MemberCommand {
 
         // 成员升级命令。
         literal("levelUp").dynamic("levelGroup") {
-            suggestUncheck { LevelGroup.getLevelGroups().keys.sortedBy { it } }
+            suggestUncheck { ConfigLevelGroup.getConfigLevelGroups().keys.sortedBy { it } }
             execute<ProxyCommandSender> { sender, context, content ->
                 val groupName = context["levelGroup"].substringBefore(" ")
                 if (LevelGroup.getLevelGroups()[groupName] == null) {
