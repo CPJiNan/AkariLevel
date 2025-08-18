@@ -1,5 +1,6 @@
 package com.github.cpjinan.plugin.akarilevel.command.subcommand
 
+import com.github.cpjinan.plugin.akarilevel.level.ConfigLevelGroup
 import com.github.cpjinan.plugin.akarilevel.level.LevelGroup
 import taboolib.common.platform.ProxyCommandSender
 import taboolib.common.platform.command.subCommand
@@ -285,6 +286,31 @@ object MemberCommand {
                     group.removeMemberExp(memberName, amount, "COMMAND_REMOVE_EXP")
                     sender.sendLang("MemberExpRemove", memberName, groupName, amount)
                 }
+            }
+        }
+
+        // 成员升级命令。
+        literal("levelUp").dynamic("levelGroup") {
+            suggestUncheck { LevelGroup.getLevelGroups().keys.sortedBy { it } }
+            execute<ProxyCommandSender> { sender, context, content ->
+                val groupName = context["levelGroup"].substringBefore(" ")
+                if (LevelGroup.getLevelGroups()[groupName] == null) {
+                    sender.sendLang("LevelGroupNotFound", groupName)
+                    return@execute
+                }
+                val group = ConfigLevelGroup.getConfigLevelGroups()[groupName]
+                if (group == null) {
+                    sender.sendLang("MemberLevelUpNotSupport", groupName)
+                    return@execute
+                }
+                val memberName = if (content.contains(" ")) content.substringAfter(" ")
+                else sender.name
+                if (group.hasMember(memberName)) {
+                    sender.sendLang("MemberHas", groupName, memberName)
+                    return@execute
+                }
+                group.levelUpMember(memberName)
+                sender.sendLang("MemberLevelUp", memberName, groupName)
             }
         }
     }
