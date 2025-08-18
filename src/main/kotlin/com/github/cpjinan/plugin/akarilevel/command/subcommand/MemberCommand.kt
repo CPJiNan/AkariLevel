@@ -305,8 +305,8 @@ object MemberCommand {
                 }
                 val memberName = if (content.contains(" ")) content.substringAfter(" ")
                 else sender.name
-                if (group.hasMember(memberName)) {
-                    sender.sendLang("MemberHas", groupName, memberName)
+                if (!group.hasMember(memberName)) {
+                    sender.sendLang("MemberNotFound", groupName, memberName)
                     return@execute
                 }
                 group.levelUpMember(memberName)
