@@ -20,6 +20,8 @@ Example:
     Max: 100
     # 满足要求自动升级
     Auto-LevelUp: true
+    # 逐步升级
+    LevelUP-Stepwise: false
     # 经验计算方式 (Absolute, Relative)
     Exp-Type: "Absolute"
     # 达到最大等级后不再获取经验
