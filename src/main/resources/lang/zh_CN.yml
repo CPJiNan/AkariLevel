@@ -94,7 +94,7 @@ MemberInfo:
 MemberLevelSet: "&8[&3Akari&bLevel&8] &7已设置成员 &f{0} &7的 &f{1} &7等级为 &f{2} &7。"
 MemberLevelAdd: "&8[&3Akari&bLevel&8] &7已增加成员 &f{0} &7的 &f{2} &7个 &f{1} &7等级。"
 MemberLevelRemove: "&8[&3Akari&bLevel&8] &7已移除成员 &f{0} &7的 &f{2} &7个 &f{1} &7等级。"
-MemberLevelUp: "&8[&3Akari&bLevel&8] &7已为成员 &f{0} &7的 &f{1} &7执行升级。"
+MemberLevelUp: "&8[&3Akari&bLevel&8] &7已为成员 &f{0} &7的 &f{2} &7执行升级。"
 MemberLevelUpNotSupport: "&8[&3Akari&bLevel&8] &f{0} &7等级组不支持使用自动升级。"
 MemberExpSet: "&8[&3Akari&bLevel&8] &7已设置成员 &f{0} &7的 &f{1} &7经验为 &f{2} &7。"
 MemberExpAdd: "&8[&3Akari&bLevel&8] &7已增加成员 &f{0} &7的 &f{2} &7个 &f{1} &7经验。"

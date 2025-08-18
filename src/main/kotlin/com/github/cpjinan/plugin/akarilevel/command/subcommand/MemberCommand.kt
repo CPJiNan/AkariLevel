@@ -310,7 +310,7 @@ object MemberCommand {
                     return@execute
                 }
                 group.levelUpMember(memberName)
-                sender.sendLang("MemberLevelUp", memberName, groupName)
+                sender.sendLang("MemberLevelUp", memberName, groupName, group.display)
             }
         }
     }
