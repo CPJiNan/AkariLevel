@@ -200,16 +200,12 @@ class ConfigLevelGroup(val config: ConfigurationSection) : LevelGroup {
 
         when (config.getString("Level.Exp-Type", "Absolute")) {
             "Absolute" -> {
-                if (!config.getBoolean("Level.Stepwise-LevelUP", false)) {
-                    while (currentExp >= getLevelExp(member, 0, targetLevel + 1)) targetLevel++
-                } else if (currentExp >= getLevelExp(member, 0, targetLevel + 1)) targetLevel++
+                while (currentExp >= getLevelExp(member, 0, targetLevel + 1)) targetLevel++
                 if (targetLevel > currentLevel) setMemberLevel(member, targetLevel, "LEVEL_UP")
             }
 
             "Relative" -> {
-                if (!config.getBoolean("Level.Stepwise-LevelUP", false)) {
-                    while (currentExp >= getLevelExp(member, currentLevel, targetLevel + 1)) targetLevel++
-                } else if (currentExp >= getLevelExp(member, currentLevel, targetLevel + 1)) targetLevel++
+                while (currentExp >= getLevelExp(member, currentLevel, targetLevel + 1)) targetLevel++
                 if (targetLevel > currentLevel) {
                     setMemberLevel(member, targetLevel, "LEVEL_UP")
                     removeMemberExp(member, getLevelExp(member, currentLevel, targetLevel), "LEVEL_UP")
@@ -314,9 +310,7 @@ class ConfigLevelGroup(val config: ConfigurationSection) : LevelGroup {
                     val currentExp = getMemberExp(member)
                     if (currentLevel >= getMaxLevel()) return
                     var targetLevel = currentLevel
-                    if (!config.getBoolean("Level.Stepwise-LevelUP", false)) {
-                        while (currentExp >= getLevelExp(member, currentLevel, targetLevel + 1)) targetLevel++
-                    } else if (currentExp >= getLevelExp(member, currentLevel, targetLevel + 1)) targetLevel++
+                    while (currentExp >= getLevelExp(member, currentLevel, targetLevel + 1)) targetLevel++
                     if (targetLevel > currentLevel && getLevelConfig(targetLevel).getBoolean("Auto-LevelUp", true)) {
                         levelUpMember(member)
                     }
