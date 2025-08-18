@@ -53,7 +53,8 @@ class MySQLDistributedLock(
                         }
                     }
                 }
-            } catch (_: Exception) {
+            } catch (e: Exception) {
+                e.printStackTrace()
                 Thread.sleep(config.retryDelayMs * (attempt + 1))
             }
         }
@@ -72,7 +73,8 @@ class MySQLDistributedLock(
                     } else false
                 }
             }
-        } catch (_: Exception) {
+        } catch (e: Exception) {
+            e.printStackTrace()
             false
         }
     }
@@ -89,7 +91,8 @@ class MySQLDistributedLock(
                     } else false
                 }
             }
-        } catch (_: Exception) {
+        } catch (e: Exception) {
+            e.printStackTrace()
             false
         }
     }

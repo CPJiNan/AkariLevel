@@ -44,7 +44,8 @@ object CacheManager {
                         with(Database.INSTANCE) {
                             set(memberTable, it, gson.toJson(memberCache[it] ?: throw NullPointerException()))
                         }
-                    } catch (_: Exception) {
+                    } catch (e: Exception) {
+                        e.printStackTrace()
                         markDirty(it)
                     }
                 }

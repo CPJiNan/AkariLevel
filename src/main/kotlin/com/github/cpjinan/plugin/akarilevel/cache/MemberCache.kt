@@ -35,8 +35,12 @@ object MemberCache {
             when (cause) {
                 EXPIRED, SIZE -> {
                     submit(async = true) {
-                        with(Database.INSTANCE) {
-                            set(memberTable, key, gson.toJson(value))
+                        try {
+                            with(Database.INSTANCE) {
+                                set(memberTable, key, gson.toJson(value))
+                            }
+                        } catch (e: Exception) {
+                            e.printStackTrace()
                         }
                     }
                 }
@@ -54,12 +58,14 @@ object MemberCache {
                             try {
                                 val memberData = gson.fromJson(json, MemberData::class.java)
                                 memberData
-                            } catch (_: Exception) {
+                            } catch (e: Exception) {
+                                e.printStackTrace()
                                 null
                             }
                         }
                 }
-            } catch (_: Exception) {
+            } catch (e: Exception) {
+                e.printStackTrace()
                 null
             }
         }

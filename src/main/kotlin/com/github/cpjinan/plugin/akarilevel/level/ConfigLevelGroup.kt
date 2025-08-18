@@ -145,7 +145,8 @@ class ConfigLevelGroup(val config: ConfigurationSection) : LevelGroup {
         return try {
             val memberData = memberCache.getWithBuiltInLoader(member)
             memberData?.levelGroups[name]?.level ?: getMinLevel()
-        } catch (_: Exception) {
+        } catch (e: Exception) {
+            e.printStackTrace()
             getMinLevel()
         }
     }

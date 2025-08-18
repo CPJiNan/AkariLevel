@@ -20,7 +20,8 @@ enum class DatabaseType {
         val INSTANCE by lazy {
             try {
                 valueOf(DatabaseConfig.type.uppercase())
-            } catch (_: Exception) {
+            } catch (e: Exception) {
+                e.printStackTrace()
                 SQLITE
             }
         }

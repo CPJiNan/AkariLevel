@@ -103,10 +103,10 @@ fun invoke(compiledScript: CompiledScript, function: String, vararg args: Any): 
 fun run(compiledScript: CompiledScript, function: String) {
     compiledScript.eval()
     if (hasFunction(compiledScript.engine, function)) {
-        runCatching {
+        try {
             invoke(compiledScript, function)
-        }.onFailure {
-            it.printStackTrace()
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 }

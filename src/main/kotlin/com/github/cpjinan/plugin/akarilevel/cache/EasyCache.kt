@@ -27,7 +27,8 @@ class EasyCache<K : Any, V : Any> private constructor(
             val result = caffeineCache.getIfPresent(key)
             if (result != null) circuitBreaker?.recordSuccess()
             result
-        } catch (_: Exception) {
+        } catch (e: Exception) {
+            e.printStackTrace()
             circuitBreaker?.recordFailure()
             null
         }
@@ -39,7 +40,8 @@ class EasyCache<K : Any, V : Any> private constructor(
         try {
             caffeineCache.put(key, value)
             circuitBreaker?.recordSuccess()
-        } catch (_: Exception) {
+        } catch (e: Exception) {
+            e.printStackTrace()
             circuitBreaker?.recordFailure()
         }
     }
@@ -51,7 +53,8 @@ class EasyCache<K : Any, V : Any> private constructor(
             val result = caffeineCache.get(key) { loader(it) }
             circuitBreaker?.recordSuccess()
             result
-        } catch (_: Exception) {
+        } catch (e: Exception) {
+            e.printStackTrace()
             circuitBreaker?.recordFailure()
             null
         }
@@ -64,7 +67,8 @@ class EasyCache<K : Any, V : Any> private constructor(
             val result = caffeineCache.getAllPresent(keys)
             circuitBreaker?.recordSuccess()
             result
-        } catch (_: Exception) {
+        } catch (e: Exception) {
+            e.printStackTrace()
             circuitBreaker?.recordFailure()
             emptyMap()
         }
@@ -76,7 +80,8 @@ class EasyCache<K : Any, V : Any> private constructor(
         try {
             caffeineCache.putAll(entries)
             circuitBreaker?.recordSuccess()
-        } catch (_: Exception) {
+        } catch (e: Exception) {
+            e.printStackTrace()
             circuitBreaker?.recordFailure()
         }
     }
@@ -110,7 +115,8 @@ class EasyCache<K : Any, V : Any> private constructor(
                 circuitBreaker?.recordSuccess()
             }
             result
-        } catch (_: Exception) {
+        } catch (e: Exception) {
+            e.printStackTrace()
             circuitBreaker?.recordFailure()
             null
         }
@@ -125,7 +131,8 @@ class EasyCache<K : Any, V : Any> private constructor(
             val result = caffeineCache.asMap().compute(key, remappingFunction)
             circuitBreaker?.recordSuccess()
             result
-        } catch (_: Exception) {
+        } catch (e: Exception) {
+            e.printStackTrace()
             circuitBreaker?.recordFailure()
             null
         }

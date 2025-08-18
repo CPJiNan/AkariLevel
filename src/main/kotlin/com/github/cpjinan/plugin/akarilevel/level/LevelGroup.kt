@@ -142,7 +142,8 @@ interface LevelGroup {
         return try {
             val memberData = memberCache.getWithBuiltInLoader(member)
             memberData?.levelGroups?.keys?.contains(name) ?: false
-        } catch (_: Exception) {
+        } catch (e: Exception) {
+            e.printStackTrace()
             false
         }
     }
@@ -199,7 +200,8 @@ interface LevelGroup {
         return try {
             val memberData = memberCache.getWithBuiltInLoader(member)
             memberData?.levelGroups[name]?.level ?: 0
-        } catch (_: Exception) {
+        } catch (e: Exception) {
+            e.printStackTrace()
             0
         }
     }
@@ -214,7 +216,8 @@ interface LevelGroup {
         return try {
             val memberData = memberCache.getWithBuiltInLoader(member)
             memberData?.levelGroups[name]?.exp ?: 0
-        } catch (_: Exception) {
+        } catch (e: Exception) {
+            e.printStackTrace()
             0
         }
     }

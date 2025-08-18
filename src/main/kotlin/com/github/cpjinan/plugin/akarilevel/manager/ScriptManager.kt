@@ -51,10 +51,10 @@ object ScriptManager {
             walk()
                 .filter { it.isFile && it.name.endsWith(".js") }
                 .forEach {
-                    runCatching {
+                    try {
                         scripts[it.nameWithoutExtension] = compile(it.readText())
-                    }.onFailure {
-                        it.printStackTrace()
+                    } catch (e: Exception) {
+                        e.printStackTrace()
                     }
                 }
         }
