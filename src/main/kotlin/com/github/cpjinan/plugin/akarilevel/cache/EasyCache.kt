@@ -87,21 +87,37 @@ class EasyCache<K : Any, V : Any> private constructor(
     }
 
     override fun invalidate(key: K) {
-        caffeineCache.invalidate(key)
+        try {
+            caffeineCache.invalidate(key)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
     override fun invalidateAll(keys: Iterable<K>) {
-        caffeineCache.invalidateAll(keys)
+        try {
+            caffeineCache.invalidateAll(keys)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
     override fun invalidateAll() {
-        caffeineCache.invalidateAll()
+        try {
+            caffeineCache.invalidateAll()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
     override fun size(): Long = caffeineCache.estimatedSize()
 
     override fun cleanup() {
-        caffeineCache.cleanUp()
+        try {
+            caffeineCache.cleanUp()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
     fun getCircuitBreaker(): CircuitBreaker? = circuitBreaker
