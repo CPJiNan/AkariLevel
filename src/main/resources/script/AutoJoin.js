@@ -19,15 +19,15 @@ function onPlayerJoin() {
                 var playerName = event.getPlayer().getName();
 
                 // 设置等级组列表。
-                var levelGroups = new java.util.ArrayList();
-                // levelGroups.add("Example");
+                var levelGroupNames = new java.util.ArrayList();
+                // levelGroupNames.add("Example");
 
                 // 自动加入等级组。
-                levelGroups.forEach(
+                levelGroupNames.forEach(
                     function (name) {
-                        var group = LevelGroup.getLevelGroups()[name]
-                        if (group !== null && !group.hasMember(playerName)) {
-                            group.addMember(playerName, "AUTO_JOIN")
+                        var levelGroup = LevelGroup.getLevelGroups()[name]
+                        if (levelGroup !== null && !levelGroup.hasMember(playerName)) {
+                            levelGroup.addMember(playerName, "AUTO_JOIN")
                         }
                     }
                 );

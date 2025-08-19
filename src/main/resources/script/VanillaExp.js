@@ -17,7 +17,7 @@ function onPlayerExpChange() {
             function (event) {
                 // 获取事件参数。
                 var playerName = event.getPlayer().getName();
-                var amount = new java.lang.Long(event.amount);
+                var amount = event.amount;
 
                 // 为所有等级组增加此来源的经验。
                 LevelGroup.getLevelGroups().values().forEach(
