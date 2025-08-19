@@ -160,18 +160,10 @@ class ConfigLevelGroup(val config: ConfigurationSection) : LevelGroup {
     }
 
     override fun setMemberLevel(member: String, amount: Long, source: String) {
-        when (config.getString("Level.Exp-Type", "Absolute")) {
-            "Absolute" -> {
-                super.setMemberLevel(member, amount.coerceIn(getMinLevel(), getMaxLevel()), source)
-                if (getMemberExp(member) !in getLevelExp(member, 0, amount)..getLevelExp(member, 0, amount + 1)) {
-                    setMemberExp(member, getLevelExp(member, 0, amount), source)
-                }
-            }
-
-            "Relative" -> {
-                super.setMemberLevel(member, amount.coerceIn(getMinLevel(), getMaxLevel()), source)
-            }
-        }
+        super.setMemberLevel(member, amount.coerceIn(getMinLevel(), getMaxLevel()), source)
+        if (config.getString("Level.Exp-Type", "Absolute") == "Absolute" && source != "LEVEL_UP" &&
+            getMemberExp(member) !in getLevelExp(member, 0, amount)..getLevelExp(member, 0, amount + 1)
+        ) setMemberExp(member, getLevelExp(member, 0, amount), source)
     }
 
     override fun addMemberExp(member: String, amount: Long, source: String) {
@@ -200,12 +192,16 @@ class ConfigLevelGroup(val config: ConfigurationSection) : LevelGroup {
 
         when (config.getString("Level.Exp-Type", "Absolute")) {
             "Absolute" -> {
-                while (currentExp >= getLevelExp(member, 0, targetLevel + 1)) targetLevel++
+                if (config.getBoolean("Level.Auto-LevelUp", true)) {
+                    while (currentExp >= getLevelExp(member, 0, targetLevel + 1)) targetLevel++
+                } else if (currentExp >= getLevelExp(member, 0, targetLevel + 1)) targetLevel++
                 if (targetLevel > currentLevel) setMemberLevel(member, targetLevel, "LEVEL_UP")
             }
 
             "Relative" -> {
-                while (currentExp >= getLevelExp(member, currentLevel, targetLevel + 1)) targetLevel++
+                if (config.getBoolean("Level.Auto-LevelUp", true)) {
+                    while (currentExp >= getLevelExp(member, currentLevel, targetLevel + 1)) targetLevel++
+                } else if (currentExp >= getLevelExp(member, currentLevel, targetLevel + 1)) targetLevel++
                 if (targetLevel > currentLevel) {
                     setMemberLevel(member, targetLevel, "LEVEL_UP")
                     removeMemberExp(member, getLevelExp(member, currentLevel, targetLevel), "LEVEL_UP")
@@ -298,23 +294,26 @@ class ConfigLevelGroup(val config: ConfigurationSection) : LevelGroup {
     }
 
     override fun onMemberLevelChange(member: String, oldLevel: Long, newLevel: Long, source: String) {
-        runLevelAction(member, newLevel)
+        when {
+            oldLevel < newLevel -> (oldLevel + 1..newLevel).forEach { runLevelAction(member, it) }
+            oldLevel > newLevel -> ((oldLevel - 1) downTo newLevel).forEach { runLevelAction(member, it) }
+            else -> runLevelAction(member, newLevel)
+        }
     }
 
     override fun onMemberExpChange(member: String, expAmount: Long, source: String) {
-        when (config.getString("Level.Exp-Type", "Absolute")) {
-            "Absolute" -> levelUpMember(member)
-            "Relative" -> {
-                if (config.getBoolean("Level.Auto-LevelUp")) {
-                    val currentLevel = getMemberLevel(member)
-                    val currentExp = getMemberExp(member)
-                    if (currentLevel >= getMaxLevel()) return
-                    var targetLevel = currentLevel
-                    while (currentExp >= getLevelExp(member, currentLevel, targetLevel + 1)) targetLevel++
-                    if (targetLevel > currentLevel && getLevelConfig(targetLevel).getBoolean("Auto-LevelUp", true)) {
-                        levelUpMember(member)
-                    }
-                }
+        // 自动升级。
+        if (config.getBoolean("Level.Auto-LevelUp", true)) {
+            val currentLevel = getMemberLevel(member)
+            val currentExp = getMemberExp(member)
+            if (currentLevel >= getMaxLevel()) return
+            var targetLevel = currentLevel
+            when (config.getString("Level.Exp-Type", "Absolute")) {
+                "Absolute" -> while (currentExp >= getLevelExp(member, 0, targetLevel + 1)) targetLevel++
+                "Relative" -> while (currentExp >= getLevelExp(member, currentLevel, targetLevel + 1)) targetLevel++
+            }
+            if (targetLevel > currentLevel && getLevelConfig(targetLevel).getBoolean("Auto-LevelUp", true)) {
+                levelUpMember(member)
             }
         }
     }
