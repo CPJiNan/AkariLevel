@@ -195,9 +195,7 @@ class ConfigLevelGroup(val config: ConfigurationSection) : LevelGroup {
                 while (currentExp >= getLevelExp(member, 0, targetLevel + 1)) targetLevel++
                 if (!config.getBoolean("Level.Auto-LevelUp", true) ||
                     !getLevelConfig(targetLevel).getBoolean("Auto-LevelUp", true)
-                ) {
-                    if (currentExp >= getLevelExp(member, 0, targetLevel + 1)) targetLevel++
-                }
+                ) if (currentExp >= getLevelExp(member, 0, targetLevel + 1)) targetLevel = currentLevel + 1
                 if (targetLevel > currentLevel) setMemberLevel(member, targetLevel, "LEVEL_UP")
             }
 
@@ -205,9 +203,7 @@ class ConfigLevelGroup(val config: ConfigurationSection) : LevelGroup {
                 while (currentExp >= getLevelExp(member, currentLevel, targetLevel + 1)) targetLevel++
                 if (!config.getBoolean("Level.Auto-LevelUp", true) ||
                     !getLevelConfig(targetLevel).getBoolean("Auto-LevelUp", true)
-                ) {
-                    if (currentExp >= getLevelExp(member, currentLevel, targetLevel + 1)) targetLevel++
-                }
+                ) if (currentExp >= getLevelExp(member, currentLevel, targetLevel + 1)) targetLevel = currentLevel + 1
                 if (targetLevel > currentLevel) {
                     setMemberLevel(member, targetLevel, "LEVEL_UP")
                     removeMemberExp(member, getLevelExp(member, currentLevel, targetLevel), "LEVEL_UP")
