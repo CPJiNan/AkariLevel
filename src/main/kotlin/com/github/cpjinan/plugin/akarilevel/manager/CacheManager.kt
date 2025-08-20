@@ -74,6 +74,7 @@ object CacheManager {
                 }
             }
         }
+
         dirtyMembers.clear()
     }
 
@@ -115,6 +116,7 @@ object CacheManager {
                 throw e
             }
         }
+
         dirtyMembers.remove(member)
     }
 
