@@ -74,7 +74,6 @@ object CacheManager {
                 }
             }
         }
-
         dirtyMembers.clear()
     }
 
@@ -105,8 +104,16 @@ object CacheManager {
      * @throws NullPointerException 如果成员数据为 null。
      */
     fun forcePersist(member: String) {
-        with(Database.INSTANCE) {
-            set(memberTable, member, gson.toJson(memberCache[member] ?: throw NullPointerException()))
+        val memberData = memberCache[member]
+        if (memberData != null) {
+            try {
+                val json = gson.toJson(memberData)
+                with(Database.INSTANCE) {
+                    set(memberTable, member, json)
+                }
+            } catch (e: Exception) {
+                throw e
+            }
         }
         dirtyMembers.remove(member)
     }
