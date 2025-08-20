@@ -62,8 +62,16 @@ object CacheManager {
         if (dirtyMembers.isEmpty()) return
 
         dirtyMembers.keys.forEach {
-            with(Database.INSTANCE) {
-                set(memberTable, it, gson.toJson(memberCache[it] ?: throw NullPointerException()))
+            val memberData = memberCache[it]
+            if (memberData != null) {
+                try {
+                    val json = gson.toJson(memberData)
+                    with(Database.INSTANCE) {
+                        set(memberTable, it, json)
+                    }
+                } catch (e: Exception) {
+                    throw e
+                }
             }
         }
 

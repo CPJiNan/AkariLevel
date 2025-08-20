@@ -19,9 +19,14 @@ object PlayerListener {
     @SubscribeEvent
     fun onPlayerQuit(event: PlayerQuitEvent) {
         val playerName = event.player.name
-        if (!isDirty(playerName)) return
-        submit(async = true) {
-            forcePersist(playerName)
+        if (isDirty(playerName)) {
+            submit(async = true) {
+                try {
+                    forcePersist(playerName)
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
         }
     }
 }
