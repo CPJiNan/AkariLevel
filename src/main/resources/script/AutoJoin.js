@@ -11,16 +11,17 @@ function onPluginEnable() {
     onPlayerJoin()
 }
 
+// 设置等级组列表。
+var levelGroupNames = new java.util.ArrayList();
+
+// levelGroupNames.add("Example");
+
 function onPlayerJoin() {
     new Listener(PlayerJoinEvent.class)
         .setExecutor(
             function (event) {
                 // 获取事件参数。
                 var playerName = event.getPlayer().getName();
-
-                // 设置等级组列表。
-                var levelGroupNames = new java.util.ArrayList();
-                // levelGroupNames.add("Example");
 
                 // 自动加入等级组。
                 levelGroupNames.forEach(
