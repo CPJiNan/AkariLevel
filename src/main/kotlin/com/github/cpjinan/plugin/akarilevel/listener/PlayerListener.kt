@@ -1,7 +1,7 @@
 package com.github.cpjinan.plugin.akarilevel.listener
 
+import com.github.cpjinan.plugin.akarilevel.cache.MemberCache
 import com.github.cpjinan.plugin.akarilevel.manager.CacheManager.forcePersist
-import com.github.cpjinan.plugin.akarilevel.manager.CacheManager.isDirty
 import org.bukkit.event.player.PlayerQuitEvent
 import taboolib.common.platform.event.SubscribeEvent
 import taboolib.common.platform.function.submit
@@ -12,20 +12,20 @@ import taboolib.common.platform.function.submit
  *
  * 玩家监听器。
  *
- * @author 季楠
+ * @author 季楠 & QwQ-dev
  * @since 2025/8/12 21:40
  */
 object PlayerListener {
     @SubscribeEvent
     fun onPlayerQuit(event: PlayerQuitEvent) {
         val playerName = event.player.name
-        if (isDirty(playerName)) {
-            submit(async = true) {
-                try {
-                    forcePersist(playerName)
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                }
+        submit(async = true) {
+            try {
+                // 玩家下线强制保存和移除
+                forcePersist(playerName)
+                MemberCache.memberCache.invalidate(playerName)
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
         }
     }
