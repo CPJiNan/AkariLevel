@@ -8,7 +8,7 @@
  */
 
 function onPluginEnable() {
-    onPlayerExpChange()
+    onPlayerExpChange();
 }
 
 function onPlayerExpChange() {
@@ -17,17 +17,17 @@ function onPlayerExpChange() {
             function (event) {
                 // 获取事件参数。
                 var playerName = event.getPlayer().getName();
-                var amount = event.amount;
+                var amount = event.getAmount();
 
                 // 为所有等级组增加此来源的经验。
                 LevelGroup.getLevelGroups().values().forEach(
                     function (levelGroup) {
-                        levelGroup.addMemberExp(playerName, amount, "VANILLA_EXP_CHANGE")
+                        levelGroup.addMemberExp(playerName, amount, "VANILLA_EXP_CHANGE");
                     }
                 )
 
                 // 如果要取消原版经验变更事件，设置经验变化量为 0。
-                event.amount = 0
+                event.setAmount(0);
             }
         ).register();
 }

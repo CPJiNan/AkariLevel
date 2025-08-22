@@ -8,7 +8,7 @@
  */
 
 function onPluginEnable() {
-    onPlayerJoin()
+    onPlayerJoin();
 }
 
 // 设置等级组列表。
@@ -26,9 +26,9 @@ function onPlayerJoin() {
                 // 自动加入等级组。
                 levelGroupNames.forEach(
                     function (name) {
-                        var levelGroup = LevelGroup.getLevelGroups()[name]
+                        var levelGroup = LevelGroup.getLevelGroups()[name];
                         if (levelGroup !== null && !levelGroup.hasMember(playerName)) {
-                            levelGroup.addMember(playerName, "AUTO_JOIN")
+                            levelGroup.addMember(playerName, "AUTO_JOIN");
                         }
                     }
                 );

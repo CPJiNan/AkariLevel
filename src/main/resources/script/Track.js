@@ -8,8 +8,8 @@
  */
 
 function onPluginEnable() {
-    onMemberLevelChange()
-    onMemberExpChange()
+    onMemberLevelChange();
+    onMemberExpChange();
 }
 
 // 设置追踪等级组。
@@ -22,8 +22,8 @@ function onMemberLevelChange() {
                 // 获取事件参数。
                 var member = event.getMember();
 
-                // 刷新原版等级。
-                refreshVanillaLevel(member)
+                // 刷新原版经验条。
+                refreshVanillaExpBar(member);
             }
         ).register();
 }
@@ -35,26 +35,26 @@ function onMemberExpChange() {
                 // 获取事件参数。
                 var member = event.getMember();
 
-                // 刷新原版等级。
-                refreshVanillaLevel(member)
+                // 刷新原版经验条。
+                refreshVanillaExpBar(member);
             }
         ).register();
 }
 
-function refreshVanillaLevel(member) {
-    var offlinePlayer = Bukkit.getOfflinePlayer(member)
+function refreshVanillaExpBar(member) {
+    var offlinePlayer = Bukkit.getOfflinePlayer(member);
 
     if (offlinePlayer.isOnline() && levelGroupName !== "") {
-        var player = offlinePlayer.getPlayer()
-        var levelGroup = LevelGroup.getLevelGroups()[levelGroupName]
-        var currentLevel = levelGroup.getMemberLevel(member)
-        var currentExp = levelGroup.getMemberExp(member)
-        var nextLevelExp = levelGroup.getLevelExp(member, currentLevel, currentLevel + 1)
+        var player = offlinePlayer.getPlayer();
+        var levelGroup = LevelGroup.getLevelGroups()[levelGroupName];
+        var currentLevel = levelGroup.getMemberLevel(member);
+        var currentExp = levelGroup.getMemberExp(member);
+        var nextLevelExp = levelGroup.getLevelExp(member, currentLevel, currentLevel + 1);
 
-        player.setLevel(Math.min(currentLevel, 2147483647))
+        player.setLevel(Math.min(currentLevel, 2147483647));
 
         if (levelGroup.config.getString("Level.Exp-Type", "Absolute") === "Absolute") {
-            player.setExp(Math.min(Math.max((currentExp - levelGroup.getLevelExp(member, 0, currentLevel)) / nextLevelExp, 0), 1))
-        } else player.setExp(Math.min(Math.max(currentExp / nextLevelExp, 0), 1))
+            player.setExp(Math.min(Math.max((currentExp - levelGroup.getLevelExp(member, 0, currentLevel)) / nextLevelExp, 0), 1));
+        } else player.setExp(Math.min(Math.max(currentExp / nextLevelExp, 0), 1));
     }
 }
