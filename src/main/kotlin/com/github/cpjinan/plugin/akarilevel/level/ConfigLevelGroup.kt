@@ -194,21 +194,54 @@ class ConfigLevelGroup(val config: ConfigurationSection) : LevelGroup {
             "Absolute" -> {
                 if (config.getBoolean("Level.Auto-LevelUp", true) &&
                     getLevelConfig(currentLevel).getBoolean("Auto-LevelUp", true)
-                ) while (currentExp >= getLevelExp(member, 0, targetLevel + 1)) targetLevel++
-                else if (currentExp >= getLevelExp(member, 0, targetLevel + 1)) targetLevel++
-                if (targetLevel > currentLevel) setMemberLevel(member, targetLevel, "LEVEL_UP")
+                ) {
+                    while (currentExp >= getLevelExp(member, 0, targetLevel + 1)) {
+                        if (checkLevelCondition(member, targetLevel + 1)) targetLevel++
+                        else break
+                    }
+                } else if (currentExp >= getLevelExp(member, 0, targetLevel + 1)) {
+                    if (checkLevelCondition(member, targetLevel + 1)) targetLevel++
+                }
+                if (targetLevel > currentLevel) {
+                    (currentLevel + 1..targetLevel).forEach { setMemberLevel(member, it, "LEVEL_UP") }
+                }
             }
 
             "Relative" -> {
                 if (config.getBoolean("Level.Auto-LevelUp", true) &&
                     getLevelConfig(currentLevel).getBoolean("Auto-LevelUp", true)
-                ) while (currentExp >= getLevelExp(member, currentLevel, targetLevel + 1)) targetLevel++
-                else if (currentExp >= getLevelExp(member, currentLevel, targetLevel + 1)) targetLevel++
+                ) {
+                    while (currentExp >= getLevelExp(member, currentLevel, targetLevel + 1)) {
+                        if (checkLevelCondition(member, targetLevel + 1)) targetLevel++
+                        else break
+                    }
+                } else if (currentExp >= getLevelExp(member, currentLevel, targetLevel + 1)) {
+                    if (checkLevelCondition(member, targetLevel + 1)) targetLevel++
+                }
                 if (targetLevel > currentLevel) {
-                    setMemberLevel(member, targetLevel, "LEVEL_UP")
+                    (currentLevel + 1..targetLevel).forEach { setMemberLevel(member, it, "LEVEL_UP") }
                     removeMemberExp(member, getLevelExp(member, currentLevel, targetLevel), "LEVEL_UP")
                 }
             }
+        }
+    }
+
+    /**
+     * 检查等级条件。
+     *
+     * @param member 成员。
+     * @param level 等级。
+     */
+    fun checkLevelCondition(member: String, level: Long): Boolean {
+        val offlinePlayer = getOfflinePlayer(member)
+        if (!offlinePlayer.isOnline) return false
+        return getLevelConfig(level).getStringList("Condition.Kether").all {
+            KetherShell.eval(
+                it
+                    .replace("{member}" to member, "{level}" to level)
+                    .replacePlaceholder(offlinePlayer.player),
+                ScriptOptions(sender = adaptPlayer(offlinePlayer.player))
+            ).thenApply { it }.get().toString().toBoolean()
         }
     }
 
@@ -224,7 +257,7 @@ class ConfigLevelGroup(val config: ConfigurationSection) : LevelGroup {
         KetherShell.eval(
             getLevelConfig(level).getStringList("Action.Kether")
                 .replace("{member}" to member, "{level}" to level)
-                .replacePlaceholder(offlinePlayer),
+                .replacePlaceholder(offlinePlayer.player),
             ScriptOptions(sender = adaptPlayer(offlinePlayer.player))
         )
     }
@@ -296,11 +329,7 @@ class ConfigLevelGroup(val config: ConfigurationSection) : LevelGroup {
     }
 
     override fun onMemberLevelChange(member: String, oldLevel: Long, newLevel: Long, source: String) {
-        when {
-            oldLevel < newLevel -> (oldLevel + 1..newLevel).forEach { runLevelAction(member, it) }
-            oldLevel > newLevel -> ((oldLevel - 1) downTo newLevel).forEach { runLevelAction(member, it) }
-            else -> runLevelAction(member, newLevel)
-        }
+        runLevelAction(member, newLevel)
     }
 
     override fun onMemberExpChange(member: String, expAmount: Long, source: String) {

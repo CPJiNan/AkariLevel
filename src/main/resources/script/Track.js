@@ -54,7 +54,7 @@ function refreshVanillaExpBar(member) {
         player.setLevel(Math.min(currentLevel, 2147483647));
 
         if (levelGroup.config.getString("Level.Exp-Type", "Absolute") === "Absolute") {
-            player.setExp(Math.min(Math.max((currentExp - levelGroup.getLevelExp(member, 0, currentLevel)) / nextLevelExp, 0), 1));
-        } else player.setExp(Math.min(Math.max(currentExp / nextLevelExp, 0), 1));
+            player.setExp(Math.min(Math.max((currentExp - levelGroup.getLevelExp(member, 0, currentLevel)) / nextLevelExp, 0), 0.99));
+        } else player.setExp(Math.min(Math.max(currentExp / nextLevelExp, 0), 0.99));
     }
 }

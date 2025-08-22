@@ -32,6 +32,8 @@ Example:
         Name: "§8Lv.§b0"
         # 所需经验
         Exp: "0"
+        # 升级条件
+        Condition: { }
         # 升级动作
         Action: { }
       # 1 级 - 49 级 等级设置
