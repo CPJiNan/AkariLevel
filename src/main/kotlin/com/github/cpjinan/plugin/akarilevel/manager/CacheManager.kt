@@ -3,7 +3,10 @@ package com.github.cpjinan.plugin.akarilevel.manager
 import com.github.cpjinan.plugin.akarilevel.cache.MemberCache.gson
 import com.github.cpjinan.plugin.akarilevel.cache.MemberCache.memberCache
 import com.github.cpjinan.plugin.akarilevel.database.Database
+import taboolib.common.platform.function.console
 import taboolib.common.platform.function.submit
+import taboolib.module.lang.sendError
+import taboolib.module.lang.sendWarn
 import java.time.Duration
 import java.util.concurrent.ConcurrentHashMap
 
@@ -39,14 +42,25 @@ object CacheManager {
             }
 
             if (membersToSave.isNotEmpty()) {
-                membersToSave.forEach {
+                membersToSave.forEach { member ->
                     try {
-                        with(Database.INSTANCE) {
-                            set(memberTable, it, gson.toJson(memberCache[it] ?: throw NullPointerException()))
+                        val memberData = memberCache[member] ?: memberCache.getWithBuiltInLoader(member)
+
+                        if (memberData != null) {
+                            with(Database.INSTANCE) {
+                                set(memberTable, member, gson.toJson(memberData))
+                            }
+                        } else {
+                            // 数据库中也没，创建默认数据
+                            val defaultData = com.github.cpjinan.plugin.akarilevel.entity.MemberData()
+                            memberCache[member] = defaultData
+                            with(Database.INSTANCE) {
+                                set(memberTable, member, gson.toJson(defaultData))
+                            }
                         }
                     } catch (e: Exception) {
-                        e.printStackTrace()
-                        markDirty(it)
+                        console().sendError("获取缓存时出现异常: $member", e)
+                        markDirty(member)
                     }
                 }
             }
@@ -61,16 +75,29 @@ object CacheManager {
     fun shutdown() {
         if (dirtyMembers.isEmpty()) return
 
-        dirtyMembers.keys.forEach {
-            val memberData = memberCache[it]
+        dirtyMembers.keys.forEach { member ->
+            val memberData = memberCache[member]
+
             if (memberData != null) {
                 try {
                     val json = gson.toJson(memberData)
                     with(Database.INSTANCE) {
-                        set(memberTable, it, json)
+                        set(memberTable, member, json)
                     }
                 } catch (e: Exception) {
                     throw e
+                }
+            } else {
+                val loadedData = memberCache.getWithBuiltInLoader(member)
+                if (loadedData != null) {
+                    try {
+                        val json = gson.toJson(loadedData)
+                        with(Database.INSTANCE) {
+                            set(memberTable, member, json)
+                        }
+                    } catch (e: Exception) {
+                        throw e
+                    }
                 }
             }
         }
@@ -89,16 +116,6 @@ object CacheManager {
     }
 
     /**
-     * 检查成员数据是否为脏数据。
-     *
-     * @param member 要检查的成员。
-     * @return 如果成员数据为脏数据，则返回 true。
-     */
-    fun isDirty(member: String): Boolean {
-        return dirtyMembers.containsKey(member)
-    }
-
-    /**
      * 强制持久化成员数据。
      *
      * @param member 要持久化数据的成员。
@@ -106,6 +123,7 @@ object CacheManager {
      */
     fun forcePersist(member: String) {
         val memberData = memberCache[member]
+
         if (memberData != null) {
             try {
                 val json = gson.toJson(memberData)
@@ -115,39 +133,22 @@ object CacheManager {
             } catch (e: Exception) {
                 throw e
             }
+        } else {
+            val loadedData = memberCache.getWithBuiltInLoader(member)
+            if (loadedData != null) {
+                try {
+                    val json = gson.toJson(loadedData)
+                    with(Database.INSTANCE) {
+                        set(memberTable, member, json)
+                    }
+                } catch (e: Exception) {
+                    throw e
+                }
+            } else {
+                console().sendWarn("强制保存时无法获取成员数据: $member")
+            }
         }
 
         dirtyMembers.remove(member)
-    }
-
-    /**
-     * 强制持久化所有成员数据。
-     */
-    fun forcePersistAll() {
-        if (dirtyMembers.isEmpty()) return
-
-        val members = dirtyMembers.keys.toList()
-
-        members.forEach {
-            forcePersist(it)
-        }
-    }
-
-    /**
-     * 持久化成员数据并使缓存失效。
-     *
-     * @param member 要持久化数据的成员。
-     */
-    fun invalidateSafely(member: String) {
-        forcePersist(member)
-        memberCache.invalidate(member)
-    }
-
-    /**
-     * 持久化所有成员数据并使缓存失效。
-     */
-    fun invalidateAllSafely() {
-        forcePersistAll()
-        memberCache.invalidateAll()
     }
 }

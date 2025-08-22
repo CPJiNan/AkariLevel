@@ -4,9 +4,12 @@ import com.github.benmanes.caffeine.cache.RemovalCause.EXPIRED
 import com.github.benmanes.caffeine.cache.RemovalCause.SIZE
 import com.github.cpjinan.plugin.akarilevel.database.Database
 import com.github.cpjinan.plugin.akarilevel.entity.MemberData
+import com.github.cpjinan.plugin.akarilevel.manager.CacheManager
 import com.google.gson.Gson
+import taboolib.common.platform.function.console
 import taboolib.common.platform.function.submit
-import java.time.Duration
+import taboolib.module.lang.sendError
+import taboolib.module.lang.sendWarn
 
 /**
  * AkariLevel
@@ -14,16 +17,14 @@ import java.time.Duration
  *
  * 成员数据缓存。
  *
- * @author 季楠, QwQ-dev
+ * @author 季楠 & QwQ-dev
  * @since 2025/8/12 04:43
  */
 object MemberCache {
     val gson = Gson()
 
+    // 2025.8.25 - 没必要过期，只存储在线玩家
     val memberCache = EasyCache.builder<String, MemberData>()
-        .maximumSize(500)
-        .expireAfterWrite(Duration.ofMinutes(10))
-        .expireAfterAccess(Duration.ofMinutes(30))
         .circuitBreaker(
             CircuitBreakerConfig(
                 failureThreshold = 15,  // 15% 失败率阈值
@@ -35,12 +36,26 @@ object MemberCache {
             when (cause) {
                 EXPIRED, SIZE -> {
                     submit(async = true) {
-                        try {
-                            with(Database.INSTANCE) {
-                                set(memberTable, key, gson.toJson(value))
+                        var retryCount = 0
+                        val maxRetries = 3
+
+                        while (retryCount < maxRetries) {
+                            try {
+                                with(Database.INSTANCE) {
+                                    set(memberTable, key, gson.toJson(value))
+                                }
+                                break
+                            } catch (e: Exception) {
+                                retryCount++
+                                console().sendError("保存成员数据失败，成员: $key, 重试次数: $retryCount/$maxRetries", e)
+
+                                if (retryCount >= maxRetries) {
+                                    console().sendWarn("成员数据保存失败，已达最大重试次数: $key")
+                                    CacheManager.markDirty(key)
+                                } else {
+                                    Thread.sleep(1000L * retryCount)
+                                }
                             }
-                        } catch (e: Exception) {
-                            e.printStackTrace()
                         }
                     }
                 }
@@ -51,22 +66,22 @@ object MemberCache {
         .loader { key ->
             try {
                 with(Database.INSTANCE) {
-                    val dbValue = get(memberTable, key)
-
-                    dbValue?.takeUnless { it.isBlank() }
+                    get(memberTable, key)?.takeUnless { it.isBlank() }
                         ?.let { json ->
                             try {
                                 val memberData = gson.fromJson(json, MemberData::class.java)
                                 memberData
                             } catch (e: Exception) {
-                                e.printStackTrace()
-                                null
+                                console().sendError("反序列化成员数据失败: $key", e)
+                                MemberData()
                             }
-                        }
+                        } ?: run {
+                        MemberData()
+                    }
                 }
             } catch (e: Exception) {
-                e.printStackTrace()
-                null
+                console().sendError("从数据库加载成员数据失败: $key", e)
+                MemberData()
             }
         }
         .build()
