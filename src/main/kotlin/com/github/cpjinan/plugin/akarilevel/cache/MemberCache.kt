@@ -6,10 +6,7 @@ import com.github.cpjinan.plugin.akarilevel.database.Database
 import com.github.cpjinan.plugin.akarilevel.entity.MemberData
 import com.github.cpjinan.plugin.akarilevel.manager.CacheManager
 import com.google.gson.Gson
-import taboolib.common.platform.function.console
 import taboolib.common.platform.function.submit
-import taboolib.module.lang.sendError
-import taboolib.module.lang.sendWarn
 
 /**
  * AkariLevel
@@ -17,13 +14,12 @@ import taboolib.module.lang.sendWarn
  *
  * 成员数据缓存。
  *
- * @author 季楠 & QwQ-dev
+ * @author 季楠, QwQ-dev
  * @since 2025/8/12 04:43
  */
 object MemberCache {
     val gson = Gson()
 
-    // 2025.8.25 - 没必要过期，只存储在线玩家
     val memberCache = EasyCache.builder<String, MemberData>()
         .circuitBreaker(
             CircuitBreakerConfig(
@@ -47,10 +43,10 @@ object MemberCache {
                                 break
                             } catch (e: Exception) {
                                 retryCount++
-                                console().sendError("保存成员数据失败，成员: $key, 重试次数: $retryCount/$maxRetries", e)
+                                e.printStackTrace()
 
                                 if (retryCount >= maxRetries) {
-                                    console().sendWarn("成员数据保存失败，已达最大重试次数: $key")
+                                    e.printStackTrace()
                                     CacheManager.markDirty(key)
                                 } else {
                                     Thread.sleep(1000L * retryCount)
@@ -72,15 +68,13 @@ object MemberCache {
                                 val memberData = gson.fromJson(json, MemberData::class.java)
                                 memberData
                             } catch (e: Exception) {
-                                console().sendError("反序列化成员数据失败: $key", e)
+                                e.printStackTrace()
                                 MemberData()
                             }
-                        } ?: run {
-                        MemberData()
-                    }
+                        } ?: MemberData()
                 }
             } catch (e: Exception) {
-                console().sendError("从数据库加载成员数据失败: $key", e)
+                e.printStackTrace()
                 MemberData()
             }
         }

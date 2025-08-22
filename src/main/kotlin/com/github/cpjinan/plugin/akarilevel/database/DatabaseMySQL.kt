@@ -7,7 +7,6 @@ import com.github.cpjinan.plugin.akarilevel.config.DatabaseConfig
 import taboolib.module.database.ColumnOptionSQL
 import taboolib.module.database.ColumnTypeSQL
 import taboolib.module.database.Table
-import java.time.Duration
 import java.util.concurrent.ConcurrentHashMap
 
 /**
@@ -42,8 +41,6 @@ class DatabaseMySQL() : Database {
     private val memberCache by lazy {
         EasyCache.builder<String, String>()
             .maximumSize(10_000)
-            .expireAfterWrite(Duration.ofMinutes(5))
-            .expireAfterAccess(Duration.ofMinutes(10))
             .circuitBreaker(
                 CircuitBreakerConfig(
                     failureThreshold = 10,

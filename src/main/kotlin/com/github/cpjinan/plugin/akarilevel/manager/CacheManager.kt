@@ -3,10 +3,8 @@ package com.github.cpjinan.plugin.akarilevel.manager
 import com.github.cpjinan.plugin.akarilevel.cache.MemberCache.gson
 import com.github.cpjinan.plugin.akarilevel.cache.MemberCache.memberCache
 import com.github.cpjinan.plugin.akarilevel.database.Database
-import taboolib.common.platform.function.console
+import com.github.cpjinan.plugin.akarilevel.entity.MemberData
 import taboolib.common.platform.function.submit
-import taboolib.module.lang.sendError
-import taboolib.module.lang.sendWarn
 import java.time.Duration
 import java.util.concurrent.ConcurrentHashMap
 
@@ -24,8 +22,6 @@ object CacheManager {
 
     /**
      * 初始化缓存管理器。
-     *
-     * @throws NullPointerException 如果成员数据为 null。
      */
     fun initialize() {
         submit(async = true, period = 20 * 60 * 5) { // 20 ticks * 60 * 5 = 5 min
@@ -51,15 +47,15 @@ object CacheManager {
                                 set(memberTable, member, gson.toJson(memberData))
                             }
                         } else {
-                            // 数据库中也没，创建默认数据
-                            val defaultData = com.github.cpjinan.plugin.akarilevel.entity.MemberData()
+                            // 数据库中无数据，创建默认数据。
+                            val defaultData = MemberData()
                             memberCache[member] = defaultData
                             with(Database.INSTANCE) {
                                 set(memberTable, member, gson.toJson(defaultData))
                             }
                         }
                     } catch (e: Exception) {
-                        console().sendError("获取缓存时出现异常: $member", e)
+                        e.printStackTrace()
                         markDirty(member)
                     }
                 }
@@ -69,8 +65,6 @@ object CacheManager {
 
     /**
      * 关闭缓存管理器并保存所有数据。
-     *
-     * @throws NullPointerException 如果成员数据为 null。
      */
     fun shutdown() {
         if (dirtyMembers.isEmpty()) return
@@ -119,7 +113,7 @@ object CacheManager {
      * 强制持久化成员数据。
      *
      * @param member 要持久化数据的成员。
-     * @throws NullPointerException 如果成员数据为 null。
+     * @throws NullPointerException 如果无法获取成员数据。
      */
     fun forcePersist(member: String) {
         val memberData = memberCache[member]
@@ -145,7 +139,7 @@ object CacheManager {
                     throw e
                 }
             } else {
-                console().sendWarn("强制保存时无法获取成员数据: $member")
+                throw NullPointerException(member)
             }
         }
 

@@ -12,7 +12,7 @@ import taboolib.common.platform.function.submit
  *
  * 玩家监听器。
  *
- * @author 季楠 & QwQ-dev
+ * @author 季楠, QwQ-dev
  * @since 2025/8/12 21:40
  */
 object PlayerListener {
@@ -21,7 +21,7 @@ object PlayerListener {
         val playerName = event.player.name
         submit(async = true) {
             try {
-                // 玩家下线强制保存和移除
+                // 玩家退出时强制保存数据。
                 forcePersist(playerName)
                 MemberCache.memberCache.invalidate(playerName)
             } catch (e: Exception) {
