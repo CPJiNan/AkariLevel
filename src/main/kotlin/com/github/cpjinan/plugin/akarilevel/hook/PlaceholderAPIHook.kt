@@ -97,17 +97,17 @@ object PlaceholderAPIHook : PlaceholderExpansion {
             // 升级进度条。
             "levelprogressbar" -> {
                 createBar(
-                    console().asLangText("PlaceholderLevelBarEmpty").colored(),
-                    console().asLangText("PlaceholderLevelBarEmpty").colored(),
-                    console().asLangText("PlaceholderLevelBarLength").toInt(),
+                    argsList[2].colored(),
+                    argsList[3].colored(),
+                    argsList[4].toInt(),
                     (currentLevel.toDouble() / maxLevel).coerceIn(0.0, 1.0)
                 )
             }
 
             "expprogressbar" -> createBar(
-                console().asLangText("PlaceholderExpBarEmpty").colored(),
-                console().asLangText("PlaceholderExpBarEmpty").colored(),
-                console().asLangText("PlaceholderExpBarLength").toInt(),
+                argsList[2].colored(),
+                argsList[3].colored(),
+                argsList[4].toInt(),
                 (currentExp.toDouble() / nextLevelExp).coerceIn(0.0, 1.0)
             )
 
