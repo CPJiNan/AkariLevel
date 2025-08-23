@@ -3,6 +3,7 @@ package com.github.cpjinan.plugin.akarilevel.hook
 import com.github.cpjinan.plugin.akarilevel.level.LevelGroup
 import io.lumine.mythic.bukkit.events.MythicMobDeathEvent
 import org.bukkit.entity.Player
+import taboolib.common.platform.Ghost
 import taboolib.common.platform.event.SubscribeEvent
 import kotlin.random.Random
 import io.lumine.xikage.mythicmobs.api.bukkit.events.MythicMobDeathEvent as LegacyMythicMobDeathEvent
@@ -17,6 +18,7 @@ import io.lumine.xikage.mythicmobs.api.bukkit.events.MythicMobDeathEvent as Lega
  * @since 2025/8/23 11:13
  */
 object MythicMobsHook {
+    @Ghost
     @SubscribeEvent
     fun onLegacyMythicMobDeath(event: LegacyMythicMobDeathEvent) {
         if (event.killer is Player) {
@@ -39,6 +41,7 @@ object MythicMobsHook {
         }
     }
 
+    @Ghost
     @SubscribeEvent
     fun onMythicMobDeath(event: MythicMobDeathEvent) {
         if (event.killer is Player) {
