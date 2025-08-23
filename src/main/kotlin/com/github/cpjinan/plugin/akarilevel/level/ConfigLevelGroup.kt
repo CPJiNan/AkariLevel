@@ -223,7 +223,7 @@ class ConfigLevelGroup(val config: ConfigurationSection) : LevelGroup {
         return getLevelConfig(level).getStringList("Condition.Kether").all {
             KetherShell.eval(
                 it
-                    .replace("{member}" to member, "{level}" to level)
+                    .replace("{member}" to member, "{level}" to level, "{levelGroup}" to name)
                     .replacePlaceholder(offlinePlayer.player),
                 ScriptOptions(sender = adaptPlayer(offlinePlayer.player))
             ).thenApply { it }.get().toString().toBoolean()
@@ -241,7 +241,7 @@ class ConfigLevelGroup(val config: ConfigurationSection) : LevelGroup {
         if (!offlinePlayer.isOnline) return
         KetherShell.eval(
             getLevelConfig(level).getStringList("Action.Kether")
-                .replace("{member}" to member, "{level}" to level)
+                .replace("{member}" to member, "{level}" to level, "{levelGroup}" to name)
                 .replacePlaceholder(offlinePlayer.player),
             ScriptOptions(sender = adaptPlayer(offlinePlayer.player))
         )
