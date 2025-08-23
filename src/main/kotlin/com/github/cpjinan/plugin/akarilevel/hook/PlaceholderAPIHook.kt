@@ -39,7 +39,7 @@ object PlaceholderAPIHook : PlaceholderExpansion {
         val minLevel = levelGroup.getMinLevel()
         val maxLevel = levelGroup.getMaxLevel()
         val currentExp = levelGroup.getMemberExp(playerName)
-        val nextLevelExp = levelGroup.getLevelExp(currentLevel, currentLevel + 1)
+        val nextLevelExp = levelGroup.getLevelExp(currentLevel, nextLevel)
 
         return when (argsList[1].lowercase()) {
             // 等级组名称。
@@ -58,12 +58,12 @@ object PlaceholderAPIHook : PlaceholderExpansion {
 
             // 等级名称。
             "levelname" -> levelGroup.getLevelName(playerName, currentLevel).colored()
-            "lastlevelname" -> levelGroup.getLevelName(playerName, currentLevel).colored()
-            "nextlevelname" -> levelGroup.getLevelName(playerName, currentLevel).colored()
+            "lastlevelname" -> levelGroup.getLevelName(playerName, lastLevel).colored()
+            "nextlevelname" -> levelGroup.getLevelName(playerName, nextLevel).colored()
 
             // 升级所需经验。
-            "levelexp" -> levelGroup.getLevelExp(currentLevel - 1, currentLevel)
-            "lastlevelexp" -> levelGroup.getLevelExp(currentLevel - 2, currentLevel - 1)
+            "levelexp" -> levelGroup.getLevelExp(lastLevel, currentLevel)
+            "lastlevelexp" -> levelGroup.getLevelExp(currentLevel - 2, lastLevel)
             "nextlevelexp" -> nextLevelExp
 
             "levelexpfrom" -> {

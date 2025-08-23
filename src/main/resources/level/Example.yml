@@ -40,6 +40,8 @@ Example:
         Action:
           Kether:
             - title "§e§lLevel UP!"
+            - subtitle "%AkariLevel_{levelGroup}_LastLevelName% §7→ %AkariLevel_{levelGroup}_LevelName%" by 10 25 10
+            - actionbar "§8[ §7%AkariLevel_{levelGroup}_Exp% §8/ §7%AkariLevel_{levelGroup}_NextLevelExp% §8]"
       # 50 级 - 100 级 等级设置
       50:
         Name: "§8Lv.§b%level%"
@@ -47,3 +49,5 @@ Example:
         Action:
           Kether:
             - title "§e§lLevel UP!"
+            - subtitle "%AkariLevel_{levelGroup}_LastLevelName% §7→ %AkariLevel_{levelGroup}_LevelName%" by 10 25 10
+            - actionbar "§8[ §7%AkariLevel_{levelGroup}_Exp% §8/ §7%AkariLevel_{levelGroup}_NextLevelExp% §8]"

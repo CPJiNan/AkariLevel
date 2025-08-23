@@ -21,18 +21,13 @@ function onMemberLevelChange() {
             function (event) {
                 // 获取事件参数。
                 var member = event.getMember();
+                var newLevel = event.getNewLevel();
 
                 // 刷新原版经验条。
                 var offlinePlayer = Bukkit.getOfflinePlayer(member);
                 if (offlinePlayer.isOnline() && levelGroupName !== "") {
                     var player = offlinePlayer.getPlayer();
-                    var levelGroup = LevelGroup.getLevelGroups()[levelGroupName];
-                    var currentLevel = levelGroup.getMemberLevel(member);
-                    var currentExp = levelGroup.getMemberExp(member);
-                    var nextLevelExp = levelGroup.getLevelExp(member, currentLevel, currentLevel + 1);
-
-                    player.setLevel(Math.min(currentLevel, 2147483647));
-                    player.setExp(Math.min(Math.max(currentExp / nextLevelExp, 0), 0.99));
+                    player.setLevel(Math.min(newLevel, 2147483647));
                 }
             }
         ).register();
@@ -44,6 +39,7 @@ function onMemberExpChange() {
             function (event) {
                 // 获取事件参数。
                 var member = event.getMember();
+                var expAmount = event.getExpAmount();
 
                 // 刷新原版经验条。
                 var offlinePlayer = Bukkit.getOfflinePlayer(member);
@@ -51,10 +47,8 @@ function onMemberExpChange() {
                     var player = offlinePlayer.getPlayer();
                     var levelGroup = LevelGroup.getLevelGroups()[levelGroupName];
                     var currentLevel = levelGroup.getMemberLevel(member);
-                    var currentExp = levelGroup.getMemberExp(member);
+                    var currentExp = levelGroup.getMemberExp(member) + expAmount;
                     var nextLevelExp = levelGroup.getLevelExp(member, currentLevel, currentLevel + 1);
-
-                    player.setLevel(Math.min(currentLevel, 2147483647));
                     player.setExp(Math.min(Math.max(currentExp / nextLevelExp, 0), 0.99));
                 }
             }
