@@ -105,10 +105,10 @@ class ConfigLevelGroup(val config: ConfigurationSection) : LevelGroup {
             oldLevel < getMinLevel() -> return getLevelExp(getMinLevel(), newLevel)
             oldLevel == newLevel -> return 0
         }
-        return when (config.getString("Level.Exp-Type", "Absolute")) {
-            "Absolute" -> getLevelExpConfig(newLevel) - getLevelExpConfig(oldLevel)
-            "Relative" -> (oldLevel + 1..newLevel).sumOf { getLevelExpConfig(it) }
-            else -> throw IllegalArgumentException()
+        return (oldLevel + 1..newLevel).sumOf {
+            Arim.fixedCalculator.evaluate(
+                getLevelConfig(it).getString("Exp").orEmpty().replace("{level}" to it)
+            ).toLong()
         }
     }
 
@@ -118,10 +118,16 @@ class ConfigLevelGroup(val config: ConfigurationSection) : LevelGroup {
             oldLevel < getMinLevel() -> return getLevelExp(member, getMinLevel(), newLevel)
             oldLevel == newLevel -> return 0
         }
-        return when (config.getString("Level.Exp-Type", "Absolute")) {
-            "Absolute" -> getLevelExpConfig(member, newLevel) - getLevelExpConfig(member, oldLevel)
-            "Relative" -> (oldLevel + 1..newLevel).sumOf { getLevelExpConfig(member, it) }
-            else -> throw IllegalArgumentException()
+        return (oldLevel + 1..newLevel).sumOf {
+            Arim.fixedCalculator.evaluate(
+                getLevelConfig(it).getString("Exp").orEmpty()
+                    .replace("{level}" to it)
+                    .let {
+                        val offlinePlayer = getOfflinePlayer(member)
+                        if (offlinePlayer.hasPlayedBefore()) it.replacePlaceholder(offlinePlayer)
+                        else it
+                    }
+            ).toLong()
         }
     }
 
@@ -161,9 +167,6 @@ class ConfigLevelGroup(val config: ConfigurationSection) : LevelGroup {
 
     override fun setMemberLevel(member: String, amount: Long, source: String) {
         super.setMemberLevel(member, amount.coerceIn(getMinLevel(), getMaxLevel()), source)
-        if (config.getString("Level.Exp-Type", "Absolute") == "Absolute" && source != "LEVEL_UP" &&
-            getMemberExp(member) !in getLevelExp(member, 0, amount)..getLevelExp(member, 0, amount + 1)
-        ) setMemberExp(member, getLevelExp(member, 0, amount), source)
     }
 
     override fun addMemberExp(member: String, amount: Long, source: String) {
@@ -190,39 +193,21 @@ class ConfigLevelGroup(val config: ConfigurationSection) : LevelGroup {
 
         var targetLevel = currentLevel
 
-        when (config.getString("Level.Exp-Type", "Absolute")) {
-            "Absolute" -> {
-                if (config.getBoolean("Level.Auto-LevelUp", true) &&
-                    getLevelConfig(currentLevel).getBoolean("Auto-LevelUp", true)
-                ) {
-                    while (currentExp >= getLevelExp(member, 0, targetLevel + 1)) {
-                        if (checkLevelCondition(member, targetLevel + 1)) targetLevel++
-                        else break
-                    }
-                } else if (currentExp >= getLevelExp(member, 0, targetLevel + 1)) {
-                    if (checkLevelCondition(member, targetLevel + 1)) targetLevel++
-                }
-                if (targetLevel > currentLevel) {
-                    (currentLevel + 1..targetLevel).forEach { setMemberLevel(member, it, "LEVEL_UP") }
-                }
+        if (config.getBoolean("Level.Auto-LevelUp", true) &&
+            getLevelConfig(currentLevel).getBoolean("Auto-LevelUp", true)
+        ) {
+            while (currentExp >= getLevelExp(member, currentLevel, targetLevel + 1)) {
+                if (checkLevelCondition(member, targetLevel + 1)) targetLevel++ else break
             }
+        } else {
+            if (currentExp >= getLevelExp(member, currentLevel, targetLevel + 1) &&
+                checkLevelCondition(member, targetLevel + 1)
+            ) targetLevel++
+        }
 
-            "Relative" -> {
-                if (config.getBoolean("Level.Auto-LevelUp", true) &&
-                    getLevelConfig(currentLevel).getBoolean("Auto-LevelUp", true)
-                ) {
-                    while (currentExp >= getLevelExp(member, currentLevel, targetLevel + 1)) {
-                        if (checkLevelCondition(member, targetLevel + 1)) targetLevel++
-                        else break
-                    }
-                } else if (currentExp >= getLevelExp(member, currentLevel, targetLevel + 1)) {
-                    if (checkLevelCondition(member, targetLevel + 1)) targetLevel++
-                }
-                if (targetLevel > currentLevel) {
-                    (currentLevel + 1..targetLevel).forEach { setMemberLevel(member, it, "LEVEL_UP") }
-                    removeMemberExp(member, getLevelExp(member, currentLevel, targetLevel), "LEVEL_UP")
-                }
-            }
+        if (targetLevel > currentLevel) {
+            (currentLevel + 1..targetLevel).forEach { setMemberLevel(member, it, "LEVEL_UP") }
+            removeMemberExp(member, getLevelExp(member, currentLevel, targetLevel), "LEVEL_UP")
         }
     }
 
@@ -270,41 +255,7 @@ class ConfigLevelGroup(val config: ConfigurationSection) : LevelGroup {
      * @throws IllegalArgumentException 如果未找到指定等级配置。
      */
     fun getLevelConfig(level: Long): ConfigurationSection {
-        return getKeyLevelConfigs()
-            .filter { level >= it.key }
-            .maxByOrNull { it.key }
-            ?.value ?: throw IllegalArgumentException()
-    }
-
-    /**
-     * 获取等级经验配置。
-     *
-     * @param level 等级。
-     * @return 要获取的等级经验配置。
-     */
-    fun getLevelExpConfig(level: Long): Long {
-        return Arim.fixedCalculator.evaluate(
-            getLevelConfig(level).getString("Exp").orEmpty().replace("{level}" to level)
-        ).toLong()
-    }
-
-    /**
-     * 获取等级经验配置。
-     *
-     * @param member 成员。
-     * @param level 等级。
-     * @return 要获取的等级经验配置。
-     */
-    fun getLevelExpConfig(member: String, level: Long): Long {
-        return Arim.fixedCalculator.evaluate(
-            getLevelConfig(level).getString("Exp").orEmpty()
-                .replace("{level}" to level)
-                .let {
-                    val offlinePlayer = getOfflinePlayer(member)
-                    if (offlinePlayer.hasPlayedBefore()) it.replacePlaceholder(offlinePlayer)
-                    else it
-                }
-        ).toLong()
+        return getKeyLevelConfigs().filter { level >= it.key }.maxBy { it.key }.value
     }
 
     /**
