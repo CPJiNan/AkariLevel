@@ -252,7 +252,6 @@ class ConfigLevelGroup(val config: ConfigurationSection) : LevelGroup {
      *
      * @param level 等级。
      * @return 要获取的等级配置。
-     * @throws IllegalArgumentException 如果未找到指定等级配置。
      */
     fun getLevelConfig(level: Long): ConfigurationSection {
         return getKeyLevelConfigs().filter { level >= it.key }.maxBy { it.key }.value
