@@ -12,9 +12,7 @@ function onPluginEnable() {
 }
 
 // 设置等级组列表。
-var levelGroupNames = new java.util.ArrayList();
-
-// levelGroupNames.add("Example");
+var levelGroupNames = [];
 
 function onPlayerJoin() {
     new Listener(PlayerJoinEvent.class)
