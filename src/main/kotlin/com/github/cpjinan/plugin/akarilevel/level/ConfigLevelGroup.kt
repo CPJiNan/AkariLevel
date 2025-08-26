@@ -7,7 +7,6 @@ import com.github.cpjinan.plugin.akarilevel.entity.MemberData
 import com.github.cpjinan.plugin.akarilevel.entity.MemberLevelData
 import com.github.cpjinan.plugin.akarilevel.event.MemberChangeEvent
 import com.github.cpjinan.plugin.akarilevel.level.LevelGroup.MemberChangeType
-import com.github.cpjinan.plugin.akarilevel.manager.CacheManager
 import org.bukkit.Bukkit.getOfflinePlayer
 import taboolib.common.platform.function.adaptPlayer
 import taboolib.common5.util.replace
@@ -70,7 +69,7 @@ class ConfigLevelGroup(val config: ConfigurationSection) : LevelGroup {
          */
         @JvmStatic
         fun reloadConfigLevelGroups() {
-            configLevelGroups.forEach { _, levelGroup ->
+            configLevelGroups.forEach { (_, levelGroup) ->
                 levelGroup.unregister()
             }
             releaseResourceFolderAndRead("level") {
@@ -145,7 +144,6 @@ class ConfigLevelGroup(val config: ConfigurationSection) : LevelGroup {
                 }
             }
 
-        CacheManager.markDirty(event.member)
         onMemberChange(event.member, event.type, event.source)
     }
 

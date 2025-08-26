@@ -4,7 +4,6 @@ import com.github.cpjinan.plugin.akarilevel.cache.MemberCache.memberCache
 import com.github.cpjinan.plugin.akarilevel.entity.MemberData
 import com.github.cpjinan.plugin.akarilevel.entity.MemberLevelData
 import com.github.cpjinan.plugin.akarilevel.event.*
-import com.github.cpjinan.plugin.akarilevel.manager.CacheManager
 import java.util.concurrent.ConcurrentHashMap
 
 /**
@@ -13,7 +12,7 @@ import java.util.concurrent.ConcurrentHashMap
  *
  * 等级组接口。
  *
- * @author 季楠
+ * @author 季楠 & QwQ-dev
  * @since 2025/8/7 23:15
  */
 interface LevelGroup {
@@ -170,17 +169,17 @@ interface LevelGroup {
      */
     fun addMember(member: String, source: String) {
         if (hasMember(member)) return
+
         val event = MemberChangeEvent(member, name, MemberChangeType.JOIN, source)
         event.call()
         if (event.isCancelled) return
-        memberCache.asMap()
-            .compute(event.member) { _, memberData ->
-                (memberData ?: MemberData()).apply {
-                    levelGroups.putIfAbsent(event.levelGroup, MemberLevelData())
-                }
-            }
 
-        CacheManager.markDirty(event.member)
+        memberCache.compute(event.member) { _, memberData ->
+            (memberData ?: MemberData()).apply {
+                levelGroups.putIfAbsent(event.levelGroup, MemberLevelData())
+            }
+        }
+
         onMemberChange(event.member, event.type, event.source)
     }
 
@@ -248,14 +247,13 @@ interface LevelGroup {
         val event = MemberLevelChangeEvent(member, name, getMemberLevel(member), amount, source)
         event.call()
         if (event.isCancelled) return
-        memberCache.asMap()
-            .compute(event.member) { _, memberData ->
-                (memberData ?: MemberData()).apply {
-                    levelGroups.getOrPut(event.levelGroup) { MemberLevelData() }.level = event.newLevel
-                }
-            }
 
-        CacheManager.markDirty(event.member)
+        memberCache.compute(event.member) { _, memberData ->
+            (memberData ?: MemberData()).apply {
+                levelGroups.getOrPut(event.levelGroup) { MemberLevelData() }.level = event.newLevel
+            }
+        }
+
         onMemberLevelChange(event.member, event.oldLevel, event.newLevel, event.source)
     }
 
@@ -271,14 +269,13 @@ interface LevelGroup {
         val event = MemberExpChangeEvent(member, name, amount - getMemberExp(member), source)
         event.call()
         if (event.isCancelled) return
-        memberCache.asMap()
-            .compute(event.member) { _, memberData ->
-                (memberData ?: MemberData()).apply {
-                    levelGroups.getOrPut(event.levelGroup) { MemberLevelData() }.exp += event.expAmount
-                }
-            }
 
-        CacheManager.markDirty(event.member)
+        memberCache.compute(event.member) { _, memberData ->
+            (memberData ?: MemberData()).apply {
+                levelGroups.getOrPut(event.levelGroup) { MemberLevelData() }.exp += event.expAmount
+            }
+        }
+
         onMemberExpChange(event.member, event.expAmount, event.source)
     }
 

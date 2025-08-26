@@ -1,7 +1,7 @@
 package com.github.cpjinan.plugin.akarilevel.listener
 
 import com.github.cpjinan.plugin.akarilevel.cache.MemberCache
-import com.github.cpjinan.plugin.akarilevel.manager.CacheManager.forcePersist
+import com.github.cpjinan.plugin.akarilevel.database.Database
 import org.bukkit.event.player.PlayerQuitEvent
 import taboolib.common.platform.event.SubscribeEvent
 import taboolib.common.platform.function.submit
@@ -22,7 +22,13 @@ object PlayerListener {
         submit(async = true) {
             try {
                 // 玩家下线强制保存和移除
-                forcePersist(playerName)
+                val memberData = MemberCache.memberCache[playerName]
+                if (memberData != null) {
+                    val json = MemberCache.gson.toJson(memberData)
+                    with(Database.INSTANCE) {
+                        set(memberTable, playerName, json)
+                    }
+                }
                 MemberCache.memberCache.invalidate(playerName)
             } catch (e: Exception) {
                 e.printStackTrace()

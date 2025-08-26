@@ -1,15 +1,11 @@
 package com.github.cpjinan.plugin.akarilevel.cache
 
-import com.github.benmanes.caffeine.cache.RemovalCause.EXPIRED
-import com.github.benmanes.caffeine.cache.RemovalCause.SIZE
 import com.github.cpjinan.plugin.akarilevel.database.Database
 import com.github.cpjinan.plugin.akarilevel.entity.MemberData
-import com.github.cpjinan.plugin.akarilevel.manager.CacheManager
 import com.google.gson.Gson
 import taboolib.common.platform.function.console
-import taboolib.common.platform.function.submit
 import taboolib.module.lang.sendError
-import taboolib.module.lang.sendWarn
+import taboolib.module.lang.sendInfo
 
 /**
  * AkariLevel
@@ -32,36 +28,8 @@ object MemberCache {
                 sampleSize = 30         // 30 个样本窗口
             )
         )
-        .removalListener { key, value, cause ->
-            when (cause) {
-                EXPIRED, SIZE -> {
-                    submit(async = true) {
-                        var retryCount = 0
-                        val maxRetries = 3
-
-                        while (retryCount < maxRetries) {
-                            try {
-                                with(Database.INSTANCE) {
-                                    set(memberTable, key, gson.toJson(value))
-                                }
-                                break
-                            } catch (e: Exception) {
-                                retryCount++
-                                console().sendError("保存成员数据失败，成员: $key, 重试次数: $retryCount/$maxRetries", e)
-
-                                if (retryCount >= maxRetries) {
-                                    console().sendWarn("成员数据保存失败，已达最大重试次数: $key")
-                                    CacheManager.markDirty(key)
-                                } else {
-                                    Thread.sleep(1000L * retryCount)
-                                }
-                            }
-                        }
-                    }
-                }
-
-                else -> {}
-            }
+        .removalListener { key, _, cause ->
+            console().sendInfo("缓存条目被移除，成员: $key, 原因: $cause")
         }
         .loader { key ->
             try {

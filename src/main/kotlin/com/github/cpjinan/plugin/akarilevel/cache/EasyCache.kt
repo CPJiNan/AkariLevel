@@ -144,9 +144,22 @@ class EasyCache<K : Any, V : Any> private constructor(
         if (circuitBreaker?.canExecute() == false) return null
 
         return try {
-            val result = caffeineCache.asMap().compute(key, remappingFunction)
+            val currentValue = if (loadingCache != null) {
+                loadingCache.get(key)
+            } else {
+                caffeineCache.getIfPresent(key)
+            }
+
+            val newValue = remappingFunction(key, currentValue)
+
+            if (newValue != null) {
+                caffeineCache.put(key, newValue)
+            } else if (currentValue != null) {
+                caffeineCache.invalidate(key)
+            }
+
             circuitBreaker?.recordSuccess()
-            result
+            newValue
         } catch (e: Exception) {
             e.printStackTrace()
             circuitBreaker?.recordFailure()
