@@ -132,7 +132,7 @@ class DatabaseMySQL() : Database {
             if (e.message?.contains("Lock wait timeout") == true) {
                 submit {
                     val player = Bukkit.getPlayerExact(path)
-                    player?.kickPlayer(console().asLangText("DataLoadTimeout").colored())
+                    player?.kickPlayer(console().asLangText("MemberLoadDataTimeout").colored())
                 }
                 null
             } else {
@@ -192,7 +192,7 @@ class DatabaseMySQL() : Database {
             val playerName = lockKey.removePrefix("member:")
             submit {
                 val player = Bukkit.getPlayerExact(playerName)
-                player?.kickPlayer(console().asLangText("DataLoadTimeout").colored())
+                player?.kickPlayer(console().asLangText("MemberLoadDataTimeout").colored())
             }
             null
         }
