@@ -1,5 +1,3 @@
-@file:Suppress("DEPRECATION")
-
 package com.github.cpjinan.plugin.akarilevel.level
 
 import com.github.cpjinan.plugin.akarilevel.cache.MemberCache.memberCache
@@ -7,7 +5,6 @@ import com.github.cpjinan.plugin.akarilevel.entity.MemberData
 import com.github.cpjinan.plugin.akarilevel.entity.MemberLevelData
 import com.github.cpjinan.plugin.akarilevel.event.MemberChangeEvent
 import com.github.cpjinan.plugin.akarilevel.level.LevelGroup.MemberChangeType
-import com.github.cpjinan.plugin.akarilevel.manager.CacheManager
 import org.bukkit.Bukkit.getOfflinePlayer
 import taboolib.common.platform.function.adaptPlayer
 import taboolib.common5.util.replace
@@ -30,6 +27,7 @@ import java.util.concurrent.ConcurrentHashMap
  * @author 季楠
  * @since 2025/8/7 23:15
  */
+@Suppress("DEPRECATION")
 class ConfigLevelGroup(val config: ConfigurationSection) : LevelGroup {
     companion object {
         private var configLevelGroups: MutableMap<String, ConfigLevelGroup> = ConcurrentHashMap()
@@ -70,7 +68,7 @@ class ConfigLevelGroup(val config: ConfigurationSection) : LevelGroup {
          */
         @JvmStatic
         fun reloadConfigLevelGroups() {
-            configLevelGroups.forEach { _, levelGroup ->
+            configLevelGroups.forEach { (_, levelGroup) ->
                 levelGroup.unregister()
             }
             releaseResourceFolderAndRead("level") {
@@ -151,7 +149,6 @@ class ConfigLevelGroup(val config: ConfigurationSection) : LevelGroup {
                 }
             }
 
-        CacheManager.markDirty(event.member)
         onMemberChange(event.member, event.type, event.source)
     }
 
