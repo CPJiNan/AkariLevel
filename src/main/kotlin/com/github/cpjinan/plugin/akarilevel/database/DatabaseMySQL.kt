@@ -106,10 +106,6 @@ class DatabaseMySQL() : Database {
         }
     }
 
-    /**
-     * 共享锁等待排他锁释放读取数据，防止脏读。
-     * 如果等待超时，说明有严重的锁竞争，踢出玩家。
-     */
     private fun getFromDatabaseWithLock(table: Table<*, *>, path: String): String? {
         // 未启用分布式锁时，直接读取。
         if (!enableDistributedLock) {
@@ -132,7 +128,7 @@ class DatabaseMySQL() : Database {
                 }
             }
         } catch (e: SQLException) {
-            // 在严重锁竞争或数据不一致时保护数据完整性。
+            // 在严重锁竞争或数据不一致时踢出玩家以保护数据完整性。
             if (e.message?.contains("Lock wait timeout") == true) {
                 submit {
                     val player = Bukkit.getPlayerExact(path)
