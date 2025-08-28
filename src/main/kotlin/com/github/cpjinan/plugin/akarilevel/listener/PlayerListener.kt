@@ -2,6 +2,7 @@ package com.github.cpjinan.plugin.akarilevel.listener
 
 import com.github.cpjinan.plugin.akarilevel.cache.MemberCache
 import com.github.cpjinan.plugin.akarilevel.database.Database
+import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerQuitEvent
 import taboolib.common.platform.event.SubscribeEvent
 import taboolib.common.platform.function.submit
@@ -16,6 +17,12 @@ import taboolib.common.platform.function.submit
  * @since 2025/8/12 21:40
  */
 object PlayerListener {
+    @SubscribeEvent
+    fun onPlayerJoin(event: PlayerJoinEvent) {
+        val playerName = event.player.name
+        MemberCache.memberCache.invalidate(playerName)
+    }
+
     @SubscribeEvent
     fun onPlayerQuit(event: PlayerQuitEvent) {
         val playerName = event.player.name
