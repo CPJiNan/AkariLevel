@@ -7,35 +7,22 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: checkout repository
-        uses: actions/checkout@v2
-      - name: validate gradle wrapper
-        uses: gradle/wrapper-validation-action@v1
-      - name: setup jdk 8.0
-        uses: actions/setup-java@v2
+      - name: checkout
+        uses: actions/checkout@v5
+      - name: wrapper-validation-action
+        uses: gradle/wrapper-validation-action@v3
+      - name: setup-java
+        uses: actions/setup-java@v4
         with:
-          distribution: adopt
-          java-version: 8.0
-      - name: make gradle wrapper executable
-        run: chmod +x ./gradlew
-      # 第一次构建
+          distribution: zulu
+          java-version: 8
       - name: build
         continue-on-error: true
-        id: build
         run: ./gradlew build
-      # 第二次构建
-      - name: build (retry)
+      - name: taboolibBuildApi
         continue-on-error: true
-        id: build_retry
-        if: steps.build.outcome == 'failure'
-        run: ./gradlew build
-      # 构建 API
-      - name: build api
-        continue-on-error: true
-        id: build_api
         run: ./gradlew taboolibBuildApi
-      # 上传构建文件
-      - name: capture build artifacts
+      - name: upload-artifact
         uses: actions/upload-artifact@v4
         with:
           name: Artifacts
