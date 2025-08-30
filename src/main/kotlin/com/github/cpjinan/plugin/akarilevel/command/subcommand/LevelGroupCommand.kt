@@ -23,12 +23,10 @@ object LevelGroupCommand {
             suggestUncheck { LevelGroup.getLevelGroups().keys.sortedBy { it } }
             execute<ProxyCommandSender> { sender, context, _ ->
                 val group = LevelGroup.getLevelGroups()[context["levelGroup"]]
-
                 if (group == null) {
                     sender.sendLang("LevelGroupNotFound", context["levelGroup"])
                     return@execute
                 }
-
                 sender.sendLang("LevelGroupInfo", group.name, group.display)
             }
         }
@@ -40,14 +38,11 @@ object LevelGroupCommand {
                 val levelGroups = LevelGroup.getLevelGroups().values.sortedBy { it.name }
                 val totalPages = (levelGroups.size + pageSize - 1) / pageSize
                 val currentPage = content.substringAfter(" ").toIntOrNull()?.coerceIn(1, totalPages) ?: 1
-
                 with(sender) {
                     sendLang("LevelGroupListHeader", levelGroups.size)
-
                     levelGroups
                         .subList((currentPage - 1) * pageSize, (currentPage * pageSize).coerceAtMost(levelGroups.size))
                         .forEach { sendLang("LevelGroupListFormat", it.name, it.display) }
-
                     sendLang(
                         "LevelGroupListFooter",
                         currentPage,
@@ -64,14 +59,11 @@ object LevelGroupCommand {
             suggestUncheck { LevelGroup.getLevelGroups().keys.sortedBy { it } }
             execute<ProxyCommandSender> { sender, context, _ ->
                 val group = LevelGroup.getLevelGroups()[context["levelGroup"]]
-
                 if (group == null) {
                     sender.sendLang("LevelGroupNotFound", context["levelGroup"])
                     return@execute
                 }
-
                 group.unregister()
-
                 sender.sendLang("LevelGroupUnregister", group.name)
             }
         }
@@ -81,15 +73,12 @@ object LevelGroupCommand {
             suggestUncheck { LevelGroup.getLevelGroups().keys.sortedBy { it } }
             execute<ProxyCommandSender> { sender, context, _ ->
                 val group = LevelGroup.getLevelGroups()[context["levelGroup"]]
-
                 if (group == null) {
                     sender.sendLang("LevelGroupNotFound", context["levelGroup"])
                     return@execute
                 }
-
                 group.unregister()
                 group.register()
-
                 sender.sendLang("LevelGroupReregister", group.name)
             }
         }

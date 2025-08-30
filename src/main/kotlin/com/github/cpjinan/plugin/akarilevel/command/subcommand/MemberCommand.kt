@@ -2,6 +2,7 @@ package com.github.cpjinan.plugin.akarilevel.command.subcommand
 
 import com.github.cpjinan.plugin.akarilevel.level.ConfigLevelGroup
 import com.github.cpjinan.plugin.akarilevel.level.LevelGroup
+import org.bukkit.Bukkit
 import taboolib.common.platform.ProxyCommandSender
 import taboolib.common.platform.command.subCommand
 import taboolib.common.platform.command.suggestUncheck
@@ -17,6 +18,7 @@ import taboolib.platform.util.onlinePlayers
  * @author 季楠
  * @since 2025/8/16 18:23
  */
+@Suppress("DEPRECATION")
 object MemberCommand {
     val member = subCommand {
         // 检查成员命令。
@@ -27,12 +29,15 @@ object MemberCommand {
             execute<ProxyCommandSender> { sender, context, _ ->
                 val groupName = context["levelGroup"]
                 val group = LevelGroup.getLevelGroups()[groupName]
-
                 if (group == null) {
                     sender.sendLang("LevelGroupNotFound", groupName)
                     return@execute
                 }
                 val memberName = context["member"]
+                if (!Bukkit.getOfflinePlayer(memberName).isOnline) {
+                    sender.sendLang("PlayerNotFound", memberName)
+                    return@execute
+                }
                 if (group.hasMember(memberName)) {
                     sender.sendLang("MemberHas", groupName, memberName)
                 } else {
@@ -54,6 +59,10 @@ object MemberCommand {
                     return@execute
                 }
                 val memberName = context["member"]
+                if (!Bukkit.getOfflinePlayer(memberName).isOnline) {
+                    sender.sendLang("PlayerNotFound", memberName)
+                    return@execute
+                }
                 if (group.hasMember(memberName)) {
                     sender.sendLang("MemberHas", groupName, memberName)
                     return@execute
@@ -76,6 +85,10 @@ object MemberCommand {
                     return@execute
                 }
                 val memberName = context["member"]
+                if (!Bukkit.getOfflinePlayer(memberName).isOnline) {
+                    sender.sendLang("PlayerNotFound", memberName)
+                    return@execute
+                }
                 if (!group.hasMember(memberName)) {
                     sender.sendLang("MemberNotFound", groupName, memberName)
                     return@execute
@@ -98,6 +111,10 @@ object MemberCommand {
                     return@execute
                 }
                 val memberName = context["member"]
+                if (!Bukkit.getOfflinePlayer(memberName).isOnline) {
+                    sender.sendLang("PlayerNotFound", memberName)
+                    return@execute
+                }
                 if (!group.hasMember(memberName)) {
                     sender.sendLang("MemberNotFound", groupName, memberName)
                     return@execute
@@ -131,6 +148,10 @@ object MemberCommand {
                         return@execute
                     }
                     val memberName = context["member"]
+                    if (!Bukkit.getOfflinePlayer(memberName).isOnline) {
+                        sender.sendLang("PlayerNotFound", memberName)
+                        return@execute
+                    }
                     if (!group.hasMember(memberName)) {
                         sender.sendLang("MemberNotFound", groupName, memberName)
                         return@execute
@@ -162,6 +183,10 @@ object MemberCommand {
                         return@execute
                     }
                     val memberName = context["member"]
+                    if (!Bukkit.getOfflinePlayer(memberName).isOnline) {
+                        sender.sendLang("PlayerNotFound", memberName)
+                        return@execute
+                    }
                     if (!group.hasMember(memberName)) {
                         sender.sendLang("MemberNotFound", groupName, memberName)
                         return@execute
@@ -189,6 +214,10 @@ object MemberCommand {
                         return@execute
                     }
                     val memberName = context["member"]
+                    if (!Bukkit.getOfflinePlayer(memberName).isOnline) {
+                        sender.sendLang("PlayerNotFound", memberName)
+                        return@execute
+                    }
                     if (!group.hasMember(memberName)) {
                         sender.sendLang("MemberNotFound", groupName, memberName)
                         return@execute
@@ -220,6 +249,10 @@ object MemberCommand {
                         return@execute
                     }
                     val memberName = context["member"]
+                    if (!Bukkit.getOfflinePlayer(memberName).isOnline) {
+                        sender.sendLang("PlayerNotFound", memberName)
+                        return@execute
+                    }
                     if (!group.hasMember(memberName)) {
                         sender.sendLang("MemberNotFound", groupName, memberName)
                         return@execute
@@ -247,6 +280,10 @@ object MemberCommand {
                         return@execute
                     }
                     val memberName = context["member"]
+                    if (!Bukkit.getOfflinePlayer(memberName).isOnline) {
+                        sender.sendLang("PlayerNotFound", memberName)
+                        return@execute
+                    }
                     if (!group.hasMember(memberName)) {
                         sender.sendLang("MemberNotFound", groupName, memberName)
                         return@execute
@@ -274,6 +311,10 @@ object MemberCommand {
                         return@execute
                     }
                     val memberName = context["member"]
+                    if (!Bukkit.getOfflinePlayer(memberName).isOnline) {
+                        sender.sendLang("PlayerNotFound", memberName)
+                        return@execute
+                    }
                     if (!group.hasMember(memberName)) {
                         sender.sendLang("MemberNotFound", groupName, memberName)
                         return@execute
@@ -305,6 +346,10 @@ object MemberCommand {
                 }
                 val memberName = if (content.contains(" ")) content.substringAfter(" ")
                 else sender.name
+                if (!Bukkit.getOfflinePlayer(memberName).isOnline) {
+                    sender.sendLang("PlayerNotFound", memberName)
+                    return@execute
+                }
                 if (!group.hasMember(memberName)) {
                     sender.sendLang("MemberNotFound", groupName, memberName)
                     return@execute

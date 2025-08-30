@@ -21,7 +21,7 @@ import java.sql.SQLException
  * @author 季楠, QwQ-dev
  * @since 2025/8/7 23:08
  */
-@Suppress("SqlNoDataSourceInspection", "SqlSourceToSinkFlow")
+@Suppress("DEPRECATION", "SqlNoDataSourceInspection", "SqlSourceToSinkFlow")
 class DatabaseMySQL() : Database {
     override val type = DatabaseType.MYSQL
 
@@ -131,8 +131,10 @@ class DatabaseMySQL() : Database {
             // 在严重锁竞争或数据不一致时踢出玩家以保护数据完整性。
             if (e.message?.contains("Lock wait timeout") == true) {
                 submit {
-                    val player = Bukkit.getPlayerExact(path)
-                    player?.kickPlayer(console().asLangText("MemberLoadDataTimeout").colored())
+                    val offlinePlayer = Bukkit.getOfflinePlayer(path)
+                    if (offlinePlayer.isOnline) {
+                        offlinePlayer.player.kickPlayer(console().asLangText("PlayerLoadDataTimeout").colored())
+                    }
                 }
                 null
             } else {
@@ -191,8 +193,10 @@ class DatabaseMySQL() : Database {
         } else {
             val playerName = lockKey.removePrefix("member:")
             submit {
-                val player = Bukkit.getPlayerExact(playerName)
-                player?.kickPlayer(console().asLangText("MemberLoadDataTimeout").colored())
+                val offlinePlayer = Bukkit.getOfflinePlayer(playerName)
+                if (offlinePlayer.isOnline) {
+                    offlinePlayer.player.kickPlayer(console().asLangText("PlayerLoadDataTimeout").colored())
+                }
             }
             null
         }

@@ -5,7 +5,9 @@ import com.github.cpjinan.plugin.akarilevel.database.Database
 import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerQuitEvent
 import taboolib.common.platform.event.SubscribeEvent
+import taboolib.common.platform.function.console
 import taboolib.common.platform.function.submit
+import taboolib.module.lang.sendLang
 
 /**
  * AkariLevel
@@ -20,7 +22,10 @@ object PlayerListener {
     @SubscribeEvent
     fun onPlayerJoin(event: PlayerJoinEvent) {
         val playerName = event.player.name
-        MemberCache.memberCache.invalidate(playerName)
+        submit(delay = 3 * 20) {
+            console().sendLang("PlayerLoadData", playerName)
+            MemberCache.memberCache.invalidate(playerName)
+        }
     }
 
     @SubscribeEvent
@@ -28,7 +33,7 @@ object PlayerListener {
         val playerName = event.player.name
         submit(async = true) {
             try {
-                // 玩家退出时强制保存数据。
+                // 玩家退出时保存数据。
                 val memberData = MemberCache.memberCache[playerName]
                 if (memberData != null) {
                     val json = MemberCache.gson.toJson(memberData)
