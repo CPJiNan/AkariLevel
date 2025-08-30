@@ -30,15 +30,16 @@ object PlaceholderAPIHook : PlaceholderExpansion {
         val argsList = args.split("_")
         val notAvailable = console().asLangText("PlaceholderNotAvailable")
         if (player == null) return notAvailable
-        val playerName = player.name
+        if (!player.isOnline) return notAvailable
+        val uuid = player.uniqueId.toString()
         val levelGroup = LevelGroup.getLevelGroups()[argsList[0]]
         if (levelGroup == null) return notAvailable
-        val currentLevel = levelGroup.getMemberLevel(playerName)
+        val currentLevel = levelGroup.getMemberLevel(uuid)
         val lastLevel = currentLevel - 1
         val nextLevel = currentLevel + 1
         val minLevel = levelGroup.getMinLevel()
         val maxLevel = levelGroup.getMaxLevel()
-        val currentExp = levelGroup.getMemberExp(playerName)
+        val currentExp = levelGroup.getMemberExp(uuid)
         val nextLevelExp = levelGroup.getLevelExp(currentLevel, nextLevel)
 
         return when (argsList[1].lowercase()) {
@@ -57,9 +58,9 @@ object PlaceholderAPIHook : PlaceholderExpansion {
             "exp" -> currentExp
 
             // 等级名称。
-            "levelname" -> levelGroup.getLevelName(playerName, currentLevel).colored()
-            "lastlevelname" -> levelGroup.getLevelName(playerName, lastLevel).colored()
-            "nextlevelname" -> levelGroup.getLevelName(playerName, nextLevel).colored()
+            "levelname" -> levelGroup.getLevelName(uuid, currentLevel).colored()
+            "lastlevelname" -> levelGroup.getLevelName(uuid, lastLevel).colored()
+            "nextlevelname" -> levelGroup.getLevelName(uuid, nextLevel).colored()
 
             // 升级所需经验。
             "levelexp" -> levelGroup.getLevelExp(lastLevel, currentLevel)

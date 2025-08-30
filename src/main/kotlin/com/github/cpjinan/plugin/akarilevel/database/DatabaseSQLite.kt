@@ -20,7 +20,7 @@ class DatabaseSQLite() : Database {
     override val dataSource by lazy { DatabaseConfig.hostSQLite.createDataSource() }
 
     override val memberTable = Table("${DatabaseConfig.table}_Member", DatabaseConfig.hostSQLite) {
-        add("key") {
+        add("player_uuid") {
             type(ColumnTypeSQLite.TEXT) {
                 options(ColumnOptionSQLite.PRIMARY_KEY)
             }
@@ -36,16 +36,16 @@ class DatabaseSQLite() : Database {
 
     override fun contains(table: Table<*, *>, path: String): Boolean {
         return table.select(dataSource) {
-            rows("key")
-            where("key" eq path)
+            rows("player_uuid")
+            where("player_uuid" eq path)
             limit(1)
         }.find()
     }
 
     override fun get(table: Table<*, *>, path: String): String? {
         return table.select(dataSource) {
-            rows("key", "value")
-            where("key" eq path)
+            rows("player_uuid", "value")
+            where("player_uuid" eq path)
             limit(1)
         }.firstOrNull {
             getString("value")
@@ -55,15 +55,15 @@ class DatabaseSQLite() : Database {
     override fun set(table: Table<*, *>, path: String, value: String?) {
         if (value == null) {
             table.delete(dataSource) {
-                where { "key" eq path }
+                where { "player_uuid" eq path }
             }
             return
         }
         if (contains(table, path)) table.update(dataSource) {
             set("value", value)
-            where("key" eq path)
+            where("player_uuid" eq path)
         } else {
-            table.insert(dataSource, "key", "value") {
+            table.insert(dataSource, "player_uuid", "value") {
                 value(path, value)
             }
         }

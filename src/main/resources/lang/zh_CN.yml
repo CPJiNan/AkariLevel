@@ -101,3 +101,4 @@ MemberExpSet: "&8[&3Akari&bLevel&8] &7已设置成员 &f{0} &7的 &f{1} &7经验
 MemberExpAdd: "&8[&3Akari&bLevel&8] &7已增加成员 &f{0} &7的 &f{2} &7个 &f{1} &7经验。"
 MemberExpRemove: "&8[&3Akari&bLevel&8] &7已移除成员 &f{0} &7的 &f{2} &7个 &f{1} &7经验。"
 PlaceholderNotAvailable: "N/A"
+PlayerNotFound: "&8[&3Akari&bLevel&8] &7玩家 &f{0} &7已离线或不存在。"

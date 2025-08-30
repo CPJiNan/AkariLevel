@@ -19,14 +19,14 @@ function onPlayerJoin() {
         .setExecutor(
             function (event) {
                 // 获取事件参数。
-                var playerName = event.getPlayer().getName();
+                var uniqueId = event.player.getUniqueId().toString()
 
                 // 自动加入等级组。
                 levelGroupNames.forEach(
                     function (name) {
                         var levelGroup = LevelGroup.getLevelGroups()[name];
-                        if (levelGroup !== null && !levelGroup.hasMember(playerName)) {
-                            levelGroup.addMember(playerName, "AUTO_JOIN");
+                        if (levelGroup !== null && !levelGroup.hasMember(uniqueId)) {
+                            levelGroup.addMember(uniqueId, "AUTO_JOIN");
                         }
                     }
                 );

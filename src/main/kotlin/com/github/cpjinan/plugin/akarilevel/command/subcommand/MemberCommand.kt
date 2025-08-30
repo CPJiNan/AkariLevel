@@ -2,11 +2,13 @@ package com.github.cpjinan.plugin.akarilevel.command.subcommand
 
 import com.github.cpjinan.plugin.akarilevel.level.ConfigLevelGroup
 import com.github.cpjinan.plugin.akarilevel.level.LevelGroup
+import org.bukkit.Bukkit
 import taboolib.common.platform.ProxyCommandSender
 import taboolib.common.platform.command.subCommand
 import taboolib.common.platform.command.suggestUncheck
 import taboolib.module.lang.sendLang
 import taboolib.platform.util.onlinePlayers
+
 
 /**
  * AkariLevel
@@ -33,7 +35,13 @@ object MemberCommand {
                     return@execute
                 }
                 val memberName = context["member"]
-                if (group.hasMember(memberName)) {
+                var player = Bukkit.getPlayer(memberName)
+                if(player == null) {
+                    sender.sendLang("PlayerNotFound", memberName);
+                    return@execute
+                }
+                var uuid = player.uniqueId.toString()
+                if (group.hasMember(uuid)) {
                     sender.sendLang("MemberHas", groupName, memberName)
                 } else {
                     sender.sendLang("MemberNotFound", groupName, memberName)
@@ -54,11 +62,17 @@ object MemberCommand {
                     return@execute
                 }
                 val memberName = context["member"]
-                if (group.hasMember(memberName)) {
+                var player = Bukkit.getPlayer(memberName)
+                if(player == null) {
+                    sender.sendLang("PlayerNotFound", memberName);
+                    return@execute
+                }
+                var uuid = player.uniqueId.toString()
+                if (group.hasMember(uuid)) {
                     sender.sendLang("MemberHas", groupName, memberName)
                     return@execute
                 }
-                group.addMember(memberName, "COMMAND_ADD_MEMBER")
+                group.addMember(uuid, "COMMAND_ADD_MEMBER")
                 sender.sendLang("MemberAdd", groupName, memberName)
             }
         }
@@ -76,11 +90,17 @@ object MemberCommand {
                     return@execute
                 }
                 val memberName = context["member"]
-                if (!group.hasMember(memberName)) {
+                var player = Bukkit.getPlayer(memberName)
+                if(player == null) {
+                    sender.sendLang("PlayerNotFound", memberName);
+                    return@execute
+                }
+                var uuid = player.uniqueId.toString()
+                if (!group.hasMember(uuid)) {
                     sender.sendLang("MemberNotFound", groupName, memberName)
                     return@execute
                 }
-                group.removeMember(memberName, "COMMAND_REMOVE_MEMBER")
+                group.removeMember(uuid, "COMMAND_REMOVE_MEMBER")
                 sender.sendLang("MemberRemove", groupName, memberName)
             }
         }
@@ -98,19 +118,25 @@ object MemberCommand {
                     return@execute
                 }
                 val memberName = context["member"]
-                if (!group.hasMember(memberName)) {
+                var player = Bukkit.getPlayer(memberName)
+                if(player == null) {
+                    sender.sendLang("PlayerNotFound", memberName);
+                    return@execute
+                }
+                var uuid = player.uniqueId.toString()
+                if (!group.hasMember(uuid)) {
                     sender.sendLang("MemberNotFound", groupName, memberName)
                     return@execute
                 }
-                val level = group.getMemberLevel(memberName)
+                val level = group.getMemberLevel(uuid)
                 sender.sendLang(
                     "MemberInfo",
                     memberName,                                                     // 0 成员名称。
                     group.name,                                                             // 1 等级组编辑名。
                     group.display,                                                          // 2 等级组展示名
                     level,                                                                  // 3 当前等级。
-                    group.getLevelName(memberName, level),                                  // 4 当前等级名称。
-                    group.getMemberExp(memberName),                                         // 5 当前经验。
+                    group.getLevelName(uuid, level),                                  // 4 当前等级名称。
+                    group.getMemberExp(uuid),                                         // 5 当前经验。
                 )
             }
         }
@@ -131,7 +157,13 @@ object MemberCommand {
                         return@execute
                     }
                     val memberName = context["member"]
-                    if (!group.hasMember(memberName)) {
+                    var player = Bukkit.getPlayer(memberName)
+                    if(player == null) {
+                        sender.sendLang("PlayerNotFound", memberName);
+                        return@execute
+                    }
+                    var uuid = player.uniqueId.toString()
+                    if (!group.hasMember(uuid)) {
                         sender.sendLang("MemberNotFound", groupName, memberName)
                         return@execute
                     }
@@ -141,7 +173,7 @@ object MemberCommand {
                         return@execute
                     }
                     group.setMemberLevel(
-                        memberName,
+                        uuid,
                         amount,
                         "COMMAND_SET_LEVEL"
                     )
@@ -162,7 +194,13 @@ object MemberCommand {
                         return@execute
                     }
                     val memberName = context["member"]
-                    if (!group.hasMember(memberName)) {
+                    var player = Bukkit.getPlayer(memberName)
+                    if(player == null) {
+                        sender.sendLang("PlayerNotFound", memberName);
+                        return@execute
+                    }
+                    var uuid = player.uniqueId.toString()
+                    if (!group.hasMember(uuid)) {
                         sender.sendLang("MemberNotFound", groupName, memberName)
                         return@execute
                     }
@@ -171,7 +209,7 @@ object MemberCommand {
                         sender.sendLang("IllegalNumberFormat", context["amount"])
                         return@execute
                     }
-                    group.addMemberLevel(memberName, amount, "COMMAND_ADD_LEVEL")
+                    group.addMemberLevel(uuid, amount, "COMMAND_ADD_LEVEL")
                     sender.sendLang("MemberLevelAdd", memberName, groupName, amount)
                 }
             }
@@ -189,7 +227,13 @@ object MemberCommand {
                         return@execute
                     }
                     val memberName = context["member"]
-                    if (!group.hasMember(memberName)) {
+                    var player = Bukkit.getPlayer(memberName)
+                    if(player == null) {
+                        sender.sendLang("PlayerNotFound", memberName);
+                        return@execute
+                    }
+                    var uuid = player.uniqueId.toString()
+                    if (!group.hasMember(uuid)) {
                         sender.sendLang("MemberNotFound", groupName, memberName)
                         return@execute
                     }
@@ -198,7 +242,7 @@ object MemberCommand {
                         sender.sendLang("IllegalNumberFormat", context["amount"])
                         return@execute
                     }
-                    group.removeMemberLevel(memberName, amount, "COMMAND_REMOVE_LEVEL")
+                    group.removeMemberLevel(uuid, amount, "COMMAND_REMOVE_LEVEL")
                     sender.sendLang("MemberLevelRemove", memberName, groupName, amount)
                 }
             }
@@ -220,7 +264,13 @@ object MemberCommand {
                         return@execute
                     }
                     val memberName = context["member"]
-                    if (!group.hasMember(memberName)) {
+                    var player = Bukkit.getPlayer(memberName)
+                    if(player == null) {
+                        sender.sendLang("PlayerNotFound", memberName);
+                        return@execute
+                    }
+                    var uuid = player.uniqueId.toString()
+                    if (!group.hasMember(uuid)) {
                         sender.sendLang("MemberNotFound", groupName, memberName)
                         return@execute
                     }
@@ -229,7 +279,7 @@ object MemberCommand {
                         sender.sendLang("IllegalNumberFormat", context["amount"])
                         return@execute
                     }
-                    group.setMemberExp(memberName, amount, "COMMAND_SET_EXP")
+                    group.setMemberExp(uuid, amount, "COMMAND_SET_EXP")
                     sender.sendLang("MemberExpSet", memberName, groupName, amount)
                 }
             }
@@ -247,7 +297,13 @@ object MemberCommand {
                         return@execute
                     }
                     val memberName = context["member"]
-                    if (!group.hasMember(memberName)) {
+                    var player = Bukkit.getPlayer(memberName)
+                    if(player == null) {
+                        sender.sendLang("PlayerNotFound", memberName);
+                        return@execute
+                    }
+                    var uuid = player.uniqueId.toString()
+                    if (!group.hasMember(uuid)) {
                         sender.sendLang("MemberNotFound", groupName, memberName)
                         return@execute
                     }
@@ -256,7 +312,7 @@ object MemberCommand {
                         sender.sendLang("IllegalNumberFormat", context["amount"])
                         return@execute
                     }
-                    group.addMemberExp(memberName, amount, "COMMAND_ADD_EXP")
+                    group.addMemberExp(uuid, amount, "COMMAND_ADD_EXP")
                     sender.sendLang("MemberExpAdd", memberName, groupName, amount)
                 }
             }
@@ -274,7 +330,13 @@ object MemberCommand {
                         return@execute
                     }
                     val memberName = context["member"]
-                    if (!group.hasMember(memberName)) {
+                    var player = Bukkit.getPlayer(memberName)
+                    if(player == null) {
+                        sender.sendLang("PlayerNotFound", memberName);
+                        return@execute
+                    }
+                    var uuid = player.uniqueId.toString()
+                    if (!group.hasMember(uuid)) {
                         sender.sendLang("MemberNotFound", groupName, memberName)
                         return@execute
                     }
@@ -283,7 +345,7 @@ object MemberCommand {
                         sender.sendLang("IllegalNumberFormat", context["amount"])
                         return@execute
                     }
-                    group.removeMemberExp(memberName, amount, "COMMAND_REMOVE_EXP")
+                    group.removeMemberExp(uuid, amount, "COMMAND_REMOVE_EXP")
                     sender.sendLang("MemberExpRemove", memberName, groupName, amount)
                 }
             }
@@ -305,11 +367,17 @@ object MemberCommand {
                 }
                 val memberName = if (content.contains(" ")) content.substringAfter(" ")
                 else sender.name
-                if (!group.hasMember(memberName)) {
+                var player = Bukkit.getPlayer(memberName)
+                if(player == null) {
+                    sender.sendLang("PlayerNotFound", memberName);
+                    return@execute
+                }
+                var uuid = player.uniqueId.toString()
+                if (!group.hasMember(uuid)) {
                     sender.sendLang("MemberNotFound", groupName, memberName)
                     return@execute
                 }
-                group.levelUpMember(memberName)
+                group.levelUpMember(uuid)
                 sender.sendLang("MemberLevelUp", memberName, groupName, group.display)
             }
         }

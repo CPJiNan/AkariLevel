@@ -16,13 +16,13 @@ function onPlayerExpChange() {
         .setExecutor(
             function (event) {
                 // 获取事件参数。
-                var playerName = event.getPlayer().getName();
+                var uniqueId = event.player.getUniqueId().toString()
                 var amount = event.getAmount();
 
                 // 为所有等级组增加此来源的经验。
                 LevelGroup.getLevelGroups().values().forEach(
                     function (levelGroup) {
-                        levelGroup.addMemberExp(playerName, amount, "VANILLA_EXP_CHANGE");
+                        levelGroup.addMemberExp(uniqueId, amount, "VANILLA_EXP_CHANGE");
                     }
                 )
 

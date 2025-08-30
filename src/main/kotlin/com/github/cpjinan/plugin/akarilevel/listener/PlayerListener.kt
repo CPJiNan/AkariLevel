@@ -19,24 +19,27 @@ import taboolib.common.platform.function.submit
 object PlayerListener {
     @SubscribeEvent
     fun onPlayerJoin(event: PlayerJoinEvent) {
-        val playerName = event.player.name
-        MemberCache.memberCache.invalidate(playerName)
+        val uuid = event.player.uniqueId.toString()
+        MemberCache.memberCache.invalidate(uuid)
+        submit(async = true, delay = 50) {
+            MemberCache.memberCache.invalidate(uuid)
+        }
     }
 
     @SubscribeEvent
     fun onPlayerQuit(event: PlayerQuitEvent) {
-        val playerName = event.player.name
+        val uuid = event.player.uniqueId.toString()
         submit(async = true) {
             try {
                 // 玩家退出时强制保存数据。
-                val memberData = MemberCache.memberCache[playerName]
+                val memberData = MemberCache.memberCache[uuid]
                 if (memberData != null) {
                     val json = MemberCache.gson.toJson(memberData)
                     with(Database.INSTANCE) {
-                        set(memberTable, playerName, json)
+                        set(memberTable, uuid, json)
                     }
                 }
-                MemberCache.memberCache.invalidate(playerName)
+                MemberCache.memberCache.invalidate(uuid)
             } catch (e: Exception) {
                 e.printStackTrace()
             }

@@ -169,7 +169,6 @@ interface LevelGroup {
      */
     fun addMember(member: String, source: String) {
         if (hasMember(member)) return
-
         val event = MemberChangeEvent(member, name, MemberChangeType.JOIN, source)
         event.call()
         if (event.isCancelled) return

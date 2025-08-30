@@ -32,7 +32,7 @@ class DatabaseMySQL() : Database {
     private var enableDistributedLock = false
 
     override val memberTable = Table("${DatabaseConfig.table}_Member", DatabaseConfig.hostSQL) {
-        add("key") {
+        add("player_uuid") {
             type(ColumnTypeSQL.VARCHAR, 64) {
                 options(ColumnOptionSQL.PRIMARY_KEY)
             }
@@ -56,8 +56,8 @@ class DatabaseMySQL() : Database {
 
     override fun contains(table: Table<*, *>, path: String): Boolean {
         return table.select(dataSource) {
-            rows("key")
-            where("key" eq path)
+            rows("player_uuid")
+            where("player_uuid" eq path)
             limit(1)
         }.find()
     }
@@ -98,11 +98,11 @@ class DatabaseMySQL() : Database {
 
     private fun getFromDatabase(table: Table<*, *>, path: String): String? {
         return table.select(dataSource) {
-            rows("key", "value")
-            where("key" eq path)
+            rows("player_uuid", "value")
+            where("player_uuid" eq path)
             limit(1)
         }.firstOrNull {
-            getString("value")
+            getString("player_uuid")
         }
     }
 
@@ -116,7 +116,7 @@ class DatabaseMySQL() : Database {
             dataSource.connection.use { connection ->
                 connection.prepareStatement("SET innodb_lock_wait_timeout = 2").execute()
 
-                val sql = "SELECT `value` FROM `${table.name}` WHERE `key` = ? LOCK IN SHARE MODE"
+                val sql = "SELECT `value` FROM `${table.name}` WHERE `player_uuid` = ? LOCK IN SHARE MODE"
                 connection.prepareStatement(sql).use { stmt ->
                     stmt.setString(1, path)
                     val rs = stmt.executeQuery()
@@ -149,7 +149,7 @@ class DatabaseMySQL() : Database {
     private fun setToDatabase(table: Table<*, *>, path: String, value: String?) {
         if (value == null) {
             table.delete(dataSource) {
-                where { "key" eq path }
+                where { "player_uuid" eq path }
             }
             return
         }
@@ -157,7 +157,7 @@ class DatabaseMySQL() : Database {
         dataSource.connection.use { connection ->
             connection.autoCommit = false
             try {
-                val updateSql = "UPDATE `${table.name}` SET `value` = ? WHERE `key` = ?"
+                val updateSql = "UPDATE `${table.name}` SET `value` = ? WHERE `player_uuid` = ?"
                 val updateCount = connection.prepareStatement(updateSql).use { stmt ->
                     stmt.setString(1, value)
                     stmt.setString(2, path)
@@ -165,7 +165,7 @@ class DatabaseMySQL() : Database {
                 }
 
                 if (updateCount == 0) {
-                    val insertSql = "INSERT INTO `${table.name}` (`key`, `value`) VALUES (?, ?)"
+                    val insertSql = "INSERT INTO `${table.name}` (`player_uuid`, `value`) VALUES (?, ?)"
                     connection.prepareStatement(insertSql).use { stmt ->
                         stmt.setString(1, path)
                         stmt.setString(2, value)
