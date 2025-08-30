@@ -41,7 +41,7 @@ function onMemberExpChange() {
                     var player = offlinePlayer.getPlayer();
                     var levelGroup = LevelGroup.getLevelGroups()[levelGroupName];
 
-                    var team = DungeonPlus.getTeamManager().getTeam(player);
+                    var team = DungeonPlus.teamManager.getTeam(player);
                     if (team === null) return;
                     var totalAmount = expAmount * team.getPlayers().length;
                     var totalWeight = leaderWeight + memberWeight * (team.getPlayers().length - 1)
