@@ -2,6 +2,167 @@ PluginLoading: "&7正在加载 &3Akari&bLevel&8&f... &8{0}"
 PluginEnabled: "&8[&3Akari&bLevel&8] &b信息 &8| &6插件加载完毕。"
 PluginDisable: "&8[&3Akari&bLevel&8] &b信息 &8| &6插件卸载完毕。"
 PluginReloaded: "&8[&3Akari&bLevel&8] &b信息 &8| &6插件重载完毕。"
+CommandHelp:
+  - '&7'
+  - '  &3&lAkari&b&lLevel &7v{0}'
+  - '&7'
+  - '  &7命令: &f/akarilevel &8[...]'
+  - '  &7参数:'
+  - type: JSON
+    text: "    &8- [&flevelGroup]"
+    args:
+      - hover: "点击查看等级组命令帮助"
+        suggest: "/akarilevel help LevelGroup"
+  - '      &7等级组命令'
+  - type: JSON
+    text: "    &8- [&fmember]"
+    args:
+      - hover: "点击查看成员命令帮助"
+        suggest: "/akarilevel help Member"
+  - '      &7成员命令'
+  - type: JSON
+    text: "    &8- [&freload]"
+    args:
+      - hover: "点击重载插件"
+        suggest: "/akarilevel reload"
+  - '      &7重载插件'
+  - '&7'
+CommandHelpLevelGroup:
+  - '&7'
+  - '  &3&lAkari&b&lLevel &7v{0}'
+  - '&7'
+  - '  &7命令: &f/akarilevel levelGroup &8[...]'
+  - '  &7参数:'
+  - type: JSON
+    text: "    &8- [&finfo] &8<&7levelGroup&8>"
+    args:
+      - hover: "点击查看等级组信息"
+        suggest: "/akarilevel levelGroup info 等级组编辑名"
+  - '      &7查看等级组信息'
+  - type: JSON
+    text: "    &8- [&flist]"
+    args:
+      - hover: "点击查看等级组列表"
+        suggest: "/akarilevel levelGroup list"
+  - '      &7查看等级组列表'
+  - type: JSON
+    text: "    &8- [&funregister] &8<&7levelGroup&8>"
+    args:
+      - hover: "点击取消注册等级组"
+        suggest: "/akarilevel levelGroup unregister 等级组编辑名"
+  - '      &7取消注册等级组'
+  - type: JSON
+    text: "    &8- [&freregister] &8<&7levelGroup&8>"
+    args:
+      - hover: "点击重新注册等级组"
+        suggest: "/akarilevel levelGroup reregister 等级组编辑名"
+  - '      &7重新注册等级组'
+  - type: JSON
+    text: "    &8- [&freload]"
+    args:
+      - hover: "点击重载配置等级组"
+        suggest: "/akarilevel levelGroup reload"
+  - '      &7重载配置等级组'
+  - '&7'
+CommandHelpMember:
+  - '&7'
+  - '  &3&lAkari&b&lLevel &7v{0}'
+  - '&7'
+  - '  &7命令: &f/akarilevel member &8[...]'
+  - '  &7参数:'
+  - type: JSON
+    text: "    &8- [&fhas] &8<&7member&8> &8<&7levelGroup&8>"
+    args:
+      - hover: "点击检查等级组中是否存在成员"
+        suggest: "/akarilevel member has 成员名称 等级组编辑名"
+  - '      &7检查成员'
+  - type: JSON
+    text: "    &8- [&fadd] &8<&7member&8> &8<&7levelGroup&8>"
+    args:
+      - hover: "点击为等级组增加成员"
+        suggest: "/akarilevel member add 成员名称 等级组编辑名"
+  - '      &7增加成员'
+  - type: JSON
+    text: "    &8- [&fremove] &8<&7member&8> &8<&7levelGroup&8>"
+    args:
+      - hover: "点击从等级组移除成员"
+        suggest: "/akarilevel member remove 成员名称 等级组编辑名"
+  - '      &7移除成员'
+  - type: JSON
+    text: "    &8- [&finfo] &8<&7member&8> &8<&7levelGroup&8>"
+    args:
+      - hover: "点击查看成员信息"
+        suggest: "/akarilevel member info 成员名称 等级组编辑名"
+  - '      &7查看成员信息'
+  - type: JSON
+    text: "    &8- [&flevel]"
+    args:
+      - hover: "点击查看成员等级命令帮助"
+        suggest: "/akarilevel help MemberLevel"
+  - '      &7成员等级命令'
+  - type: JSON
+    text: "    &8- [&fexp]"
+    args:
+      - hover: "点击查看成员经验命令帮助"
+        suggest: "/akarilevel help MemberExp"
+  - '      &7成员经验命令'
+  - type: JSON
+    text: "    &8- [&flevelUp] &8<&7levelGroup&8> &8<&7member&8>"
+    args:
+      - hover: "点击执行成员升级"
+        suggest: "/akarilevel member levelUp 等级组编辑名 成员名称"
+  - '      &7成员升级'
+  - '&7'
+CommandHelpMemberLevel:
+  - '&7'
+  - '  &3&lAkari&b&lLevel &7v{0}'
+  - '&7'
+  - '  &7命令: &f/akarilevel member level &8[...]'
+  - '  &7参数:'
+  - type: JSON
+    text: "    &8- [&fset] &8<&7member&8> &8<&7levelGroup&8> &8<&7amount&8>"
+    args:
+      - hover: "点击设置成员等级"
+        suggest: "/akarilevel member level set 成员名称 等级组编辑名 等级"
+  - '      &7设置成员等级'
+  - type: JSON
+    text: "    &8- [&fadd] &8<&7member&8> &8<&7levelGroup&8> &8<&7amount&8>"
+    args:
+      - hover: "点击增加成员等级"
+        suggest: "/akarilevel member level add 成员名称 等级组编辑名 等级"
+  - '      &7增加成员等级'
+  - type: JSON
+    text: "    &8- [&fremove] &8<&7member&8> &8<&7levelGroup&8> &8<&7amount&8>"
+    args:
+      - hover: "点击移除成员等级"
+        suggest: "/akarilevel member level remove 成员名称 等级组编辑名 等级"
+  - '      &7移除成员等级'
+  - '&7'
+CommandHelpMemberExp:
+  - '&7'
+  - '  &3&lAkari&b&lLevel &7v{0}'
+  - '&7'
+  - '  &7命令: &f/akarilevel member exp &8[...]'
+  - '  &7参数:'
+  - type: JSON
+    text: "    &8- [&fset] &8<&7member&8> &8<&7levelGroup&8> &8<&7amount&8>"
+    args:
+      - hover: "点击设置成员经验"
+        suggest: "/akarilevel member exp set 成员名称 等级组编辑名 经验"
+  - '      &7设置成员经验'
+  - type: JSON
+    text: "    &8- [&fadd] &8<&7member&8> &8<&7levelGroup&8> &8<&7amount&8>"
+    args:
+      - hover: "点击增加成员经验"
+        suggest: "/akarilevel member exp add 成员名称 等级组编辑名 经验"
+  - '      &7增加成员经验'
+  - type: JSON
+    text: "    &8- [&fremove] &8<&7member&8> &8<&7levelGroup&8> &8<&7amount&8>"
+    args:
+      - hover: "点击移除成员经验"
+        suggest: "/akarilevel member exp remove 成员名称 等级组编辑名 经验"
+  - '      &7移除成员经验'
+  - '&7'
 LevelGroupNotFound: "&8[&3Akari&bLevel&8] &7未找到等级组 &f{0} &7。"
 LevelGroupInfo:
   - " "

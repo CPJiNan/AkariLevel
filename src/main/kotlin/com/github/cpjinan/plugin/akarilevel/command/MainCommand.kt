@@ -8,9 +8,9 @@ import com.github.cpjinan.plugin.akarilevel.level.ConfigLevelGroup
 import com.github.cpjinan.plugin.akarilevel.manager.ScriptManager
 import taboolib.common.platform.ProxyCommandSender
 import taboolib.common.platform.command.*
-import taboolib.expansion.createHelper
 import taboolib.module.lang.Language
 import taboolib.module.lang.sendLang
+import taboolib.platform.util.bukkitPlugin
 
 /**
  * AkariLevel
@@ -23,13 +23,32 @@ import taboolib.module.lang.sendLang
  */
 @CommandHeader(
     name = "akarilevel",
+    aliases = ["al"],
     permission = "AkariLevel.command.use",
-    permissionDefault = PermissionDefault.TRUE
+    permissionDefault = PermissionDefault.OP
 )
 object MainCommand {
-    @CommandBody
+    @CommandBody(
+        permission = "AkariLevel.command.use",
+        permissionDefault = PermissionDefault.OP
+    )
     val main = mainCommand {
-        createHelper()
+        execute<ProxyCommandSender> { sender, _, _ ->
+            sender.sendLang("CommandHelp", bukkitPlugin.description.version)
+        }
+    }
+
+    @CommandBody(
+        hidden = true,
+        permission = "AkariLevel.command.help.use",
+        permissionDefault = PermissionDefault.OP
+    )
+    val help = subCommand {
+        execute<ProxyCommandSender> { sender, _, content ->
+            val version = bukkitPlugin.description.version
+            if (content.contains(" ")) sender.sendLang("CommandHelp${content.substringAfter(" ")}", version)
+            else sender.sendLang("CommandHelp", version)
+        }
     }
 
     @CommandBody(
