@@ -22,6 +22,7 @@ object PlayerListener {
     @SubscribeEvent
     fun onPlayerJoin(event: PlayerJoinEvent) {
         val playerName = event.player.name
+        MemberCache.memberCache.invalidate(playerName)
         submit(delay = 3 * 20) {
             console().sendLang("PlayerLoadData", playerName)
             MemberCache.memberCache.invalidate(playerName)
