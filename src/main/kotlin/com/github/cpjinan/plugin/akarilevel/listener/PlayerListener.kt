@@ -5,9 +5,7 @@ import com.github.cpjinan.plugin.akarilevel.database.Database
 import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerQuitEvent
 import taboolib.common.platform.event.SubscribeEvent
-import taboolib.common.platform.function.console
 import taboolib.common.platform.function.submit
-import taboolib.module.lang.sendLang
 
 /**
  * AkariLevel
@@ -23,10 +21,6 @@ object PlayerListener {
     fun onPlayerJoin(event: PlayerJoinEvent) {
         val playerName = event.player.name
         MemberCache.memberCache.invalidate(playerName)
-        submit(delay = 3 * 20) {
-            console().sendLang("PlayerLoadData", playerName)
-            MemberCache.memberCache.invalidate(playerName)
-        }
     }
 
     @SubscribeEvent
