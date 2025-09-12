@@ -103,3 +103,7 @@
   Exp-Drops:
   - Example 100-150 0.5
 ```
+
+## 📊 数据统计
+
+![bStats](https://bstats.org/signatures/bukkit/CPJiNan.svg)
