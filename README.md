@@ -4,7 +4,7 @@
 ![date](https://img.shields.io/badge/dynamic/json?label=date&amp;query=$.created_at&amp;url=https://api.github.com/repos/CPJiNan/AkariLevel/releases/latest)
 ![commits](https://img.shields.io/github/commit-activity/t/CPJiNan/AkariLevel)
 ![issues](https://img.shields.io/github/issues/CPJiNan/AkariLevel.svg)
-![taboolib](https://img.shields.io/badge/taboolib-6.2.3+-blue)
+![taboolib](https://img.shields.io/badge/taboolib-6.2.3-blue)
 ![minecraft](https://img.shields.io/badge/minecraft-1.8+-green)
 ![java](https://img.shields.io/badge/java-8+-yellow)
 

@@ -30,7 +30,7 @@ taboolib {
             name("QwQ-dev")
         }
     }
-    version { taboolib = "6.2.3-6bdc1c7" }
+    version { taboolib = "6.2.3-e102d76" }
     relocate("top.maplex.arim", "com.github.cpjinan.plugin.akarilevel.arim")
     relocate("com.github.benmanes.caffeine", "com.github.cpjinan.plugin.akarilevel.caffeine")
 }
