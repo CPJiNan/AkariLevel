@@ -27,7 +27,6 @@ taboolib {
     description {
         contributors {
             name("CPJiNan")
-            name("QwQ-dev")
         }
     }
     version { taboolib = "6.2.3-e102d76" }
