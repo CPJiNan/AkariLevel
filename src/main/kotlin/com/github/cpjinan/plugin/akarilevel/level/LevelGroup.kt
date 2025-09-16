@@ -1,9 +1,12 @@
 package com.github.cpjinan.plugin.akarilevel.level
 
+import com.github.cpjinan.plugin.akarilevel.cache.MemberCache
 import com.github.cpjinan.plugin.akarilevel.cache.MemberCache.memberCache
+import com.github.cpjinan.plugin.akarilevel.database.Database
 import com.github.cpjinan.plugin.akarilevel.entity.MemberData
 import com.github.cpjinan.plugin.akarilevel.entity.MemberLevelData
 import com.github.cpjinan.plugin.akarilevel.event.*
+import taboolib.common.platform.function.submit
 import java.util.concurrent.ConcurrentHashMap
 
 /**
@@ -153,7 +156,7 @@ interface LevelGroup {
      */
     fun hasMember(member: String): Boolean {
         return try {
-            val memberData = memberCache.getWithBuiltInLoader(member)
+            val memberData = memberCache[member]
             memberData?.levelGroups?.keys?.contains(name) ?: false
         } catch (e: Exception) {
             e.printStackTrace()
@@ -174,9 +177,16 @@ interface LevelGroup {
         event.call()
         if (event.isCancelled) return
 
-        memberCache.compute(event.member) { _, memberData ->
+        val data = memberCache.asMap().compute(event.member) { _, memberData ->
             (memberData ?: MemberData()).apply {
                 levelGroups.putIfAbsent(event.levelGroup, MemberLevelData())
+            }
+        }
+
+        submit(async = true) {
+            val json = MemberCache.gson.toJson(data)
+            with(Database.INSTANCE) {
+                set(memberTable, event.member, json)
             }
         }
 
@@ -194,12 +204,21 @@ interface LevelGroup {
         val event = MemberChangeEvent(member, name, MemberChangeType.QUIT, source)
         event.call()
         if (event.isCancelled) return
-        memberCache.asMap()
+
+        val data = memberCache.asMap()
             .compute(event.member) { _, memberData ->
                 memberData?.apply {
                     levelGroups.remove(name)
                 }
             }
+
+        submit(async = true) {
+            val json = MemberCache.gson.toJson(data)
+            with(Database.INSTANCE) {
+                set(memberTable, event.member, json)
+            }
+        }
+
         onMemberChange(event.member, event.type, event.source)
     }
 
@@ -211,7 +230,7 @@ interface LevelGroup {
      */
     fun getMemberLevel(member: String): Long {
         return try {
-            val memberData = memberCache.getWithBuiltInLoader(member)
+            val memberData = memberCache[member]
             memberData?.levelGroups[name]?.level ?: 0
         } catch (e: Exception) {
             e.printStackTrace()
@@ -227,7 +246,7 @@ interface LevelGroup {
      */
     fun getMemberExp(member: String): Long {
         return try {
-            val memberData = memberCache.getWithBuiltInLoader(member)
+            val memberData = memberCache[member]
             memberData?.levelGroups[name]?.exp ?: 0
         } catch (e: Exception) {
             e.printStackTrace()
@@ -248,9 +267,16 @@ interface LevelGroup {
         event.call()
         if (event.isCancelled) return
 
-        memberCache.compute(event.member) { _, memberData ->
+        val data = memberCache.asMap().compute(event.member) { _, memberData ->
             (memberData ?: MemberData()).apply {
                 levelGroups.getOrPut(event.levelGroup) { MemberLevelData() }.level = event.newLevel
+            }
+        }
+
+        submit(async = true) {
+            val json = MemberCache.gson.toJson(data)
+            with(Database.INSTANCE) {
+                set(memberTable, event.member, json)
             }
         }
 
@@ -270,9 +296,16 @@ interface LevelGroup {
         event.call()
         if (event.isCancelled) return
 
-        memberCache.compute(event.member) { _, memberData ->
+        val data = memberCache.asMap().compute(event.member) { _, memberData ->
             (memberData ?: MemberData()).apply {
                 levelGroups.getOrPut(event.levelGroup) { MemberLevelData() }.exp += event.expAmount
+            }
+        }
+
+        submit(async = true) {
+            val json = MemberCache.gson.toJson(data)
+            with(Database.INSTANCE) {
+                set(memberTable, event.member, json)
             }
         }
 

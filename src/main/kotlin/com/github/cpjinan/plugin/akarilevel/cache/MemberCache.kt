@@ -1,5 +1,6 @@
 package com.github.cpjinan.plugin.akarilevel.cache
 
+import com.github.benmanes.caffeine.cache.Caffeine
 import com.github.cpjinan.plugin.akarilevel.database.Database
 import com.github.cpjinan.plugin.akarilevel.entity.MemberData
 import com.google.gson.Gson
@@ -16,15 +17,8 @@ import com.google.gson.Gson
 object MemberCache {
     val gson = Gson()
 
-    val memberCache = EasyCache.builder<String, MemberData>()
-        .circuitBreaker(
-            CircuitBreakerConfig(
-                failureThreshold = 15,  // 15% 失败率阈值
-                timeoutMs = 60_000,     // 60 秒熔断时间
-                sampleSize = 30         // 30 个样本窗口
-            )
-        )
-        .loader { key ->
+    val memberCache = Caffeine.newBuilder()
+        .build<String, MemberData> { key ->
             try {
                 with(Database.INSTANCE) {
                     get(memberTable, key)?.takeUnless { it.isBlank() }
@@ -43,5 +37,4 @@ object MemberCache {
                 MemberData()
             }
         }
-        .build()
 }

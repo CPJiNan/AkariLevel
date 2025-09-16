@@ -154,7 +154,7 @@ class ConfigLevelGroup(val config: ConfigurationSection) : LevelGroup {
 
     override fun getMemberLevel(member: String): Long {
         return try {
-            val memberData = memberCache.getWithBuiltInLoader(member)
+            val memberData = memberCache[member]
             memberData?.levelGroups[name]?.level ?: getMinLevel()
         } catch (e: Exception) {
             e.printStackTrace()
