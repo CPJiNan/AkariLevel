@@ -1,12 +1,15 @@
 package com.github.cpjinan.plugin.akarilevel.level
 
+import com.github.cpjinan.plugin.akarilevel.cache.MemberCache
 import com.github.cpjinan.plugin.akarilevel.cache.MemberCache.memberCache
+import com.github.cpjinan.plugin.akarilevel.database.Database
 import com.github.cpjinan.plugin.akarilevel.entity.MemberData
 import com.github.cpjinan.plugin.akarilevel.entity.MemberLevelData
 import com.github.cpjinan.plugin.akarilevel.event.MemberChangeEvent
 import com.github.cpjinan.plugin.akarilevel.level.LevelGroup.MemberChangeType
 import org.bukkit.Bukkit.getOfflinePlayer
 import taboolib.common.platform.function.adaptPlayer
+import taboolib.common.platform.function.submit
 import taboolib.common5.util.replace
 import taboolib.library.configuration.ConfigurationSection
 import taboolib.module.chat.colored
@@ -139,15 +142,23 @@ class ConfigLevelGroup(val config: ConfigurationSection) : LevelGroup {
 
     override fun addMember(member: String, source: String) {
         if (hasMember(member)) return
+
         val event = MemberChangeEvent(member, name, MemberChangeType.JOIN, source)
         event.call()
         if (event.isCancelled) return
-        memberCache.asMap()
-            .compute(event.member) { _, memberData ->
-                (memberData ?: MemberData()).apply {
-                    levelGroups.putIfAbsent(event.levelGroup, MemberLevelData(level = getMinLevel()))
-                }
+
+        val data = memberCache.asMap().compute(event.member) { _, memberData ->
+            (memberData ?: MemberData()).apply {
+                levelGroups.putIfAbsent(event.levelGroup, MemberLevelData(level = getMinLevel()))
             }
+        }
+
+        submit(async = true) {
+            val json = MemberCache.gson.toJson(data)
+            with(Database.INSTANCE) {
+                set(memberTable, event.member, json)
+            }
+        }
 
         onMemberChange(event.member, event.type, event.source)
     }
