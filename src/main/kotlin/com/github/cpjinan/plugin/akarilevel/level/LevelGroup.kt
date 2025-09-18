@@ -185,9 +185,7 @@ interface LevelGroup {
 
         submit(async = true) {
             val json = MemberCache.gson.toJson(data)
-            with(Database.INSTANCE) {
-                set(memberTable, event.member, json)
-            }
+            Database.INSTANCE.set(Database.INSTANCE.memberTable, event.member, json)
         }
 
         onMemberChange(event.member, event.type, event.source)
@@ -214,9 +212,7 @@ interface LevelGroup {
 
         submit(async = true) {
             val json = MemberCache.gson.toJson(data)
-            with(Database.INSTANCE) {
-                set(memberTable, event.member, json)
-            }
+            Database.INSTANCE.set(Database.INSTANCE.memberTable, event.member, json)
         }
 
         onMemberChange(event.member, event.type, event.source)
@@ -275,9 +271,7 @@ interface LevelGroup {
 
         submit(async = true) {
             val json = MemberCache.gson.toJson(data)
-            with(Database.INSTANCE) {
-                set(memberTable, event.member, json)
-            }
+            Database.INSTANCE.set(Database.INSTANCE.memberTable, event.member, json)
         }
 
         onMemberLevelChange(event.member, event.oldLevel, event.newLevel, event.source)
@@ -304,9 +298,7 @@ interface LevelGroup {
 
         submit(async = true) {
             val json = MemberCache.gson.toJson(data)
-            with(Database.INSTANCE) {
-                set(memberTable, event.member, json)
-            }
+            Database.INSTANCE.set(Database.INSTANCE.memberTable, event.member, json)
         }
 
         onMemberExpChange(event.member, event.expAmount, event.source)
