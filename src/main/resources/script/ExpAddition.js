@@ -17,7 +17,7 @@ var PlaceholderAPI = Packages.me.clip.placeholderapi.PlaceholderAPI;
 // 启用经验加成。
 var enable = false;
 // 经验来源。
-var sources = ["MYTHICMOBS_DROP_EXP", "VANILLA_EXP_CHANGE"];
+var sources = ["MYTHICMOBS_DROP_EXP"];
 // 经验加成属性变量。
 var placeholder = "%ap_exp_addition:max%";
 
