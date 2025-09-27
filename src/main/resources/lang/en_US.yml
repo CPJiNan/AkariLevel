@@ -1,0 +1,264 @@
+PluginLoading: "&7Loading &3Akari&bLevel&8&f... &8{0}"
+PluginEnabled: "&8[&3Akari&bLevel&8] &bInfo &8| &6Plugin successfully enabled."
+PluginDisable: "&8[&3Akari&bLevel&8] &bInfo &8| &6Plugin successfully disabled."
+PluginReloaded: "&8[&3Akari&bLevel&8] &bInfo &8| &6Plugin successfully reloaded."
+CommandHelp:
+  - '&7'
+  - '  &3&lAkari&b&lLevel &7v{0}'
+  - '&7'
+  - '  &7Command: &f/akarilevel &8[...]'
+  - '  &7Args:'
+  - type: JSON
+    text: "    &8- [&flevelGroup]"
+    args:
+      - hover: "Click to view help for level group commands."
+        suggest: "/akarilevel help LevelGroup"
+  - '      &7Level Group Commands'
+  - type: JSON
+    text: "    &8- [&fmember]"
+    args:
+      - hover: "Click to view help for member commands."
+        suggest: "/akarilevel help Member"
+  - '      &7Member Commands'
+  - type: JSON
+    text: "    &8- [&freload]"
+    args:
+      - hover: "Click to reload the plugin."
+        suggest: "/akarilevel reload"
+  - '      &7Reload Configuration'
+  - '&7'
+CommandHelpLevelGroup:
+  - '&7'
+  - '  &3&lAkari&b&lLevel &7v{0}'
+  - '&7'
+  - '  &7Command: &f/akarilevel levelGroup &8[...]'
+  - '  &7Args:'
+  - type: JSON
+    text: "    &8- [&finfo] &8<&7levelGroup&8>"
+    args:
+      - hover: "Click to view level group info."
+        suggest: "/akarilevel levelGroup info GroupNameHere"
+  - '      &7View level group info'
+  - type: JSON
+    text: "    &8- [&flist]"
+    args:
+      - hover: "Click to view level group list."
+        suggest: "/akarilevel levelGroup list"
+  - '      &7View level group list'
+  - type: JSON
+    text: "    &8- [&funregister] &8<&7levelGroup&8>"
+    args:
+      - hover: "Click to unregister level group"
+        suggest: "/akarilevel levelGroup unregister GroupNameHere"
+  - '      &7Unregister level group'
+  - type: JSON
+    text: "    &8- [&freregister] &8<&7levelGroup&8>"
+    args:
+      - hover: "Click to re-register level group"
+        suggest: "/akarilevel levelGroup reregister GroupNameHere"
+  - '      &7Re-register level group'
+  - type: JSON
+    text: "    &8- [&freload]"
+    args:
+      - hover: "Click to reload level group configuration"
+        suggest: "/akarilevel levelGroup reload"
+  - '      &7Reload level group configuration'
+  - '&7'
+CommandHelpMember:
+  - '&7'
+  - '  &3&lAkari&b&lLevel &7v{0}'
+  - '&7'
+  - '  &7Command: &f/akarilevel member &8[...]'
+  - '  &7Args:'
+  - type: JSON
+    text: "    &8- [&fhas] &8<&7member&8> &8<&7levelGroup&8>"
+    args:
+      - hover: "Click to check if any member exist in the level group"
+        suggest: "/akarilevel member has MemberNameHere GroupNameHere"
+  - '      &7Check members'
+  - type: JSON
+    text: "    &8- [&fadd] &8<&7member&8> &8<&7levelGroup&8>"
+    args:
+      - hover: "Click to add a member for level group"
+        suggest: "/akarilevel member add MemberNameHere GroupNameHere"
+  - '      &7Add a member'
+  - type: JSON
+    text: "    &8- [&fremove] &8<&7member&8> &8<&7levelGroup&8>"
+    args:
+      - hover: "Click to kick a member from level group"
+        suggest: "/akarilevel member remove MemberNameHere GroupNameHere"
+  - '      &7Remove a member'
+  - type: JSON
+    text: "    &8- [&finfo] &8<&7member&8> &8<&7levelGroup&8>"
+    args:
+      - hover: "Click to view member info"
+        suggest: "/akarilevel member info MemberNameHere GroupNameHere"
+  - '      &7View member info'
+  - type: JSON
+    text: "    &8- [&flevel]"
+    args:
+      - hover: "Click to view help for member level commands"
+        suggest: "/akarilevel help MemberLevel"
+  - '      &7Member level commads'
+  - type: JSON
+    text: "    &8- [&fexp]"
+    args:
+      - hover: "Click to view help for member exp command"
+        suggest: "/akarilevel help MemberExp"
+  - '      &7Member exp command'
+  - type: JSON
+    text: "    &8- [&flevelUp] &8<&7levelGroup&8> &8<&7member&8>"
+    args:
+      - hover: "Click to upgrade specific member"
+        suggest: "/akarilevel member levelUp GroupNameHere MemberNameHere"
+  - '      &7Member upgrade'
+  - '&7'
+CommandHelpMemberLevel:
+  - '&7'
+  - '  &3&lAkari&b&lLevel &7v{0}'
+  - '&7'
+  - '  &7Command: &f/akarilevel member level &8[...]'
+  - '  &7Args:'
+  - type: JSON
+    text: "    &8- [&fset] &8<&7member&8> &8<&7levelGroup&8> &8<&7amount&8>"
+    args:
+      - hover: "Click to set the member level"
+        suggest: "/akarilevel member level set MemberNameHere GroupNameHere LevelNumber"
+  - '      &7Set member level'
+  - type: JSON
+    text: "    &8- [&fadd] &8<&7member&8> &8<&7levelGroup&8> &8<&7amount&8>"
+    args:
+      - hover: "Click to increase the member level"
+        suggest: "/akarilevel member level add MemberNameHere GroupNameHere LevelNumber"
+  - '      &7Increase member level'
+  - type: JSON
+    text: "    &8- [&fremove] &8<&7member&8> &8<&7levelGroup&8> &8<&7amount&8>"
+    args:
+      - hover: "Click to decrease the member level"
+        suggest: "/akarilevel member level remove MemberNameHere GroupNameHere LevelNumber"
+  - '      &7Decrease member level'
+  - '&7'
+CommandHelpMemberExp:
+  - '&7'
+  - '  &3&lAkari&b&lLevel &7v{0}'
+  - '&7'
+  - '  &7Command: &f/akarilevel member exp &8[...]'
+  - '  &7Args:'
+  - type: JSON
+    text: "    &8- [&fset] &8<&7member&8> &8<&7levelGroup&8> &8<&7amount&8>"
+    args:
+      - hover: "Click to set member exp"
+        suggest: "/akarilevel member exp set MemberNameHere GroupNameHere ExpNumber"
+  - '      &7Set member experiece'
+  - type: JSON
+    text: "    &8- [&fadd] &8<&7member&8> &8<&7levelGroup&8> &8<&7amount&8>"
+    args:
+      - hover: "Click to add member exp"
+        suggest: "/akarilevel member exp add MemberNameHere GroupNameHere ExpNumber"
+  - '      &7Add member experiece'
+  - type: JSON
+    text: "    &8- [&fremove] &8<&7member&8> &8<&7levelGroup&8> &8<&7amount&8>"
+    args:
+      - hover: "Click to take member exp"
+        suggest: "/akarilevel member exp remove MemberNameHere GroupNameHere ExpNumber"
+  - '      &7Take member experiece'
+  - '&7'
+LevelGroupNotFound: "&8[&3Akari&bLevel&8] &7Unknown group &f{0}&7."
+LevelGroupInfo:
+  - " "
+  - "&8[&3Akari&bLevel&8] &7Viewing the info of level group &f{0}&7."
+  - " "
+  - " &8- &7Interal Name&8: &f{0}"
+  - " &8- &7Display Name&8: &f{1}"
+  - " "
+  - type: JSON
+    text: " [&8<&7Check Member&8>] [&8<&7Add Member&8>] [&8<&7Remove Member&8>] [&8<&7Member Info&8>] "
+    args:
+      - hover: "Click to check if any member exist in the level group"
+        suggest: "/akarilevel member has MemberNameHere {0}"
+      - hover: "Click to add a member for level group"
+        suggest: "/akarilevel member add MemberNameHere {0}"
+      - hover: "Click to kick a member from level group"
+        suggest: "/akarilevel member remove MemberNameHere {0}"
+      - hover: "Click to view member info"
+        suggest: "/akarilevel member info MemberNameHere {0}"
+  - type: JSON
+    text: " [&8<&7Unregister&8>] [&8<&7Re-register&8>] "
+    args:
+      - hover: "Click to unregister level group &n{0}"
+        suggest: "/akarilevel levelGroup unregister {0}"
+      - hover: "Click to re-register level group &n{0}"
+        suggest: "/akarilevel levelGroup reregister {0}"
+  - " "
+LevelGroupListHeader:
+  - " "
+  - "&8[&3Akari&bLevel&8] &7Registered &f{0} &7level group(s)."
+  - " "
+LevelGroupListFormat:
+  - type: JSON
+    text: " &8- &f[{0}] &7- &r[{1}] [&8<&7ℹ&8>]"
+    args:
+      - hover: "Group Name: &n{0}"
+      - hover: "Display Name: &n{1}"
+      - hover: "Click to view info about level group {0}"
+        command: "/akarilevel levelGroup info {0}"
+LevelGroupListFooter:
+  - " "
+  - type: JSON
+    text: "&8<<< &7[PREV] &8| &7Page &f{0}&8/&f{1} &8| &7[NEXT] &8>>>"
+    args:
+      - hover: "Go to page {2}"
+        command: "/akarilevel levelGroup list {2}"
+      - hover: "Go to page {3}"
+        command: "/akarilevel levelGroup list {3}"
+  - " "
+LevelGroupUnregister: "&8[&3Akari&bLevel&8] &7Unregistered level group &f{0} &7."
+LevelGroupReregister: "&8[&3Akari&bLevel&8] &7Re-registered level group &f{0} &7."
+LevelGroupReload: "&8[&3Akari&bLevel&8] &7Loaded &f{0} &7level group(s) from configuration."
+IllegalNumberFormat: "&8[&3Akari&bLevel&8] &f{0} &7is not a valid number."
+PlayerNotFound: "&8[&3Akari&bLevel&8] &7Player &f{0} &7doesn't online or exist."
+MemberHas: "&8[&3Akari&bLevel&8] &7Player &f{1} is already exist in the level group &f{0}&7."
+MemberNotFound: "&8[&3Akari&bLevel&8] &7No player named &f{1} found in level group &f{0}&7."
+MemberAdd: "&8[&3Akari&bLevel&8] &7Successfully added player &f{1} to the level group &f{0}&7."
+MemberRemove: "&8[&3Akari&bLevel&8] &7Successfully removed player &f{1} from level group &f{0} &7."
+MemberInfo:
+  - " "
+  - "&8[&3Akari&bLevel&8] &7Viewing the info of &f{0} about &f{2}."
+  - " "
+  - " &8- &7Level Group&8: &f{1}"
+  - " "
+  - " &8- &7Current Level&8: &f{3}"
+  - " &8- &7Level Display Name&8: &f{4}"
+  - " "
+  - " &8- &7Current Exp: &f{5}"
+  - " "
+  - type: JSON
+    text: " [&8<&7Set Level&8>] [&8<&7Add Level&8>] [&8<&7Remove level&8>] [&8<&7Set Experience&8>] [&8<&7Add Experience&8>] [&8<&7Remove Experience&8>] "
+    args:
+      - hover: "Click to set level for member"
+        suggest: "/akarilevel member level set {0} {1} LevelNumber"
+      - hover: "Click to add level for member"
+        suggest: "/akarilevel member level add {0} {1} LevelNumber"
+      - hover: "Click to take level from member"
+        suggest: "/akarilevel member level remove {0} {1} LevelNumber"
+      - hover: "Click to set exp for member"
+        suggest: "/akarilevel member exp set {0} {1} ExpNumber"
+      - hover: "Click to add exp for member"
+        suggest: "/akarilevel member exp add {0} {1} ExpNumber"
+      - hover: "Click to remove exp for member"
+        suggest: "/akarilevel member exp remove {0} {1} ExpNumber"
+  - type: JSON
+    text: " [&8<&7Refresh Info&8>] "
+    args:
+      - hover: "Click to refresh member info"
+        command: "/akarilevel member info {0} {1}"
+  - " "
+MemberLevelSet: "&8[&3Akari&bLevel&8] &7Successfully set player &f{0}&7's &f{1} &7to &f{2}&7."
+MemberLevelAdd: "&8[&3Akari&bLevel&8] &7Successfully added &f{1}&7 to player &f{0}&7's &f{2}&7."
+MemberLevelRemove: "&8[&3Akari&bLevel&8] &7Successfully taken &f{1}&7 from player &f{0}&7's &f{2}&7."
+MemberLevelUp: "&8[&3Akari&bLevel&8] &7Successfully upgraded the &f{2}&7 of player &f{0}&7."
+MemberLevelUpNotSupport: "&8[&3Akari&bLevel&8] &f{0} &7You cannot use upgrade command for this level group."
+MemberExpSet: "&8[&3Akari&bLevel&8] &7Successfully set player &f{0}&7's &f{1} &7experience point(s) to &f{2}&7."
+MemberExpAdd: "&8[&3Akari&bLevel&8] &7Successfully added &f{1}&7 experience point(s) to player &f{0}&7's &f{2}&7."
+MemberExpRemove: "&8[&3Akari&bLevel&8] &7Successfully taken &f{1}&7 experience point(s) from player &f{0}&7's &f{2}&7."
+PlaceholderNotAvailable: "N/A"
