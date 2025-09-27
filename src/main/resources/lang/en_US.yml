@@ -233,7 +233,7 @@ MemberInfo:
   - " &8- &7Current Exp: &f{5}"
   - " "
   - type: JSON
-    text: " [&8<&7Set Level&8>] [&8<&7Add Level&8>] [&8<&7Remove level&8>] [&8<&7Set Experience&8>] [&8<&7Add Experience&8>] [&8<&7Remove Experience&8>] "
+    text: " [&8<&7Set Level&8>] [&8<&7Add Level&8>] [&8<&7Remove level&8>] [&8<&7Set Exp&8>] [&8<&7Add Exp&8>] [&8<&7Remove Exp&8>] "
     args:
       - hover: "Click to set level for member"
         suggest: "/akarilevel member level set {0} {1} LevelNumber"
