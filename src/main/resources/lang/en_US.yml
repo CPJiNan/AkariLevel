@@ -149,26 +149,26 @@ CommandHelpMemberExp:
     args:
       - hover: "Click to set member exp"
         suggest: "/akarilevel member exp set MemberNameHere GroupNameHere ExpNumber"
-  - '      &7Set member experiece'
+  - '      &7Set member experience'
   - type: JSON
     text: "    &8- [&fadd] &8<&7member&8> &8<&7levelGroup&8> &8<&7amount&8>"
     args:
       - hover: "Click to add member exp"
         suggest: "/akarilevel member exp add MemberNameHere GroupNameHere ExpNumber"
-  - '      &7Add member experiece'
+  - '      &7Add member experience'
   - type: JSON
     text: "    &8- [&fremove] &8<&7member&8> &8<&7levelGroup&8> &8<&7amount&8>"
     args:
       - hover: "Click to take member exp"
         suggest: "/akarilevel member exp remove MemberNameHere GroupNameHere ExpNumber"
-  - '      &7Take member experiece'
+  - '      &7Take member experience'
   - '&7'
 LevelGroupNotFound: "&8[&3Akari&bLevel&8] &7Unknown group &f{0}&7."
 LevelGroupInfo:
   - " "
   - "&8[&3Akari&bLevel&8] &7Viewing the info of level group &f{0}&7."
   - " "
-  - " &8- &7Interal Name&8: &f{0}"
+  - " &8- &7Edit Name&8: &f{0}"
   - " &8- &7Display Name&8: &f{1}"
   - " "
   - type: JSON
@@ -212,18 +212,18 @@ LevelGroupListFooter:
       - hover: "Go to page {3}"
         command: "/akarilevel levelGroup list {3}"
   - " "
-LevelGroupUnregister: "&8[&3Akari&bLevel&8] &7Unregistered level group &f{0} &7."
-LevelGroupReregister: "&8[&3Akari&bLevel&8] &7Re-registered level group &f{0} &7."
+LevelGroupUnregister: "&8[&3Akari&bLevel&8] &7Unregistered level group &f{0}&7."
+LevelGroupReregister: "&8[&3Akari&bLevel&8] &7Re-registered level group &f{0}&7."
 LevelGroupReload: "&8[&3Akari&bLevel&8] &7Loaded &f{0} &7level group(s) from configuration."
 IllegalNumberFormat: "&8[&3Akari&bLevel&8] &f{0} &7is not a valid number."
 PlayerNotFound: "&8[&3Akari&bLevel&8] &7Player &f{0} &7doesn't online or exist."
-MemberHas: "&8[&3Akari&bLevel&8] &7Player &f{1} is already exist in the level group &f{0}&7."
-MemberNotFound: "&8[&3Akari&bLevel&8] &7No player named &f{1} found in level group &f{0}&7."
-MemberAdd: "&8[&3Akari&bLevel&8] &7Successfully added player &f{1} to the level group &f{0}&7."
-MemberRemove: "&8[&3Akari&bLevel&8] &7Successfully removed player &f{1} from level group &f{0} &7."
+MemberHas: "&8[&3Akari&bLevel&8] &7Player &f{1} &7is already exist in the level group &f{0}&7."
+MemberNotFound: "&8[&3Akari&bLevel&8] &7No player named &f{1} &7found in level group &f{0}&7."
+MemberAdd: "&8[&3Akari&bLevel&8] &7Successfully added player &f{1} &7to the level group &f{0}&7."
+MemberRemove: "&8[&3Akari&bLevel&8] &7Successfully removed player &f{1} &7from level group &f{0}&7."
 MemberInfo:
   - " "
-  - "&8[&3Akari&bLevel&8] &7Viewing the info of &f{0} about &f{2}."
+  - "&8[&3Akari&bLevel&8] &7Viewing the info of &f{0} &7about &f{2}&7."
   - " "
   - " &8- &7Level Group&8: &f{1}"
   - " "
@@ -254,11 +254,11 @@ MemberInfo:
         command: "/akarilevel member info {0} {1}"
   - " "
 MemberLevelSet: "&8[&3Akari&bLevel&8] &7Successfully set player &f{0}&7's &f{1} &7to &f{2}&7."
-MemberLevelAdd: "&8[&3Akari&bLevel&8] &7Successfully added &f{1}&7 to player &f{0}&7's &f{2}&7."
-MemberLevelRemove: "&8[&3Akari&bLevel&8] &7Successfully taken &f{1}&7 from player &f{0}&7's &f{2}&7."
-MemberLevelUp: "&8[&3Akari&bLevel&8] &7Successfully upgraded the &f{2}&7 of player &f{0}&7."
+MemberLevelAdd: "&8[&3Akari&bLevel&8] &7Successfully added &f{1} &7to player &f{0}&7's &f{2}&7."
+MemberLevelRemove: "&8[&3Akari&bLevel&8] &7Successfully taken &f{1} &7from player &f{0}&7's &f{2}&7."
+MemberLevelUp: "&8[&3Akari&bLevel&8] &7Successfully upgraded the &f{2} &7of player &f{0}&7."
 MemberLevelUpNotSupport: "&8[&3Akari&bLevel&8] &f{0} &7You cannot use upgrade command for this level group."
 MemberExpSet: "&8[&3Akari&bLevel&8] &7Successfully set player &f{0}&7's &f{1} &7experience point(s) to &f{2}&7."
-MemberExpAdd: "&8[&3Akari&bLevel&8] &7Successfully added &f{1}&7 experience point(s) to player &f{0}&7's &f{2}&7."
-MemberExpRemove: "&8[&3Akari&bLevel&8] &7Successfully taken &f{1}&7 experience point(s) from player &f{0}&7's &f{2}&7."
+MemberExpAdd: "&8[&3Akari&bLevel&8] &7Successfully added &f{1} &7experience point(s) to player &f{0}&7's &f{2}&7."
+MemberExpRemove: "&8[&3Akari&bLevel&8] &7Successfully taken &f{1} &7experience point(s) from player &f{0}&7's &f{2}&7."
 PlaceholderNotAvailable: "N/A"
