@@ -45,7 +45,7 @@ Example:
             - actionbar "§8[ §7%AkariLevel_{levelGroup}_Exp% §8/ §7%AkariLevel_{levelGroup}_NextLevelExp% §8]"
       # 50 级 - 100 级 等级设置
       50:
-        Name: "§8Lv.§b%level%"
+        Name: "§8Lv.§b{level}"
         Exp: "{level} * 100 + 100"
         Action:
           Kether:
