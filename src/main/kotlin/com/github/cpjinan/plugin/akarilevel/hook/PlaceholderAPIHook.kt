@@ -39,7 +39,7 @@ object PlaceholderAPIHook : PlaceholderExpansion {
         val minLevel = levelGroup.getMinLevel()
         val maxLevel = levelGroup.getMaxLevel()
         val currentExp = levelGroup.getMemberExp(playerName)
-        val nextLevelExp = levelGroup.getLevelExp(currentLevel, nextLevel)
+        val nextLevelExp = levelGroup.getLevelExp(playerName, currentLevel, nextLevel)
 
         return when (argsList[1].lowercase()) {
             // 等级组名称。
@@ -62,27 +62,27 @@ object PlaceholderAPIHook : PlaceholderExpansion {
             "nextlevelname" -> levelGroup.getLevelName(playerName, nextLevel).colored()
 
             // 升级所需经验。
-            "levelexp" -> levelGroup.getLevelExp(lastLevel, currentLevel)
-            "lastlevelexp" -> levelGroup.getLevelExp(currentLevel - 2, lastLevel)
+            "levelexp" -> levelGroup.getLevelExp(playerName, lastLevel, currentLevel)
+            "lastlevelexp" -> levelGroup.getLevelExp(playerName, currentLevel - 2, lastLevel)
             "nextlevelexp" -> nextLevelExp
 
             "levelexpfrom" -> {
                 val oldLevel = argsList[2].toLongOrNull() ?: return notAvailable
                 if (oldLevel > currentLevel) return notAvailable
-                levelGroup.getLevelExp(oldLevel, currentLevel)
+                levelGroup.getLevelExp(playerName, oldLevel, currentLevel)
             }
 
             "levelexpto" -> {
                 val newLevel = argsList[2].toLongOrNull() ?: return notAvailable
                 if (newLevel < currentLevel) return notAvailable
-                levelGroup.getLevelExp(currentLevel, newLevel)
+                levelGroup.getLevelExp(playerName, currentLevel, newLevel)
             }
 
             "levelexpfromto" -> {
                 val oldLevel = argsList[2].toLongOrNull() ?: return notAvailable
                 val newLevel = argsList[3].toLongOrNull() ?: return notAvailable
                 if (oldLevel > newLevel) return notAvailable
-                levelGroup.getLevelExp(oldLevel, newLevel)
+                levelGroup.getLevelExp(playerName, oldLevel, newLevel)
             }
 
             // 升级进度百分比。
