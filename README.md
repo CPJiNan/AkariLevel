@@ -6,7 +6,8 @@
 ![issues](https://img.shields.io/github/issues/CPJiNan/AkariLevel.svg)
 ![taboolib](https://img.shields.io/badge/taboolib-6.2.3-blue)
 ![minecraft](https://img.shields.io/badge/minecraft-1.8+-green)
-![java](https://img.shields.io/badge/java-8+-yellow)
+![java](https://img.shields.io/badge/java-8-yellow)
+[![deepwiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/CPJiNan/AkariLevel)
 
 ![](./img/AkariLevel.png)
 
@@ -89,21 +90,3 @@
 | `%AkariLevel_等级组编辑名_ExpProgressPercent%`            | 经验进度百分比         |
 | `%AkariLevel_等级组编辑名_LevelProgressBar_空字符_满字符_长度%`   | 等级进度条           |
 | `%AkariLevel_等级组编辑名_ExpProgressPercent_空字符_满字符_长度%` | 经验进度条           |
-
-## 🗡 经验掉落
-
-``` yaml
-示例怪物:
-  Type: ZOMBIE
-  Display: '示例怪物'
-  Health: 5
-  Damage: 0
-  Drops:
-  - Apple 1 1.0
-  Exp-Drops:
-  - Example 100-150 0.5
-```
-
-## 📊 数据统计
-
-![bStats](https://bstats.org/signatures/bukkit/CPJiNan.svg)
