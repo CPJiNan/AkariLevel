@@ -18,6 +18,7 @@ import taboolib.common.platform.Awake
 import taboolib.common.platform.event.SubscribeEvent
 import taboolib.common.platform.function.getDataFolder
 import taboolib.common.platform.function.releaseResourceFolder
+import taboolib.common.platform.function.submit
 import taboolib.common5.scriptEngineFactory
 import java.io.File
 import java.util.concurrent.ConcurrentHashMap
@@ -56,6 +57,7 @@ object ScriptManager {
     /**
      * 获取脚本引擎。
      */
+    @JvmStatic
     fun getScriptEngine(): ScriptEngine {
         return try {
             (scriptEngineFactory as JDKNashornScriptEngineFactory).getScriptEngine(arrayOf<String>(), classLoader)
@@ -97,6 +99,7 @@ object ScriptManager {
      * @param string 待编译脚本文本。
      * @return 已编译 JS 脚本。
      */
+    @JvmStatic
     fun compile(string: String): CompiledScript {
         return (getScriptEngine() as Compilable).compile(string)
     }
@@ -108,6 +111,7 @@ object ScriptManager {
      * @param function 函数名称。
      * @return 是否存在对应函数。
      */
+    @JvmStatic
     fun hasFunction(engine: ScriptEngine, function: String): Boolean {
         return try {
             engine.get(function).let { it is JDKScriptObjectMirror && it.isFunction }
@@ -124,6 +128,7 @@ object ScriptManager {
      * @param args 传入函数的参数。
      * @return 返回值。
      */
+    @JvmStatic
     fun invoke(compiledScript: CompiledScript, function: String, vararg args: Any): Any? {
         compiledScript.eval()
         return if (hasFunction(compiledScript.engine, function)) {
@@ -145,13 +150,21 @@ object ScriptManager {
      * @param period 重复执行间隔 (Tick)。
      * @param executor 任务逻辑。
      */
-    fun submit(now: Boolean = false, async: Boolean = false, delay: Long = 0, period: Long = 0, executor: Runnable) {
+    @JvmStatic
+    fun submitTask(
+        now: Boolean = false,
+        async: Boolean = false,
+        delay: Long = 0,
+        period: Long = 0,
+        executor: Runnable
+    ) {
         submit(now, async, delay, period) { executor.run() }
     }
 
     /**
      * 重载脚本。
      */
+    @JvmStatic
     fun reload() {
         unload()
         load()
@@ -161,6 +174,7 @@ object ScriptManager {
      * 加载脚本。
      */
     @Awake(LifeCycle.ACTIVE)
+    @JvmStatic
     fun load() {
         File(getDataFolder(), "script").run {
             if (!exists()) releaseResourceFolder("script")
@@ -179,6 +193,7 @@ object ScriptManager {
     /**
      * 卸载脚本。
      */
+    @JvmStatic
     fun unload() {
         // 卸载监听器。
         listeners.forEach { it.unregister() }
