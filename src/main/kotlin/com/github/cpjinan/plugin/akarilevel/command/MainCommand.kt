@@ -5,7 +5,7 @@ import com.github.cpjinan.plugin.akarilevel.command.subcommand.MemberCommand
 import com.github.cpjinan.plugin.akarilevel.config.SettingsConfig
 import com.github.cpjinan.plugin.akarilevel.event.PluginReloadEvent
 import com.github.cpjinan.plugin.akarilevel.level.ConfigLevelGroup
-import com.github.cpjinan.plugin.akarilevel.manager.ScriptManager
+import com.github.cpjinan.plugin.akarilevel.script.ScriptManager
 import taboolib.common.platform.ProxyCommandSender
 import taboolib.common.platform.command.*
 import taboolib.module.lang.Language

@@ -48,7 +48,7 @@ dependencies {
     compileOnly("io.lumine.xikage:MythicMobs:4.11.0")
     compileOnly("io.lumine:Mythic-Dist:5.9.5")
     // nashorn
-    compileOnly("org.openjdk.nashorn:nashorn-core:15.6")
+    compileOnly("org.openjdk.nashorn:nashorn-core:15.4")
     // Arim
     taboo("top.maplex.arim:Arim:1.2.14")
     // caffeine

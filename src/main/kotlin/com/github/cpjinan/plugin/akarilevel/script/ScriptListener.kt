@@ -1,6 +1,5 @@
 package com.github.cpjinan.plugin.akarilevel.script
 
-import com.github.cpjinan.plugin.akarilevel.manager.ScriptManager
 import org.bukkit.Bukkit
 import org.bukkit.event.Event
 import org.bukkit.event.EventPriority
