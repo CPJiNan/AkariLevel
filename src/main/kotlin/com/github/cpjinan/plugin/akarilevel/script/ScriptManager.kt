@@ -49,6 +49,11 @@ object ScriptManager {
     var scripts = ConcurrentHashMap<String, CompiledScript>()
 
     /**
+     * 命令列表。
+     */
+    var commands: ConcurrentHashMap.KeySetView<ScriptCommand, Boolean> = ConcurrentHashMap.newKeySet()
+
+    /**
      * 监听器列表。
      */
     var listeners: ConcurrentHashMap.KeySetView<ScriptListener, Boolean> = ConcurrentHashMap.newKeySet()
@@ -75,6 +80,7 @@ object ScriptManager {
             var ConfigLevelGroup = Packages.com.github.cpjinan.plugin.akarilevel.level.ConfigLevelGroup;
             
             var ScriptManager = Packages.com.github.cpjinan.plugin.akarilevel.script.ScriptManager;
+            var Command = Packages.com.github.cpjinan.plugin.akarilevel.script.ScriptCommand;
             var Listener = Packages.com.github.cpjinan.plugin.akarilevel.script.ScriptListener;
             
             var PlayerJoinEvent = Packages.org.bukkit.event.player.PlayerJoinEvent;
@@ -183,6 +189,9 @@ object ScriptManager {
      */
     @JvmStatic
     fun unload() {
+        // 卸载命令。
+        commands.forEach { it.unregister() }
+        commands.clear()
         // 卸载监听器。
         listeners.forEach { it.unregister() }
         listeners.clear()
