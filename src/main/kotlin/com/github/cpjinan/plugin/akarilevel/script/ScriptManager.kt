@@ -59,6 +59,11 @@ object ScriptManager {
     var listeners: ConcurrentHashMap.KeySetView<ScriptListener, Boolean> = ConcurrentHashMap.newKeySet()
 
     /**
+     * 任务列表。
+     */
+    var tasks: ConcurrentHashMap.KeySetView<ScriptTask, Boolean> = ConcurrentHashMap.newKeySet()
+
+    /**
      * 获取脚本引擎。
      */
     @JvmStatic
@@ -82,6 +87,7 @@ object ScriptManager {
             var ScriptManager = Packages.com.github.cpjinan.plugin.akarilevel.script.ScriptManager;
             var Command = Packages.com.github.cpjinan.plugin.akarilevel.script.ScriptCommand;
             var Listener = Packages.com.github.cpjinan.plugin.akarilevel.script.ScriptListener;
+            var Task = Packages.com.github.cpjinan.plugin.akarilevel.script.ScriptTask;
             
             var PlayerJoinEvent = Packages.org.bukkit.event.player.PlayerJoinEvent;
             var PlayerQuitEvent = Packages.org.bukkit.event.player.PlayerQuitEvent;
@@ -195,6 +201,9 @@ object ScriptManager {
         // 卸载监听器。
         listeners.forEach { it.unregister() }
         listeners.clear()
+        // 卸载任务。
+        tasks.forEach { it.unregister() }
+        tasks.clear()
         // 卸载脚本。
         scripts.clear()
     }
