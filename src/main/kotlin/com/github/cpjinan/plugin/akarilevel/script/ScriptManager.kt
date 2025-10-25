@@ -1,8 +1,7 @@
 @file:RuntimeDependencies(
     RuntimeDependency(
         "!org.openjdk.nashorn:nashorn-core:15.4",
-        test = "!jdk.nashorn.api.scripting.NashornScriptEngineFactory",
-        relocate = ["!org.openjdk.nashorn", "!com.github.cpjinan.plugin.akarilevel.nashorn"]
+        test = "!jdk.nashorn.api.scripting.NashornScriptEngineFactory"
     )
 )
 
