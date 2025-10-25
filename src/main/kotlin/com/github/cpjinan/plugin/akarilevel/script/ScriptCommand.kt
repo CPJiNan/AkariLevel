@@ -14,7 +14,7 @@ import taboolib.platform.BukkitPlugin
  * 脚本命令。
  *
  * @author NeigeItems, 季楠
- * @since 2025/8/17 11:49
+ * @since 2025/10/25 20:50
  */
 class ScriptCommand(val name: String) {
     companion object {
@@ -200,9 +200,9 @@ class ScriptCommand(val name: String) {
     }
 
     /**
-     * 设置无权限提示信息。
+     * 设置无权限提示消息。
      *
-     * @param permissionMessage 无权限提示信息。
+     * @param permissionMessage 无权限提示消息。
      * @return 修改后的 [ScriptCommand] 本身。
      */
     fun setPermissionMessage(permissionMessage: String): ScriptCommand {
@@ -236,7 +236,7 @@ class ScriptCommand(val name: String) {
     }
 
     /**
-     * 卸载命令。
+     * 取消注册命令。
      *
      * @return 修改后的 [ScriptCommand] 本身。
      */

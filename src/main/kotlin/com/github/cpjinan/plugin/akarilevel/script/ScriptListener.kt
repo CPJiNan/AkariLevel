@@ -179,7 +179,7 @@ class ScriptListener(val event: Class<Event>) {
     }
 
     /**
-     * 卸载监听器。
+     * 取消注册监听器。
      *
      * @return 修改后的 [ScriptListener] 本身。
      */

@@ -233,7 +233,7 @@ class ScriptTask {
     }
 
     /**
-     * 卸载任务。
+     * 取消注册任务。
      *
      * @return 修改后的 [ScriptTask] 本身。
      */
