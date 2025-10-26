@@ -18,11 +18,11 @@ import taboolib.common.platform.event.SubscribeEvent
 import taboolib.common.platform.function.getDataFolder
 import taboolib.common.platform.function.releaseResourceFolder
 import taboolib.common.platform.function.submit
-import taboolib.common5.compileJS
 import taboolib.common5.scriptEngineFactory
 import taboolib.module.nms.remap.require
 import java.io.File
 import java.util.concurrent.ConcurrentHashMap
+import javax.script.Compilable
 import javax.script.CompiledScript
 import javax.script.Invocable
 import javax.script.ScriptEngine
@@ -112,6 +112,16 @@ object ScriptManager {
     }
 
     /**
+     * 编译 JS 脚本。
+     *
+     * @param string 待编译脚本文本。
+     * @return 已编译 JS 脚本。
+     */
+    fun compile(string: String): CompiledScript {
+        return (getScriptEngine() as Compilable).compile(string)
+    }
+
+    /**
      * 检测引擎中是否存在对应函数。
      *
      * @param engine 脚本引擎。
@@ -189,7 +199,7 @@ object ScriptManager {
                 .filter { it.isFile && it.name.endsWith(".js") }
                 .forEach {
                     try {
-                        scripts[it.nameWithoutExtension] = it.readText().compileJS()!!
+                        scripts[it.nameWithoutExtension] = compile(it.readText())
                     } catch (e: Exception) {
                         e.printStackTrace()
                     }
