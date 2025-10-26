@@ -17,7 +17,7 @@ enum class DatabaseType {
 
     companion object {
         @JvmStatic
-        val INSTANCE by lazy {
+        val instance by lazy {
             try {
                 valueOf(DatabaseConfig.type.uppercase())
             } catch (e: Exception) {

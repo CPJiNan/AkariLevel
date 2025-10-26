@@ -2,7 +2,7 @@ package com.github.cpjinan.plugin.akarilevel
 
 import com.github.cpjinan.plugin.akarilevel.config.SettingsConfig
 import com.github.cpjinan.plugin.akarilevel.level.ConfigLevelGroup
-import com.github.cpjinan.plugin.akarilevel.script.ScriptManager.classLoader
+import com.github.cpjinan.plugin.akarilevel.script.ScriptHandler.Companion.classLoader
 import taboolib.common.platform.Platform
 import taboolib.common.platform.Plugin
 import taboolib.common.platform.function.console

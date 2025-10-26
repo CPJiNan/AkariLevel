@@ -15,8 +15,8 @@ import javax.sql.DataSource
 interface Database {
     companion object {
         @JvmStatic
-        val INSTANCE by lazy {
-            when (DatabaseType.INSTANCE) {
+        val instance by lazy {
+            when (DatabaseType.instance) {
                 DatabaseType.SQLITE -> DatabaseSQLite()
                 DatabaseType.MYSQL -> DatabaseMySQL()
             }

@@ -118,7 +118,7 @@ class ScriptPlaceholder(val identifier: String) {
         }
         expansion?.persist()
         expansion?.register()
-        ScriptManager.placeholders.add(this)
+        ScriptHandler.placeholders.add(this)
         return this
     }
 

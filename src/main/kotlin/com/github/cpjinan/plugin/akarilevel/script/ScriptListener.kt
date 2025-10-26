@@ -174,7 +174,7 @@ class ScriptListener(val event: Class<Event>) {
             ignoreCancelled,
             executor
         )
-        ScriptManager.listeners.add(this)
+        ScriptHandler.listeners.add(this)
         return this
     }
 

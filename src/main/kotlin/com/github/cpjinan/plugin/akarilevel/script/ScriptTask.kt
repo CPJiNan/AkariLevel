@@ -228,7 +228,7 @@ class ScriptTask {
                 plugin
             )
         }
-        ScriptManager.tasks.add(this)
+        ScriptHandler.tasks.add(this)
         return this
     }
 

@@ -20,7 +20,7 @@ object MemberCache {
     val memberCache = Caffeine.newBuilder()
         .build<String, MemberData> { key ->
             try {
-                Database.INSTANCE.get(Database.INSTANCE.memberTable, key)?.takeUnless { it.isBlank() }
+                Database.instance.get(Database.instance.memberTable, key)?.takeUnless { it.isBlank() }
                     ?.let { json ->
                         try {
                             val memberData = gson.fromJson(json, MemberData::class.java)

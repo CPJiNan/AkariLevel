@@ -231,7 +231,7 @@ class ScriptCommand(val name: String) {
             if (permission != null) it.permission = permission
             if (permissionMessage != null) it.permissionMessage = permissionMessage
         }
-        ScriptManager.commands.add(this)
+        ScriptHandler.commands.add(this)
         return this
     }
 
