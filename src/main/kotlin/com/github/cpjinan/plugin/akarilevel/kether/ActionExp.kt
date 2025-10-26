@@ -25,7 +25,7 @@ object ActionExp {
 
     @KetherParser(["set-exp"], namespace = "akarilevel")
     fun parserSetExp() = combinationParser {
-        it.group(text(), text(), long(), text().option().defaultsTo("KETHER_SET_EXP"))
+        it.group(text(), text(), long(), text())
             .apply(it) { member, levelGroup, amount, source ->
                 now {
                     LevelGroup.getLevelGroups()[levelGroup]?.setMemberExp(member, amount, source)
@@ -35,7 +35,7 @@ object ActionExp {
 
     @KetherParser(["add-exp"], namespace = "akarilevel")
     fun parserAddExp() = combinationParser {
-        it.group(text(), text(), long(), text().option().defaultsTo("KETHER_ADD_EXP"))
+        it.group(text(), text(), long(), text())
             .apply(it) { member, levelGroup, amount, source ->
                 now {
                     LevelGroup.getLevelGroups()[levelGroup]?.addMemberLevel(member, amount, source)
@@ -45,7 +45,7 @@ object ActionExp {
 
     @KetherParser(["remove-exp"], namespace = "akarilevel")
     fun parserRemoveExp() = combinationParser {
-        it.group(text(), text(), long(), text().option().defaultsTo("KETHER_REMOVE_EXP"))
+        it.group(text(), text(), long(), text())
             .apply(it) { member, levelGroup, amount, source ->
                 now {
                     LevelGroup.getLevelGroups()[levelGroup]?.removeMemberLevel(member, amount, source)

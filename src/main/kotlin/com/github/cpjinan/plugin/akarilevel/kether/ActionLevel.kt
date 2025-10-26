@@ -25,7 +25,7 @@ object ActionLevel {
 
     @KetherParser(["set-level"], namespace = "akarilevel")
     fun parserSetLevel() = combinationParser {
-        it.group(text(), text(), long(), text().option().defaultsTo("KETHER_SET_LEVEL"))
+        it.group(text(), text(), long(), text())
             .apply(it) { member, levelGroup, amount, source ->
                 now {
                     LevelGroup.getLevelGroups()[levelGroup]?.setMemberLevel(member, amount, source)
@@ -35,7 +35,7 @@ object ActionLevel {
 
     @KetherParser(["add-level"], namespace = "akarilevel")
     fun parserAddLevel() = combinationParser {
-        it.group(text(), text(), long(), text().option().defaultsTo("KETHER_ADD_LEVEL"))
+        it.group(text(), text(), long(), text())
             .apply(it) { member, levelGroup, amount, source ->
                 now {
                     LevelGroup.getLevelGroups()[levelGroup]?.addMemberLevel(member, amount, source)
@@ -45,7 +45,7 @@ object ActionLevel {
 
     @KetherParser(["remove-level"], namespace = "akarilevel")
     fun parserRemoveLevel() = combinationParser {
-        it.group(text(), text(), long(), text().option().defaultsTo("KETHER_REMOVE_LEVEL"))
+        it.group(text(), text(), long(), text())
             .apply(it) { member, levelGroup, amount, source ->
                 now {
                     LevelGroup.getLevelGroups()[levelGroup]?.removeMemberLevel(member, amount, source)

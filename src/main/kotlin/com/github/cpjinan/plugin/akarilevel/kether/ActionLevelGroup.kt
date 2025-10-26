@@ -16,7 +16,7 @@ import taboolib.module.kether.combinationParser
 object ActionLevelGroup {
     @KetherParser(["add-member"], namespace = "akarilevel")
     fun parserAddMember() = combinationParser {
-        it.group(text(), text(), text().option().defaultsTo("KETHER_ADD_MEMBER"))
+        it.group(text(), text(), text())
             .apply(it) { member, levelGroup, source ->
                 now {
                     return@now LevelGroup.getLevelGroups()[levelGroup]?.addMember(member, source)
@@ -26,7 +26,7 @@ object ActionLevelGroup {
 
     @KetherParser(["remove-member"], namespace = "akarilevel")
     fun parserRemoveMember() = combinationParser {
-        it.group(text(), text(), text().option().defaultsTo("KETHER_REMOVE_MEMBER"))
+        it.group(text(), text(), text())
             .apply(it) { member, levelGroup, source ->
                 now {
                     return@now LevelGroup.getLevelGroups()[levelGroup]?.removeMember(member, source)
