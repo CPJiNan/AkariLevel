@@ -36,6 +36,8 @@ taboolib {
 
 repositories {
     mavenCentral()
+    // PlaceholderAPI
+    maven("https://repo.extendedclip.com/releases/")
     // MythicMobs
     maven("https://mvn.lumine.io/repository/maven-public/")
 }
@@ -44,6 +46,8 @@ dependencies {
     compileOnly("ink.ptms.core:v11200:11200")
     compileOnly(kotlin("stdlib"))
     compileOnly(fileTree("libs"))
+    // PlaceholderAPI
+    compileOnly("me.clip:placeholderapi:2.11.6")
     // MythicMobs
     compileOnly("io.lumine.xikage:MythicMobs:4.11.0")
     compileOnly("io.lumine:Mythic-Dist:5.9.5")

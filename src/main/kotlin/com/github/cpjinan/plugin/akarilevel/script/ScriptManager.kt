@@ -17,7 +17,6 @@ import taboolib.common.platform.Awake
 import taboolib.common.platform.event.SubscribeEvent
 import taboolib.common.platform.function.getDataFolder
 import taboolib.common.platform.function.releaseResourceFolder
-import taboolib.common.platform.function.submit
 import taboolib.common5.scriptEngineFactory
 import taboolib.module.nms.remap.require
 import java.io.File
@@ -156,26 +155,6 @@ object ScriptManager {
                 null
             }
         } else null
-    }
-
-    /**
-     * 创建调度任务。
-     *
-     * @param now 是否立即执行。
-     * @param async 是否异步执行。
-     * @param delay 延迟执行时间 (Tick)。
-     * @param period 重复执行间隔 (Tick)。
-     * @param executor 任务逻辑。
-     */
-    @JvmStatic
-    fun submitTask(
-        now: Boolean = false,
-        async: Boolean = false,
-        delay: Long = 0,
-        period: Long = 0,
-        executor: Runnable
-    ) {
-        submit(now, async, delay, period) { executor.run() }
     }
 
     /**

@@ -1,8 +1,8 @@
 package com.github.cpjinan.plugin.akarilevel.script
 
+import me.clip.placeholderapi.expansion.PlaceholderExpansion
 import org.bukkit.OfflinePlayer
 import org.bukkit.entity.Player
-import taboolib.platform.compat.PlaceholderExpansion
 import java.util.function.BiFunction
 
 /**
@@ -46,30 +46,14 @@ class ScriptPlaceholder(val identifier: String) {
          */
         @JvmStatic
         fun unregisterPlaceholder(placeholder: ScriptPlaceholder?) {
-            placeholder?.let {
-                it.enabled = false
-            }
+            placeholder?.expansion?.unregister()
         }
     }
 
-    private var enabled: Boolean = false
+    private var expansion: PlaceholderExpansion? = null
     private var author: String = "unknown"
     private var version: String = "1.0.0"
     private var executor: BiFunction<OfflinePlayer?, String, String> = BiFunction { _, _ -> "" }
-    private val expansion: PlaceholderExpansion = object : PlaceholderExpansion {
-        override val identifier: String = this@ScriptPlaceholder.identifier
-
-        override val enabled: Boolean
-            get() = this@ScriptPlaceholder.enabled
-
-        override fun onPlaceholderRequest(player: Player?, args: String): String {
-            return executor.apply(player, args)
-        }
-
-        override fun onPlaceholderRequest(player: OfflinePlayer?, args: String): String {
-            return executor.apply(player, args)
-        }
-    }
 
     /**
      * 设置作者。
@@ -110,7 +94,30 @@ class ScriptPlaceholder(val identifier: String) {
      * @return 修改后的 [ScriptPlaceholder] 本身。
      */
     fun register(): ScriptPlaceholder {
-        enabled = true
+        unregister()
+        expansion = object : PlaceholderExpansion() {
+            override fun getIdentifier(): String {
+                return this@ScriptPlaceholder.identifier
+            }
+
+            override fun getAuthor(): String {
+                return this@ScriptPlaceholder.author
+            }
+
+            override fun getVersion(): String {
+                return this@ScriptPlaceholder.version
+            }
+
+            override fun onPlaceholderRequest(player: Player?, params: String): String {
+                return executor.apply(player, params)
+            }
+
+            override fun onRequest(player: OfflinePlayer?, params: String): String {
+                return executor.apply(player, params)
+            }
+        }
+        expansion?.persist()
+        expansion?.register()
         ScriptManager.placeholders.add(this)
         return this
     }
@@ -121,7 +128,8 @@ class ScriptPlaceholder(val identifier: String) {
      * @return 修改后的 [ScriptPlaceholder] 本身。
      */
     fun unregister(): ScriptPlaceholder {
-        enabled = false
+        expansion?.unregister()
+        expansion = null
         return this
     }
 }
