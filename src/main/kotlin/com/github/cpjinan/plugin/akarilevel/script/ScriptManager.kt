@@ -20,6 +20,7 @@ import taboolib.common.platform.function.releaseResourceFolder
 import taboolib.common.platform.function.submit
 import taboolib.common5.compileJS
 import taboolib.common5.scriptEngineFactory
+import taboolib.module.nms.remap.require
 import java.io.File
 import java.util.concurrent.ConcurrentHashMap
 import javax.script.CompiledScript
@@ -73,9 +74,9 @@ object ScriptManager {
      */
     @JvmStatic
     fun getScriptEngine(): ScriptEngine {
-        return try {
+        return if (require(JDKNashornScriptEngineFactory::class.java)) {
             (scriptEngineFactory as JDKNashornScriptEngineFactory).getScriptEngine(arrayOf<String>(), classLoader)
-        } catch (_: NoClassDefFoundError) {
+        } else {
             (scriptEngineFactory as NashornScriptEngineFactory).getScriptEngine(arrayOf<String>(), classLoader)
         }.apply {
             eval(
@@ -119,9 +120,9 @@ object ScriptManager {
      */
     @JvmStatic
     fun hasFunction(engine: ScriptEngine, function: String): Boolean {
-        return try {
+        return if (require(JDKScriptObjectMirror::class.java)) {
             engine.get(function).let { it is JDKScriptObjectMirror && it.isFunction }
-        } catch (_: NoClassDefFoundError) {
+        } else {
             engine.get(function).let { it is ScriptObjectMirror && it.isFunction }
         }
     }
