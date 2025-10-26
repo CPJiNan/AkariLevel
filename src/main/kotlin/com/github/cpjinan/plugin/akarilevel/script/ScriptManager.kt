@@ -73,10 +73,10 @@ object ScriptManager {
      */
     @JvmStatic
     fun getScriptEngine(): ScriptEngine {
-        return if (require(JDKNashornScriptEngineFactory::class.java)) {
-            (scriptEngineFactory as JDKNashornScriptEngineFactory).getScriptEngine(arrayOf<String>(), classLoader)
-        } else {
+        return if (require(NashornScriptEngineFactory::class.java)) {
             (scriptEngineFactory as NashornScriptEngineFactory).getScriptEngine(arrayOf<String>(), classLoader)
+        } else {
+            (scriptEngineFactory as JDKNashornScriptEngineFactory).getScriptEngine(arrayOf<String>(), classLoader)
         }.apply {
             eval(
                 """
@@ -129,10 +129,10 @@ object ScriptManager {
      */
     @JvmStatic
     fun hasFunction(engine: ScriptEngine, function: String): Boolean {
-        return if (require(JDKScriptObjectMirror::class.java)) {
-            engine.get(function).let { it is JDKScriptObjectMirror && it.isFunction }
-        } else {
+        return if (require(ScriptObjectMirror::class.java)) {
             engine.get(function).let { it is ScriptObjectMirror && it.isFunction }
+        } else {
+            engine.get(function).let { it is JDKScriptObjectMirror && it.isFunction }
         }
     }
 
