@@ -71,7 +71,6 @@ abstract class ScriptHandler {
         /**
          * 重载脚本。
          */
-        @JvmStatic
         fun reload() {
             unload()
             load()
@@ -81,7 +80,6 @@ abstract class ScriptHandler {
          * 加载脚本。
          */
         @Awake(LifeCycle.ACTIVE)
-        @JvmStatic
         fun load() {
             File(getDataFolder(), "script").run {
                 if (!exists()) releaseResourceFolder("script")
@@ -100,7 +98,6 @@ abstract class ScriptHandler {
         /**
          * 卸载脚本。
          */
-        @JvmStatic
         fun unload() {
             // 卸载命令。
             commands.forEach { it.unregister() }
