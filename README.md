@@ -7,6 +7,7 @@
 ![taboolib](https://img.shields.io/badge/taboolib-6.2.3-blue)
 ![minecraft](https://img.shields.io/badge/minecraft-1.8+-green)
 ![java](https://img.shields.io/badge/java-8-yellow)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/64b43549e07c4d3fa26549fbc16fc3ee)](https://app.codacy.com/gh/CPJiNan/AkariLevel?utm_source=github.com&utm_medium=referral&utm_content=CPJiNan/AkariLevel&utm_campaign=Badge_Grade)
 [![deepwiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/CPJiNan/AkariLevel)
 
 ![](./img/AkariLevel.png)
