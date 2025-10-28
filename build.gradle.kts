@@ -40,6 +40,8 @@ repositories {
     maven("https://repo.extendedclip.com/releases/")
     // MythicMobs
     maven("https://mvn.lumine.io/repository/maven-public/")
+    // Arim
+    maven("https://nexus.maplex.top/repository/maven-public/")
 }
 
 dependencies {
@@ -54,7 +56,7 @@ dependencies {
     // nashorn
     compileOnly("org.openjdk.nashorn:nashorn-core:15.4")
     // Arim
-    taboo("top.maplex.arim:Arim:1.2.14")
+    taboo("top.maplex.arim:Arim:1.3.11")
     // caffeine
     taboo("com.github.ben-manes.caffeine:caffeine:2.9.3")
 }
