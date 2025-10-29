@@ -220,10 +220,11 @@ class ConfigLevelGroup(val config: ConfigurationSection) : LevelGroup {
     }
 
     /**
-     * 检查等级条件。
+     * 检查升级条件。
      *
      * @param member 成员。
      * @param level 等级。
+     * @return 是否满足升级条件。
      */
     fun checkLevelCondition(member: String, level: Long): Boolean {
         val offlinePlayer = getOfflinePlayer(member)
@@ -239,7 +240,7 @@ class ConfigLevelGroup(val config: ConfigurationSection) : LevelGroup {
     }
 
     /**
-     * 执行等级动作。
+     * 执行升级动作。
      *
      * @param member 成员。
      * @param level 等级。
