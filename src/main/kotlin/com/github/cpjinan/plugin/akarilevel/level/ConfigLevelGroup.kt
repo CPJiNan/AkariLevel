@@ -19,6 +19,7 @@ import taboolib.module.kether.ScriptOptions
 import taboolib.platform.compat.replacePlaceholder
 import top.maplex.arim.Arim
 import top.maplex.arim.tools.folderreader.releaseResourceFolderAndRead
+import java.util.*
 import java.util.concurrent.ConcurrentHashMap
 
 /**
@@ -263,7 +264,7 @@ class ConfigLevelGroup(val config: ConfigurationSection) : LevelGroup {
      * @return 要获取的等级配置。
      */
     fun getLevelConfig(level: Long): ConfigurationSection {
-        return getKeyLevelConfigs().filter { level >= it.key }.maxBy { it.key }.value
+        return (getKeyLevelConfigs() as TreeMap).floorEntry(level).value
     }
 
     /**
