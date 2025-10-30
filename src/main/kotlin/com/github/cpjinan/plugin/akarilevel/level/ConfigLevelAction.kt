@@ -1,5 +1,7 @@
 package com.github.cpjinan.plugin.akarilevel.level
 
+import taboolib.common.LifeCycle
+import taboolib.common.platform.Awake
 import taboolib.library.configuration.ConfigurationSection
 import java.util.concurrent.ConcurrentHashMap
 
@@ -46,14 +48,24 @@ interface ConfigLevelAction {
         fun unregisterConfigLevelAction(name: String) {
             configLevelActions.remove(name)
         }
+
+        /**
+         * 插件启用事件。
+         */
+        @Awake(LifeCycle.ENABLE)
+        fun onEnable() {
+            // 注册 Kether 脚本升级动作。
+            registerConfigLevelAction("Kether", KetherLevelAction)
+        }
     }
 
     /**
      * 执行升级动作。
      *
      * @param member 成员。
+     * @param levelGroup 等级组。
      * @param level 等级。
      * @param config 配置。
      */
-    fun run(member: String, level: Long, config: ConfigurationSection)
+    fun run(member: String, levelGroup: String, level: Long, config: ConfigurationSection)
 }

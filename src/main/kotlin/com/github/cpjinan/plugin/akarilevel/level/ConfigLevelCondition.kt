@@ -1,5 +1,7 @@
 package com.github.cpjinan.plugin.akarilevel.level
 
+import taboolib.common.LifeCycle
+import taboolib.common.platform.Awake
 import taboolib.library.configuration.ConfigurationSection
 import java.util.concurrent.ConcurrentHashMap
 
@@ -46,15 +48,25 @@ interface ConfigLevelCondition {
         fun unregisterConfigLevelCondition(name: String) {
             configLevelConditions.remove(name)
         }
+
+        /**
+         * 插件启用事件。
+         */
+        @Awake(LifeCycle.ENABLE)
+        fun onEnable() {
+            // 注册 Kether 脚本升级条件。
+            registerConfigLevelCondition("Kether", KetherLevelCondition)
+        }
     }
 
     /**
      * 检查升级条件。
      *
      * @param member 成员。
+     * @param levelGroup 等级组。
      * @param level 等级。
      * @param config 配置。
      * @return 是否满足升级条件。
      */
-    fun check(member: String, level: Long, config: ConfigurationSection): Boolean
+    fun check(member: String, levelGroup: String, level: Long, config: ConfigurationSection): Boolean
 }

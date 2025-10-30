@@ -8,14 +8,11 @@ import com.github.cpjinan.plugin.akarilevel.entity.MemberLevelData
 import com.github.cpjinan.plugin.akarilevel.event.MemberChangeEvent
 import com.github.cpjinan.plugin.akarilevel.level.LevelGroup.MemberChangeType
 import org.bukkit.Bukkit.getOfflinePlayer
-import taboolib.common.platform.function.adaptPlayer
 import taboolib.common.platform.function.submit
 import taboolib.common5.util.replace
 import taboolib.library.configuration.ConfigurationSection
 import taboolib.module.chat.colored
 import taboolib.module.configuration.Type
-import taboolib.module.kether.KetherShell
-import taboolib.module.kether.ScriptOptions
 import taboolib.platform.compat.replacePlaceholder
 import top.maplex.arim.Arim
 import top.maplex.arim.tools.folderreader.releaseResourceFolderAndRead
@@ -228,15 +225,8 @@ class ConfigLevelGroup(val config: ConfigurationSection) : LevelGroup {
      * @return 是否满足升级条件。
      */
     fun checkLevelCondition(member: String, level: Long): Boolean {
-        val offlinePlayer = getOfflinePlayer(member)
-        if (!offlinePlayer.isOnline) return false
-        return getLevelConfig(level).getStringList("Condition.Kether").all {
-            KetherShell.eval(
-                it
-                    .replace("{member}" to member, "{level}" to level, "{levelGroup}" to name)
-                    .replacePlaceholder(offlinePlayer.player),
-                ScriptOptions(sender = adaptPlayer(offlinePlayer.player))
-            ).thenApply { it }.get().toString().toBoolean()
+        return ConfigLevelCondition.getConfigLevelConditions().values.all {
+            it.check(member, name, level, getLevelConfig(level).getConfigurationSection("Condition")!!)
         }
     }
 
@@ -247,14 +237,9 @@ class ConfigLevelGroup(val config: ConfigurationSection) : LevelGroup {
      * @param level 等级。
      */
     fun runLevelAction(member: String, level: Long) {
-        val offlinePlayer = getOfflinePlayer(member)
-        if (!offlinePlayer.isOnline) return
-        KetherShell.eval(
-            getLevelConfig(level).getStringList("Action.Kether")
-                .replace("{member}" to member, "{level}" to level, "{levelGroup}" to name)
-                .replacePlaceholder(offlinePlayer.player),
-            ScriptOptions(sender = adaptPlayer(offlinePlayer.player))
-        )
+        ConfigLevelAction.getConfigLevelActions().values.forEach {
+            it.run(member, name, level, getLevelConfig(level).getConfigurationSection("Action")!!)
+        }
     }
 
     /**
