@@ -26,7 +26,7 @@ function onPlayerExpChange() {
                     }
                 )
 
-                // 如果要取消原版经验变更事件，设置经验变化量为 0。
+                // 取消原版经验变更事件，设置经验变化量为 0。
                 event.setAmount(0);
             }
         ).register();
