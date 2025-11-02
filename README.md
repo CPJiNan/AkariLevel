@@ -95,7 +95,7 @@
 | `%AkariLevel_等级组编辑名_LevelProgressBar_空字符_满字符_长度%`   | 等级进度条           |
 | `%AkariLevel_等级组编辑名_ExpProgressPercent_空字符_满字符_长度%` | 经验进度条           |
 
-## 相关链接
+## 🔗 相关链接
 
 - **插件文档**：[https://akarilevel.cpjinan.top/](https://akarilevel.cpjinan.top/)
 - **QQ 群**：[704109949](https://qm.qq.com/q/91DcdBuRvW)
