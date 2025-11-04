@@ -90,15 +90,16 @@ class ConfigLevelGroup(val config: ConfigurationSection) : LevelGroup {
         return getLevelConfig(level).getString("Name")?.replace("{level}" to level)?.colored() ?: "$level"
     }
 
-    override fun getLevelName(member: String, level: Long): String {  
-        return getLevelConfig(level).getString("Name")  
-            ?.let {  
-                val offlinePlayer = getOfflinePlayer(member)  
-                if (offlinePlayer.hasPlayedBefore()) it.replacePlaceholder(offlinePlayer)  
-                else it  
-            }  
+    override fun getLevelName(member: String, level: Long): String {
+        return getLevelConfig(level).getString("Name")
             ?.replace("{level}" to level)
-            ?.colored() ?: "$level"  
+            ?.let {
+                val offlinePlayer = getOfflinePlayer(member)
+                if (offlinePlayer.hasPlayedBefore()) it.replacePlaceholder(offlinePlayer)
+                else it
+            }
+            ?.replace("{level}" to level)
+            ?.colored() ?: "$level"
     }
 
     override fun getLevelExp(oldLevel: Long, newLevel: Long): Long {
