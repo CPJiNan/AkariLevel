@@ -98,7 +98,6 @@ class ConfigLevelGroup(val config: ConfigurationSection) : LevelGroup {
                 if (offlinePlayer.hasPlayedBefore()) it.replacePlaceholder(offlinePlayer)
                 else it
             }
-            ?.replace("{level}" to level)
             ?.colored() ?: "$level"
     }
 
