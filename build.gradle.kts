@@ -30,8 +30,8 @@ taboolib {
         }
     }
     version { taboolib = "6.2.3-d4a5f0ea" }
-    relocate("top.maplex.arim", "com.github.cpjinan.plugin.akarilevel.arim")
-    relocate("com.github.benmanes.caffeine", "com.github.cpjinan.plugin.akarilevel.caffeine")
+    relocate("top.maplex.arim", "top.cpjinan.akarilevel.arim")
+    relocate("com.github.benmanes.caffeine", "top.cpjinan.akarilevel.caffeine")
 }
 
 repositories {
