@@ -226,7 +226,7 @@ class ConfigLevelGroup(val config: ConfigurationSection) : LevelGroup {
      */
     fun checkLevelCondition(member: String, level: Long): Boolean {
         return ConfigLevelCondition.getConfigLevelConditions().values.all {
-            it.check(member, name, level, getLevelConfig(level).getConfigurationSection("Condition")!!)
+            it.check(member, name, level, getLevelConfig(level).getConfigurationSection("Condition") ?: return@all true)
         }
     }
 
@@ -238,7 +238,7 @@ class ConfigLevelGroup(val config: ConfigurationSection) : LevelGroup {
      */
     fun runLevelAction(member: String, level: Long) {
         ConfigLevelAction.getConfigLevelActions().values.forEach {
-            it.run(member, name, level, getLevelConfig(level).getConfigurationSection("Action")!!)
+            it.run(member, name, level, getLevelConfig(level).getConfigurationSection("Action") ?: return@forEach)
         }
     }
 
