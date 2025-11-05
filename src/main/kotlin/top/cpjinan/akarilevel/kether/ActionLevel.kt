@@ -14,7 +14,7 @@ import top.cpjinan.akarilevel.level.LevelGroup
  * @since 2025/10/26 16:29
  */
 object ActionLevel {
-    @KetherParser(["get-level"], namespace = "akarilevel")
+    @KetherParser(["get-level"], namespace = "akarilevel", shared = true)
     fun parserGetLevel() = combinationParser {
         it.group(text(), text()).apply(it) { member, levelGroup ->
             now {
@@ -23,7 +23,7 @@ object ActionLevel {
         }
     }
 
-    @KetherParser(["set-level"], namespace = "akarilevel")
+    @KetherParser(["set-level"], namespace = "akarilevel", shared = true)
     fun parserSetLevel() = combinationParser {
         it.group(text(), text(), long(), text())
             .apply(it) { member, levelGroup, amount, source ->
@@ -33,7 +33,7 @@ object ActionLevel {
             }
     }
 
-    @KetherParser(["add-level"], namespace = "akarilevel")
+    @KetherParser(["add-level"], namespace = "akarilevel", shared = true)
     fun parserAddLevel() = combinationParser {
         it.group(text(), text(), long(), text())
             .apply(it) { member, levelGroup, amount, source ->
@@ -43,7 +43,7 @@ object ActionLevel {
             }
     }
 
-    @KetherParser(["remove-level"], namespace = "akarilevel")
+    @KetherParser(["remove-level"], namespace = "akarilevel", shared = true)
     fun parserRemoveLevel() = combinationParser {
         it.group(text(), text(), long(), text())
             .apply(it) { member, levelGroup, amount, source ->

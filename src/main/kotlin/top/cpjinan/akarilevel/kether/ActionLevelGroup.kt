@@ -14,7 +14,7 @@ import top.cpjinan.akarilevel.level.LevelGroup
  * @since 2025/10/26 21:54
  */
 object ActionLevelGroup {
-    @KetherParser(["add-member"], namespace = "akarilevel")
+    @KetherParser(["add-member"], namespace = "akarilevel", shared = true)
     fun parserAddMember() = combinationParser {
         it.group(text(), text(), text())
             .apply(it) { member, levelGroup, source ->
@@ -24,7 +24,7 @@ object ActionLevelGroup {
             }
     }
 
-    @KetherParser(["remove-member"], namespace = "akarilevel")
+    @KetherParser(["remove-member"], namespace = "akarilevel", shared = true)
     fun parserRemoveMember() = combinationParser {
         it.group(text(), text(), text())
             .apply(it) { member, levelGroup, source ->
