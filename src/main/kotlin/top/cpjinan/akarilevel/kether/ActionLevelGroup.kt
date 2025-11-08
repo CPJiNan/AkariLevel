@@ -14,12 +14,22 @@ import top.cpjinan.akarilevel.level.LevelGroup
  * @since 2025/10/26 21:54
  */
 object ActionLevelGroup {
+    @KetherParser(["has-member"], namespace = "akarilevel", shared = true)
+    fun parserHasMember() = combinationParser {
+        it.group(text(), text())
+            .apply(it) { member, levelGroup ->
+                now {
+                    return@now LevelGroup.getLevelGroups()[levelGroup]?.hasMember(member)
+                }
+            }
+    }
+
     @KetherParser(["add-member"], namespace = "akarilevel", shared = true)
     fun parserAddMember() = combinationParser {
         it.group(text(), text(), text())
             .apply(it) { member, levelGroup, source ->
                 now {
-                    return@now LevelGroup.getLevelGroups()[levelGroup]?.addMember(member, source)
+                    LevelGroup.getLevelGroups()[levelGroup]?.addMember(member, source)
                 }
             }
     }
@@ -29,7 +39,7 @@ object ActionLevelGroup {
         it.group(text(), text(), text())
             .apply(it) { member, levelGroup, source ->
                 now {
-                    return@now LevelGroup.getLevelGroups()[levelGroup]?.removeMember(member, source)
+                    LevelGroup.getLevelGroups()[levelGroup]?.removeMember(member, source)
                 }
             }
     }
