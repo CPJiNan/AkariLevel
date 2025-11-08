@@ -38,7 +38,7 @@ object ActionExp {
         it.group(text(), text(), long(), text())
             .apply(it) { member, levelGroup, amount, source ->
                 now {
-                    LevelGroup.getLevelGroups()[levelGroup]?.addMemberLevel(member, amount, source)
+                    LevelGroup.getLevelGroups()[levelGroup]?.addMemberExp(member, amount, source)
                 }
             }
     }
@@ -48,7 +48,7 @@ object ActionExp {
         it.group(text(), text(), long(), text())
             .apply(it) { member, levelGroup, amount, source ->
                 now {
-                    LevelGroup.getLevelGroups()[levelGroup]?.removeMemberLevel(member, amount, source)
+                    LevelGroup.getLevelGroups()[levelGroup]?.removeMemberExp(member, amount, source)
                 }
             }
     }
