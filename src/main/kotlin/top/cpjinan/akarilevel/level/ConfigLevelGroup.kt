@@ -1,7 +1,6 @@
 package top.cpjinan.akarilevel.level
 
 import org.bukkit.Bukkit.getOfflinePlayer
-import taboolib.common.platform.function.submit
 import taboolib.common5.util.replace
 import taboolib.library.configuration.ConfigurationSection
 import taboolib.module.chat.colored
@@ -151,10 +150,8 @@ class ConfigLevelGroup(val config: ConfigurationSection) : LevelGroup {
             }
         }
 
-        submit(async = true) {
-            val json = MemberCache.gson.toJson(data)
-            Database.instance.set(Database.instance.memberTable, event.member, json)
-        }
+        val json = MemberCache.gson.toJson(data)
+        Database.instance.set(Database.instance.memberTable, event.member, json)
 
         onMemberChange(event.member, event.type, event.source)
     }

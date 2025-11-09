@@ -1,6 +1,5 @@
 package top.cpjinan.akarilevel.level
 
-import taboolib.common.platform.function.submit
 import top.cpjinan.akarilevel.cache.MemberCache
 import top.cpjinan.akarilevel.cache.MemberCache.memberCache
 import top.cpjinan.akarilevel.database.Database
@@ -183,10 +182,8 @@ interface LevelGroup {
             }
         }
 
-        submit(async = true) {
-            val json = MemberCache.gson.toJson(data)
-            Database.instance.set(Database.instance.memberTable, event.member, json)
-        }
+        val json = MemberCache.gson.toJson(data)
+        Database.instance.set(Database.instance.memberTable, event.member, json)
 
         onMemberChange(event.member, event.type, event.source)
     }
@@ -210,10 +207,8 @@ interface LevelGroup {
                 }
             }
 
-        submit(async = true) {
-            val json = MemberCache.gson.toJson(data)
-            Database.instance.set(Database.instance.memberTable, event.member, json)
-        }
+        val json = MemberCache.gson.toJson(data)
+        Database.instance.set(Database.instance.memberTable, event.member, json)
 
         onMemberChange(event.member, event.type, event.source)
     }
@@ -269,10 +264,8 @@ interface LevelGroup {
             }
         }
 
-        submit(async = true) {
-            val json = MemberCache.gson.toJson(data)
-            Database.instance.set(Database.instance.memberTable, event.member, json)
-        }
+        val json = MemberCache.gson.toJson(data)
+        Database.instance.set(Database.instance.memberTable, event.member, json)
 
         onMemberLevelChange(event.member, event.oldLevel, event.newLevel, event.source)
     }
@@ -296,10 +289,8 @@ interface LevelGroup {
             }
         }
 
-        submit(async = true) {
-            val json = MemberCache.gson.toJson(data)
-            Database.instance.set(Database.instance.memberTable, event.member, json)
-        }
+        val json = MemberCache.gson.toJson(data)
+        Database.instance.set(Database.instance.memberTable, event.member, json)
 
         onMemberExpChange(event.member, event.expAmount, event.source)
     }
