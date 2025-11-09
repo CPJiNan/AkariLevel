@@ -99,13 +99,13 @@ CommandHelpMember:
     args:
       - hover: "Click to view help for member level commands"
         suggest: "/akarilevel help MemberLevel"
-  - '      &7Member level commads'
+  - '      &7Member level commands'
   - type: JSON
     text: "    &8- [&fexp]"
     args:
       - hover: "Click to view help for member exp command"
         suggest: "/akarilevel help MemberExp"
-  - '      &7Member exp command'
+  - '      &7Member exp commands'
   - type: JSON
     text: "    &8- [&flevelUp] &8<&7levelGroup&8> &8<&7member&8>"
     args:
