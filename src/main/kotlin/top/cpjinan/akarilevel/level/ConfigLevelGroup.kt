@@ -207,10 +207,10 @@ class ConfigLevelGroup(val config: ConfigurationSection) : LevelGroup {
         }
 
         if (targetLevel > currentLevel) {
+            removeMemberExp(member, getLevelExp(member, currentLevel, targetLevel), "LEVEL_UP")
             for (level in currentLevel + 1..targetLevel) {
                 setMemberLevel(member, level, "LEVEL_UP")
             }
-            removeMemberExp(member, getLevelExp(member, currentLevel, targetLevel), "LEVEL_UP")
         }
     }
 
