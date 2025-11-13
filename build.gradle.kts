@@ -29,7 +29,7 @@ taboolib {
             name("CPJiNan")
         }
     }
-    version { taboolib = "6.2.3-d4a5f0ea" }
+    version { taboolib = "6.2.4-7f8b30dc" }
     relocate("top.maplex.arim", "top.cpjinan.akarilevel.arim")
     relocate("com.github.benmanes.caffeine", "top.cpjinan.akarilevel.caffeine")
 }
