@@ -6,7 +6,7 @@ plugins {
     `java-library`
     `maven-publish`
     id("io.izzel.taboolib") version "2.0.27"
-    kotlin("jvm") version "2.2.0"
+    kotlin("jvm") version "2.2.21"
 }
 
 taboolib {
@@ -29,7 +29,7 @@ taboolib {
             name("CPJiNan")
         }
     }
-    version { taboolib = "6.2.4-7f8b30dc" }
+    version { taboolib = "6.2.4-3b3cd67" }
     relocate("top.maplex.arim", "top.cpjinan.akarilevel.arim")
     relocate("com.github.benmanes.caffeine", "top.cpjinan.akarilevel.caffeine")
 }
@@ -52,11 +52,11 @@ dependencies {
     compileOnly("me.clip:placeholderapi:2.11.6")
     // MythicMobs
     compileOnly("io.lumine.xikage:MythicMobs:4.11.0")
-    compileOnly("io.lumine:Mythic-Dist:5.9.5")
+    compileOnly("io.lumine:Mythic-Dist:5.7.2")
     // nashorn
     compileOnly("org.openjdk.nashorn:nashorn-core:15.4")
     // Arim
-    taboo("top.maplex.arim:Arim:1.3.11")
+    taboo("top.maplex.arim:Arim:1.3.12")
     // caffeine
     taboo("com.github.ben-manes.caffeine:caffeine:2.9.3")
 }
