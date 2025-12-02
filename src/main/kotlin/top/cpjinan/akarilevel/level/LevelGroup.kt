@@ -202,7 +202,7 @@ interface LevelGroup {
 
         val data = memberCache.asMap()
             .compute(event.member) { _, memberData ->
-                memberData?.apply {
+                (memberData ?: MemberData()).apply {
                     levelGroups.remove(name)
                 }
             }
