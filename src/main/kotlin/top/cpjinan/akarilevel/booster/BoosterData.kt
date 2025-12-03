@@ -13,6 +13,7 @@ data class BoosterData(
     var name: String = "",
     var type: String = "",
     var multiplier: Double = 1.0,
+    var start: Long = -1,
     var duration: Long = -1,
     var levelGroup: String = "",
     var source: String = ""
