@@ -11,7 +11,6 @@ package top.cpjinan.akarilevel.booster
  */
 data class BoosterData(
     var name: String = "",
-    var active: Boolean = true,
     var type: String = "",
     var multiplier: Double = 1.0,
     var start: Long = -1,
