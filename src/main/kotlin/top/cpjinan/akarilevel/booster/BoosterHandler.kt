@@ -86,11 +86,11 @@ object BoosterHandler {
     }
 
     /**
-     * 清除成员过期经验加成器。
+     * 刷新成员经验加成器。
      *
      * @param member 成员。
      */
-    fun clearMemberExpiredBoosters(member: String) {
+    fun refreshMemberBoosters(member: String) {
         val data = memberCache.asMap().compute(member) { _, memberData ->
             (memberData ?: MemberData()).apply {
                 boosters.entries.removeAll {
