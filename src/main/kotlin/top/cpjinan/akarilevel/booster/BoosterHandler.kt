@@ -84,4 +84,22 @@ object BoosterHandler {
         val json = MemberCache.gson.toJson(data)
         Database.instance.set(Database.instance.memberTable, member, json)
     }
+
+    /**
+     * 清除成员过期经验加成器。
+     *
+     * @param member 成员。
+     */
+    fun clearMemberExpiredBoosters(member: String) {
+        val data = memberCache.asMap().compute(member) { _, memberData ->
+            (memberData ?: MemberData()).apply {
+                boosters.entries.removeAll {
+                    it.value.start != -1L && it.value.duration != -1L && it.value.start + it.value.duration < System.currentTimeMillis()
+                }
+            }
+        }
+
+        val json = MemberCache.gson.toJson(data)
+        Database.instance.set(Database.instance.memberTable, member, json)
+    }
 }
