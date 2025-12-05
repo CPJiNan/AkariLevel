@@ -1,9 +1,11 @@
 package top.cpjinan.akarilevel.booster
 
+import taboolib.common.platform.event.SubscribeEvent
 import top.cpjinan.akarilevel.cache.MemberCache
 import top.cpjinan.akarilevel.cache.MemberCache.memberCache
 import top.cpjinan.akarilevel.database.Database
 import top.cpjinan.akarilevel.entity.MemberData
+import top.cpjinan.akarilevel.event.MemberExpChangeEvent
 import java.util.*
 
 /**
@@ -104,5 +106,27 @@ object BoosterHandler {
             val json = MemberCache.gson.toJson(newData)
             Database.instance.set(Database.instance.memberTable, member, json)
         }
+    }
+
+    @SubscribeEvent
+    fun onMemberExpChange(event: MemberExpChangeEvent) {
+        val member = event.member
+        val expAmount = event.expAmount
+        val levelGroup = event.levelGroup
+        val source = event.source
+
+        if (expAmount <= 0) return
+        refreshMemberBoosters(member)
+
+        val boosters = getMemberBoosters(member).filter { it.value.start != -1L }.filter { it.value.duration != -1L }
+            .filter { it.value.levelGroup.isEmpty() || it.value.levelGroup == levelGroup }
+            .filter { it.value.source.isEmpty() || it.value.source == source }.values
+
+        val multiplier = boosters.groupBy { it.type }.values
+            .fold(1.0) { acc, group ->
+                acc * group.maxOf { it.multiplier }
+            }
+
+        event.expAmount = (expAmount * multiplier).toLong()
     }
 }
