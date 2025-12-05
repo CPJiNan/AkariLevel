@@ -91,7 +91,8 @@ object BoosterHandler {
      * @param member 成员。
      */
     fun refreshMemberBoosters(member: String) {
-        val data = memberCache.asMap().compute(member) { _, memberData ->
+        val oldData = memberCache.getIfPresent(member)
+        val newData = memberCache.asMap().compute(member) { _, memberData ->
             (memberData ?: MemberData()).apply {
                 boosters.entries.removeAll {
                     it.value.start != -1L && it.value.duration != -1L && it.value.start + it.value.duration < System.currentTimeMillis()
@@ -99,7 +100,9 @@ object BoosterHandler {
             }
         }
 
-        val json = MemberCache.gson.toJson(data)
-        Database.instance.set(Database.instance.memberTable, member, json)
+        if ((oldData?.boosters?.size ?: -1) != newData!!.boosters.size) {
+            val json = MemberCache.gson.toJson(newData)
+            Database.instance.set(Database.instance.memberTable, member, json)
+        }
     }
 }
