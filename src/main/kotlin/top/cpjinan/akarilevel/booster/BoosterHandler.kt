@@ -38,7 +38,7 @@ object BoosterHandler {
      * 设置成员经验加成器。
      *
      * @param member 成员。
-     * @param id UUID。
+     * @param id 经验加成器 UUID。
      * @param booster 经验加成器。
      */
     fun setMemberBooster(member: String, id: UUID, booster: BoosterData) {
@@ -56,7 +56,7 @@ object BoosterHandler {
      * 新增成员经验加成器。
      *
      * @param member 成员。
-     * @param id UUID。
+     * @param id 经验加成器 UUID。
      * @param booster 经验加成器。
      */
     fun addMemberBooster(member: String, id: UUID, booster: BoosterData) {
@@ -74,7 +74,7 @@ object BoosterHandler {
      * 移除成员经验加成器。
      *
      * @param member 成员。
-     * @param id UUID。
+     * @param id 经验加成器 UUID。
      */
     fun removeMemberBooster(member: String, id: UUID) {
         val data = memberCache.asMap().compute(member) { _, memberData ->
@@ -106,6 +106,48 @@ object BoosterHandler {
             val json = MemberCache.gson.toJson(newData)
             Database.instance.set(Database.instance.memberTable, member, json)
         }
+    }
+
+    /**
+     * 启用成员经验加成器。
+     *
+     * @param member 成员。
+     * @param id 经验加成器 UUID。
+     */
+    fun enableMemberBooster(member: String, id: UUID) {
+        val data = memberCache.asMap().compute(member) { _, memberData ->
+            (memberData ?: MemberData()).apply {
+                val booster = boosters[id] ?: return@compute this
+                if (booster.start != -1L) return@compute this
+                booster.start = System.currentTimeMillis()
+            }
+        }
+
+        val json = MemberCache.gson.toJson(data)
+        Database.instance.set(Database.instance.memberTable, member, json)
+    }
+
+    /**
+     * 禁用成员经验加成器。
+     *
+     * @param member 成员。
+     * @param id 经验加成器 UUID。
+     */
+    fun disableMemberBooster(member: String, id: UUID) {
+        val data = memberCache.asMap().compute(member) { _, memberData ->
+            (memberData ?: MemberData()).apply {
+                val booster = boosters[id] ?: return@compute this
+                if (booster.start == -1L) return@compute this
+                if (booster.duration != -1L) {
+                    booster.duration -= (System.currentTimeMillis() - booster.start).coerceAtLeast(0)
+                    if (booster.duration <= 0) boosters.remove(id)
+                }
+                booster.start = -1
+            }
+        }
+
+        val json = MemberCache.gson.toJson(data)
+        Database.instance.set(Database.instance.memberTable, member, json)
     }
 
     @SubscribeEvent
