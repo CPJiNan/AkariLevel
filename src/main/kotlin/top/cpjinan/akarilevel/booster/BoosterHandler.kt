@@ -109,6 +109,23 @@ object BoosterHandler {
     }
 
     /**
+     * 成员经验加成器是否已启用。
+     *
+     * @param member 成员。
+     * @param id 经验加成器 UUID。
+     * @return 如果此成员经验加成器已启用，则返回 true。
+     */
+    fun isMemberBoosterEnabled(member: String, id: UUID): Boolean {
+        return try {
+            val memberData = memberCache[member]
+            memberData?.boosters[id]?.start != -1L
+        } catch (e: Exception) {
+            e.printStackTrace()
+            false
+        }
+    }
+
+    /**
      * 启用成员经验加成器。
      *
      * @param member 成员。
@@ -153,8 +170,8 @@ object BoosterHandler {
     @SubscribeEvent
     fun onMemberExpChange(event: MemberExpChangeEvent) {
         val member = event.member
-        val expAmount = event.expAmount
         val levelGroup = event.levelGroup
+        val expAmount = event.expAmount
         val source = event.source
 
         if (expAmount <= 0) return
@@ -162,13 +179,17 @@ object BoosterHandler {
 
         val boosters = getMemberBoosters(member).filter { it.value.start != -1L }.filter { it.value.duration != -1L }
             .filter { it.value.levelGroup.isEmpty() || it.value.levelGroup == levelGroup }
-            .filter { it.value.source.isEmpty() || it.value.source == source }.values
+            .filter { it.value.source.isEmpty() || it.value.source == source }
 
-        val multiplier = boosters.groupBy { it.type }.values
+        val multiplier = boosters.values.groupBy { it.type }.values
             .fold(1.0) { acc, group ->
                 acc * group.maxOf { it.multiplier }
             }
 
-        event.expAmount = (expAmount * multiplier).toLong()
+        val boosterEvent = BoosterEvent(member, levelGroup, expAmount, source, boosters, multiplier)
+        boosterEvent.call()
+        if (boosterEvent.isCancelled) return
+
+        event.expAmount = (boosterEvent.expAmount * boosterEvent.multiplier).toLong()
     }
 }
