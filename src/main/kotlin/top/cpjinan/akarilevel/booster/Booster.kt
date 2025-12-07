@@ -60,7 +60,7 @@ data class Booster(
             }
 
             val json = MemberCache.gson.toJson(data)
-            Database.Companion.instance.set(Database.Companion.instance.memberTable, member, json)
+            Database.instance.set(Database.instance.memberTable, member, json)
         }
 
         /**
@@ -78,7 +78,7 @@ data class Booster(
             }
 
             val json = MemberCache.gson.toJson(data)
-            Database.Companion.instance.set(Database.Companion.instance.memberTable, member, json)
+            Database.instance.set(Database.instance.memberTable, member, json)
         }
 
         /**
@@ -99,7 +99,7 @@ data class Booster(
 
             if ((oldData?.boosters?.size ?: -1) != newData!!.boosters.size) {
                 val json = MemberCache.gson.toJson(newData)
-                Database.Companion.instance.set(Database.Companion.instance.memberTable, member, json)
+                Database.instance.set(Database.instance.memberTable, member, json)
             }
         }
 
@@ -138,7 +138,7 @@ data class Booster(
             }
 
             val json = MemberCache.gson.toJson(data)
-            Database.Companion.instance.set(Database.Companion.instance.memberTable, member, json)
+            Database.instance.set(Database.instance.memberTable, member, json)
         }
 
         /**
@@ -162,7 +162,7 @@ data class Booster(
             }
 
             val json = MemberCache.gson.toJson(data)
-            Database.Companion.instance.set(Database.Companion.instance.memberTable, member, json)
+            Database.instance.set(Database.instance.memberTable, member, json)
         }
 
         @SubscribeEvent
