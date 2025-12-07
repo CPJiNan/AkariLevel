@@ -29,11 +29,11 @@ object BoosterCommand {
             }.dynamic("booster") {
                 execute<ProxyCommandSender> { sender, context, _ ->
                     val member = context["member"]
-                    val id = UUID.fromString(context["booster"])
+                    val id = context["booster"]
                     Booster.refreshMemberBoosters(member)
                     val booster = Booster.getMemberBoosters(member)[id]
                     if (booster == null) {
-                        sender.sendLang("BoosterNotFound", "$id")
+                        sender.sendLang("BoosterNotFound", id)
                         return@execute
                     }
                     sender.sendLang(
@@ -44,7 +44,7 @@ object BoosterCommand {
                         booster.type,
                         booster.multiplier,
                         console().asLangText(
-                            if (Booster.isMemberBoosterEnabled(member, id)) "BoosterInfoEnabled"
+                            if (Booster.isMemberBoosterEnabled(member, booster.id)) "BoosterInfoEnabled"
                             else "BoosterInfoDisabled"
                         ),
                         if (booster.start != -1L) formatToDate(booster.start) else "",

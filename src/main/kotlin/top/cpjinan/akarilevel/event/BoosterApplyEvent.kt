@@ -2,7 +2,6 @@ package top.cpjinan.akarilevel.event
 
 import taboolib.platform.type.BukkitProxyEvent
 import top.cpjinan.akarilevel.booster.Booster
-import java.util.*
 
 /**
  * AkariLevel
@@ -18,6 +17,6 @@ class BoosterApplyEvent(
     val levelGroup: String,
     val expAmount: Long,
     val source: String,
-    val boosters: Map<UUID, Booster>,
+    val boosters: Map<String, Booster>,
     var multiplier: Double
 ) : BukkitProxyEvent()

@@ -6,7 +6,6 @@ import top.cpjinan.akarilevel.database.Database
 import top.cpjinan.akarilevel.entity.MemberData
 import top.cpjinan.akarilevel.event.BoosterApplyEvent
 import top.cpjinan.akarilevel.event.MemberExpChangeEvent
-import java.util.*
 
 /**
  * AkariLevel
@@ -18,7 +17,7 @@ import java.util.*
  * @since 2025/12/2 23:30
  */
 data class Booster(
-    var id: UUID,
+    var id: String,
     var name: String,
     var type: String = "",
     var multiplier: Double = 1.0,
@@ -35,7 +34,7 @@ data class Booster(
          * @return 包含请求的所有键值对的 Map。
          */
         @JvmStatic
-        fun getMemberBoosters(member: String): Map<UUID, Booster> {
+        fun getMemberBoosters(member: String): Map<String, Booster> {
             return try {
                 val memberData = MemberCache.memberCache[member]
                 memberData?.boosters ?: emptyMap()
@@ -67,10 +66,10 @@ data class Booster(
          * 移除成员经验加成器。
          *
          * @param member 成员。
-         * @param id 经验加成器 UUID。
+         * @param id 经验加成器 ID。
          */
         @JvmStatic
-        fun removeMemberBooster(member: String, id: UUID) {
+        fun removeMemberBooster(member: String, id: String) {
             val data = MemberCache.memberCache.asMap().compute(member) { _, memberData ->
                 (memberData ?: MemberData()).apply {
                     boosters.remove(id)
@@ -107,11 +106,11 @@ data class Booster(
          * 成员经验加成器是否已启用。
          *
          * @param member 成员。
-         * @param id 经验加成器 UUID。
+         * @param id 经验加成器 ID。
          * @return 如果此成员经验加成器已启用，则返回 true。
          */
         @JvmStatic
-        fun isMemberBoosterEnabled(member: String, id: UUID): Boolean {
+        fun isMemberBoosterEnabled(member: String, id: String): Boolean {
             return try {
                 val memberData = MemberCache.memberCache[member]
                 memberData?.boosters[id]?.start != -1L
@@ -125,10 +124,10 @@ data class Booster(
          * 启用成员经验加成器。
          *
          * @param member 成员。
-         * @param id 经验加成器 UUID。
+         * @param id 经验加成器 ID。
          */
         @JvmStatic
-        fun enableMemberBooster(member: String, id: UUID) {
+        fun enableMemberBooster(member: String, id: String) {
             val data = MemberCache.memberCache.asMap().compute(member) { _, memberData ->
                 (memberData ?: MemberData()).apply {
                     val booster = boosters[id] ?: return@compute this
@@ -145,10 +144,10 @@ data class Booster(
          * 禁用成员经验加成器。
          *
          * @param member 成员。
-         * @param id 经验加成器 UUID。
+         * @param id 经验加成器 ID。
          */
         @JvmStatic
-        fun disableMemberBooster(member: String, id: UUID) {
+        fun disableMemberBooster(member: String, id: String) {
             val data = MemberCache.memberCache.asMap().compute(member) { _, memberData ->
                 (memberData ?: MemberData()).apply {
                     val booster = boosters[id] ?: return@compute this
