@@ -296,10 +296,10 @@ BoosterListFormat:
 BoosterListFooter:
   - " "
   - type: JSON
-    text: "&8<<< &7[上一页] &8| &7第 &f{0}&8/&f{1} &7页 &8| &7[下一页] &8>>>"
+    text: "&8<<< &7[上一页] &8| &7第 &f{1}&8/&f{2} &7页 &8| &7[下一页] &8>>>"
     args:
-      - hover: "点击前往第 {2} 页"
-        command: "/akarilevelbooster list {2}"
       - hover: "点击前往第 {3} 页"
-        command: "/akarilevelbooster list {3}"
+        command: "/akarilevelbooster list {0} {3}"
+      - hover: "点击前往第 {4} 页"
+        command: "/akarilevelbooster list {0} {4}"
   - " "

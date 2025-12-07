@@ -50,6 +50,7 @@ object BoosterCommand {
                         .forEach { sendLang("BoosterListFormat", it.id, it.name) }
                     sendLang(
                         "BoosterListFooter",
+                        member,
                         currentPage,
                         totalPages,
                         (currentPage - 1).coerceAtLeast(1),
