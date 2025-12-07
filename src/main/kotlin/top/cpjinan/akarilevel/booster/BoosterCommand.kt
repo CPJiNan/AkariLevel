@@ -37,13 +37,14 @@ object BoosterCommand {
     )
     val list = subCommand {
         dynamic("member") {
-            execute<ProxyCommandSender> { sender, context, content ->
+            execute<ProxyCommandSender> { sender, _, content ->
+                val member = content.substringBefore(" ")
                 val pageSize = 10
-                val boosters = BoosterHandler.getMemberBoosters(context["member"]).values.sortedBy { it.name }
+                val boosters = BoosterHandler.getMemberBoosters(member).values.sortedBy { it.name }
                 val totalPages = (boosters.size + pageSize - 1) / pageSize
                 val currentPage = content.substringAfter(" ").toIntOrNull()?.coerceIn(1, totalPages) ?: 1
                 with(sender) {
-                    sendLang("BoosterListHeader", boosters.size)
+                    sendLang("BoosterListHeader", member, boosters.size)
                     boosters
                         .subList((currentPage - 1) * pageSize, (currentPage * pageSize).coerceAtMost(boosters.size))
                         .forEach { sendLang("BoosterListFormat", it.id, it.name) }
