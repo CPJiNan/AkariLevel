@@ -42,7 +42,7 @@ object BoosterCommand {
         permissionDefault = PermissionDefault.OP
     )
     val info = subCommand {
-        literal("info").dynamic("member") {
+        dynamic("member") {
             suggestUncheck { onlinePlayers.map { it.name } }
         }.dynamic("booster") {
             execute<ProxyCommandSender> { sender, context, _ ->
