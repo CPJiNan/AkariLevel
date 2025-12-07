@@ -35,34 +35,15 @@ object BoosterHandler {
     }
 
     /**
-     * 设置成员经验加成器。
-     *
-     * @param member 成员。
-     * @param id 经验加成器 UUID。
-     * @param booster 经验加成器。
-     */
-    fun setMemberBooster(member: String, id: UUID, booster: BoosterData) {
-        val data = memberCache.asMap().compute(member) { _, memberData ->
-            (memberData ?: MemberData()).apply {
-                boosters[id] = booster
-            }
-        }
-
-        val json = MemberCache.gson.toJson(data)
-        Database.instance.set(Database.instance.memberTable, member, json)
-    }
-
-    /**
      * 新增成员经验加成器。
      *
      * @param member 成员。
-     * @param id 经验加成器 UUID。
      * @param booster 经验加成器。
      */
-    fun addMemberBooster(member: String, id: UUID, booster: BoosterData) {
+    fun addMemberBooster(member: String, booster: BoosterData) {
         val data = memberCache.asMap().compute(member) { _, memberData ->
             (memberData ?: MemberData()).apply {
-                boosters.putIfAbsent(id, booster)
+                boosters.putIfAbsent(booster.id, booster)
             }
         }
 
