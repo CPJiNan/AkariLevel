@@ -1,5 +1,7 @@
 package top.cpjinan.akarilevel.booster
 
+import java.util.*
+
 /**
  * AkariLevel
  * top.cpjinan.akarilevel.booster
@@ -10,6 +12,7 @@ package top.cpjinan.akarilevel.booster
  * @since 2025/12/2 23:30
  */
 data class BoosterData(
+    var id: UUID,
     var name: String = "",
     var type: String = "",
     var multiplier: Double = 1.0,

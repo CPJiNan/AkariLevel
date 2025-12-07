@@ -186,10 +186,10 @@ object BoosterHandler {
                 acc * group.maxOf { it.multiplier }
             }
 
-        val boosterEvent = BoosterEvent(member, levelGroup, expAmount, source, boosters, multiplier)
+        val boosterEvent = BoosterEvent(event, boosters, multiplier)
         boosterEvent.call()
         if (boosterEvent.isCancelled) return
 
-        event.expAmount = (boosterEvent.expAmount * boosterEvent.multiplier).toLong()
+        event.expAmount = (expAmount * boosterEvent.multiplier).toLong()
     }
 }

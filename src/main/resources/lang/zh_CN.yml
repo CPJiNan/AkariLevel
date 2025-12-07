@@ -175,6 +175,12 @@ CommandHelpBooster:
       - hover: "点击查看成员经验加成器信息"
         suggest: "/akarilevelbooster info 成员名称"
   - '      &7查看成员经验加成器信息'
+  - type: JSON
+    text: "    &8- [&flist] &8<&7member&8>"
+    args:
+      - hover: "点击查看成员经验加成器列表"
+        suggest: "/akarilevelbooster list 成员名称"
+  - '      &7查看成员经验加成器列表'
   - '&7'
 LevelGroupNotFound: "&8[&3Akari&bLevel&8] &7未找到等级组 &f{0} &7。"
 LevelGroupInfo:
@@ -275,3 +281,25 @@ MemberExpSet: "&8[&3Akari&bLevel&8] &7已设置成员 &f{0} &7的 &f{1} &7经验
 MemberExpAdd: "&8[&3Akari&bLevel&8] &7已增加成员 &f{0} &7的 &f{2} &7个 &f{1} &7经验。"
 MemberExpRemove: "&8[&3Akari&bLevel&8] &7已移除成员 &f{0} &7的 &f{2} &7个 &f{1} &7经验。"
 PlaceholderNotAvailable: "N/A"
+BoosterListHeader:
+  - " "
+  - "&8[&3Akari&bLevel&8] &7成员 &f{0} &7有 &f{1} &7个经验加成器。"
+  - " "
+BoosterListFormat:
+  - type: JSON
+    text: " &8- &f[{0}] &7- &r[{1}] [&8<&7ℹ&8>]"
+    args:
+      - hover: "经验加成器 ID: &n{0}"
+      - hover: "经验加成器名称: &n{1}"
+      - hover: "点击查看经验加成器 {0} 信息"
+        command: "/akarilevelbooster info {0}"
+BoosterListFooter:
+  - " "
+  - type: JSON
+    text: "&8<<< &7[上一页] &8| &7第 &f{0}&8/&f{1} &7页 &8| &7[下一页] &8>>>"
+    args:
+      - hover: "点击前往第 {2} 页"
+        command: "/akarilevelbooster list {2}"
+      - hover: "点击前往第 {3} 页"
+        command: "/akarilevelbooster list {3}"
+  - " "
