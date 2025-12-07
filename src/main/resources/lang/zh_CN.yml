@@ -172,15 +172,15 @@ CommandHelpBooster:
   - type: JSON
     text: "    &8- [&finfo] &8<&7member&8>"
     args:
-      - hover: "点击查看成员经验加成器信息"
+      - hover: "点击查看经验加成器信息"
         suggest: "/akarilevelbooster info 成员名称"
-  - '      &7查看成员经验加成器信息'
+  - '      &7查看经验加成器信息'
   - type: JSON
     text: "    &8- [&flist] &8<&7member&8>"
     args:
-      - hover: "点击查看成员经验加成器列表"
+      - hover: "点击查看经验加成器列表"
         suggest: "/akarilevelbooster list 成员名称"
-  - '      &7查看成员经验加成器列表'
+  - '      &7查看经验加成器列表'
   - '&7'
 LevelGroupNotFound: "&8[&3Akari&bLevel&8] &7未找到等级组 &f{0} &7。"
 LevelGroupInfo:
@@ -281,6 +281,33 @@ MemberExpSet: "&8[&3Akari&bLevel&8] &7已设置成员 &f{0} &7的 &f{1} &7经验
 MemberExpAdd: "&8[&3Akari&bLevel&8] &7已增加成员 &f{0} &7的 &f{2} &7个 &f{1} &7经验。"
 MemberExpRemove: "&8[&3Akari&bLevel&8] &7已移除成员 &f{0} &7的 &f{2} &7个 &f{1} &7经验。"
 PlaceholderNotAvailable: "N/A"
+DateFormatPattern: "yyyy/MM/dd HH:mm:ss"
+TimeUnitYear: "年"
+TimeUnitMonth: "月"
+TimeUnitDay: "天"
+TimeUnitHour: "时"
+TimeUnitMinute: "分"
+TimeUnitSecond: "秒"
+BoosterNotFound: "&8[&3Akari&bLevel&8] &7未找到经验加成器 &f{0} &7。"
+BoosterInfo:
+  - " "
+  - "&8[&3Akari&bLevel&8] &7正在查看成员 &f{0} &7的 &f{2} &7信息。"
+  - " "
+  - " &8- &7ID&8: &f{1}"
+  - " &8- &7名称&8: &f{2}"
+  - " &8- &7类型&8: &f{3}"
+  - " &8- &7倍率&8: &f{4}"
+  - " "
+  - " &8- &7当前状态: &f{5}"
+  - " &8- &7起始时间: &f{6}"
+  - " &8- &7过期时间: &f{7}"
+  - " &8- &7持续时长: &f{8}"
+  - " "
+  - " &8- &7等级组限制: &f{9}"
+  - " &8- &7来源限制: &f{10}"
+  - " "
+BoosterInfoEnabled: "&a已启用"
+BoosterInfoDisabled: "&c已禁用"
 BoosterListHeader:
   - " "
   - "&8[&3Akari&bLevel&8] &7成员 &f{0} &7有 &f{1} &7个经验加成器。"

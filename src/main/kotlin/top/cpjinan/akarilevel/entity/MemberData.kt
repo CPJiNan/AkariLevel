@@ -1,6 +1,5 @@
 package top.cpjinan.akarilevel.entity
 
-import top.cpjinan.akarilevel.booster.BoosterData
 import java.util.*
 import java.util.concurrent.ConcurrentHashMap
 

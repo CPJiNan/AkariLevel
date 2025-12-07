@@ -1,10 +1,10 @@
-package top.cpjinan.akarilevel.booster
+package top.cpjinan.akarilevel.entity
 
 import java.util.*
 
 /**
  * AkariLevel
- * top.cpjinan.akarilevel.booster
+ * top.cpjinan.akarilevel.entity
  *
  * 经验加成器数据。
  *

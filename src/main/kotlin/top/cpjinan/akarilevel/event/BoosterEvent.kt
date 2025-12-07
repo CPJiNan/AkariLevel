@@ -1,11 +1,12 @@
-package top.cpjinan.akarilevel.booster
+package top.cpjinan.akarilevel.event
 
 import taboolib.platform.type.BukkitProxyEvent
+import top.cpjinan.akarilevel.entity.BoosterData
 import java.util.*
 
 /**
  * AkariLevel
- * top.cpjinan.akarilevel.booster
+ * top.cpjinan.akarilevel.event
  *
  * 经验加成器事件。
  *
