@@ -114,4 +114,19 @@ object BoosterCommand {
             if (seconds > 0 || isEmpty()) append("${seconds}${console().asLangText("TimeUnitSecond")}")
         }
     }
+
+    private fun formatToDuration(duration: String): Long {
+        return Regex("""(\d+)([dDhHmMsS]?)""")
+            .findAll(duration)
+            .sumOf {
+                val value = it.groupValues[1].toLong()
+                when (it.groupValues[2].lowercase()) {
+                    "d" -> value * 24 * 60 * 60 * 1000
+                    "h" -> value * 60 * 60 * 1000
+                    "m" -> value * 60 * 1000
+                    "s", "" -> value * 1000
+                    else -> 0
+                }
+            }
+    }
 }
