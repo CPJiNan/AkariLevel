@@ -25,7 +25,7 @@ CommandHelp:
     args:
       - hover: "点击查看经验加成器命令帮助"
         suggest: "/akarilevel help Booster"
-  - '      &7成员命令'
+  - '      &7经验加成器命令'
   - type: JSON
     text: "    &8- [&freload]"
     args:
