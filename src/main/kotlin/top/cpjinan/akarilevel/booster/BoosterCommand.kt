@@ -4,6 +4,7 @@ import taboolib.common.platform.ProxyCommandSender
 import taboolib.common.platform.command.*
 import taboolib.module.lang.sendLang
 import taboolib.platform.util.bukkitPlugin
+import taboolib.platform.util.onlinePlayers
 
 /**
  * AkariLevel
@@ -37,6 +38,7 @@ object BoosterCommand {
     )
     val list = subCommand {
         dynamic("member") {
+            suggestUncheck { onlinePlayers.map { it.name } }
             execute<ProxyCommandSender> { sender, _, content ->
                 val member = content.substringBefore(" ")
                 val pageSize = 10
