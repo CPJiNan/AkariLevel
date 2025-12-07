@@ -319,7 +319,7 @@ BoosterListFormat:
     args:
       - hover: "经验加成器名称: &n{2}"
       - hover: "经验加成器 ID: &n{1}"
-      - hover: "点击查看经验加成器 {1} 信息"
+      - hover: "点击查看经验加成器 {2} 信息"
         command: "/akarilevelbooster info {0} {1}"
 BoosterListFooter:
   - " "

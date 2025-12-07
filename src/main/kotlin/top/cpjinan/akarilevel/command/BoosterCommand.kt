@@ -55,6 +55,7 @@ object BoosterCommand {
                 }
                 sender.sendLang(
                     "BoosterInfo",
+                    member,
                     booster.id,
                     booster.name,
                     booster.type,
