@@ -13,11 +13,11 @@ import java.util.*
  */
 data class BoosterData(
     var id: UUID,
-    var name: String = "",
+    var name: String,
     var type: String = "",
     var multiplier: Double = 1.0,
     var start: Long = -1,
     var duration: Long = -1,
     var levelGroup: String = "",
-    var source: String = ""
+    var source: String = "COMMAND_ADD_EXP"
 )
