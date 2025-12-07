@@ -308,6 +308,7 @@ BoosterInfo:
   - " "
 BoosterInfoEnabled: "&a已启用"
 BoosterInfoDisabled: "&c已禁用"
+BoosterInfoPermanent: "永久"
 BoosterListHeader:
   - " "
   - "&8[&3Akari&bLevel&8] &7成员 &f{0} &7有 &f{1} &7个经验加成器。"

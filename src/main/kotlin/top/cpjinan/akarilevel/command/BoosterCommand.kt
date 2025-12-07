@@ -65,7 +65,7 @@ object BoosterCommand {
                     ),
                     if (booster.start != -1L) formatToDate(booster.start) else "",
                     if (booster.start != -1L && booster.duration != -1L) formatToDate(booster.start + booster.duration) else "",
-                    formatToDuration(booster.duration),
+                    if (booster.duration != -1L) formatToDuration(booster.duration) else console().asLangText("BoosterInfoPermanent"),
                     booster.levelGroup,
                     booster.source
                 )
