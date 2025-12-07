@@ -163,6 +163,19 @@ CommandHelpMemberExp:
         suggest: "/akarilevel member exp remove 成员名称 等级组编辑名 经验"
   - '      &7移除成员经验'
   - '&7'
+CommandHelpBooster:
+  - '&7'
+  - '  &3&lAkari&b&lLevel &7v{0}'
+  - '&7'
+  - '  &7命令: &f/akarilevelbooster &8[...]'
+  - '  &7参数:'
+  - type: JSON
+    text: "    &8- [&finfo] &8<&7member&8>"
+    args:
+      - hover: "点击查看成员经验加成器信息"
+        suggest: "/akarilevelbooster info 成员名称"
+  - '      &7查看成员经验加成器信息'
+  - '&7'
 LevelGroupNotFound: "&8[&3Akari&bLevel&8] &7未找到等级组 &f{0} &7。"
 LevelGroupInfo:
   - " "
