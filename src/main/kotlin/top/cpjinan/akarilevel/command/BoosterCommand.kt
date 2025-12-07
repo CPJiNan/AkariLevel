@@ -48,6 +48,7 @@ object BoosterCommand {
             execute<ProxyCommandSender> { sender, context, _ ->
                 val member = context["member"]
                 val id = UUID.fromString(context["booster"])
+                BoosterHandler.refreshMemberBoosters(member)
                 val booster = BoosterHandler.getMemberBoosters(member)[id]
                 if (booster == null) {
                     sender.sendLang("BoosterNotFound", "$id")
@@ -84,6 +85,7 @@ object BoosterCommand {
             execute<ProxyCommandSender> { sender, _, content ->
                 val member = content.substringBefore(" ")
                 val pageSize = 10
+                BoosterHandler.refreshMemberBoosters(member)
                 val boosters = BoosterHandler.getMemberBoosters(member).values.sortedBy { it.name }
                 val totalPages = (boosters.size + pageSize - 1) / pageSize
                 val currentPage = content.substringAfter(" ").toIntOrNull()?.coerceIn(1, totalPages) ?: 1
