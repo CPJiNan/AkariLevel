@@ -21,6 +21,12 @@ CommandHelp:
         suggest: "/akarilevel help Member"
   - '      &7成员命令'
   - type: JSON
+    text: "    &8- [&fbooster]"
+    args:
+      - hover: "点击查看经验加成器命令帮助"
+        suggest: "/akarilevel help Booster"
+  - '      &7成员命令'
+  - type: JSON
     text: "    &8- [&freload]"
     args:
       - hover: "点击重载插件"
