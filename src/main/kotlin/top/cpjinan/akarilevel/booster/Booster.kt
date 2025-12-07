@@ -12,7 +12,7 @@ import java.util.*
  * AkariLevel
  * top.cpjinan.akarilevel.booster
  *
- * 经验加成器数据。
+ * 经验加成器。
  *
  * @author 季楠
  * @since 2025/12/2 23:30
