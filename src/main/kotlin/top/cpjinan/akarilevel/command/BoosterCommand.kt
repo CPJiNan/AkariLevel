@@ -90,7 +90,7 @@ object BoosterCommand {
                     sendLang("BoosterListHeader", member, boosters.size)
                     boosters
                         .subList((currentPage - 1) * pageSize, (currentPage * pageSize).coerceAtMost(boosters.size))
-                        .forEach { sendLang("BoosterListFormat", it.id, it.name) }
+                        .forEach { sendLang("BoosterListFormat", member, it.id, it.name) }
                     sendLang(
                         "BoosterListFooter",
                         member,
