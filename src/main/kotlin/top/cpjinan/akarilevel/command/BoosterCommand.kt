@@ -7,7 +7,7 @@ import taboolib.module.lang.asLangText
 import taboolib.module.lang.sendLang
 import taboolib.platform.util.bukkitPlugin
 import taboolib.platform.util.onlinePlayers
-import top.cpjinan.akarilevel.booster.BoosterHandler
+import top.cpjinan.akarilevel.booster.Booster
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -48,8 +48,8 @@ object BoosterCommand {
             execute<ProxyCommandSender> { sender, context, _ ->
                 val member = context["member"]
                 val id = UUID.fromString(context["booster"])
-                BoosterHandler.refreshMemberBoosters(member)
-                val booster = BoosterHandler.getMemberBoosters(member)[id]
+                Booster.refreshMemberBoosters(member)
+                val booster = Booster.getMemberBoosters(member)[id]
                 if (booster == null) {
                     sender.sendLang("BoosterNotFound", "$id")
                     return@execute
@@ -62,7 +62,7 @@ object BoosterCommand {
                     booster.type,
                     booster.multiplier,
                     console().asLangText(
-                        if (BoosterHandler.isMemberBoosterEnabled(member, id)) "BoosterInfoEnabled"
+                        if (Booster.isMemberBoosterEnabled(member, id)) "BoosterInfoEnabled"
                         else "BoosterInfoDisabled"
                     ),
                     if (booster.start != -1L) formatToDate(booster.start) else "",
@@ -85,8 +85,8 @@ object BoosterCommand {
             execute<ProxyCommandSender> { sender, _, content ->
                 val member = content.substringBefore(" ")
                 val pageSize = 10
-                BoosterHandler.refreshMemberBoosters(member)
-                val boosters = BoosterHandler.getMemberBoosters(member).values.sortedBy { it.name }
+                Booster.refreshMemberBoosters(member)
+                val boosters = Booster.getMemberBoosters(member).values.sortedBy { it.name }
                 val totalPages = (boosters.size + pageSize - 1) / pageSize
                 val currentPage = content.substringAfter(" ").toIntOrNull()?.coerceIn(1, totalPages) ?: 1
                 with(sender) {

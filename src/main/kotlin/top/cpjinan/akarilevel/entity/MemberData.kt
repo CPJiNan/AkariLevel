@@ -1,5 +1,6 @@
 package top.cpjinan.akarilevel.entity
 
+import top.cpjinan.akarilevel.booster.Booster
 import java.util.*
 import java.util.concurrent.ConcurrentHashMap
 
@@ -14,5 +15,5 @@ import java.util.concurrent.ConcurrentHashMap
  */
 data class MemberData(
     val levelGroups: MutableMap<String, MemberLevelData> = ConcurrentHashMap(),
-    val boosters: MutableMap<UUID, BoosterData> = ConcurrentHashMap()
+    val boosters: MutableMap<UUID, Booster> = ConcurrentHashMap()
 )
