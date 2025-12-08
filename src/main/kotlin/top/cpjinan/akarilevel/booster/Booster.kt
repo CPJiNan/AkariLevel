@@ -4,7 +4,6 @@ import taboolib.common.platform.event.SubscribeEvent
 import top.cpjinan.akarilevel.cache.MemberCache
 import top.cpjinan.akarilevel.database.Database
 import top.cpjinan.akarilevel.entity.MemberData
-import top.cpjinan.akarilevel.event.BoosterApplyEvent
 import top.cpjinan.akarilevel.event.MemberExpChangeEvent
 
 /**
@@ -81,28 +80,6 @@ data class Booster(
         }
 
         /**
-         * 刷新成员经验加成器。
-         *
-         * @param member 成员。
-         */
-        @JvmStatic
-        fun refreshMemberBoosters(member: String) {
-            val oldData = MemberCache.memberCache.getIfPresent(member)
-            val newData = MemberCache.memberCache.asMap().compute(member) { _, memberData ->
-                (memberData ?: MemberData()).apply {
-                    boosters.entries.removeAll {
-                        it.value.start != -1L && it.value.duration != -1L && it.value.start + it.value.duration < System.currentTimeMillis()
-                    }
-                }
-            }
-
-            if ((oldData?.boosters?.size ?: -1) != newData!!.boosters.size) {
-                val json = MemberCache.gson.toJson(newData)
-                Database.instance.set(Database.instance.memberTable, member, json)
-            }
-        }
-
-        /**
          * 成员经验加成器是否已启用。
          *
          * @param member 成员。
@@ -164,6 +141,28 @@ data class Booster(
             Database.instance.set(Database.instance.memberTable, member, json)
         }
 
+        /**
+         * 刷新成员经验加成器。
+         *
+         * @param member 成员。
+         */
+        @JvmStatic
+        fun refreshMemberBoosters(member: String) {
+            val oldData = MemberCache.memberCache.getIfPresent(member)
+            val newData = MemberCache.memberCache.asMap().compute(member) { _, memberData ->
+                (memberData ?: MemberData()).apply {
+                    boosters.entries.removeAll {
+                        it.value.start != -1L && it.value.duration != -1L && it.value.start + it.value.duration < System.currentTimeMillis()
+                    }
+                }
+            }
+
+            if ((oldData?.boosters?.size ?: -1) != newData!!.boosters.size) {
+                val json = MemberCache.gson.toJson(newData)
+                Database.instance.set(Database.instance.memberTable, member, json)
+            }
+        }
+
         @SubscribeEvent
         fun onMemberExpChange(event: MemberExpChangeEvent) {
             val member = event.member
@@ -184,11 +183,11 @@ data class Booster(
                     acc * group.maxOf { it.multiplier }
                 }
 
-            val applyEvent = BoosterApplyEvent(member, levelGroup, expAmount, source, boosters, multiplier)
-            applyEvent.call()
-            if (applyEvent.isCancelled) return
+            val boosterEvent = BoosterEvent(member, levelGroup, expAmount, source, boosters, multiplier)
+            boosterEvent.call()
+            if (boosterEvent.isCancelled) return
 
-            event.expAmount = (applyEvent.expAmount * applyEvent.multiplier).toLong()
+            event.expAmount = (boosterEvent.expAmount * boosterEvent.multiplier).toLong()
         }
     }
 }

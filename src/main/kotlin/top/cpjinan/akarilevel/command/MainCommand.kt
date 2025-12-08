@@ -5,7 +5,7 @@ import taboolib.common.platform.command.*
 import taboolib.module.lang.Language
 import taboolib.module.lang.sendLang
 import taboolib.platform.util.bukkitPlugin
-import top.cpjinan.akarilevel.command.subcommand.BoosterCommand
+import top.cpjinan.akarilevel.booster.BoosterCommand
 import top.cpjinan.akarilevel.command.subcommand.LevelGroupCommand
 import top.cpjinan.akarilevel.command.subcommand.MemberCommand
 import top.cpjinan.akarilevel.config.SettingsConfig

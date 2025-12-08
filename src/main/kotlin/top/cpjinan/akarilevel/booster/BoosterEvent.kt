@@ -1,18 +1,17 @@
-package top.cpjinan.akarilevel.event
+package top.cpjinan.akarilevel.booster
 
 import taboolib.platform.type.BukkitProxyEvent
-import top.cpjinan.akarilevel.booster.Booster
 
 /**
  * AkariLevel
- * top.cpjinan.akarilevel.event
+ * top.cpjinan.akarilevel.booster
  *
- * 经验加成器应用事件。
+ * 经验加成器事件。
  *
  * @author 季楠
  * @since 2025/12/6 21:14
  */
-class BoosterApplyEvent(
+class BoosterEvent(
     val member: String,
     val levelGroup: String,
     val expAmount: Long,

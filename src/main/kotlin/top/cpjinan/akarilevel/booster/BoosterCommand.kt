@@ -1,4 +1,4 @@
-package top.cpjinan.akarilevel.command.subcommand
+package top.cpjinan.akarilevel.booster
 
 import taboolib.common.platform.ProxyCommandSender
 import taboolib.common.platform.command.subCommand
@@ -7,13 +7,12 @@ import taboolib.common.platform.function.console
 import taboolib.module.lang.asLangText
 import taboolib.module.lang.sendLang
 import taboolib.platform.util.onlinePlayers
-import top.cpjinan.akarilevel.booster.Booster
 import java.text.SimpleDateFormat
 import java.util.*
 
 /**
  * AkariLevel
- * top.cpjinan.akarilevel.command
+ * top.cpjinan.akarilevel.booster
  *
  * 经验加成器命令。
  *
