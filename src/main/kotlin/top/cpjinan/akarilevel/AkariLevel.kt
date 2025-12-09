@@ -59,6 +59,6 @@ object AkariLevel : Plugin() {
      * 插件卸载事件。
      */
     override fun onDisable() {
-        console().sendLang("PluginDisable")
+        console().sendLang("PluginDisabled")
     }
 }

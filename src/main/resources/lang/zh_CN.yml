@@ -1,6 +1,6 @@
 PluginLoading: "&7正在加载 &3Akari&bLevel&8&f... &8{0}"
 PluginEnabled: "&8[&3Akari&bLevel&8] &b信息 &8| &6插件加载完毕。"
-PluginDisable: "&8[&3Akari&bLevel&8] &b信息 &8| &6插件卸载完毕。"
+PluginDisabled: "&8[&3Akari&bLevel&8] &b信息 &8| &6插件卸载完毕。"
 PluginReloaded: "&8[&3Akari&bLevel&8] &b信息 &8| &6插件重载完毕。"
 CommandHelp:
   - '&7'
@@ -179,7 +179,7 @@ CommandHelpBooster:
     text: "    &8- [&finfo] &8<&7member&8> &8<&7booster&8>"
     args:
       - hover: "点击查看经验加成器信息"
-        suggest: "/akarilevel booster info 成员名称 ID"
+        suggest: "/akarilevel booster info 成员名称 经验加成器"
   - '      &7查看经验加成器信息'
   - type: JSON
     text: "    &8- [&flist] &8<&7member&8>"
@@ -187,6 +187,18 @@ CommandHelpBooster:
       - hover: "点击查看经验加成器列表"
         suggest: "/akarilevel booster list 成员名称"
   - '      &7查看经验加成器列表'
+  - type: JSON
+    text: "    &8- [&fenable] &8<&7member&8> &8<&7booster&8>"
+    args:
+      - hover: "点击启用经验加成器"
+        suggest: "/akarilevel booster enable 成员名称 经验加成器"
+  - '      &7启用经验加成器'
+  - type: JSON
+    text: "    &8- [&flist] &8<&7member&8> &8<&7booster&8>"
+    args:
+      - hover: "点击禁用经验加成器"
+        suggest: "/akarilevel booster disable 成员名称 经验加成器"
+  - '      &7禁用经验加成器'
   - '&7'
 LevelGroupNotFound: "&8[&3Akari&bLevel&8] &7未找到等级组 &f{0} &7。"
 LevelGroupInfo:
@@ -297,7 +309,7 @@ TimeUnitSecond: "秒"
 BoosterNotFound: "&8[&3Akari&bLevel&8] &7未找到经验加成器 &f{0} &7。"
 BoosterInfo:
   - " "
-  - "&8[&3Akari&bLevel&8] &7正在查看成员 &f{0} &7的 &f{2} &7信息。"
+  - "&8[&3Akari&bLevel&8] &7正在查看成员 &f{0} &7的经验加成器 &f{1} &7信息。"
   - " "
   - " &8- &7ID&8: &f{1}"
   - " &8- &7名称&8: &f{2}"
@@ -314,7 +326,7 @@ BoosterInfo:
   - " "
 BoosterInfoEnabled: "&a已启用"
 BoosterInfoDisabled: "&c已禁用"
-BoosterInfoPermanent: "永久"
+BoosterInfoPermanent: "&f永久"
 BoosterListHeader:
   - " "
   - "&8[&3Akari&bLevel&8] &7成员 &f{0} &7有 &f{1} &7个经验加成器。"
@@ -337,3 +349,5 @@ BoosterListFooter:
       - hover: "点击前往第 {4} 页"
         command: "/akarilevel booster list {0} {4}"
   - " "
+BoosterEnabled: "&8[&3Akari&bLevel&8] &7经验加成器 &f{0} &7已启用。"
+BoosterDisabled: "&8[&3Akari&bLevel&8] &7经验加成器 &f{0} &7已禁用。"

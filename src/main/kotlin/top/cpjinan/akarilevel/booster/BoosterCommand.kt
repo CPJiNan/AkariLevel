@@ -22,66 +22,98 @@ import java.util.*
 object BoosterCommand {
     val booster = subCommand {
         // 查看经验加成器信息命令。
-        literal("info") {
-            dynamic("member") {
-                suggestUncheck { onlinePlayers.map { it.name } }
-            }.dynamic("booster") {
-                execute<ProxyCommandSender> { sender, context, _ ->
-                    val member = context["member"]
-                    val id = context["booster"]
-                    Booster.refreshMemberBoosters(member)
-                    val booster = Booster.getMemberBoosters(member)[id]
-                    if (booster == null) {
-                        sender.sendLang("BoosterNotFound", id)
-                        return@execute
-                    }
-                    sender.sendLang(
-                        "BoosterInfo",
+        literal("info").dynamic("member") {
+            suggestUncheck { onlinePlayers.map { it.name } }
+        }.dynamic("booster") {
+            execute<ProxyCommandSender> { sender, context, _ ->
+                val member = context["member"]
+                Booster.refreshMemberBoosters(member)
+                val id = context["booster"]
+                val booster = Booster.getMemberBoosters(member)[id]
+                if (booster == null) {
+                    sender.sendLang("BoosterNotFound", id)
+                    return@execute
+                }
+                sender.sendLang(
+                    "BoosterInfo",
+                    member,
+                    booster.id,
+                    booster.name,
+                    booster.type,
+                    booster.multiplier,
+                    console().asLangText(
+                        if (Booster.isMemberBoosterEnabled(member, booster.id)) "BoosterInfoEnabled"
+                        else "BoosterInfoDisabled"
+                    ),
+                    if (booster.start != -1L) formatToDate(booster.start) else "",
+                    if (booster.start != -1L && booster.duration != -1L) formatToDate(booster.start + booster.duration) else "",
+                    if (booster.duration != -1L) formatToDuration(booster.duration) else console().asLangText("BoosterInfoPermanent"),
+                    booster.levelGroup,
+                    booster.source
+                )
+            }
+        }
+
+        // 查看经验加成器列表命令。
+        literal("list").dynamic("member") {
+            suggestUncheck { onlinePlayers.map { it.name } }
+            execute<ProxyCommandSender> { sender, _, content ->
+                val member = content.substringBefore(" ")
+                Booster.refreshMemberBoosters(member)
+                val pageSize = 10
+                val boosters = Booster.getMemberBoosters(member).values.sortedBy { it.name }
+                val totalPages = (boosters.size + pageSize - 1) / pageSize
+                val currentPage = content.substringAfter(" ").toIntOrNull()?.coerceIn(1, totalPages) ?: 1
+                with(sender) {
+                    sendLang("BoosterListHeader", member, boosters.size)
+                    boosters
+                        .subList((currentPage - 1) * pageSize, (currentPage * pageSize).coerceAtMost(boosters.size))
+                        .forEach { sendLang("BoosterListFormat", member, it.id, it.name) }
+                    sendLang(
+                        "BoosterListFooter",
                         member,
-                        booster.id,
-                        booster.name,
-                        booster.type,
-                        booster.multiplier,
-                        console().asLangText(
-                            if (Booster.isMemberBoosterEnabled(member, booster.id)) "BoosterInfoEnabled"
-                            else "BoosterInfoDisabled"
-                        ),
-                        if (booster.start != -1L) formatToDate(booster.start) else "",
-                        if (booster.start != -1L && booster.duration != -1L) formatToDate(booster.start + booster.duration) else "",
-                        if (booster.duration != -1L) formatToDuration(booster.duration) else console().asLangText("BoosterInfoPermanent"),
-                        booster.levelGroup,
-                        booster.source
+                        currentPage,
+                        totalPages,
+                        (currentPage - 1).coerceAtLeast(1),
+                        (currentPage + 1).coerceAtMost(totalPages)
                     )
                 }
             }
         }
 
-        // 查看经验加成器列表命令。
-        literal("list") {
-            dynamic("member") {
-                suggestUncheck { onlinePlayers.map { it.name } }
-                execute<ProxyCommandSender> { sender, _, content ->
-                    val member = content.substringBefore(" ")
-                    val pageSize = 10
-                    Booster.refreshMemberBoosters(member)
-                    val boosters = Booster.getMemberBoosters(member).values.sortedBy { it.name }
-                    val totalPages = (boosters.size + pageSize - 1) / pageSize
-                    val currentPage = content.substringAfter(" ").toIntOrNull()?.coerceIn(1, totalPages) ?: 1
-                    with(sender) {
-                        sendLang("BoosterListHeader", member, boosters.size)
-                        boosters
-                            .subList((currentPage - 1) * pageSize, (currentPage * pageSize).coerceAtMost(boosters.size))
-                            .forEach { sendLang("BoosterListFormat", member, it.id, it.name) }
-                        sendLang(
-                            "BoosterListFooter",
-                            member,
-                            currentPage,
-                            totalPages,
-                            (currentPage - 1).coerceAtLeast(1),
-                            (currentPage + 1).coerceAtMost(totalPages)
-                        )
-                    }
+        // 启用经验加成器命令。
+        literal("enable").dynamic("member") {
+            suggestUncheck { onlinePlayers.map { it.name } }
+        }.dynamic("booster") {
+            execute<ProxyCommandSender> { sender, context, _ ->
+                val member = context["member"]
+                Booster.refreshMemberBoosters(member)
+                val id = context["booster"]
+                val booster = Booster.getMemberBoosters(member)[id]
+                if (booster == null) {
+                    sender.sendLang("BoosterNotFound", id)
+                    return@execute
                 }
+                if (!Booster.isMemberBoosterEnabled(member, id)) Booster.enableMemberBooster(member, id)
+                sender.sendLang("BoosterEnabled", id)
+            }
+        }
+
+        // 禁用经验加成器命令。
+        literal("disable").dynamic("member") {
+            suggestUncheck { onlinePlayers.map { it.name } }
+        }.dynamic("booster") {
+            execute<ProxyCommandSender> { sender, context, _ ->
+                val member = context["member"]
+                Booster.refreshMemberBoosters(member)
+                val id = context["booster"]
+                val booster = Booster.getMemberBoosters(member)[id]
+                if (booster == null) {
+                    sender.sendLang("BoosterNotFound", id)
+                    return@execute
+                }
+                if (Booster.isMemberBoosterEnabled(member, id)) Booster.disableMemberBooster(member, id)
+                sender.sendLang("BoosterDisabled", id)
             }
         }
     }

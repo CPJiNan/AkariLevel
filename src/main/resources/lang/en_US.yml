@@ -1,6 +1,6 @@
 PluginLoading: "&7Loading &3Akari&bLevel&8&f... &8{0}"
 PluginEnabled: "&8[&3Akari&bLevel&8] &bInfo &8| &6Plugin successfully enabled."
-PluginDisable: "&8[&3Akari&bLevel&8] &bInfo &8| &6Plugin successfully disabled."
+PluginDisabled: "&8[&3Akari&bLevel&8] &bInfo &8| &6Plugin successfully disabled."
 PluginReloaded: "&8[&3Akari&bLevel&8] &bInfo &8| &6Plugin successfully reloaded."
 CommandHelp:
   - '&7'
