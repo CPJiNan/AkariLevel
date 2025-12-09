@@ -86,7 +86,7 @@ object BoosterCommand {
         // 新增经验加成器命令。
         literal("add").dynamic("member") {
             suggestUncheck { onlinePlayers.map { it.name } }
-        }.dynamic("name").decimal("multiplier") {
+        }.dynamic("name").decimal("multiplier").dynamic("options", optional = true) {
             execute<ProxyCommandSender> { sender, context, argument ->
                 val member = context["member"]
                 Booster.refreshMemberBoosters(member)
