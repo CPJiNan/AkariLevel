@@ -336,6 +336,18 @@ BoosterInfo:
   - " &8- &7等级组限制: &f{9}"
   - " &8- &7来源限制: &f{10}"
   - " "
+  - type: JSON
+    text: " [&8<&7移除加成器&8>] [&8<&7启用加成器&8>] [&8<&7禁用加成器&8>] [&8<&7刷新信息&8>] "
+    args:
+      - hover: "点击移除经验加成器"
+        suggest: "/akarilevel booster remove {0} {1}"
+      - hover: "点击启用经验加成器"
+        suggest: "/akarilevel booster enable {0} {1}"
+      - hover: "点击禁用经验加成器"
+        suggest: "/akarilevel booster disable {0} {1}"
+      - hover: "点击刷新经验加成器信息"
+        command: "/akarilevel booster info {0} {1}"
+  - " "
 BoosterInfoEnabled: "&a已启用"
 BoosterInfoDisabled: "&c已禁用"
 BoosterInfoPermanent: "&f永久"
