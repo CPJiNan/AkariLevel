@@ -6,6 +6,7 @@ import taboolib.common.platform.command.double
 import taboolib.common.platform.command.subCommand
 import taboolib.common.platform.command.suggestUncheck
 import taboolib.common.platform.function.console
+import taboolib.module.chat.colored
 import taboolib.module.lang.asLangText
 import taboolib.module.lang.sendLang
 import taboolib.platform.util.onlinePlayers
@@ -94,7 +95,7 @@ object BoosterCommand {
                 val duration = args["duration"]
                 val booster = Booster(
                     id = args["id"] ?: "${UUID.randomUUID()}".substringBefore("-"),
-                    name = context["name"],
+                    name = context["name"].colored(),
                     type = args["type"] ?: "",
                     multiplier = context.double("multiplier"),
                     start = System.currentTimeMillis(),

@@ -188,16 +188,28 @@ CommandHelpBooster:
         suggest: "/akarilevel booster list 成员名称"
   - '      &7查看经验加成器列表'
   - type: JSON
+    text: "    &8- [&fadd] &8<&7member&8> &8<&7name&8> &8<&7multiplier&8> &8<&7options&8>"
+    args:
+      - hover: "点击新增经验加成器"
+        suggest: "/akarilevel booster add 成员名称 经验加成器名称 加成倍率 命令参数"
+  - '      &7新增经验加成器'
+  - type: JSON
+    text: "    &8- [&fremove] &8<&7member&8> &8<&7booster&8>"
+    args:
+      - hover: "点击移除经验加成器"
+        suggest: "/akarilevel booster remove 成员名称 经验加成器ID"
+  - '      &7移除经验加成器'
+  - type: JSON
     text: "    &8- [&fenable] &8<&7member&8> &8<&7booster&8>"
     args:
       - hover: "点击启用经验加成器"
-        suggest: "/akarilevel booster enable 成员名称 经验加成器"
+        suggest: "/akarilevel booster enable 成员名称 经验加成器ID"
   - '      &7启用经验加成器'
   - type: JSON
-    text: "    &8- [&flist] &8<&7member&8> &8<&7booster&8>"
+    text: "    &8- [&fdisable] &8<&7member&8> &8<&7booster&8>"
     args:
       - hover: "点击禁用经验加成器"
-        suggest: "/akarilevel booster disable 成员名称 经验加成器"
+        suggest: "/akarilevel booster disable 成员名称 经验加成器ID"
   - '      &7禁用经验加成器'
   - '&7'
 LevelGroupNotFound: "&8[&3Akari&bLevel&8] &7未找到等级组 &f{0} &7。"
