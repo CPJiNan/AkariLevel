@@ -1,6 +1,8 @@
 package top.cpjinan.akarilevel.booster
 
 import taboolib.common.platform.ProxyCommandSender
+import taboolib.common.platform.command.decimal
+import taboolib.common.platform.command.double
 import taboolib.common.platform.command.subCommand
 import taboolib.common.platform.command.suggestUncheck
 import taboolib.common.platform.function.console
@@ -78,6 +80,30 @@ object BoosterCommand {
                         (currentPage + 1).coerceAtMost(totalPages)
                     )
                 }
+            }
+        }
+
+        // 新增经验加成器命令。
+        literal("add").dynamic("member") {
+            suggestUncheck { onlinePlayers.map { it.name } }
+        }.dynamic("name").decimal("multiplier") {
+            execute<ProxyCommandSender> { sender, context, content ->
+                val member = context["member"]
+                Booster.refreshMemberBoosters(member)
+                var args = parseCommandArgs(content.substringAfter(" "))
+                val duration = args["duration"]
+                val booster = Booster(
+                    id = args["id"] ?: "${UUID.randomUUID()}".substringBefore("-"),
+                    name = context["name"],
+                    type = args["type"] ?: "",
+                    multiplier = context.double("multiplier"),
+                    start = System.currentTimeMillis(),
+                    duration = if (duration != null) formatToDuration(duration) else -1,
+                    levelGroup = args["levelGroup"] ?: "",
+                    source = args["source"] ?: "COMMAND_ADD_EXP"
+                )
+                Booster.addMemberBooster(member, booster)
+                sender.sendLang("BoosterAdd", member, booster.id)
             }
         }
 

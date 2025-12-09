@@ -349,6 +349,7 @@ BoosterListFooter:
       - hover: "点击前往第 {4} 页"
         command: "/akarilevel booster list {0} {4}"
   - " "
-BoosterRemove: "&8[&3Akari&bLevel&8] &7已移除成员 &f{0} &7的经验加成器 &f{1} &7。"
+BoosterAdd: "&8[&3Akari&bLevel&8] &7已为成员 &f{0} &7新增经验加成器 &f{1} &7。"
+BoosterRemove: "&8[&3Akari&bLevel&8] &7已从成员 &f{0} &7移除经验加成器 &f{1} &7。"
 BoosterEnabled: "&8[&3Akari&bLevel&8] &7已启用成员 &f{0} &7的经验加成器 &f{1} &7。"
 BoosterDisabled: "&8[&3Akari&bLevel&8] &7已禁用成员 &f{0} &7的经验加成器 &f{1} &7。"
