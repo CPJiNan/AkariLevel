@@ -306,7 +306,7 @@ TimeUnitDay: "天"
 TimeUnitHour: "时"
 TimeUnitMinute: "分"
 TimeUnitSecond: "秒"
-BoosterNotFound: "&8[&3Akari&bLevel&8] &7未找到经验加成器 &f{0} &7。"
+BoosterNotFound: "&8[&3Akari&bLevel&8] &7未找到成员 &f{0} &7的经验加成器 &f{1} &7。"
 BoosterInfo:
   - " "
   - "&8[&3Akari&bLevel&8] &7正在查看成员 &f{0} &7的经验加成器 &f{1} &7信息。"
@@ -337,7 +337,7 @@ BoosterListFormat:
     args:
       - hover: "经验加成器名称: &n{2}"
       - hover: "经验加成器 ID: &n{1}"
-      - hover: "点击查看经验加成器 {2} 信息"
+      - hover: "点击查看经验加成器 {1} 信息"
         command: "/akarilevel booster info {0} {1}"
 BoosterListFooter:
   - " "
@@ -349,5 +349,6 @@ BoosterListFooter:
       - hover: "点击前往第 {4} 页"
         command: "/akarilevel booster list {0} {4}"
   - " "
-BoosterEnabled: "&8[&3Akari&bLevel&8] &7经验加成器 &f{0} &7已启用。"
-BoosterDisabled: "&8[&3Akari&bLevel&8] &7经验加成器 &f{0} &7已禁用。"
+BoosterRemove: "&8[&3Akari&bLevel&8] &7已移除成员 &f{0} &7的经验加成器 &f{1} &7。"
+BoosterEnabled: "&8[&3Akari&bLevel&8] &7已启用成员 &f{0} &7的经验加成器 &f{1} &7。"
+BoosterDisabled: "&8[&3Akari&bLevel&8] &7已禁用成员 &f{0} &7的经验加成器 &f{1} &7。"

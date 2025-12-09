@@ -31,7 +31,7 @@ object BoosterCommand {
                 val id = context["booster"]
                 val booster = Booster.getMemberBoosters(member)[id]
                 if (booster == null) {
-                    sender.sendLang("BoosterNotFound", id)
+                    sender.sendLang("BoosterNotFound", member, id)
                     return@execute
                 }
                 sender.sendLang(
@@ -81,6 +81,24 @@ object BoosterCommand {
             }
         }
 
+        // 移除经验加成器命令。
+        literal("remove").dynamic("member") {
+            suggestUncheck { onlinePlayers.map { it.name } }
+        }.dynamic("booster") {
+            execute<ProxyCommandSender> { sender, context, _ ->
+                val member = context["member"]
+                Booster.refreshMemberBoosters(member)
+                val id = context["booster"]
+                val booster = Booster.getMemberBoosters(member)[id]
+                if (booster == null) {
+                    sender.sendLang("BoosterNotFound", member, id)
+                    return@execute
+                }
+                Booster.removeMemberBooster(member, id)
+                sender.sendLang("BoosterRemove", member, id)
+            }
+        }
+
         // 启用经验加成器命令。
         literal("enable").dynamic("member") {
             suggestUncheck { onlinePlayers.map { it.name } }
@@ -91,11 +109,11 @@ object BoosterCommand {
                 val id = context["booster"]
                 val booster = Booster.getMemberBoosters(member)[id]
                 if (booster == null) {
-                    sender.sendLang("BoosterNotFound", id)
+                    sender.sendLang("BoosterNotFound", member, id)
                     return@execute
                 }
                 if (!Booster.isMemberBoosterEnabled(member, id)) Booster.enableMemberBooster(member, id)
-                sender.sendLang("BoosterEnabled", id)
+                sender.sendLang("BoosterEnabled", member, id)
             }
         }
 
@@ -109,11 +127,11 @@ object BoosterCommand {
                 val id = context["booster"]
                 val booster = Booster.getMemberBoosters(member)[id]
                 if (booster == null) {
-                    sender.sendLang("BoosterNotFound", id)
+                    sender.sendLang("BoosterNotFound", member, id)
                     return@execute
                 }
                 if (Booster.isMemberBoosterEnabled(member, id)) Booster.disableMemberBooster(member, id)
-                sender.sendLang("BoosterDisabled", id)
+                sender.sendLang("BoosterDisabled", member, id)
             }
         }
     }
