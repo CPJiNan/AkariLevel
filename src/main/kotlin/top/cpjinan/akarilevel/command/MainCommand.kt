@@ -45,9 +45,9 @@ object MainCommand {
         permissionDefault = PermissionDefault.OP
     )
     val help = subCommand {
-        execute<ProxyCommandSender> { sender, _, content ->
+        execute<ProxyCommandSender> { sender, _, argument ->
             val version = bukkitPlugin.description.version
-            if (content.contains(" ")) sender.sendLang("CommandHelp${content.substringAfter(" ")}", version)
+            if (argument.contains(" ")) sender.sendLang("CommandHelp${argument.substringAfter(" ")}", version)
             else sender.sendLang("CommandHelp", version)
         }
     }

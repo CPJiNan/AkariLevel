@@ -59,13 +59,13 @@ object BoosterCommand {
         // 查看经验加成器列表命令。
         literal("list").dynamic("member") {
             suggestUncheck { onlinePlayers.map { it.name } }
-            execute<ProxyCommandSender> { sender, _, content ->
-                val member = content.substringBefore(" ")
+            execute<ProxyCommandSender> { sender, _, argument ->
+                val member = argument.substringBefore(" ")
                 Booster.refreshMemberBoosters(member)
                 val pageSize = 10
                 val boosters = Booster.getMemberBoosters(member).values.sortedBy { it.name }
                 val totalPages = (boosters.size + pageSize - 1) / pageSize
-                val currentPage = content.substringAfter(" ").toIntOrNull()?.coerceIn(1, totalPages) ?: 1
+                val currentPage = argument.substringAfter(" ").toIntOrNull()?.coerceIn(1, totalPages) ?: 1
                 with(sender) {
                     sendLang("BoosterListHeader", member, boosters.size)
                     boosters
@@ -87,10 +87,10 @@ object BoosterCommand {
         literal("add").dynamic("member") {
             suggestUncheck { onlinePlayers.map { it.name } }
         }.dynamic("name").decimal("multiplier") {
-            execute<ProxyCommandSender> { sender, context, content ->
+            execute<ProxyCommandSender> { sender, context, argument ->
                 val member = context["member"]
                 Booster.refreshMemberBoosters(member)
-                var args = parseCommandArgs(content.substringAfter(" "))
+                var args = parseCommandArgs(argument.substringAfter(" "))
                 val duration = args["duration"]
                 val booster = Booster(
                     id = args["id"] ?: "${UUID.randomUUID()}".substringBefore("-"),

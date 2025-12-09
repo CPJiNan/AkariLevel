@@ -333,7 +333,7 @@ object MemberCommand {
         // 成员升级命令。
         literal("levelUp").dynamic("levelGroup") {
             suggestUncheck { ConfigLevelGroup.getConfigLevelGroups().keys.sortedBy { it } }
-            execute<ProxyCommandSender> { sender, context, content ->
+            execute<ProxyCommandSender> { sender, context, argument ->
                 val groupName = context["levelGroup"].substringBefore(" ")
                 if (LevelGroup.getLevelGroups()[groupName] == null) {
                     sender.sendLang("LevelGroupNotFound", groupName)
@@ -344,7 +344,7 @@ object MemberCommand {
                     sender.sendLang("MemberLevelUpNotSupport", groupName)
                     return@execute
                 }
-                val memberName = if (content.contains(" ")) content.substringAfter(" ")
+                val memberName = if (argument.contains(" ")) argument.substringAfter(" ")
                 else sender.name
                 if (!Bukkit.getOfflinePlayer(memberName).isOnline) {
                     sender.sendLang("PlayerNotFound", memberName)

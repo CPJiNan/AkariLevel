@@ -33,11 +33,11 @@ object LevelGroupCommand {
 
         // 查看等级组列表命令。
         literal("list") {
-            execute<ProxyCommandSender> { sender, _, content ->
+            execute<ProxyCommandSender> { sender, _, argument ->
                 val pageSize = 10
                 val levelGroups = LevelGroup.getLevelGroups().values.sortedBy { it.name }
                 val totalPages = (levelGroups.size + pageSize - 1) / pageSize
-                val currentPage = content.substringAfter(" ").toIntOrNull()?.coerceIn(1, totalPages) ?: 1
+                val currentPage = argument.substringAfter(" ").toIntOrNull()?.coerceIn(1, totalPages) ?: 1
                 with(sender) {
                     sendLang("LevelGroupListHeader", levelGroups.size)
                     levelGroups
