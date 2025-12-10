@@ -172,39 +172,39 @@ CommandHelpBooster:
   - type: JSON
     text: "    &8- [&finfo] &8<&7member&8> &8<&7booster&8>"
     args:
-      - hover: "点击查看经验加成器信息"
-        suggest: "/akarilevel booster info 成员名称 经验加成器"
-  - '      &7查看经验加成器信息'
+        - hover: "Click to view exp booster info"
+        suggest: "/akarilevel booster info MemberNameHere ExpBooster"
+  - '      &7View info about experience boosters'
   - type: JSON
     text: "    &8- [&flist] &8<&7member&8>"
     args:
-      - hover: "点击查看经验加成器列表"
-        suggest: "/akarilevel booster list 成员名称"
-  - '      &7查看经验加成器列表'
+      - hover: "Click to view exp boosters list"
+        suggest: "/akarilevel booster list MemberNameHere"
+  - '      &7View list of experience boosters'
   - type: JSON
     text: "    &8- [&fadd] &8<&7member&8> &8<&7name&8> &8<&7multiplier&8> &8<&7options&8>"
     args:
-      - hover: "点击新增经验加成器"
-        suggest: "/akarilevel booster add 成员名称 经验加成器名称 加成倍率 命令参数"
-  - '      &7新增经验加成器'
+      - hover: "Click to add new exp booster"
+        suggest: "/akarilevel booster add MemberNameHere ExpBoosterNameHere BoosterModifier CommandArgs"
+  - '      &7Create a new booster'
   - type: JSON
     text: "    &8- [&fremove] &8<&7member&8> &8<&7booster&8>"
     args:
-      - hover: "点击移除经验加成器"
-        suggest: "/akarilevel booster remove 成员名称 经验加成器ID"
-  - '      &7移除经验加成器'
+      - hover: "Click to remove exp booster"
+        suggest: "/akarilevel booster remove MemberNameHere BoosterId"
+  - '      &7Remove an existing experience booster'
   - type: JSON
     text: "    &8- [&fenable] &8<&7member&8> &8<&7booster&8>"
     args:
-      - hover: "点击启用经验加成器"
-        suggest: "/akarilevel booster enable 成员名称 经验加成器ID"
-  - '      &7启用经验加成器'
+      - hover: "Click to enable exp booster"
+        suggest: "/akarilevel booster enable MemberNameHere BoosterId"
+  - '      &7Enable an experience booster'
   - type: JSON
     text: "    &8- [&fdisable] &8<&7member&8> &8<&7booster&8>"
     args:
-      - hover: "点击禁用经验加成器"
-        suggest: "/akarilevel booster disable 成员名称 经验加成器ID"
-  - '      &7禁用经验加成器'
+      - hover: "Click to disable exp booster"
+        suggest: "/akarilevel booster disable MemberNameHere BoosterId"
+  - '      &7Disable an experience booster'
   - '&7'
 LevelGroupNotFound: "&8[&3Akari&bLevel&8] &7Unknown group &f{0}&7."
 LevelGroupInfo:
@@ -312,62 +312,62 @@ TimeUnitDay: "天"
 TimeUnitHour: "时"
 TimeUnitMinute: "分"
 TimeUnitSecond: "秒"
-BoosterNotFound: "&8[&3Akari&bLevel&8] &7未找到成员 &f{0} &7的经验加成器 &f{1} &7。"
+BoosterNotFound: "&8[&3Akari&bLevel&8] &7No booster named &f{1} &7found in member &f{0}&7."
 BoosterInfo:
   - " "
-  - "&8[&3Akari&bLevel&8] &7正在查看成员 &f{0} &7的经验加成器 &f{1} &7信息。"
+  - "&8[&3Akari&bLevel&8] &7Viewing member &f{0}'s &f{1} &7experience booster info&7."
   - " "
   - " &8- &7ID&8: &f{1}"
-  - " &8- &7名称&8: &f{2}"
-  - " &8- &7类型&8: &f{3}"
-  - " &8- &7倍率&8: &f{4}"
+  - " &8- &7Name&8: &f{2}"
+  - " &8- &7Type&8: &f{3}"
+  - " &8- &7Modifier&8: &f{4}"
   - " "
-  - " &8- &7当前状态: &f{5}"
-  - " &8- &7起始时间: &f{6}"
-  - " &8- &7过期时间: &f{7}"
-  - " &8- &7持续时长: &f{8}"
+  - " &8- &7Current Status: &f{5}"
+  - " &8- &7Start: &f{6}"
+  - " &8- &7Expire: &f{7}"
+  - " &8- &7Duration: &f{8}"
   - " "
-  - " &8- &7等级组限制: &f{9}"
-  - " &8- &7来源限制: &f{10}"
+  - " &8- &7Level Group limit: &f{9}"
+  - " &8- &7Source limit: &f{10}"
   - " "
   - type: JSON
-    text: " [&8<&7移除加成器&8>] [&8<&7启用加成器&8>] [&8<&7禁用加成器&8>] [&8<&7刷新信息&8>] "
+    text: " [&8<&7Remove Booster&8>] [&8<&7Enable Booster&8>] [&8<&7Disable Booster&8>] [&8<&7Refresh Info&8>] "
     args:
-      - hover: "点击移除经验加成器"
+      - hover: "Click to remove experience booster"
         suggest: "/akarilevel booster remove {0} {1}"
-      - hover: "点击启用经验加成器"
+      - hover: "Click to enable experience booster"
         suggest: "/akarilevel booster enable {0} {1}"
-      - hover: "点击禁用经验加成器"
+      - hover: "Click to disable experience booster"
         suggest: "/akarilevel booster disable {0} {1}"
-      - hover: "点击刷新经验加成器信息"
+      - hover: "Click to refresh info of experience booster"
         command: "/akarilevel booster info {0} {1}"
   - " "
-BoosterInfoEnabled: "&a已启用"
-BoosterInfoDisabled: "&c已禁用"
-BoosterInfoPermanent: "&f永久"
+BoosterInfoEnabled: "&aEnabled"
+BoosterInfoDisabled: "&cDisabled"
+BoosterInfoPermanent: "&fPermanently"
 BoosterListHeader:
   - " "
-  - "&8[&3Akari&bLevel&8] &7成员 &f{0} &7有 &f{1} &7个经验加成器。"
+  - "&8[&3Akari&bLevel&8] &7Member &f{0} &7has &f{1} &7experience booster(s) activated."
   - " "
 BoosterListFormat:
   - type: JSON
     text: " &8- &r[{2}] &7- &f[{1}] [&8<&7ℹ&8>]"
     args:
-      - hover: "经验加成器名称: &n{2}"
-      - hover: "经验加成器 ID: &n{1}"
-      - hover: "点击查看经验加成器 {1} 信息"
+      - hover: "Booster Name: &n{2}"
+      - hover: "Booster ID: &n{1}"
+      - hover: "Click to view info of {1}"
         command: "/akarilevel booster info {0} {1}"
 BoosterListFooter:
   - " "
   - type: JSON
-    text: "&8<<< &7[上一页] &8| &7第 &f{1}&8/&f{2} &7页 &8| &7[下一页] &8>>>"
+    text: "&8<<< &7[Prev] &8| &7Page &f{1}&8/&f{2} &8| &7[Next] &8>>>"
     args:
-      - hover: "点击前往第 {3} 页"
+      - hover: "Click to navigate to page {3}"
         command: "/akarilevel booster list {0} {3}"
-      - hover: "点击前往第 {4} 页"
+      - hover: "Click to navigate to page {4}"
         command: "/akarilevel booster list {0} {4}"
   - " "
-BoosterAdd: "&8[&3Akari&bLevel&8] &7已为成员 &f{0} &7新增经验加成器 &f{1} &7。"
-BoosterRemove: "&8[&3Akari&bLevel&8] &7已从成员 &f{0} &7移除经验加成器 &f{1} &7。"
-BoosterEnabled: "&8[&3Akari&bLevel&8] &7已启用成员 &f{0} &7的经验加成器 &f{1} &7。"
-BoosterDisabled: "&8[&3Akari&bLevel&8] &7已禁用成员 &f{0} &7的经验加成器 &f{1} &7。"
+BoosterAdd: "&8[&3Akari&bLevel&8] &7Added booster &f{1} &7for member &f{0}&7."
+BoosterRemove: "&8[&3Akari&bLevel&8] &7Removed booster &f{1} &7for member &f{0}&7."
+BoosterEnabled: "&8[&3Akari&bLevel&8] &7Enabled booster &f{1} &7for member &f{0}&7."
+BoosterDisabled: "&8[&3Akari&bLevel&8] &7Disabled booster &f{1} &7for member &f{0}&7."
