@@ -167,13 +167,13 @@ CommandHelpBooster:
   - '&7'
   - '  &3&lAkari&b&lLevel &7v{0}'
   - '&7'
-  - '  &7命令: &f/akarilevel booster &8[...]'
-  - '  &7参数:'
+  - '  &7Command: &f/akarilevel booster &8[...]'
+  - '  &7Args:'
   - type: JSON
     text: "    &8- [&finfo] &8<&7member&8> &8<&7booster&8>"
     args:
-        - hover: "Click to view exp booster info"
-        suggest: "/akarilevel booster info MemberNameHere ExpBooster"
+      - hover: "Click to view exp booster info"
+        suggest: "/akarilevel booster info MemberNameHere BoosterId"
   - '      &7View info about experience boosters'
   - type: JSON
     text: "    &8- [&flist] &8<&7member&8>"
@@ -185,7 +185,7 @@ CommandHelpBooster:
     text: "    &8- [&fadd] &8<&7member&8> &8<&7name&8> &8<&7multiplier&8> &8<&7options&8>"
     args:
       - hover: "Click to add new exp booster"
-        suggest: "/akarilevel booster add MemberNameHere ExpBoosterNameHere BoosterModifier CommandArgs"
+        suggest: "/akarilevel booster add MemberNameHere ExpBoosterNameHere BoosterMultiplier CommandArgs"
   - '      &7Create a new booster'
   - type: JSON
     text: "    &8- [&fremove] &8<&7member&8> &8<&7booster&8>"
@@ -248,7 +248,7 @@ LevelGroupListFormat:
 LevelGroupListFooter:
   - " "
   - type: JSON
-    text: "&8<<< &7[PREV] &8| &7Page &f{0}&8/&f{1} &8| &7[NEXT] &8>>>"
+    text: "&8<<< &7[Prev] &8| &7Page &f{0}&8/&f{1} &8| &7[Next] &8>>>"
     args:
       - hover: "Go to page {2}"
         command: "/akarilevel levelGroup list {2}"
@@ -306,12 +306,12 @@ MemberExpAdd: "&8[&3Akari&bLevel&8] &7Successfully added &f{1} &7experience poin
 MemberExpRemove: "&8[&3Akari&bLevel&8] &7Successfully taken &f{1} &7experience point(s) from player &f{0}&7's &f{2}&7."
 PlaceholderNotAvailable: "N/A"
 DateFormatPattern: "yyyy/MM/dd HH:mm:ss"
-TimeUnitYear: "年"
-TimeUnitMonth: "月"
-TimeUnitDay: "天"
-TimeUnitHour: "时"
-TimeUnitMinute: "分"
-TimeUnitSecond: "秒"
+TimeUnitYear: "Years"
+TimeUnitMonth: "Months"
+TimeUnitDay: "Days"
+TimeUnitHour: "Hours"
+TimeUnitMinute: "Minutes"
+TimeUnitSecond: "Seconds"
 BoosterNotFound: "&8[&3Akari&bLevel&8] &7No booster named &f{1} &7found in member &f{0}&7."
 BoosterInfo:
   - " "
@@ -320,7 +320,7 @@ BoosterInfo:
   - " &8- &7ID&8: &f{1}"
   - " &8- &7Name&8: &f{2}"
   - " &8- &7Type&8: &f{3}"
-  - " &8- &7Modifier&8: &f{4}"
+  - " &8- &7Multiplier&8: &f{4}"
   - " "
   - " &8- &7Current Status: &f{5}"
   - " &8- &7Start: &f{6}"

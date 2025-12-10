@@ -179,7 +179,7 @@ CommandHelpBooster:
     text: "    &8- [&finfo] &8<&7member&8> &8<&7booster&8>"
     args:
       - hover: "点击查看经验加成器信息"
-        suggest: "/akarilevel booster info 成员名称 经验加成器"
+        suggest: "/akarilevel booster info 成员名称 经验加成器ID"
   - '      &7查看经验加成器信息'
   - type: JSON
     text: "    &8- [&flist] &8<&7member&8>"
