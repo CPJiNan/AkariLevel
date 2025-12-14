@@ -291,10 +291,8 @@ MemberInfo:
       - hover: "Click to remove exp for member"
         suggest: "/akarilevel member exp remove {0} {1} ExpNumber"
   - type: JSON
-    text: " [&8<&7Boosters List&8>] [&8<&7Refresh Info&8>] "
+    text: " [&8<&7Refresh Info&8>] "
     args:
-      - hover: "Click to view exp boosters list"
-        suggest: "/akarilevel booster list {0}"
       - hover: "Click to refresh member info"
         command: "/akarilevel member info {0} {1}"
   - " "

@@ -297,10 +297,8 @@ MemberInfo:
       - hover: "点击移除成员经验"
         suggest: "/akarilevel member exp remove {0} {1} 经验"
   - type: JSON
-    text: " [&8<&7加成器列表&8>] [&8<&7刷新信息&8>] "
+    text: " [&8<&7刷新信息&8>] "
     args:
-      - hover: "点击查看经验加成器列表"
-        suggest: "/akarilevel booster list {0}"
       - hover: "点击刷新成员信息"
         command: "/akarilevel member info {0} {1}"
   - " "
