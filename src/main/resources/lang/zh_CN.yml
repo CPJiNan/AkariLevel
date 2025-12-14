@@ -188,10 +188,10 @@ CommandHelpBooster:
         suggest: "/akarilevel booster list 成员名称"
   - '      &7查看经验加成器列表'
   - type: JSON
-    text: "    &8- [&fadd] &8<&7member&8> &8<&7name&8> &8<&7multiplier&8> &8<&7options&8>"
+    text: "    &8- [&fadd] &8<&7member&8> &8<&7name&8> &8<&7multiplier&8>"
     args:
       - hover: "点击新增经验加成器"
-        suggest: "/akarilevel booster add 成员名称 经验加成器名称 加成倍率 命令参数"
+        suggest: "/akarilevel booster add 成员名称 经验加成器名称 加成倍率"
   - '      &7新增经验加成器'
   - type: JSON
     text: "    &8- [&fremove] &8<&7member&8> &8<&7booster&8>"

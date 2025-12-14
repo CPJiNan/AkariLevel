@@ -8,6 +8,7 @@ import taboolib.module.lang.sendLang
 import taboolib.platform.util.onlinePlayers
 import top.cpjinan.akarilevel.level.ConfigLevelGroup
 import top.cpjinan.akarilevel.level.LevelGroup
+import top.cpjinan.akarilevel.utils.CommandUtils.parseCommandArgs
 
 /**
  * AkariLevel
@@ -140,7 +141,7 @@ object MemberCommand {
             }.dynamic("levelGroup") {
                 suggestUncheck { LevelGroup.getLevelGroups().keys.sortedBy { it } }
             }.dynamic("amount") {
-                execute<ProxyCommandSender> { sender, context, _ ->
+                execute<ProxyCommandSender> { sender, context, argument ->
                     val groupName = context["levelGroup"]
                     val group = LevelGroup.getLevelGroups()[groupName]
                     if (group == null) {
@@ -156,16 +157,13 @@ object MemberCommand {
                         sender.sendLang("MemberNotFound", groupName, memberName)
                         return@execute
                     }
-                    val amount = context["amount"].substringBefore(" ").toLongOrNull()
+                    val amount = argument.substringBefore(" ").toLongOrNull()
                     if (amount == null) {
-                        sender.sendLang("IllegalNumberFormat", context["amount"])
+                        sender.sendLang("IllegalNumberFormat", context["amount"].substringBefore(" "))
                         return@execute
                     }
-                    group.setMemberLevel(
-                        memberName,
-                        amount,
-                        "COMMAND_SET_LEVEL"
-                    )
+                    var args = argument.substringAfter(" ").let(::parseCommandArgs)
+                    group.setMemberLevel(memberName, amount, args["source"] ?: "COMMAND_SET_LEVEL")
                     sender.sendLang("MemberLevelSet", memberName, groupName, amount)
                 }
             }
@@ -175,7 +173,7 @@ object MemberCommand {
             }.dynamic("levelGroup") {
                 suggestUncheck { LevelGroup.getLevelGroups().keys.sortedBy { it } }
             }.dynamic("amount") {
-                execute<ProxyCommandSender> { sender, context, _ ->
+                execute<ProxyCommandSender> { sender, context, argument ->
                     val groupName = context["levelGroup"]
                     val group = LevelGroup.getLevelGroups()[groupName]
                     if (group == null) {
@@ -191,12 +189,13 @@ object MemberCommand {
                         sender.sendLang("MemberNotFound", groupName, memberName)
                         return@execute
                     }
-                    val amount = context["amount"].substringBefore(" ").toLongOrNull()
+                    val amount = argument.substringBefore(" ").toLongOrNull()
                     if (amount == null) {
-                        sender.sendLang("IllegalNumberFormat", context["amount"])
+                        sender.sendLang("IllegalNumberFormat", context["amount"].substringBefore(" "))
                         return@execute
                     }
-                    group.addMemberLevel(memberName, amount, "COMMAND_ADD_LEVEL")
+                    var args = argument.substringAfter(" ").let(::parseCommandArgs)
+                    group.addMemberLevel(memberName, amount, args["source"] ?: "COMMAND_ADD_LEVEL")
                     sender.sendLang("MemberLevelAdd", memberName, groupName, amount)
                 }
             }
@@ -206,7 +205,7 @@ object MemberCommand {
             }.dynamic("levelGroup") {
                 suggestUncheck { LevelGroup.getLevelGroups().keys.sortedBy { it } }
             }.dynamic("amount") {
-                execute<ProxyCommandSender> { sender, context, _ ->
+                execute<ProxyCommandSender> { sender, context, argument ->
                     val groupName = context["levelGroup"]
                     val group = LevelGroup.getLevelGroups()[groupName]
                     if (group == null) {
@@ -222,12 +221,13 @@ object MemberCommand {
                         sender.sendLang("MemberNotFound", groupName, memberName)
                         return@execute
                     }
-                    val amount = context["amount"].substringBefore(" ").toLongOrNull()
+                    val amount = argument.substringBefore(" ").toLongOrNull()
                     if (amount == null) {
-                        sender.sendLang("IllegalNumberFormat", context["amount"])
+                        sender.sendLang("IllegalNumberFormat", context["amount"].substringBefore(" "))
                         return@execute
                     }
-                    group.removeMemberLevel(memberName, amount, "COMMAND_REMOVE_LEVEL")
+                    var args = argument.substringAfter(" ").let(::parseCommandArgs)
+                    group.removeMemberLevel(memberName, amount, args["source"] ?: "COMMAND_REMOVE_LEVEL")
                     sender.sendLang("MemberLevelRemove", memberName, groupName, amount)
                 }
             }
@@ -241,7 +241,7 @@ object MemberCommand {
             }.dynamic("levelGroup") {
                 suggestUncheck { LevelGroup.getLevelGroups().keys.sortedBy { it } }
             }.dynamic("amount") {
-                execute<ProxyCommandSender> { sender, context, _ ->
+                execute<ProxyCommandSender> { sender, context, argument ->
                     val groupName = context["levelGroup"]
                     val group = LevelGroup.getLevelGroups()[groupName]
                     if (group == null) {
@@ -257,12 +257,13 @@ object MemberCommand {
                         sender.sendLang("MemberNotFound", groupName, memberName)
                         return@execute
                     }
-                    val amount = context["amount"].substringBefore(" ").toLongOrNull()
+                    val amount = argument.substringBefore(" ").toLongOrNull()
                     if (amount == null) {
-                        sender.sendLang("IllegalNumberFormat", context["amount"])
+                        sender.sendLang("IllegalNumberFormat", context["amount"].substringBefore(" "))
                         return@execute
                     }
-                    group.setMemberExp(memberName, amount, "COMMAND_SET_EXP")
+                    var args = argument.substringAfter(" ").let(::parseCommandArgs)
+                    group.setMemberExp(memberName, amount, args["source"] ?: "COMMAND_SET_EXP")
                     sender.sendLang("MemberExpSet", memberName, groupName, amount)
                 }
             }
@@ -272,7 +273,7 @@ object MemberCommand {
             }.dynamic("levelGroup") {
                 suggestUncheck { LevelGroup.getLevelGroups().keys.sortedBy { it } }
             }.dynamic("amount") {
-                execute<ProxyCommandSender> { sender, context, _ ->
+                execute<ProxyCommandSender> { sender, context, argument ->
                     val groupName = context["levelGroup"]
                     val group = LevelGroup.getLevelGroups()[groupName]
                     if (group == null) {
@@ -288,12 +289,13 @@ object MemberCommand {
                         sender.sendLang("MemberNotFound", groupName, memberName)
                         return@execute
                     }
-                    val amount = context["amount"].substringBefore(" ").toLongOrNull()
+                    val amount = argument.substringBefore(" ").toLongOrNull()
                     if (amount == null) {
-                        sender.sendLang("IllegalNumberFormat", context["amount"])
+                        sender.sendLang("IllegalNumberFormat", context["amount"].substringBefore(" "))
                         return@execute
                     }
-                    group.addMemberExp(memberName, amount, "COMMAND_ADD_EXP")
+                    var args = argument.substringAfter(" ").let(::parseCommandArgs)
+                    group.addMemberExp(memberName, amount, args["source"] ?: "COMMAND_ADD_EXP")
                     sender.sendLang("MemberExpAdd", memberName, groupName, amount)
                 }
             }
@@ -303,7 +305,7 @@ object MemberCommand {
             }.dynamic("levelGroup") {
                 suggestUncheck { LevelGroup.getLevelGroups().keys.sortedBy { it } }
             }.dynamic("amount") {
-                execute<ProxyCommandSender> { sender, context, _ ->
+                execute<ProxyCommandSender> { sender, context, argument ->
                     val groupName = context["levelGroup"]
                     val group = LevelGroup.getLevelGroups()[groupName]
                     if (group == null) {
@@ -319,12 +321,13 @@ object MemberCommand {
                         sender.sendLang("MemberNotFound", groupName, memberName)
                         return@execute
                     }
-                    val amount = context["amount"].substringBefore(" ").toLongOrNull()
+                    val amount = argument.substringBefore(" ").toLongOrNull()
                     if (amount == null) {
-                        sender.sendLang("IllegalNumberFormat", context["amount"])
+                        sender.sendLang("IllegalNumberFormat", context["amount"].substringBefore(" "))
                         return@execute
                     }
-                    group.removeMemberExp(memberName, amount, "COMMAND_REMOVE_EXP")
+                    var args = argument.substringAfter(" ").let(::parseCommandArgs)
+                    group.removeMemberExp(memberName, amount, args["source"] ?: "COMMAND_REMOVE_EXP")
                     sender.sendLang("MemberExpRemove", memberName, groupName, amount)
                 }
             }

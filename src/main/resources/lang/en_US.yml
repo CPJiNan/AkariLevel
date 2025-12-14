@@ -182,10 +182,10 @@ CommandHelpBooster:
         suggest: "/akarilevel booster list MemberNameHere"
   - '      &7View list of experience boosters'
   - type: JSON
-    text: "    &8- [&fadd] &8<&7member&8> &8<&7name&8> &8<&7multiplier&8> &8<&7options&8>"
+    text: "    &8- [&fadd] &8<&7member&8> &8<&7name&8> &8<&7multiplier&8>"
     args:
       - hover: "Click to add new exp booster"
-        suggest: "/akarilevel booster add MemberNameHere ExpBoosterNameHere BoosterMultiplier CommandArgs"
+        suggest: "/akarilevel booster add MemberNameHere ExpBoosterNameHere BoosterMultiplier"
   - '      &7Create a new booster'
   - type: JSON
     text: "    &8- [&fremove] &8<&7member&8> &8<&7booster&8>"

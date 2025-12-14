@@ -8,7 +8,9 @@ import taboolib.module.chat.colored
 import taboolib.module.lang.asLangText
 import taboolib.module.lang.sendLang
 import taboolib.platform.util.onlinePlayers
-import java.text.SimpleDateFormat
+import top.cpjinan.akarilevel.utils.CommandUtils.parseCommandArgs
+import top.cpjinan.akarilevel.utils.TimeUtils.formatToDate
+import top.cpjinan.akarilevel.utils.TimeUtils.formatToDuration
 import java.util.*
 
 /**
@@ -89,16 +91,15 @@ object BoosterCommand {
             execute<ProxyCommandSender> { sender, context, argument ->
                 val member = context["member"]
                 Booster.refreshMemberBoosters(member)
-                var args = parseCommandArgs(argument.substringAfter(" "))
-                val duration = args["duration"]
+                var args = argument.substringAfter(" ").let(::parseCommandArgs)
                 val booster = Booster(
-                    id = args["id"] ?: "${UUID.randomUUID()}".substringBefore("-"),
+                    id = args["id"] ?: UUID.randomUUID().toString().take(8),
                     name = context["name"].colored(),
-                    type = args["type"] ?: "",
+                    type = args["type"].orEmpty(),
                     multiplier = argument.substringBefore(" ").toDoubleOrNull() ?: 1.0,
                     start = System.currentTimeMillis(),
-                    duration = if (duration != null) formatToDuration(duration) else -1,
-                    levelGroup = args["levelGroup"] ?: "",
+                    duration = args["duration"]?.let(::formatToDuration) ?: -1,
+                    levelGroup = args["levelGroup"].orEmpty(),
                     source = args["source"] ?: "COMMAND_ADD_EXP"
                 )
                 Booster.addMemberBooster(member, booster)
@@ -159,48 +160,5 @@ object BoosterCommand {
                 sender.sendLang("BoosterDisabled", member, id)
             }
         }
-    }
-
-    private fun parseCommandArgs(args: String): Map<String, String> {
-        return args.split(' ')
-            .filter { it.startsWith("-") }
-            .associate {
-                it.removePrefix("-").removePrefix("-").split('=', limit = 2)
-                    .run { this[0] to getOrElse(1) { "" } }
-            }
-    }
-
-    private fun formatToDate(date: Long): String {
-        return SimpleDateFormat(console().asLangText("DateFormatPattern"), Locale.getDefault())
-            .apply { timeZone = TimeZone.getDefault() }.format(Date(date))
-    }
-
-    private fun formatToDuration(duration: Long): String {
-        val totalSeconds = duration / 1000
-        val days = totalSeconds / 86400
-        val hours = (totalSeconds % 86400) / 3600
-        val minutes = (totalSeconds % 3600) / 60
-        val seconds = totalSeconds % 60
-        return buildString {
-            if (days > 0) append("${days}${console().asLangText("TimeUnitDay")}")
-            if (hours > 0) append("${hours}${console().asLangText("TimeUnitHour")}")
-            if (minutes > 0) append("${minutes}${console().asLangText("TimeUnitMinute")}")
-            if (seconds > 0 || isEmpty()) append("${seconds}${console().asLangText("TimeUnitSecond")}")
-        }
-    }
-
-    private fun formatToDuration(duration: String): Long {
-        return Regex("""(\d+)([dDhHmMsS]?)""")
-            .findAll(duration)
-            .sumOf {
-                val value = it.groupValues[1].toLong()
-                when (it.groupValues[2].lowercase()) {
-                    "d" -> value * 24 * 60 * 60 * 1000
-                    "h" -> value * 60 * 60 * 1000
-                    "m" -> value * 60 * 1000
-                    "s", "" -> value * 1000
-                    else -> 0
-                }
-            }
     }
 }
