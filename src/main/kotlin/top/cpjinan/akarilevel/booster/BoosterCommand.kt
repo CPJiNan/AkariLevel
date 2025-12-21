@@ -66,7 +66,8 @@ object BoosterCommand {
                 val pageSize = 10
                 val boosters = Booster.getMemberBoosters(member).values.sortedBy { it.name }
                 val totalPages = (boosters.size + pageSize - 1) / pageSize
-                val currentPage = argument.substringAfter(" ").toIntOrNull()?.coerceIn(1, totalPages) ?: 1
+                val currentPage =
+                    argument.substringAfter(" ").takeIf { it != argument }?.toIntOrNull()?.coerceIn(1, totalPages) ?: 1
                 with(sender) {
                     sendLang("BoosterListHeader", member, boosters.size)
                     boosters

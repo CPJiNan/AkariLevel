@@ -37,7 +37,8 @@ object LevelGroupCommand {
                 val pageSize = 10
                 val levelGroups = LevelGroup.getLevelGroups().values.sortedBy { it.name }
                 val totalPages = (levelGroups.size + pageSize - 1) / pageSize
-                val currentPage = argument.substringAfter(" ").toIntOrNull()?.coerceIn(1, totalPages) ?: 1
+                val currentPage =
+                    argument.substringAfter(" ").takeIf { it != argument }?.toIntOrNull()?.coerceIn(1, totalPages) ?: 1
                 with(sender) {
                     sendLang("LevelGroupListHeader", levelGroups.size)
                     levelGroups
