@@ -17,7 +17,7 @@
 
 基于 TabooLib 框架开发的 Bukkit 等级插件。
 
-## 📚 功能
+## 功能
 
 - 📈 **多等级组**: 允许创建多个等级组。
 - 🎮 **聊天栏编辑器**: 通过点击聊天栏文本管理等级组/修改玩家数据。
@@ -31,7 +31,7 @@
 - 📌 **API**: 提供了高度自定义的接口，便于附属插件的开发。
 - ...
 
-## 🖼 图片展示
+## 图片展示
 
 ![](img/levelup.png)
 
@@ -43,7 +43,7 @@
 
 ![](img/booster.png)
 
-## 🔗 相关链接
+## 相关链接
 
 - **插件文档**：[https://akarilevel.cpjinan.top/](https://akarilevel.cpjinan.top/)
 - **QQ 群**：[704109949](https://qm.qq.com/q/91DcdBuRvW)
