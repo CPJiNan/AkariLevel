@@ -13,7 +13,7 @@
 ![java](https://img.shields.io/badge/java-8-yellow)
 [![deepwiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/CPJiNan/AkariLevel)
 
-![](./img/AkariLevel.png)
+![](./img/cover.png)
 
 基于 TabooLib 框架开发的 Bukkit 等级插件。
 
@@ -31,68 +31,17 @@
 - 📌 **API**: 提供了高度自定义的接口，便于附属插件的开发。
 - ...
 
-## 🔧 命令
+## 🖼 图片展示
 
-| 命令                                                               | 描述           |
-|------------------------------------------------------------------|--------------|
-| `/akarilevel help`                                               | 查看插件命令帮助     |
-| `/akarilevel levelGroup`                                         | 查看等级组命令帮助    |
-| `/akarilevel levelGroup info <levelGroup>`                       | 查看等级组信息      |
-| `/akarilevel levelGroup list`                                    | 查看等级组列表      |
-| `/akarilevel levelGroup unregister <levelGroup>`                 | 取消注册等级组      |
-| `/akarilevel levelGroup reregister <levelGroup>`                 | 重新注册等级组      |
-| `/akarilevel levelGroup reload`                                  | 重载配置等级组      |
-| `/akarilevel member`                                             | 查看成员命令帮助     |
-| `/akarilevel member has <member> <levelGroup>`                   | 检查等级组中是否存在成员 |
-| `/akarilevel member add <member> <levelGroup>`                   | 为等级组增加成员     |
-| `/akarilevel member remove <member> <levelGroup>`                | 从等级组移除成员     |
-| `/akarilevel member info <member> <levelGroup>`                  | 查看成员信息       |
-| `/akarilevel member level`                                       | 查看成员等级命令帮助   |
-| `/akarilevel member level set <member> <levelGroup> <amount>`    | 设置成员等级       |
-| `/akarilevel member level add <member> <levelGroup> <amount>`    | 增加成员等级       |
-| `/akarilevel member level remove <member> <levelGroup> <amount>` | 移除成员等级       |
-| `/akarilevel member exp`                                         | 查看成员经验命令帮助   |
-| `/akarilevel member exp set <member> <levelGroup> <amount>`      | 设置成员经验       |
-| `/akarilevel member exp add <member> <levelGroup> <amount>`      | 增加成员经验       |
-| `/akarilevel member exp remove <member> <levelGroup> <amount>`   | 移除成员经验       |
-| `/akarilevel member levelUp <levelGroup> <member>`               | 执行成员升级       |
-| `/akarilevel reload`                                             | 重载插件         |
+![](img/levelup.png)
 
-## 🔒 权限
+![](img/help.png)
 
-| 权限                                  | 描述      | 默认 |
-|-------------------------------------|---------|----|
-| `AkariLevel.command.use`            | 命令使用权限  | OP |
-| `AkariLevel.command.help.use`       | 命令帮助权限  | OP |
-| `AkariLevel.command.levelGroup.use` | 等级组命令权限 | OP |
-| `AkariLevel.command.member.use`     | 成员命令权限  | OP |
-| `AkariLevel.command.reload.use`     | 重载命令权限  | OP |
+![](img/levelgroup.png)
 
-## 🏷 变量
+![](img/member.png)
 
-| 变量                                                  | 描述              |
-|-----------------------------------------------------|-----------------|
-| `%AkariLevel_等级组编辑名_Name%`                          | 等级组编辑名          |
-| `%AkariLevel_等级组编辑名_Display%`                       | 等级组展示名          |
-| `%AkariLevel_等级组编辑名_Level%`                         | 当前等级            |
-| `%AkariLevel_等级组编辑名_LastLevel%`                     | 上一级             |
-| `%AkariLevel_等级组编辑名_NextLevel%`                     | 下一级             |
-| `%AkariLevel_等级组编辑名_MinLevel%`                      | 最小等级            |
-| `%AkariLevel_等级组编辑名_MaxLevel%`                      | 最大等级            |
-| `%AkariLevel_等级组编辑名_Exp%`                           | 当前经验            |
-| `%AkariLevel_等级组编辑名_LevelName%`                     | 当前等级名称          |
-| `%AkariLevel_等级组编辑名_LastLevelName%`                 | 上一级名称           |
-| `%AkariLevel_等级组编辑名_NextLevelName%`                 | 下一级名称           |
-| `%AkariLevel_等级组编辑名_LevelExp%`                      | 升级到当前等级所需经验     |
-| `%AkariLevel_等级组编辑名_LastLevelExp%`                  | 升级到上一级所需经验      |
-| `%AkariLevel_等级组编辑名_NextLevelExp%`                  | 升级到下一级所需经验      |
-| `%AkariLevel_等级组编辑名_LevelExpFrom_旧等级%`              | 由旧等级升级到当前等级所需经验 |
-| `%AkariLevel_等级组编辑名_LevelExpTo_新等级%`                | 由当前等级升级到新等级所需经验 |
-| `%AkariLevel_等级组编辑名_LevelExpFromTo_旧等级_新等级%`        | 由旧等级升级到新等级所需经验  |
-| `%AkariLevel_等级组编辑名_LevelProgressPercent%`          | 等级进度百分比         |
-| `%AkariLevel_等级组编辑名_ExpProgressPercent%`            | 经验进度百分比         |
-| `%AkariLevel_等级组编辑名_LevelProgressBar_空字符_满字符_长度%`   | 等级进度条           |
-| `%AkariLevel_等级组编辑名_ExpProgressPercent_空字符_满字符_长度%` | 经验进度条           |
+![](img/booster.png)
 
 ## 🔗 相关链接
 
