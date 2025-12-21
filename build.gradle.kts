@@ -6,7 +6,7 @@ plugins {
     `java-library`
     `maven-publish`
     id("io.izzel.taboolib") version "2.0.27"
-    kotlin("jvm") version "2.2.21"
+    kotlin("jvm") version "2.3.0"
 }
 
 taboolib {
@@ -29,7 +29,7 @@ taboolib {
             name("CPJiNan")
         }
     }
-    version { taboolib = "6.2.4-3b3cd67" }
+    version { taboolib = "6.2.4-65252583" }
     relocate("top.maplex.arim", "top.cpjinan.akarilevel.arim")
     relocate("com.github.benmanes.caffeine", "top.cpjinan.akarilevel.caffeine")
 }
