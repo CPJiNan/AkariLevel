@@ -175,7 +175,7 @@ data class Booster(
             refreshMemberBoosters(member)
 
             val boosters =
-                getMemberBoosters(member).filter { it.value.start != -1L }.filter { it.value.duration != -1L }
+                getMemberBoosters(member).filter { it.value.start != -1L }
                     .filter { it.value.levelGroup.isEmpty() || levelGroup in it.value.levelGroup }
                     .filter { it.value.source.isEmpty() || source in it.value.source }
 
