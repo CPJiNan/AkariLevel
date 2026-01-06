@@ -102,7 +102,7 @@ object BoosterCommand {
                     duration = args["duration"]?.let(::formatToDuration) ?: -1,
                     levelGroup = args["levelGroup"]?.split(",") ?: emptyList(),
                     source = args["source"]?.split(",")
-                        ?: listOf("COMMAND_ADD_EXP", "MYTHICMOBS_DROP_EXP", "TEAM_SHARE_EXP", "VANILLA_EXP_CHANGE")
+                        ?: listOf("COMMAND_ADD_EXP", "MYTHICMOBS_DROP_EXP", "VANILLA_EXP_CHANGE")
                 )
                 Booster.addMemberBooster(member, booster)
                 sender.sendLang("BoosterAdd", member, booster.id)

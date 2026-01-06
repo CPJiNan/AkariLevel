@@ -12,7 +12,7 @@ function onPluginEnable() {
 }
 
 // 经验来源。
-var sources = ["MYTHICMOBS_DROP_EXP", "VANILLA_EXP_CHANGE"];
+var sources = ["MYTHICMOBS_DROP_EXP", "VANILLA_EXP_CHANGE", "BOOSTER_ADD_EXP"];
 
 function onMemberExpChange() {
     new Listener(MemberExpChangeEvent.class)

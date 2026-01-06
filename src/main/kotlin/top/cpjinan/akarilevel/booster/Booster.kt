@@ -24,7 +24,7 @@ data class Booster(
     var start: Long = -1,
     var duration: Long = -1,
     var levelGroup: List<String> = emptyList(),
-    var source: List<String> = listOf("COMMAND_ADD_EXP", "MYTHICMOBS_DROP_EXP", "TEAM_SHARE_EXP", "VANILLA_EXP_CHANGE")
+    var source: List<String> = listOf("COMMAND_ADD_EXP", "MYTHICMOBS_DROP_EXP", "VANILLA_EXP_CHANGE")
 ) {
     companion object {
         /**
