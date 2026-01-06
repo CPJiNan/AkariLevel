@@ -12,6 +12,7 @@ Example:
       "MYTHICMOBS_DROP_EXP": 1.0
       "TEAM_SHARE_EXP": 1.0
       "VANILLA_EXP_CHANGE": 0.0
+      "BOOSTER_ADD_EXP": 1.0
   # 等级设置
   Level:
     # 最低等级

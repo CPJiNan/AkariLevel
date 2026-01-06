@@ -5,6 +5,7 @@ import top.cpjinan.akarilevel.cache.MemberCache
 import top.cpjinan.akarilevel.database.Database
 import top.cpjinan.akarilevel.entity.MemberData
 import top.cpjinan.akarilevel.event.MemberExpChangeEvent
+import top.cpjinan.akarilevel.level.LevelGroup
 
 /**
  * AkariLevel
@@ -22,8 +23,8 @@ data class Booster(
     var multiplier: Double = 1.0,
     var start: Long = -1,
     var duration: Long = -1,
-    var levelGroup: String = "",
-    var source: String = "COMMAND_ADD_EXP"
+    var levelGroup: List<String> = emptyList(),
+    var source: List<String> = listOf("COMMAND_ADD_EXP", "MYTHICMOBS_DROP_EXP", "TEAM_SHARE_EXP", "VANILLA_EXP_CHANGE")
 ) {
     companion object {
         /**
@@ -175,19 +176,18 @@ data class Booster(
 
             val boosters =
                 getMemberBoosters(member).filter { it.value.start != -1L }.filter { it.value.duration != -1L }
-                    .filter { it.value.levelGroup.isEmpty() || it.value.levelGroup == levelGroup }
-                    .filter { it.value.source.isEmpty() || it.value.source == source }
+                    .filter { it.value.levelGroup.isEmpty() || levelGroup in it.value.levelGroup }
+                    .filter { it.value.source.isEmpty() || source in it.value.source }
 
             val multiplier = boosters.values.groupBy { it.type }.values
                 .fold(1.0) { acc, group ->
                     acc * group.maxOf { it.multiplier }
                 }
 
-            val boosterEvent = BoosterEvent(member, levelGroup, expAmount, source, boosters, multiplier)
-            boosterEvent.call()
-            if (boosterEvent.isCancelled) return
-
-            event.expAmount = (boosterEvent.expAmount * boosterEvent.multiplier).toLong()
+            if (multiplier > 1.0) {
+                val amount = expAmount * (multiplier - 1.0)
+                LevelGroup.getLevelGroups()[levelGroup]?.addMemberExp(member, amount.toLong(), "BOOSTER_ADD_EXP")
+            }
         }
     }
 }

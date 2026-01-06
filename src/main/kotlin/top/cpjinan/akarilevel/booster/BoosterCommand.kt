@@ -100,8 +100,9 @@ object BoosterCommand {
                     multiplier = argument.substringBefore(" ").toDoubleOrNull() ?: 1.0,
                     start = System.currentTimeMillis(),
                     duration = args["duration"]?.let(::formatToDuration) ?: -1,
-                    levelGroup = args["levelGroup"].orEmpty(),
-                    source = args["source"] ?: "COMMAND_ADD_EXP"
+                    levelGroup = args["levelGroup"]?.split(",") ?: emptyList(),
+                    source = args["source"]?.split(",")
+                        ?: listOf("COMMAND_ADD_EXP", "MYTHICMOBS_DROP_EXP", "TEAM_SHARE_EXP", "VANILLA_EXP_CHANGE")
                 )
                 Booster.addMemberBooster(member, booster)
                 sender.sendLang("BoosterAdd", member, booster.id)

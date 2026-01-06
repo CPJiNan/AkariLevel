@@ -53,7 +53,6 @@ class ScriptHandlerImpl : ScriptHandler() {
             var MemberChangeEvent = Packages.top.cpjinan.akarilevel.event.MemberChangeEvent;
             var MemberExpChangeEvent = Packages.top.cpjinan.akarilevel.event.MemberExpChangeEvent;
             var MemberLevelChangeEvent = Packages.top.cpjinan.akarilevel.event.MemberLevelChangeEvent;
-            var BoosterEvent = Packages.top.cpjinan.akarilevel.booster.BoosterEvent;
             var PluginReloadEvent = Packages.top.cpjinan.akarilevel.event.PluginReloadEvent;
             """.trimIndent()
             )
