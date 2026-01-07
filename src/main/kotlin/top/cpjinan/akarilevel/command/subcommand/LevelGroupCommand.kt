@@ -4,6 +4,7 @@ import taboolib.common.platform.ProxyCommandSender
 import taboolib.common.platform.command.subCommand
 import taboolib.common.platform.command.suggestUncheck
 import taboolib.module.lang.sendLang
+import taboolib.platform.util.bukkitPlugin
 import top.cpjinan.akarilevel.level.ConfigLevelGroup
 import top.cpjinan.akarilevel.level.LevelGroup
 
@@ -18,6 +19,11 @@ import top.cpjinan.akarilevel.level.LevelGroup
  */
 object LevelGroupCommand {
     val levelGroup = subCommand {
+        // 查看等级组命令帮助。
+        execute<ProxyCommandSender> { sender, _, _ ->
+            sender.sendLang("CommandHelpLevelGroup", bukkitPlugin.description.version)
+        }
+
         // 查看等级组信息命令。
         literal("info").dynamic("levelGroup") {
             suggestUncheck { LevelGroup.getLevelGroups().keys.sortedBy { it } }

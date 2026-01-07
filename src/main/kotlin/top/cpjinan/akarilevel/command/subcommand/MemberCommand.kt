@@ -5,6 +5,7 @@ import taboolib.common.platform.ProxyCommandSender
 import taboolib.common.platform.command.subCommand
 import taboolib.common.platform.command.suggestUncheck
 import taboolib.module.lang.sendLang
+import taboolib.platform.util.bukkitPlugin
 import taboolib.platform.util.onlinePlayers
 import top.cpjinan.akarilevel.level.ConfigLevelGroup
 import top.cpjinan.akarilevel.level.LevelGroup
@@ -22,6 +23,11 @@ import top.cpjinan.akarilevel.utils.CommandUtils.parseCommandArgs
 @Suppress("DEPRECATION")
 object MemberCommand {
     val member = subCommand {
+        // 查看成员命令帮助。
+        execute<ProxyCommandSender> { sender, _, _ ->
+            sender.sendLang("CommandHelpMember", bukkitPlugin.description.version)
+        }
+
         // 检查成员命令。
         literal("has").dynamic("member") {
             suggestUncheck { onlinePlayers.map { it.name } }
@@ -135,6 +141,10 @@ object MemberCommand {
 
         // 成员等级命令。
         literal("level") {
+            // 查看成员等级命令帮助。
+            execute<ProxyCommandSender> { sender, _, _ ->
+                sender.sendLang("CommandHelpMemberLevel", bukkitPlugin.description.version)
+            }
             // 设置成员等级命令。
             literal("set").dynamic("member") {
                 suggestUncheck { onlinePlayers.map { it.name } }
@@ -235,6 +245,10 @@ object MemberCommand {
 
         // 成员经验命令。
         literal("exp") {
+            // 查看成员经验命令帮助。
+            execute<ProxyCommandSender> { sender, _, _ ->
+                sender.sendLang("CommandHelpMemberExp", bukkitPlugin.description.version)
+            }
             // 设置成员经验命令。
             literal("set").dynamic("member") {
                 suggestUncheck { onlinePlayers.map { it.name } }

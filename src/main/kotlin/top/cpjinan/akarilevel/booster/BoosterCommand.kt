@@ -7,6 +7,7 @@ import taboolib.common.platform.function.console
 import taboolib.module.chat.colored
 import taboolib.module.lang.asLangText
 import taboolib.module.lang.sendLang
+import taboolib.platform.util.bukkitPlugin
 import taboolib.platform.util.onlinePlayers
 import top.cpjinan.akarilevel.utils.CommandUtils.parseCommandArgs
 import top.cpjinan.akarilevel.utils.TimeUtils.formatToDate
@@ -24,6 +25,11 @@ import java.util.*
  */
 object BoosterCommand {
     val booster = subCommand {
+        // 查看经验加成器命令帮助。
+        execute<ProxyCommandSender> { sender, _, _ ->
+            sender.sendLang("CommandHelpBooster", bukkitPlugin.description.version)
+        }
+
         // 查看经验加成器信息命令。
         literal("info").dynamic("member") {
             suggestUncheck { onlinePlayers.map { it.name } }

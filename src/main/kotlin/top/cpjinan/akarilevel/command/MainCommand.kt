@@ -45,10 +45,14 @@ object MainCommand {
         permissionDefault = PermissionDefault.OP
     )
     val help = subCommand {
-        execute<ProxyCommandSender> { sender, _, argument ->
-            val version = bukkitPlugin.description.version
-            if (argument.contains(" ")) sender.sendLang("CommandHelp${argument.substringAfter(" ")}", version)
-            else sender.sendLang("CommandHelp", version)
+        execute<ProxyCommandSender> { sender, _, _ ->
+            sender.sendLang("CommandHelp", bukkitPlugin.description.version)
+        }
+        dynamic("page") {
+            suggestUncheck { listOf("LevelGroup", "Member", "MemberLevel", "MemberExp", "Booster") }
+            execute<ProxyCommandSender> { sender, context, _ ->
+                sender.sendLang("CommandHelp${context["page"]}", bukkitPlugin.description.version)
+            }
         }
     }
 
