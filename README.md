@@ -41,8 +41,6 @@
 
 ![](img/member.png)
 
-![](img/booster.png)
-
 ## 相关链接
 
 - **插件文档**：[https://akarilevel.cpjinan.top/](https://akarilevel.cpjinan.top/)

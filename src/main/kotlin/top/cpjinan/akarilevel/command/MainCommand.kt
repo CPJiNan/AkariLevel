@@ -5,7 +5,6 @@ import taboolib.common.platform.command.*
 import taboolib.module.lang.Language
 import taboolib.module.lang.sendLang
 import taboolib.platform.util.bukkitPlugin
-import top.cpjinan.akarilevel.booster.BoosterCommand
 import top.cpjinan.akarilevel.command.subcommand.LevelGroupCommand
 import top.cpjinan.akarilevel.command.subcommand.MemberCommand
 import top.cpjinan.akarilevel.config.SettingsConfig
@@ -49,7 +48,7 @@ object MainCommand {
             sender.sendLang("CommandHelp", bukkitPlugin.description.version)
         }
         dynamic("page") {
-            suggestUncheck { listOf("LevelGroup", "Member", "MemberLevel", "MemberExp", "Booster") }
+            suggestUncheck { listOf("LevelGroup", "Member", "MemberLevel", "MemberExp") }
             execute<ProxyCommandSender> { sender, context, _ ->
                 sender.sendLang("CommandHelp${context["page"]}", bukkitPlugin.description.version)
             }
@@ -67,12 +66,6 @@ object MainCommand {
         permissionDefault = PermissionDefault.OP
     )
     val member = MemberCommand.member
-
-    @CommandBody(
-        permission = "AkariLevel.command.booster.use",
-        permissionDefault = PermissionDefault.OP
-    )
-    val booster = BoosterCommand.booster
 
     @CommandBody(
         permission = "AkariLevel.command.reload.use",
