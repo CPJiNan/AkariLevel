@@ -4,6 +4,8 @@ import io.lumine.mythic.bukkit.events.MythicMobDeathEvent
 import org.bukkit.entity.Player
 import taboolib.common.platform.Ghost
 import taboolib.common.platform.event.SubscribeEvent
+import top.cpjinan.akarilevel.event.LegacyMythicMobsDropExpEvent
+import top.cpjinan.akarilevel.event.MythicMobsDropExpEvent
 import top.cpjinan.akarilevel.level.LevelGroup
 import kotlin.random.Random
 import io.lumine.xikage.mythicmobs.api.bukkit.events.MythicMobDeathEvent as LegacyMythicMobDeathEvent
@@ -35,7 +37,13 @@ object MythicMobsHook {
                     } else toLong()
                 }
                 if (Random.nextDouble() < args[2].toDouble()) {
-                    levelGroup.addMemberExp(player.name, amount, "MYTHICMOBS_DROP_EXP")
+                    val mythicEvent = LegacyMythicMobsDropExpEvent(
+                        player.name, levelGroup.name, amount,
+                        event.killer, event.entity, event.mob, event.mobType, event.mobLevel, event.drops
+                    )
+                    mythicEvent.call()
+                    if (mythicEvent.isCancelled) return
+                    levelGroup.addMemberExp(player.name, mythicEvent.expAmount, "MYTHICMOBS_DROP_EXP")
                 }
             }
         }
@@ -58,7 +66,13 @@ object MythicMobsHook {
                     } else toLong()
                 }
                 if (Random.nextDouble() < args[2].toDouble()) {
-                    levelGroup.addMemberExp(player.name, amount, "MYTHICMOBS_DROP_EXP")
+                    val mythicEvent = MythicMobsDropExpEvent(
+                        player.name, levelGroup.name, amount,
+                        event.killer, event.entity, event.mob, event.mobType, event.mobLevel, event.drops
+                    )
+                    mythicEvent.call()
+                    if (mythicEvent.isCancelled) return
+                    levelGroup.addMemberExp(player.name, mythicEvent.expAmount, "MYTHICMOBS_DROP_EXP")
                 }
             }
         }

@@ -53,6 +53,9 @@ class ScriptHandlerImpl : ScriptHandler() {
             var MemberExpChangeEvent = Packages.top.cpjinan.akarilevel.event.MemberExpChangeEvent;
             var MemberLevelChangeEvent = Packages.top.cpjinan.akarilevel.event.MemberLevelChangeEvent;
             var PluginReloadEvent = Packages.top.cpjinan.akarilevel.event.PluginReloadEvent;
+            
+            var LegacyMythicMobsDropExpEvent = Packages.top.cpjinan.akarilevel.event.LegacyMythicMobsDropExpEvent;
+            var MythicMobsDropExpEvent = Packages.top.cpjinan.akarilevel.event.MythicMobsDropExpEvent;
             """.trimIndent()
             )
         }
