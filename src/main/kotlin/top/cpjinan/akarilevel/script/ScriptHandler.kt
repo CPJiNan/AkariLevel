@@ -4,7 +4,7 @@
         test = "!jdk.nashorn.api.scripting.NashornScriptEngineFactory"
     ),
     RuntimeDependency(
-        "!org.ow2.asm:asm:9.9.1",
+        "!org.ow2.asm:asm-util:9.9.1",
         test = "!jdk.nashorn.api.scripting.NashornScriptEngineFactory"
     )
 )
