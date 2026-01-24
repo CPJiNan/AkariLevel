@@ -23,8 +23,7 @@ object MemberCache {
                 Database.instance.get(Database.instance.memberTable, key)?.takeUnless { it.isBlank() }
                     ?.let { json ->
                         try {
-                            val memberData = gson.fromJson(json, MemberData::class.java)
-                            memberData
+                            gson.fromJson(json, MemberData::class.java)
                         } catch (e: Exception) {
                             e.printStackTrace()
                             MemberData()
