@@ -27,7 +27,7 @@ function onMemberExpChange() {
                 var offlinePlayer = Bukkit.getOfflinePlayer(member);
                 if (offlinePlayer.isOnline() && expAmount > 0 && sources.indexOf(source) !== -1) {
                     var player = offlinePlayer.getPlayer();
-                    // player.sendMessage("§7Exp +§f" + expAmount + "§7.")
+                    // player.sendMessage("§7Exp +§f" + expAmount + "§7.");
                 }
             }
         ).register();
