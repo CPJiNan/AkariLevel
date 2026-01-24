@@ -1,6 +1,10 @@
 @file:RuntimeDependencies(
     RuntimeDependency(
-        "!org.openjdk.nashorn:nashorn-core:15.4",
+        "!org.openjdk.nashorn:nashorn-core:15.7",
+        test = "!jdk.nashorn.api.scripting.NashornScriptEngineFactory"
+    ),
+    RuntimeDependency(
+        "!org.ow2.asm:asm:9.9.1",
         test = "!jdk.nashorn.api.scripting.NashornScriptEngineFactory"
     )
 )
