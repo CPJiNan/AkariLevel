@@ -39,13 +39,13 @@ interface Database {
     val memberTable: Table<*, *>
 
     /**
-     * 检查此数据库中是否包含给定路径。
+     * 检查此数据表中是否包含给定路径。
      *
      * 如果请求路径的值不存在但已指定默认值，则此方法将返回 true。
      *
      * @param table 要操作的数据表。
      * @param path 要检查存在性的路径。
-     * @return 如果此数据库包含请求的路径（通过默认值或已设置），则返回 true。
+     * @return 如果此数据表包含请求的路径（通过默认值或已设置），则返回 true。
      */
     fun contains(table: Table<*, *>, path: String): Boolean
 
