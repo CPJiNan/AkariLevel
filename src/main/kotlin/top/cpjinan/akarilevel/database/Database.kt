@@ -45,7 +45,7 @@ interface Database {
      *
      * @param table 要操作的数据表。
      * @param path 要检查存在性的路径。
-     * @return 如果此数据表包含请求的路径（通过默认值或已设置），则返回 true。
+     * @return 如果此数据表包含请求的路径，则返回 true。
      */
     fun contains(table: Table<*, *>, path: String): Boolean
 
