@@ -5,7 +5,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     `java-library`
     `maven-publish`
-    id("io.izzel.taboolib") version "2.0.36"
+    id("io.izzel.taboolib") version "2.0.38"
     kotlin("jvm") version "2.3.0"
 }
 
@@ -29,7 +29,7 @@ taboolib {
             name("CPJiNan")
         }
     }
-    version { taboolib = "6.2.4-6b473c4" }
+    version { taboolib = "6.3.0-c6f096d" }
     relocate("top.maplex.arim", "top.cpjinan.akarilevel.arim")
     relocate("com.github.benmanes.caffeine", "top.cpjinan.akarilevel.caffeine")
 }
